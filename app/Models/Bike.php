@@ -1,0 +1,49 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Brand;
+use App\Models\Type;
+use App\Models\Speed;
+use App\Models\Provision;
+use App\Models\Price;
+
+class Bike extends Model
+{
+
+    protected $fillable = [
+        'colour',
+        'image_path',
+        'brand_id',
+        'type_id',
+        'speed_id',
+        'provision_id',
+    ];
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
+
+    public function speed()
+    {
+        return $this->belongsTo(Speed::class);
+    }
+
+    public function provision()
+    {
+        return $this->belongsTo(Provision::class);
+    }
+
+    public function prices()
+    {
+        return $this->hasMany(Price::class);
+    }
+}
