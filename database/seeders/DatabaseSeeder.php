@@ -8,6 +8,9 @@ use App\Models\Role;
 use App\Models\Speed;
 use App\Models\Type;
 use App\Models\User;
+use App\Models\Location;
+use App\Models\Status;
+use App\Models\Order;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -25,12 +28,6 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $this->call([
-            TypeSeeder::class,
-            BrandSeeder::class,
-            SpeedSeeder::class,
-            ProvisionSeeder::class,
-            BikeSeeder::class,
-            PriceSeeder::class,
             RoleSeeder::class,
         ]);
 
@@ -51,5 +48,18 @@ class DatabaseSeeder extends Seeder
 
             ]);
         }
+
+        $this->call([
+            TypeSeeder::class,
+            BrandSeeder::class,
+            SpeedSeeder::class,
+            ProvisionSeeder::class,
+            BikeSeeder::class,
+            PriceSeeder::class,
+            RoleSeeder::class,
+            StatusSeeder::class,
+            LocationSeeder::class,
+            OrderSeeder::class,
+        ]);
     }
 }
