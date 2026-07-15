@@ -23,7 +23,7 @@ class BikeSeeder extends Seeder
         foreach ($bikes as $bike) {
             DB::table('bikes')->insert([
                 'colour' => $bike['colour'],
-                'image_path' => 'https://vescocycles.com/products/vesco-downtown-26t-inch-white-cycle?srsltid=AfmBOopkvkL3-RFIWK4hYb78lp4DRjfAuBSE268kOfqTSKUjXRJbR3PS',
+                'image_path' => 'https://contents.mediadecathlon.com/p2573125/k$6293356c10a44533d9a7ec4f891c6777/kids-6-9-years-20quote-hybrid-bike-riverside-100.jpg',
 
                 'type_id' => Type::inRandomOrder()->value('id'),
                 'brand_id' => Brand::inRandomOrder()->value('id'),
