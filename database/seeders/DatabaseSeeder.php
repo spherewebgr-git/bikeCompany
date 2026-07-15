@@ -40,16 +40,13 @@ class DatabaseSeeder extends Seeder
                 'email' => $user['email'],
                 'phone' => $user['phone'],
                 'password' => Hash::make($user['password']),
-                'card_number' => $user['card_number'],
-                'card_exp_month' => $user['card_exp_month'],
-                'card_exp_year' => $user['card_exp_year'],
-                'card_cvv' => $user['card_cvv'],
                 'role_id' => Role::inRandomOrder()->value('id'),
 
             ]);
         }
 
         $this->call([
+            CardSeeder::class,
             TypeSeeder::class,
             BrandSeeder::class,
             SpeedSeeder::class,

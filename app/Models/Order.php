@@ -7,6 +7,7 @@ use App\Models\Location;
 use App\Models\Status;
 use App\Models\Bike;
 use App\Models\Use;
+use App\Models\Card;
 
 class Order extends Model
 {
@@ -21,6 +22,7 @@ class Order extends Model
         'user_id',
         'status_id',
         'location_id',
+        'card_id',
     ];
 
     public function location()
@@ -41,5 +43,10 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function card()
+    {
+        return $this->belongsTo(Card::class);
     }
 }

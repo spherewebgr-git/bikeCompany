@@ -9,6 +9,7 @@ use App\Models\Bike;
 use App\Models\User;
 use App\Models\Location;
 use App\Models\Status;
+use App\Models\Card;
 
 class OrderSeeder extends Seeder
 {
@@ -21,14 +22,17 @@ class OrderSeeder extends Seeder
 
         foreach ($orders as $order)
         {
+            $bike = Bike::with('provision')->inRandomOrder()->first();
+
             // BOOKING
-            if ($order['price'] <= 150)
+            if ($bike->provision->id == 2)
             {
-                DB::table('orders')->insert([
+                    DB::table('orders')->insert([
                     'price' => $order['price'],
                     'order_date' => $order['order_date'],
                     'payed_off' => $order['payed_off'],
-                    'bike_id' => Bike::inRandomOrder()->value('id'),
+                    'bike_id' => $bike->id,
+                    'card_id' => Card::inRandomOrder()->value('id'),
                     'user_id' => User::inRandomOrder()->value('id'),
                     'status_id' => Status::inRandomOrder()->value('id'),
                     'location_id' => Location::inRandomOrder()->value('id'),
@@ -45,10 +49,10 @@ class OrderSeeder extends Seeder
                     'price' => $order['price'],
                     'order_date' => $order['order_date'],
                     'payed_off' => $order['payed_off'],
-                    'bike_id' => Bike::inRandomOrder()->value('id'),
+                    'bike_id' => $bike->id,
+                    'card_id' => Card::inRandomOrder()->value('id'),
                     'user_id' => User::inRandomOrder()->value('id'),
                     'status_id' => Status::inRandomOrder()->value('id'),
-                    'location_id' => Location::inRandomOrder()->value('id'),
                     'location_id' => NULL,
                     'rent_start' => NULL,
                     'rent_end' => NULL,

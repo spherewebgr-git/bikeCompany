@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->integer('price');
+            $table->decimal('price');
             $table->date('order_date');
             $table->boolean('payed_off');
+            $table->foreignId('card_id')->nullable()->constrained('cards');
             $table->foreignId('bike_id')->constrained('bikes');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('status_id')->constrained('statuses');
