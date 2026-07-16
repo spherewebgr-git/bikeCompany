@@ -1,0 +1,82 @@
+#StaffManagement
+{
+    h1 
+    {
+        font-size: 50px;
+        font-weight: bold;
+        padding: 30px;
+        text-align: center;
+    }
+
+    img 
+    {
+        height: 100px;
+        margin: 8px 0;
+    }
+
+    tr:nth-child(even)
+    {
+        background-color: white;
+    }
+
+    th 
+    {
+        font-size: 20px;
+        padding: 20px 0;
+        border-bottom: 1px solid gray;
+    }
+
+    td
+    {
+        padding: 0 40px;
+        font-size: 20px;
+        border-bottom: 1px solid gray;
+
+        a 
+        {
+            margin: 0 10px;
+            padding: 15px;
+            border-radius: 10px;
+            &.view { background-color: #b2d2ff;}
+            &.edit { background-color: #ffe291;}
+            &.delete { background-color: #ffb3b3;}
+        }
+    }
+
+    .Create
+    {
+        background-color: #9fddad;
+        font-size: 20px;
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 10px;
+        margin: 20px;
+    }
+
+    form 
+    {
+        margin: 20px;
+        font-size: 20px;
+
+        label
+        {
+            margin-right: 10px;
+            position: relative;
+            transform: translateY(20%);
+        }
+
+        select
+        {
+            margin-right: 30px;
+        }
+
+        .Filter 
+        {
+            background-color: gainsboro;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px 30px;
+            border-radius: 10px;
+        }
+    }
+}
