@@ -1,6 +1,236 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "template";
+@import "bike-sale";
+@import "user-login-registration";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+
+.app-body {
+
+    font-family:'Open Sans', sans-serif;
+
+    color:#6c6c6c;
+
+    background:#fcfcfc;
+
+}
+
+
+
+.app-wrapper {
+
+    min-height:100vh;
+
+}
+
+.main-nav{
+    background:#fff;
+    border-bottom:1px solid #eee;
+}
+
+
+.nav-container{
+    width:90%;
+    max-width:1200px;
+    margin:0 auto;
+}
+
+
+.nav-wrapper{
+    height:90px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+
+.nav-logo{
+
+    img{
+        width:90px;
+        height:auto;
+    }
+
+}
+
+
+.nav-links{
+    display:flex;
+    gap:40px;
+    margin-left:auto;
+    margin-right:40px;
+
+    a{
+        font-family:'Oswald',sans-serif;
+        text-transform:uppercase;
+        font-size:14px;
+        color:#3b3738;
+
+        &:hover{
+            color:#fe4819;
+        }
+
+    }
+
+}
+
+
+.nav-user{
+
+    .user-button{
+        background:none;
+        border:0;
+        display:flex;
+        align-items:center;
+        gap:10px;
+        cursor:pointer;
+        font-size:14px;
+        color:#6c6c6c;
+    }
+
+
+    .user-arrow{
+        width:18px;
+        height:18px;
+        fill:#6c6c6c;
+    }
+
+}
+
+
+
+.nav-toggle{
+    display:none;
+
+    button{
+        background:none;
+        border:0;
+    }
+
+
+    .hamburger-icon{
+        width:28px;
+        height:28px;
+    }
+
+}
+
+
+
+.mobile-menu{
+    display:none;
+}
+
+
+
+@media(max-width:768px){
+
+    .nav-links,
+    .nav-user{
+        display:none;
+    }
+
+
+    .nav-toggle{
+        display:block;
+    }
+
+
+    .mobile-menu{
+        background:#fff;
+        padding:20px;
+    }
+
+
+    .mobile-links,
+    .mobile-user-links{
+        display:flex;
+        flex-direction:column;
+        gap:15px;
+    }
+
+}
+
+
+
+.page-header {
+
+    background:white;
+
+    border-bottom:1px solid #eee;
+
+    padding:25px 0;
+
+}
+
+
+
+.page-header-container {
+
+    max-width:1200px;
+
+    margin:0 auto;
+
+    padding:0 30px;
+
+
+    h2,
+    h3 {
+
+        font-family:'Oswald', sans-serif;
+
+        text-transform:uppercase;
+
+        color:#3b3738;
+
+    }
+
+}
+
+
+
+.page-content {
+
+    width:100%;
+
+    padding:40px 0;
+
+}
+
+.dashboard-header{
+    h2{
+        font-family:'Oswald',sans-serif;
+        text-transform:uppercase;
+        font-size:32px;
+        color:#3b3738;
+        margin:0;
+    }
+}
+
+.dashboard-page{
+    padding:60px 0;
+}
+
+.dashboard-container{
+    width:90%;
+    max-width:1200px;
+    margin:0 auto;
+}
+
+.dashboard-card{
+    background:#fff;
+    border:1px solid #eee;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+}
+
+.dashboard-content{
+    padding:40px;
+    color:#6c6c6c;
+    font-size:15px;
+}
+
 
 
 .bike-card {
@@ -21,6 +251,34 @@
     &:hover {
         transform: translateY(-3px);
         box-shadow: 0 12px 30px rgba(0,0,0,.08);
+    }
+
+    .pagination-wrapper {
+
+        nav {
+            display: flex;
+            justify-content: center;
+        }
+
+        a, span {
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 0 4px;
+        }
+
+        a {
+            color: #0C723B;
+
+            &:hover {
+                background: #0C723B;
+                color: white;
+            }
+        }
+
+        span[aria-current="page"] {
+            background: #0C723B;
+            color: white;
+        }
     }
 
     .bike-image {
@@ -150,6 +408,119 @@
             }
 
         }
+
+    }
+
+}
+
+.pagination-wrapper {
+
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+
+
+    .pagination {
+
+        gap: 8px;
+
+        .page-item {
+
+            .page-link {
+
+                width: 40px;
+                height: 40px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                border-radius: 50%;
+
+                font-size: 13px;
+                font-weight: 700;
+
+                color: #3b3738;
+                background: #fff;
+
+                border: 1px solid #d2d2d2;
+
+                transition: all .3s ease;
+
+
+                &:hover {
+
+                    color: #fff;
+                    background: #fe4819;
+                    border-color: #fe4819;
+
+                }
+
+            }
+
+
+            &.active {
+
+                .page-link {
+
+                    background: #fe4819;
+                    border-color: #fe4819;
+                    color: #fff;
+
+                }
+
+            }
+
+
+            &.disabled {
+
+                display: none;
+
+            }
+
+        }
+
+
+        // κρύβει Previous / Next
+        .page-item:first-child,
+        .page-item:last-child {
+
+            display: none;
+
+        }
+
+    }
+
+}
+
+.auth-wrapper {
+
+    min-height:100vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+
+
+.auth-logo {
+
+    margin-bottom:25px;
+
+
+    img {
+
+        width:120px;
+
+        height:auto;
+
+        display:block;
 
     }
 
