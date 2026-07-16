@@ -8,10 +8,16 @@
         text-align: center;
     }
 
-    img 
+    img.bikephoto
     {
-        height: 100px;
-        margin: 8px 0;
+        max-height: 80px;
+        min-width: 80px !important;
+    }
+
+    table 
+    {
+        position: relative;
+        transform: translateX(-10%);
     }
 
     tr:nth-child(even)
@@ -24,39 +30,53 @@
         font-size: 20px;
         padding: 20px 0;
         border-bottom: 1px solid gray;
+        text-align: center;
     }
 
     td
     {
-        padding: 0 40px;
+        padding: 10px 40px;
         font-size: 20px;
         border-bottom: 1px solid gray;
 
-        a 
+        .bikeactions
         {
-            margin: 0 10px;
-            padding: 15px;
-            border-radius: 10px;
-            &.view { background-color: #b2d2ff;}
-            &.edit { background-color: #ffe291;}
-            &.delete { background-color: #ffb3b3;}
+            display: flex;
+            
+            a 
+            {
+                margin: 0 10px;
+                padding: 10px;
+                width: 100px;
+                border-radius: 10px;
+                color: black;
+                text-align: center;
+                &.view { background-color: #b2d2ff;}
+                &.edit { background-color: #ffe291;}
+                &.delete { background-color: #ffb3b3;}
+            }
         }
     }
 
     .Create
     {
         background-color: #9fddad;
+        color: black;
         font-size: 20px;
         font-weight: bold;
         padding: 10px;
         border-radius: 10px;
         margin: 20px;
     }
+}
 
+#BikeFilters
+{
     form 
     {
         margin: 20px;
         font-size: 20px;
+        display: flex;
 
         label
         {

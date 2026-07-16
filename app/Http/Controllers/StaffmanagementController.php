@@ -63,11 +63,11 @@ class StaffmanagementController extends Controller
             });
         }
 
-        if ($request->filled('speed'))
+        if ($request->filled('gears'))
         {
             $bikes->whereHas('speed', function ($q) use ($request)
             {
-                $q->where('gears', $request->speed);
+                $q->where('gears', $request->gears);
             });
         }
 
@@ -80,10 +80,10 @@ class StaffmanagementController extends Controller
         ]);
     }
 
-    public function single($id)
+    public function view($id)
     {
         $bike = Bike::query()->where('id', $id)->first();
-        //return view('bike-single', ['bike'=>$bike]);
+        return view('staff.bikes.bike-view', ['bike'=>$bike]);
     }
 
     public function delete($id)
@@ -95,8 +95,20 @@ class StaffmanagementController extends Controller
 
     public function edit($id)
     {
+        $provisions = Provision::all();
+        $brands = Brand::all();
+        $types = Type::all();
+        $speeds = Speed::all();
+
         $bike = Bike::query()->where('id', $id)->first();
-        //return view('bike-edit', ['bike'=>$bike]);
+
+        return view('staff.bikes.bike-edit', compact(
+            'bike',
+            'provisions',
+            'brands',
+            'types',
+            'speeds'
+        ));
     }
     
     public function update($id, Request $request)

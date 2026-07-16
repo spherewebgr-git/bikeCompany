@@ -12,7 +12,7 @@
         @foreach ($bikes as $bike)
             <tr>
                 <td>
-                    <img src="{{ $bike->image_path }}"/>
+                    <img class="bikephoto" src="{{ $bike->image_path }}"/>
                 </td>
                 <td>
                     {{ $bike->provision->name }}
@@ -30,9 +30,11 @@
                     {{ $bike->colour }}
                 </td>
                 <td>
-                    <a href="" class="view">View</a>
-                    <a href="" class="edit">Edit</a>
-                    <a href="{{ route('bike.delete',[$bike->id]) }}" class="delete">Delete</a>
+                    <div class="bikeactions">
+                        <a href="{{ route('bike.view',[$bike->id]) }}" class="view">View</a>
+                        <a href="{{ route('bike.edit',[$bike->id]) }}" class="edit">Edit</a>
+                        <a href="{{ route('bike.delete',[$bike->id]) }}" class="delete">Delete</a>
+                    </div>
                 </td>
             </tr>
         @endforeach
