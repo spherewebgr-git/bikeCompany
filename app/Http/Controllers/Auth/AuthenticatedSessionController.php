@@ -28,7 +28,26 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = $request->user();
+
+        if($user->role?->name === 'staff'){
+            return redirect()->route('dashboard.management.bikes');
+        }
+
+        if($user->role?->name === 'customer'){
+            return redirect()->route('dashboard');
+        }
+
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()
+            ->route('login')
+            ->withErrors([
+                'email' => 'Ο λογαριασμός δεν έχει έγκυρο ρόλο.',
+            ]);
     }
 
     /**

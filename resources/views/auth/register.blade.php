@@ -3,39 +3,87 @@
         <form class="login-form" method="POST" action="{{ route('register') }}">
             @csrf
 
-
-
             <div class="login-title">
                 <div class="auth-logo">
                     <a href="/">
-                        <img src="{{Vite::asset('resources/images/logo.png')}}" alt="Logo">
+                        <img
+                            src="{{ Vite::asset('resources/images/logo.png') }}"
+                            alt="Logo"
+                        >
                     </a>
                 </div>
+
                 <h2>Register</h2>
                 <p>Create your account</p>
             </div>
 
-            <!-- Name -->
+            <!-- First Name -->
             <div class="form-field">
-                <label for="name">
-                    Name
+                <label for="first_name">
+                    First Name
                 </label>
 
                 <input
-                    id="name"
+                    id="first_name"
                     class="form-input"
                     type="text"
-                    name="name"
-                    value="{{ old('name') }}"
+                    name="first_name"
+                    value="{{ old('first_name') }}"
                     required
                     autofocus
-                    autocomplete="name"
+                    autocomplete="given-name"
                 >
 
-                @error('name')
+                @error('first_name')
                 <span class="form-error">
-                        {{ $message }}
-                    </span>
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+
+            <!-- Last Name -->
+            <div class="form-field">
+                <label for="last_name">
+                    Last Name
+                </label>
+
+                <input
+                    id="last_name"
+                    class="form-input"
+                    type="text"
+                    name="last_name"
+                    value="{{ old('last_name') }}"
+                    required
+                    autocomplete="family-name"
+                >
+
+                @error('last_name')
+                <span class="form-error">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+
+            <!-- Phone -->
+            <div class="form-field">
+                <label for="phone">
+                    Phone
+                </label>
+
+                <input
+                    id="phone"
+                    class="form-input"
+                    type="tel"
+                    name="phone"
+                    value="{{ old('phone') }}"
+                    required
+                    autocomplete="tel"
+                >
+
+                @error('phone')
+                <span class="form-error">
+                    {{ $message }}
+                </span>
                 @enderror
             </div>
 
@@ -57,8 +105,8 @@
 
                 @error('email')
                 <span class="form-error">
-                        {{ $message }}
-                    </span>
+                    {{ $message }}
+                </span>
                 @enderror
             </div>
 
@@ -79,8 +127,8 @@
 
                 @error('password')
                 <span class="form-error">
-                        {{ $message }}
-                    </span>
+                    {{ $message }}
+                </span>
                 @enderror
             </div>
 
@@ -101,12 +149,11 @@
 
                 @error('password_confirmation')
                 <span class="form-error">
-                        {{ $message }}
-                    </span>
+                    {{ $message }}
+                </span>
                 @enderror
             </div>
 
-            <!-- Actions -->
             <div class="form-actions">
                 <a href="{{ route('login') }}">
                     Already registered?

@@ -45,12 +45,41 @@ Route::middleware('auth')->group(function () {
 
 
 // STAFF PAGES
-Route::get('/dashboard/management/bikes', [StaffmanagementController::class, 'management'])->name('dashboard.management.bikes');
-Route::get('/staff/bikes/filter', [StaffmanagementController::class, 'filter'])->name('bikes.filter');
-Route::get('/bike/{id}', [StaffmanagementController::class, 'single'])->name('bike.view');
-Route::post('/bike-create', [StaffmanagementController::class, 'create'])->name('bike.create');
-Route::get('/bike-edit/{id}', [StaffmanagementController::class, 'edit'])->name('bike.edit');
-Route::post('/bike-update/{id}', [StaffmanagementController::class, 'update'])->name('bike.update');
-Route::get('/delete-bike/{id}', [StaffmanagementController::class, 'delete'])->name('bike.delete');
+Route::middleware(['auth', 'role:staff'])->group(function () {
+    Route::get(
+        '/dashboard/management/bikes',
+        [StaffmanagementController::class, 'management']
+    )->name('dashboard.management.bikes');
+
+    Route::get(
+        '/staff/bikes/filter',
+        [StaffmanagementController::class, 'filter']
+    )->name('bikes.filter');
+
+    Route::get(
+        '/bike/{id}',
+        [StaffmanagementController::class, 'single']
+    )->name('bike.view');
+
+    Route::post(
+        '/bike-create',
+        [StaffmanagementController::class, 'create']
+    )->name('bike.create');
+
+    Route::get(
+        '/bike-edit/{id}',
+        [StaffmanagementController::class, 'edit']
+    )->name('bike.edit');
+
+    Route::post(
+        '/bike-update/{id}',
+        [StaffmanagementController::class, 'update']
+    )->name('bike.update');
+
+    Route::get(
+        '/delete-bike/{id}',
+        [StaffmanagementController::class, 'delete']
+    )->name('bike.delete');
+});
 
 require __DIR__.'/auth.php';
