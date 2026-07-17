@@ -11,6 +11,26 @@ use App\Models\Speed;
 use App\Models\Provision;
 use App\Models\Price;
 
+function generateSku(): string
+{
+    $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    $parts = [];
+
+    for ($i = 0; $i < rand(2, 4); $i++)
+    {
+        $part = '';
+
+        for ($j = 0; $j < rand(3,4); $j++)
+        {
+            $part .= $chars[rand(0, strlen($chars) - 1)];
+        }
+
+        $parts[] = $part;
+    }
+
+    return implode('-', $parts);
+}
+
 class BikeSeeder extends Seeder
 {
     /**
@@ -22,6 +42,7 @@ class BikeSeeder extends Seeder
 
         foreach ($bikes as $bike) {
             DB::table('bikes')->insert([
+                'SKU' => generateSku(),
                 'quantity' => rand(1, 50),
                 'colour' => $bike['colour'],
                 'image_path' => 'https://contents.mediadecathlon.com/p2573125/k$6293356c10a44533d9a7ec4f891c6777/kids-6-9-years-20quote-hybrid-bike-riverside-100.jpg',

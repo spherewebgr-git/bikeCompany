@@ -14,6 +14,7 @@ class Bike extends Model
 {
 
     protected $fillable = [
+        'SKU',
         'quantity',
         'colour',
         'image_path',

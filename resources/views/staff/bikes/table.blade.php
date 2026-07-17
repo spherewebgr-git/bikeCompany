@@ -1,6 +1,7 @@
 <div class="bike-table"></div>
     <table>
         <tr>
+            <th>SKU</th>
             <th>Image</th>
             <th>Provision</th>
             <th>Brand</th>
@@ -12,6 +13,9 @@
         </tr>
         @foreach ($bikes as $bike)
             <tr>
+                <td>
+                    {{ $bike->SKU }}
+                </td>
                 <td>
                     <img class="bikephoto" src="{{ $bike->image_path }}"/>
                 </td>
@@ -52,7 +56,7 @@
                 </td>
                 <td>
                     <div class="bikeactions">
-                        <a href="{{ route('bike.view',[$bike->id]) }}" class="view">View</a>
+                        <!-- <a href="{{ route('bike.view',[$bike->id]) }}" class="view">View</a> -->
                         <a href="{{ route('bike.edit',[$bike->id]) }}" class="edit">Edit</a>
                         <a href="{{ route('bike.delete',[$bike->id]) }}" class="delete">Delete</a>
                     </div>

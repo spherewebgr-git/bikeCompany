@@ -35,6 +35,24 @@ class StaffmanagementController extends Controller
         ));
     }
 
+    public function search(Request $request)
+    {
+        $bikes = Bike::query();
+
+        if ($request->filled('SKU'))
+        {
+            $bikes->where('SKU', $request->SKU);
+        }
+
+        return view('staff.bikes.management', [
+            'bikes' => $bikes->get(),
+            'brands' => Brand::all(),
+            'types' => Type::all(),
+            'provisions' => Provision::all(),
+            'speeds' => Speed::all(),
+        ]);
+    }
+
     public function filter(Request $request)
     {
         $bikes = Bike::query();
