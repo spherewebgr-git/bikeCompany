@@ -33,16 +33,37 @@ class DatabaseSeeder extends Seeder
 
         $users = json_decode(file_get_contents(database_path('data/USERS.json')), true);
 
-        foreach ($users as $user) {
-            DB::table('users')->insert([
+        $counter = 0;
+        $staff_role = Role::query()->where('name', "staff")->first();
+        $customer_role = Role::query()->where('name', "customer")->first();
+        
+        foreach ($users as $user)
+        {
+            if ($counter < 3)
+            {
+                DB::table('users')->insert([
                 'first_name' => $user['first_name'],
                 'last_name' => $user['last_name'],
                 'email' => $user['email'],
                 'phone' => $user['phone'],
                 'password' => Hash::make($user['password']),
-                'role_id' => Role::inRandomOrder()->value('id'),
-
+                'role_id' => $staff_role->id,
             ]);
+            }
+
+            else
+            {
+                DB::table('users')->insert([
+                    'first_name' => $user['first_name'],
+                    'last_name' => $user['last_name'],
+                    'email' => $user['email'],
+                    'phone' => $user['phone'],
+                    'password' => Hash::make($user['password']),
+                    'role_id' => $customer_role->id,
+                ]);
+            }
+
+            $counter ++;
         }
 
         $this->call([
