@@ -6,29 +6,37 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SaleBikeController;
 use App\Http\Controllers\BikeController;
 use App\Http\Controllers\StaffmanagementController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-//Navigation menu routes
-Route::get('/rental-bikes', [RentalBikeController::class, 'index'])
-    ->name('bikes.rental');
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
+////Navigation menu routes
+//Route::get('/rental-bikes', [RentalBikeController::class, 'index'])
+//    ->name('bikes.rental');
+//
+//
+//Route::get('/sale-bikes', [SaleBikeController::class, 'index'])
+//    ->name('bikes.sale');
 
-Route::get('/sale-bikes', [SaleBikeController::class, 'index'])
-    ->name('bikes.sale');
+// DASHBOARD
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/bikes/sale', [SaleBikeController::class, 'index']);
-Route::get('/bikes/sale/{bike}', [SaleBikeController::class, 'show']);
+// BIKE LIST PAGES
+Route::get('/bikes/sale', [SaleBikeController::class, 'index'])->name('bikes.sale');
+Route::get('/bikes/sale/{bike}', [SaleBikeController::class, 'show'])->name('bikes.sale.show');
 
-Route::get('/bikes/rental', [RentalBikeController::class, 'index']);
+Route::get('/bikes/rental', [RentalBikeController::class, 'index'])->name('bikes.rental');
 Route::get('/bikes/rental/{bike}', [RentalBikeController::class, 'show']);
 
+
+// USER PAGES
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

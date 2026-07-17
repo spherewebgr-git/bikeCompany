@@ -1,164 +1,75 @@
-<nav x-data="{ open:false }" class="main-nav">
-
+<nav x-data="{ open: false }" class="main-nav">
     <div class="nav-container">
-
         <div class="nav-wrapper">
 
             <div class="nav-logo">
-                <a href="{{ route('dashboard') }}">
-                    <x-application-logo />
+                <a href="{{ route('home') }}">
+                    <img src="{{Vite::asset('resources/images/logo.png')}}" alt="{{ config('app.name', 'Trail Bike') }}">
                 </a>
             </div>
 
-
             <div class="nav-links">
-
-                <x-nav-link
-                    :href="route('bikes.rental')"
-                    :active="request()->routeIs('bikes.rental')">
+                <x-nav-link :href="route('bikes.rental')" :active="request()->routeIs('bikes.rental')">
                     Rental Bikes
                 </x-nav-link>
 
-
-                <x-nav-link
-                    :href="route('bikes.sale')"
-                    :active="request()->routeIs('bikes.sale')">
+                <x-nav-link :href="route('bikes.sale')" :active="request()->routeIs('bikes.sale')">
                     Buy Bikes
                 </x-nav-link>
-
             </div>
-
 
             <div class="nav-user">
-
-                <x-dropdown align="right" width="48">
-
-                    <x-slot name="trigger">
-
-                        <button class="user-button">
-
-                            <span>
-                                {{ Auth::user()->name }}
-                            </span>
-
-                            <svg class="user-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                            </svg>
-
-                        </button>
-
-                    </x-slot>
-
-
-                    <x-slot name="content">
-
-                        <x-dropdown-link :href="route('profile.edit')">
-                            Profile
-                        </x-dropdown-link>
-
-
-                        <form method="POST" action="{{ route('logout') }}">
-
-                            @csrf
-
-                            <x-dropdown-link
-                                :href="route('logout')"
-                                onclick="event.preventDefault(); this.closest('form').submit();">
-                                Log Out
-                            </x-dropdown-link>
-
-                        </form>
-
-                    </x-slot>
-
-                </x-dropdown>
-
+                @auth
+{{--                    <a href="{{ route('dashboard') }}" class="btn btn-trans btn-md">Dashboard</a>--}}
+                    <a href="{{ route('profile.edit') }}" class="btn btn-trans btn-md">Profile</a>
+                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-fill btn-md">Log Out</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-trans btn-md">Log in</a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="btn btn-fill btn-md">Register</a>
+                    @endif
+                @endauth
             </div>
-
 
             <div class="nav-toggle">
-
-                <button @click="open=!open">
-
+                <button @click="open = !open" aria-label="Toggle menu">
                     <svg class="hamburger-icon" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-
-                        <path :class="{'hidden':open,'inline-flex':!open}"
-                              class="inline-flex"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M4 6h16M4 12h16M4 18h16"/>
-
-                        <path :class="{'hidden':!open,'inline-flex':open}"
-                              class="hidden"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M6 18L18 6M6 6l12 12"/>
-
+                        <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
-
                 </button>
-
             </div>
 
         </div>
-
     </div>
 
-
-    <div :class="{'block':open,'hidden':!open}" class="mobile-menu">
-
-
+    <div :class="{ 'block': open, 'hidden': !open }" class="mobile-menu hidden">
         <div class="mobile-links">
-
-            <x-responsive-nav-link :href="route('bikes.rental')">
-                Rental Bikes
-            </x-responsive-nav-link>
-
-
-            <x-responsive-nav-link :href="route('bikes.sale')">
-                Buy Bikes
-            </x-responsive-nav-link>
-
+            <a href="{{ route('bikes.rental') }}" class="btn btn-trans btn-md no-float">Rental Bikes</a>
+            <a href="{{ route('bikes.sale') }}" class="btn btn-trans btn-md no-float">Buy Bikes</a>
         </div>
 
+        <div class="mobile-user-links">
+            @auth
+                <div class="mobile-user-name">{{ Auth::user()->name }}</div>
+                <div class="mobile-user-email">{{ Auth::user()->email }}</div>
 
-        <div class="mobile-user">
-
-            <div class="mobile-user-name">
-                {{ Auth::user()->name }}
-            </div>
-
-            <div class="mobile-user-email">
-                {{ Auth::user()->email }}
-            </div>
-
-
-            <div class="mobile-user-links">
-
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    Profile
-                </x-responsive-nav-link>
-
+                <a href="{{ route('dashboard') }}" class="btn btn-trans btn-md no-float">Dashboard</a>
+                <a href="{{ route('profile.edit') }}" class="btn btn-trans btn-md no-float">Profile</a>
 
                 <form method="POST" action="{{ route('logout') }}">
-
                     @csrf
-
-                    <x-responsive-nav-link
-                        :href="route('logout')"
-                        onclick="event.preventDefault();this.closest('form').submit();">
-                        Log Out
-                    </x-responsive-nav-link>
-
+                    <button type="submit" class="btn btn-fill btn-md no-float">Log Out</button>
                 </form>
-
-            </div>
-
+            @else
+                <a href="{{ route('login') }}" class="btn btn-trans btn-md no-float">Log in</a>
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}" class="btn btn-fill btn-md no-float">Register</a>
+                @endif
+            @endauth
         </div>
-
     </div>
-
-
 </nav>

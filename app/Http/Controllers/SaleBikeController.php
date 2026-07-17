@@ -16,8 +16,8 @@ class SaleBikeController extends Controller
         return view('bikes.sale.index', compact('bikes'));
     }
 
-//    public function show(Bike $bike)
-//    {
-//        return view('bikes.sale.single', compact('bike'));
-//    }
+    public function show(Bike $bike)
+    {
+        return view('bikes.sale.show', compact('bike'));
+    }
 }
