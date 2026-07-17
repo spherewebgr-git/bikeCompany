@@ -12,7 +12,7 @@
         <label for="provision">Provision:</label><br>
         <select name="provision" id="provision" class="form-select">
             @foreach ($provisions as $provision)
-                <option value="{{ $provision->name }}" @selected($bike?->provision?->name === $provision->name)>
+                <option value="{{ $provision->id }}" @selected($bike?->provision?->name === $provision->name)>
                     {{ $provision->name }}
                 </option>
             @endforeach
@@ -21,7 +21,7 @@
         <label for="brand">Brand:</label><br>
         <select name="brand" id="brand" class="form-select">
             @foreach ($brands as $brand)
-                <option value="{{ $brand->name }}" @selected($bike?->brand?->name === $brand->name)>
+                <option value="{{ $brand->id }}" @selected($bike?->brand?->name === $brand->name)>
                     {{ $brand->name }}
                 </option>
             @endforeach
@@ -30,16 +30,16 @@
         <label for="type">Type:</label><br>
         <select name="type" id="type" class="form-select">
             @foreach ($types as $type)
-                <option value="{{ $type->name }}" @selected($bike?->type?->name === $type->name)>
+                <option value="{{ $type->id }}" @selected($bike?->type?->name === $type->name)>
                     {{ $type->name }}
                 </option>
             @endforeach
         </select><br>
 
-        <label for="gears">Gears:</label><br>
-        <select name="gears" id="gears" class="form-select">
+        <label for="speed">Gears:</label><br>
+        <select name="speed" id="speed" class="form-select">
             @foreach ($speeds as $speed)
-                <option value="{{ $speed->gears }}" @selected($bike?->speed?->gears === $speed->gears)>
+                <option value="{{ $speed->id }}" @selected($bike?->speed?->gears === $speed->gears)>
                     {{ $speed->gears }}
                 </option>
             @endforeach

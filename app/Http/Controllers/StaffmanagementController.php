@@ -125,13 +125,21 @@ class StaffmanagementController extends Controller
                 'brand' => 'required',
                 'type' => 'required',
                 'speed' => 'required',
+                'provision' => 'required',
                 'colour' => 'required',
-                'image' => 'required',
-                'provision' => 'required'
+                'image_path' => 'required'
             ]
         );
 
-        Bike::create($request->all());
+        Bike::create([
+            'colour' => $request->colour,
+            'image_path' => $request->image_path,
+            'brand_id' => $request->brand,
+            'type_id' => $request->type,
+            'speed_id' => $request->speed,
+            'provision_id' => $request->provision,
+        ]);
+
         return redirect('dashboard/management/bikes');
     }
 }

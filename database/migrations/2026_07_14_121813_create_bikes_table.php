@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('bikes', function (Blueprint $table) {
             $table->id();
+            // $table->integer('quantity');
             $table->string('colour');
             $table->string('image_path');
             $table->foreignId('brand_id')->constrained('brands');

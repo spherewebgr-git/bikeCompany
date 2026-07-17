@@ -22,6 +22,7 @@ class BikeSeeder extends Seeder
 
         foreach ($bikes as $bike) {
             DB::table('bikes')->insert([
+                'quantity' => rand(1, 50),
                 'colour' => $bike['colour'],
                 'image_path' => 'https://contents.mediadecathlon.com/p2573125/k$6293356c10a44533d9a7ec4f891c6777/kids-6-9-years-20quote-hybrid-bike-riverside-100.jpg',
 
@@ -29,7 +30,6 @@ class BikeSeeder extends Seeder
                 'brand_id' => Brand::inRandomOrder()->value('id'),
                 'speed_id' => Speed::inRandomOrder()->value('id'),
                 'provision_id' => Provision::inRandomOrder()->value('id'),
-
             ]);
         }
     }
