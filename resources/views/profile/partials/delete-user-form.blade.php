@@ -1,4 +1,4 @@
-<section class="space-y-6">
+<section>
     <header>
         <h4 class="title-text">
             {{ __('Delete Account') }}
@@ -16,7 +16,7 @@
     >{{ __('Delete Account') }}</x-danger-button>
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
+        <form method="post" action="{{ route('profile.destroy') }}" class="modal-form">
             @csrf
             @method('delete')
 
@@ -28,7 +28,7 @@
                 {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
             </p>
 
-            <div class="form-group input-group active mt-6">
+            <div class="form-group input-group active">
                 <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
 
                 <x-text-input
@@ -42,12 +42,12 @@
                 <x-input-error :messages="$errors->userDeletion->get('password')" />
             </div>
 
-            <div class="mt-6 flex justify-end">
+            <div class="modal-actions">
                 <x-secondary-button class="btn btn-trans btn-md" x-on:click="$dispatch('close')">
                     {{ __('Cancel') }}
                 </x-secondary-button>
 
-                <x-danger-button class="btn btn-fill btn-md btn-danger ms-3">
+                <x-danger-button class="btn btn-fill btn-md btn-danger">
                     {{ __('Delete Account') }}
                 </x-danger-button>
             </div>

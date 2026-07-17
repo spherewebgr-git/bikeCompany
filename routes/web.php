@@ -33,7 +33,7 @@ Route::get('/bikes/sale', [SaleBikeController::class, 'index'])->name('bikes.sal
 Route::get('/bikes/sale/{bike}', [SaleBikeController::class, 'show'])->name('bikes.sale.show');
 
 Route::get('/bikes/rental', [RentalBikeController::class, 'index'])->name('bikes.rental');
-Route::get('/bikes/rental/{bike}', [RentalBikeController::class, 'show']);
+Route::get('/bikes/rental/{bike}', [RentalBikeController::class, 'show'])->name('bikes.rental.show');
 
 
 // USER PAGES

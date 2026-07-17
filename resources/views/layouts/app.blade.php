@@ -44,6 +44,20 @@
 
     </main>
 
+    {{-- ============ FOOTER ============ --}}
+    <div class="footer-bottom">
+        <div class="row no-gutters">
+            <div class="col-md-6 footer-left">
+                <h2>{{ config('app.name') }}</h2>
+                <p>{{ __('Your trail, your bike.') }}</p>
+            </div>
+            <div class="col-md-6 footer-right" id="contact">
+                <p>{{ __('Get in touch for custom orders and rentals.') }}</p>
+                <p class="copyright">&copy; {{ date('Y') }} {{ config('app.name') }}</p>
+            </div>
+        </div>
+    </div>
+
 
 
 </div>

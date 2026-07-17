@@ -9,9 +9,16 @@
                      class="img-responsive bike-card__img">
 
                 <div class="img-hover-content bike-card__overlay">
-                    <a href="" class="link-popup bike-card__overlay-link">
-                        <i class="icon-inside fa fa-link bike-card__overlay-icon"></i>
-                    </a>
+
+                    @if($bike->provision->name === 'buy')
+                        <a href="{{ route('bikes.sale.show', $bike) }}" class="link-popup bike-card__overlay-link">
+                            <i class="icon-inside fa fa-link bike-card__overlay-icon"></i>
+                        </a>
+                    @elseif($bike->provision->name === 'rent')
+                        <a href="{{ route('bikes.rental.show', $bike) }}" class="link-popup bike-card__overlay-link">
+                            <i class="icon-inside fa fa-link bike-card__overlay-icon"></i>
+                        </a>
+                    @endif
                 </div>
 
             </figure>
@@ -57,16 +64,14 @@
                     <div class="bike-card__price-tag">
 
                         <p class="bike-card__price-label">
-                            <strong>Price:</strong>
+                            <strong>{{ __('Price') }}:</strong>
                         </p>
 
                         <div class="bike-card__price-values">
                             @foreach($bike->prices as $price)
-                                @if($bike->provision->name === 'buy')
-                                    <strong>{{ $price->price }} €</strong>
-                                @else
-                                    <strong>{{ $price->price }}</strong>
-                                @endif
+                                <span class="bike-card__price-item">
+                                    {{ $price->price }}{{ $bike->provision->name === 'buy' ? ' €' : '' }}
+                                </span>
                             @endforeach
                         </div>
 
@@ -76,9 +81,15 @@
             </div>
 
             <footer class="bike-card__footer">
-                <a href="" class="btn btn-md btn-trans bike-card__button">
-                    Details
-                </a>
+                @if($bike->provision->name === 'buy')
+                    <a href="{{route('bikes.sale.show', $bike)}}" class="btn btn-md btn-trans bike-card__button">
+                        Details
+                    </a>
+                @elseif($bike->provision->name === 'rent')
+                    <a href="{{route('bikes.rental.show', $bike)}}" class="btn btn-md btn-trans bike-card__button">
+                        Details
+                    </a>
+                @endif
             </footer>
 
         </div>

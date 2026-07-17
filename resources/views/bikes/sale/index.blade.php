@@ -1,8 +1,20 @@
 <x-app-layout>
 
+    <div class="page-header">
+        <div class="page-header-container">
+            <nav class="breadcrumb">
+                <a href="{{ route('home') }}">{{ __('Home') }}</a> /
+                <a href="{{ route('bikes.sale') }}">{{ __('Buy Bikes') }}</a>
+            </nav>
+        </div>
+    </div>
+
     <div class="page-body">
         <div class="container">
-            <h2>Αγορά Ποδηλάτων</h2>
+
+
+
+            <h2 class="section-heading">Αγορά Ποδηλάτων</h2>
 
             <div class="blogs-list">
 

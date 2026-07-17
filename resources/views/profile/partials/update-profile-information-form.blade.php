@@ -29,7 +29,7 @@
             <x-input-error :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
+                <div class="verification-notice">
                     <p class="lead">
                         {{ __('Your email address is unverified.') }}
 
@@ -39,7 +39,7 @@
                     </p>
 
                     @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600">
+                        <p class="status-message">
                             {{ __('A new verification link has been sent to your email address.') }}
                         </p>
                     @endif
@@ -47,7 +47,7 @@
             @endif
         </div>
 
-        <div class="d-flex align-items-center gap-2">
+        <div class="form-actions">
             <x-primary-button class="btn btn-fill btn-md">{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
@@ -56,7 +56,7 @@
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
-                    class="mb-0"
+                    class="saved-message"
                 >{{ __('Saved.') }}</p>
             @endif
         </div>

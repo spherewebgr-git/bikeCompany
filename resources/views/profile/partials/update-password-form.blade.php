@@ -31,7 +31,7 @@
             <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" />
         </div>
 
-        <div class="d-flex align-items-center gap-2">
+        <div class="form-actions">
             <x-primary-button class="btn btn-fill btn-md">{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'password-updated')
@@ -40,7 +40,7 @@
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
-                    class="mb-0"
+                    class="saved-message"
                 >{{ __('Saved.') }}</p>
             @endif
         </div>

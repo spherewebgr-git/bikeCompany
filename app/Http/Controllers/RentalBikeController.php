@@ -15,4 +15,9 @@ class RentalBikeController extends Controller
 
         return view('bikes.rental.index', compact('bikes'));
     }
+
+    public function show(Bike $bike)
+    {
+        return view('bikes.rental.show', compact('bike'));
+    }
 }
