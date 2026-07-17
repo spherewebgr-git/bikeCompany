@@ -131,14 +131,31 @@ class StaffmanagementController extends Controller
             ]
         );
 
-        Bike::create([
+        $bike = Bike::where([
             'colour' => $request->colour,
-            'image_path' => $request->image_path,
             'brand_id' => $request->brand,
             'type_id' => $request->type,
             'speed_id' => $request->speed,
             'provision_id' => $request->provision,
-        ]);
+        ])->first();
+
+
+        if ($bike)
+        {
+            $bike->increment('quantity');
+        }
+        else
+        {
+            Bike::create([
+                'colour' => $request->colour,
+                'image_path' => $request->image_path,
+                'brand_id' => $request->brand,
+                'type_id' => $request->type,
+                'speed_id' => $request->speed,
+                'provision_id' => $request->provision,
+                'quantity' => 1,
+            ]);
+        }
 
         return redirect('dashboard/management/bikes');
     }

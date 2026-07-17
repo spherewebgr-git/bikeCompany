@@ -67,7 +67,7 @@ class RegisteredUserController extends Controller
             ],
         ]);
 
-        $customerRole = Role::where('name', 'customer')->firstOrFail();
+        $customerRole = 2;
 
         $user = User::create([
             'first_name' => $request->first_name,
