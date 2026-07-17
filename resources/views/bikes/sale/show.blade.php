@@ -7,7 +7,6 @@
                 <a href="{{ route('bikes.sale') }}">{{ __('Bikes for sale') }}</a> /
                 <span class="active">{{ $bike->brand->name }}</span>
             </nav>
-            <h2>{{ $bike->brand->name }}</h2>
         </div>
     </div>
 

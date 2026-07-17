@@ -46,15 +46,53 @@
 
     {{-- ============ FOOTER ============ --}}
     <div class="footer-bottom">
-        <div class="row no-gutters">
-            <div class="col-md-6 footer-left">
-                <h2>{{ config('app.name') }}</h2>
-                <p>{{ __('Your trail, your bike.') }}</p>
+        <div class="nav-container">
+            <div class="row">
+
+                <div class="col-md-4 footer-col">
+                    <h2>{{ config('app.name') }}</h2>
+                    <p>{{ __('Your trail, your bike. Quality bikes for sale and rent, serviced and ready to ride.') }}</p>
+
+                    <div class="social-icon">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-4 footer-col">
+                    <h5>{{ __('Quick Links') }}</h5>
+                    <ul class="footer-links">
+                        <li><a href="{{ route('home') }}">{{ __('Home') }}</a></li>
+                        <li><a href="{{ route('bikes.sale') }}">{{ __('Buy Bikes') }}</a></li>
+                        <li><a href="{{ route('bikes.rental') }}">{{ __('Rental Bikes') }}</a></li>
+                        <li><a href="#about">{{ __('About Us') }}</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 footer-col" id="contact">
+                    <h5>{{ __('Get in Touch') }}</h5>
+                    <ul class="footer-contact">
+                        <li><i class="fa fa-map-marker"></i> {{ __('123 Trail Street, Bike City') }}</li>
+                        <li><i class="fa fa-phone"></i> +30 210 1234567</li>
+                        <li><i class="fa fa-envelope"></i> info@trailbike.com</li>
+                    </ul>
+
+                    <div class="subscribe">
+                        <form>
+                            <input type="email" placeholder="{{ __('Your email address') }}">
+                            <input type="submit" value="{{ __('Subscribe') }}">
+                        </form>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-md-6 footer-right" id="contact">
-                <p>{{ __('Get in touch for custom orders and rentals.') }}</p>
-                <p class="copyright">&copy; {{ date('Y') }} {{ config('app.name') }}</p>
-            </div>
+
+            <div class="footer-divider"></div>
+
+            <p class="copyright text-center">&copy; {{ date('Y') }} {{ config('app.name') }} — {{ __('All rights reserved') }}</p>
         </div>
     </div>
 

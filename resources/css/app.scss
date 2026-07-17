@@ -23,6 +23,13 @@
     min-height: 100vh;
 }
 
+a {
+    &:focus,
+    &:active {
+        outline: none;
+    }
+}
+
 // ============================================================
 // NAVIGATION
 // ============================================================
@@ -64,6 +71,9 @@
         color: #3b3738;
 
         &:hover {
+            color: #fe4819;
+        }
+        &.active {
             color: #fe4819;
         }
     }
@@ -218,45 +228,42 @@
 }
 
 .about-us {
-    text-align: center;
+    .about-intro {
+        align-items: flex-start; // ήταν center — με 6 παραγράφους το κείμενο είναι πολύ ψηλότερο, το center έκανε την εικόνα να "κρέμεται" στη μέση
+        margin-bottom: 60px;
 
-    .section-heading {
-        margin-bottom: 30px;
-
-        h6 {
-            color: #fe4819;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-        }
-
-        h2 {
-            margin-top: 0;
+        p {
+            text-align: left;
         }
     }
 
-    p {
-        max-width: 700px;
-        margin: 0 auto 20px;
-        color: #6c6c6c;
-        line-height: 1.9;
+    .about-image {
+        position: sticky;
+        top: 120px; // ακολουθεί το scroll όσο διαβάζεις το κείμενο δίπλα
+
+        img {
+            width: 100%;
+            border-radius: 16px;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+        }
     }
 
-    .about-stats {
-        display: flex;
-        justify-content: center;
-        gap: 30px;
-        margin-top: 50px;
-        flex-wrap: wrap;
+    .about-values {
+        margin-bottom: 60px;
 
-        .stat-item {
-            flex: 1 1 200px;
-            max-width: 220px;
-            padding: 30px 20px;
+        .col-sm-3 {
+            margin-bottom: 25px;
+        }
+
+        .value-card {
             background: #fff;
             border: 1px solid #eee;
             border-radius: 12px;
+            padding: 30px 20px;
+            height: 100%;
             transition: all .3s ease;
+            min-height: 180px;
 
             &:hover {
                 transform: translateY(-5px);
@@ -265,16 +272,52 @@
             }
 
             .fa {
+                font-size: 28px;
+                color: #fe4819;
+                margin-bottom: 12px;
+                display: block;
+            }
+
+            h5 {
+                margin-bottom: 8px;
+                font-weight: 700;
+                color: #3b3738;
+            }
+
+            p {
+                font-size: 13px;
+                color: #9f9f9f;
+                margin: 0;
+            }
+        }
+    }
+
+    .about-stats {
+        .col-sm-4 {
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 40px 20px;
+            transition: all .3s ease;
+
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, .08);
+            }
+
+            .fa {
                 font-size: 32px;
                 color: #fe4819;
-                margin-bottom: 15px;
+                margin-bottom: 10px;
                 display: block;
             }
 
             h4 {
                 margin: 0 0 5px;
-                font-size: 28px;
-                color: #3b3738;
             }
 
             p {
@@ -350,34 +393,34 @@
     justify-content: center;
     margin-top: 40px;
 
+    .small {
+        display: none;
+    }
+
+
+
     nav {
         display: flex;
         justify-content: center;
-    }
+        width: 100%;
 
-    a,
-    span {
-        border-radius: 8px;
-        padding: 10px 15px;
-        margin: 0 4px;
-    }
-
-    a {
-        color: #0c723b;
-
-        &:hover {
-            background: #0c723b;
-            color: white;
+        // Here I hide the 2 unnecessary buttons before the pagination
+        > div:first-child {
+            display: none;
         }
     }
 
-    span[aria-current="page"] {
-        background: #0c723b;
-        color: white;
-    }
-
     .pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         gap: 8px;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        width: auto;
+
 
         .page-item {
             .page-link {
@@ -407,15 +450,37 @@
                 color: #fff;
             }
 
-            &.disabled {
-                display: none;
-            }
-        }
+            &.disabled .page-link {
+                color: #d2d2d2;
+                cursor: not-allowed;
 
-        // κρύβει Previous / Next
-        .page-item:first-child,
-        .page-item:last-child {
-            display: none;
+                &:hover {
+                    background: #fff;
+                    border-color: #d2d2d2;
+                    color: #d2d2d2;
+                }
+            }
+
+            // ============ PREV / NEXT ARROWS ============
+            &:first-child,
+            &:last-child {
+                .page-link {
+                    font-size: 0;
+
+                    &::before {
+                        font-family: "FontAwesome";
+                        font-size: 14px;
+                    }
+                }
+            }
+
+            &:first-child .page-link::before {
+                content: "\f104"; // fa-angle-left
+            }
+
+            &:last-child .page-link::before {
+                content: "\f105"; // fa-angle-right
+            }
         }
     }
 }
@@ -451,5 +516,91 @@
     &:hover {
         background: #e4606d;
         border-color: #e4606d;
+    }
+}
+
+// ============================================================
+// FOOTER
+// ============================================================
+.footer-bottom {
+    padding: 70px 0 30px;
+
+    .footer-col {
+        margin-bottom: 30px;
+
+        h2 {
+            font-size: 28px;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        h5 {
+            text-transform: uppercase;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+        }
+    }
+
+    .footer-links,
+    .footer-contact {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        a {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+
+            &:hover {
+                color: #fe4819;
+            }
+        }
+    }
+
+    .footer-contact li {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 13px;
+
+        .fa {
+            color: #fe4819;
+            margin-right: 8px;
+            width: 16px;
+        }
+    }
+
+    .subscribe {
+        margin-top: 20px;
+
+        form {
+            display: flex;
+        }
+
+        input[type="email"] {
+            flex: 1;
+        }
+    }
+
+    .footer-divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: 30px 0 20px;
+    }
+
+    .copyright {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 12px;
+        margin: 0;
     }
 }

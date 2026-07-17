@@ -9,13 +9,34 @@
             </div>
 
             <div class="nav-links">
+
+                <x-nav-link :href="route('bikes.sale')" :active="request()->routeIs('bikes.sale')">
+                    Bikes for sale
+                </x-nav-link>
+
                 <x-nav-link :href="route('bikes.rental')" :active="request()->routeIs('bikes.rental')">
                     Rental Bikes
                 </x-nav-link>
 
-                <x-nav-link :href="route('bikes.sale')" :active="request()->routeIs('bikes.sale')">
-                    Buy Bikes
-                </x-nav-link>
+
+
+{{--                STAFF MENU OPTIONS--}}
+                @auth
+                    @if(Auth::user()->role->name === 'staff')
+                        <x-nav-link :href="route('dashboard.management.bikes')" :active="request()->routeIs('dashboard.management.bikes')">
+                            Bike Management
+                        </x-nav-link>
+                    @endif
+                @endauth
+
+                @auth
+                    @if(Auth::user()->role->name === 'staff')
+                        <x-nav-link :href="route('staff.users.index')" :active="request()->routeIs('staff.users.index')">
+                            User/Staff Management
+                        </x-nav-link>
+                    @endif
+                @endauth
+
             </div>
 
             <div class="nav-user">
