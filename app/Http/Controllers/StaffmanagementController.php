@@ -8,6 +8,10 @@ use App\Models\Brand;
 use App\Models\Type;
 use App\Models\Speed;
 use Illuminate\Http\Request;
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class StaffmanagementController extends Controller
 {
@@ -128,7 +132,7 @@ class StaffmanagementController extends Controller
             'speeds'
         ));
     }
-    
+
     public function update($id, Request $request)
     {
         $bike = Bike::query()->where('id', $id)->first();
@@ -177,4 +181,63 @@ class StaffmanagementController extends Controller
 
         return redirect('dashboard/management/bikes');
     }
+
+    public function users(Request $request)
+    {
+        $selectedRole = $request->query('role');
+
+        $users = User::with('role')
+            ->when($selectedRole, function ($query) use ($selectedRole) {
+                $query->whereHas('role', function ($roleQuery) use ($selectedRole) {
+                    $roleQuery->where('name', $selectedRole);
+                });
+            })
+            ->orderBy('last_name')
+            ->orderBy('first_name')
+            ->get();
+
+        return view('staff.users.index', compact('users', 'selectedRole'));
+    }
+
+    public function promoteToStaff(User $user): RedirectResponse
+    {
+        $staffRole = Role::where('name', 'staff')->firstOrFail();
+
+        if($user->role_id === $staffRole->id){
+            return back()->with('message', 'already promoted');
+        }
+
+        $user->update([
+            'role_id' => $staffRole->id,
+        ]);
+        return back()->with(
+            'message',
+            'demoted.'
+        );
+    }
+
+    public function demoteToCustomer(User $user): RedirectResponse
+    {
+        if (Auth::id() === $user->id) {
+            return back()->withErrors([
+                'user' => 'cannot demote to yourself',
+            ]);
+        }
+
+        $customerRole = Role::where('name', 'customer')->firstOrFail();
+
+        if ($user->role_id === $customerRole->id) {
+            return back()->with('message', 'already customer.');
+        }
+
+        $user->update([
+            'role_id' => $customerRole->id,
+        ]);
+
+        return back()->with(
+            'message',
+            'demoted.'
+        );
+    }
+
 }

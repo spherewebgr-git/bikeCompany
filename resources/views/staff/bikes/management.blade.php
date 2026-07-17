@@ -17,6 +17,11 @@
             @include('components.bikefilters')
         </div>
 
+        <a href="{{ route('staff.users.index', ["new"]) }}">
+            <button class="Create">Manage Users</button>
+        </a>
+
+        @include('components.bikefilters')
         @include('staff.bikes.table')
 
     </div>

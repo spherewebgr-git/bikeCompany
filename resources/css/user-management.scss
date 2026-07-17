@@ -1,0 +1,136 @@
+#userManagement {
+    padding: 70px 0;
+    background: #fafafa;
+    min-height: calc(100vh - 120px);
+
+    .page-title {
+        text-align: center;
+        margin-bottom: 50px;
+
+        h1 {
+            font-size: 52px;
+            font-weight: 700;
+            color: #505050;
+        }
+    }
+
+    .table-wrapper {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        background: #f3f3f3;
+
+        th {
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #555;
+            text-align: center;
+        }
+    }
+
+    tbody {
+
+        tr {
+            transition: .2s;
+
+            &:nth-child(even){
+                background:#fafafa;
+            }
+
+            &:hover{
+                background:#f2f8ff;
+            }
+        }
+
+        td{
+            padding:22px 15px;
+            text-align:center;
+            vertical-align:middle;
+            border-bottom:1px solid #ececec;
+            font-size:16px;
+        }
+    }
+
+    .role{
+        padding:8px 18px;
+        border-radius:25px;
+        font-weight:600;
+        display:inline-block;
+        min-width:110px;
+    }
+
+    .staff{
+        background:#dbeeff;
+        color:#1565c0;
+    }
+
+    .customer{
+        background:#dff8dc;
+        color:#2e7d32;
+    }
+
+    .actions{
+        display:flex;
+        justify-content:center;
+        gap:10px;
+    }
+
+    form{
+        margin:0;
+    }
+
+    button{
+        border:none;
+        cursor:pointer;
+        padding:12px 18px;
+        border-radius:8px;
+        font-weight:600;
+        transition:.25s;
+        min-width:150px;
+
+        &:hover{
+            transform:translateY(-2px);
+        }
+    }
+
+    .btn-promote{
+        background:#9be2a4;
+
+        &:hover{
+            background:#7dd487;
+        }
+    }
+
+    .btn-demote{
+        background:#ffd87d;
+
+        &:hover{
+            background:#ffc857;
+        }
+    }
+
+    @media(max-width:992px){
+
+        .table-wrapper{
+            overflow-x:auto;
+        }
+
+        table{
+            min-width:900px;
+        }
+
+        h1{
+            font-size:38px;
+        }
+    }
+}

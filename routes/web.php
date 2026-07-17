@@ -48,6 +48,25 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:staff'])->group(function () {
     Route::get('/dashboard/management/bikes', [StaffmanagementController::class, 'management'])->name('dashboard.management.bikes');
 
+    Route::get(
+        '/staff/users',
+        [StaffmanagementController::class, 'users']
+    )->name('staff.users.index');
+
+    Route::patch(
+        '/staff/users/{user}/promote',
+        [StaffmanagementController::class, 'promoteToStaff']
+    )->name('staff.users.promote');
+
+    Route::patch(
+        '/staff/users/{user}/demote',
+        [StaffmanagementController::class, 'demoteToCustomer']
+    )->name('staff.users.demote');
+
+    Route::get(
+        '/staff/bikes/filter',
+        [StaffmanagementController::class, 'filter']
+    )->name('bikes.filter');
     Route::get('/staff/bikes/search', [StaffmanagementController::class, 'search'])->name('bikes.search');
 
     Route::get('/staff/bikes/filter', [StaffmanagementController::class, 'filter'])->name('bikes.filter');
