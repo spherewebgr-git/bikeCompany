@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="container" id="StaffManagement">
-        <h1 class="management-title">Bike Database</h1>
+        <h2 class="section-heading">Bike Database</h2>
 
         <a href="{{ route('bike.edit', ["new"]) }}">
             <button class="Create">+ Insert New Bike</button>

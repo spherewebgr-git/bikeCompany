@@ -1,18 +1,41 @@
+@mixin orangebtn
+{
+    color: #fff;
+    text-transform: uppercase;
+    background: #fe4819;
+    border: 2px solid #fe4819;
+    transition: all 0.3s;
+    border-radius: 3px;
+}
+
+@mixin orangebtnhover
+{
+    border-color: #fe704c;
+    background: #fe704c;
+    color: #fff;
+}
+
+@mixin regularbtn
+{
+    text-transform: uppercase;
+    border: 1px solid #6c6c6c;
+    color: #6c6c6c;
+    font-weight: 700;
+    background-color: white;
+    transition: all 0.3s;
+}
+
+@mixin regularbtnhover
+{
+    color: #fe4819;
+    border-color: #fe4819;
+}
+
 #StaffManagement
 {
     margin: 0;
     padding: 0 80px;
-
-    h1.management-title 
-    {
-        font-size: 40px;
-        font-weight: bold;
-        padding: 30px;
-        text-align: center;
-        position: relative;
-        left: 50%;
-        transform: translateX(-15%);
-    }
+    font-family: "Oswald", sans-serif;
 
     img.bikephoto
     {
@@ -33,41 +56,47 @@
         input 
         {
             font-size: 20px;
-            border-radius: 4px;
-            border: 1px solid;
+            border: 1px solid black;
+            padding: 10px;
         }
 
         button
         {
+            @include orangebtn;
             position: relative;
-            background-color: gainsboro;
             font-size: 20px;
             padding: 10px;
-            border-radius: 10px;
             margin-left: 15px;
-            height: 50px;
-            width: 50px;
-            border-radius: 4px;
-            border: 1px solid;
+            height: 52px;
+            width: 52px;
+        }
+
+        button:hover
+        {
+            @include orangebtnhover;
         }
     }
 
     tr:nth-child(even)
     {
-        background-color: white;
+        background-color: #f4f4f4;
+    }
+
+    tr:nth-child(odd) .bikeactions a
+    {
+        background-color: #f4f4f4;
     }
 
     th 
     {
         font-size: 20px;
-        padding: 20px 0;
+        padding: 20px 30px;
         border-bottom: 1px solid gray;
-        text-align: center;
     }
 
     td
     {
-        padding: 10px 40px;
+        padding: 10px 15px 10px 30px;
         font-size: 20px;
         border-bottom: 1px solid gray;
 
@@ -80,60 +109,81 @@
                 margin: 0 10px;
                 padding: 10px;
                 width: 100px;
-                border-radius: 10px;
-                color: black;
                 text-align: center;
-                //&.view { background-color: #b2d2ff;}
-                &.edit { background-color: #ffe291;}
-                &.quant { background-color: #ffcc9c;}
-                &.delete { background-color: #ffb3b3;}
+                @include regularbtn;
+
+                i
+                {
+                    color: #6c6c6c;
+                    transition: all 0.3s;
+                }
+            }
+
+            a:hover
+            {
+                @include regularbtnhover;
+
+                i { color: #fe4819; }
             }
         }
 
         form.edit-quantity
         {
             display: none;
-            position: fixed;
-            left: 52%;
+            position: absolute;
+            left: 56.5%;
             background: white;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 3px;
             box-shadow: 0 0 15px rgba(0,0,0,.3);
 
-            button, button input
+            button
             {
                 padding: 10px;
                 width: 100px;
-                border-radius: 10px;
-                color: black;
                 text-align: center;
                 position: relative;
+                margin-top: 20px;
 
-                &.update
-                {
-                    background-color: #96ebb6;
-
-                }
+                &.update { @include orangebtn; }
+                &.update:hover { @include orangebtnhover; }
 
                 &.cancel
                 {
-                    background-color: #cdcdcd;
-                    right: -25%;
+                    @include regularbtn;
+                    left: 10%;
                 }
+                &.cancel:hover { @include regularbtnhover; }
             }
         }
     }
 
+    .bike-SKU
+    {
+        min-width: 250px;
+    }
+
+    .bike-provision, .bike-gears
+    {
+        text-align: center;
+    }
+
+    .bike-model
+    {
+        min-width: 300px;
+    }
+
     .Create
     {
-        background-color: #9fddad;
-        color: black;
+        @include orangebtn;
         font-size: 20px;
-        font-weight: bold;
         padding: 10px 20px;
-        border-radius: 10px;
         margin: 20px;
-        border: none;
+    }
+
+    .Create:hover
+    {
+        @include orangebtnhover;
     }
 }
 
@@ -155,16 +205,83 @@
         select
         {
             margin-right: 30px;
+            background-color: white;
+            border: 1px solid black;
+            padding: 8px;
         }
 
         .Filter 
         {
-            background-color: gainsboro;
+            @include orangebtn;
             font-size: 20px;
-            font-weight: bold;
             padding: 10px 30px;
-            border-radius: 4px;
-            border: 1px solid;
         }
+
+        .Filter:hover
+        {
+            @include orangebtnhover;
+        }
+    }
+}
+
+#BikeEdit
+{
+    form 
+    {
+        padding: 60px;
+        font-size: 20px;
+
+        .horizontal { display: flex; }
+
+        .vertical { margin: 15px 60px 15px 0;}
+
+        input, .form-control
+        {
+            border: 1px solid black;
+            padding: 10px;
+            border-radius: 0;
+            font-size: 20px;
+
+            &#image_path { width: 38%; }
+
+            &:focus-visible 
+            {
+                box-shadow: 0 0 3px #fe4819;
+                border-color: #fe4819;
+                outline: none;
+            }
+        }
+
+        p
+        {
+            font-size: 20px;
+            padding-top: 7px;
+        }
+
+        #price { margin-bottom: 30px; }
+
+        .form-control
+        {
+            height: 50px;
+            width: unset;
+        }
+
+        select
+        {
+            background-color: white;
+            border: 1px solid black;
+            padding: 10px;
+
+            &#provision_id { margin-bottom: 15px; }
+        }
+
+        .Submit 
+        {
+            @include orangebtn;
+            font-size: 20px;
+            padding: 10px 30px;
+        }
+
+        .Submit:hover { @include orangebtnhover; }
     }
 }

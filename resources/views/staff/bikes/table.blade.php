@@ -1,11 +1,10 @@
-<div class="bike-table"></div>
+<div class="bike-table">
     <table>
         <tr>
             <th>SKU</th>
             <th>Image</th>
             <th>Provision</th>
-            <th>Brand</th>
-            <th>Type</th>
+            <th>Model</th>
             <th>Gears</th>
             <th>Colour</th>
             <th>Quantity</th>
@@ -13,22 +12,19 @@
         </tr>
         @foreach ($bikes as $bike)
             <tr>
-                <td>
+                <td class="bike-SKU">
                     {{ $bike->SKU }}
                 </td>
                 <td>
                     <img class="bikephoto" src="{{ $bike->image_path }}"/>
                 </td>
-                <td>
+                <td class="bike-provision">
                     {{ $bike->provision->name }}
                 </td>
-                <td>
-                    {{ $bike->brand->name }}
+                <td class="bike-model">
+                    {{ $bike->brand->name }}: {{ $bike->type->name }}
                 </td>
-                <td>
-                    {{ $bike->type->name }}
-                </td>
-                <td>
+                <td class="bike-gears">
                     {{ $bike->speed->gears }}
                 </td>
                 <td>
@@ -38,7 +34,7 @@
                     <div class="bikeactions">
                         <a href="#" onclick="showQuantityForm({{ $bike->id }}); return false;" class="quant">
                             {{ $bike->quantity }}
-                            <i class="fa-regular fa-pen-to-square" style="color: rgb(0, 0, 0);"></i>
+                            <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                     </div>
 
@@ -46,9 +42,7 @@
                     class="edit-quantity" id="quantity-form-{{ $bike->id }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                         <input type="number" id="quantity" name="quantity" value="{{ $bike->quantity }}"><br>
-                        <button>
-                            <input class="update" type="submit" value="Update">
-                        </button>
+                        <button class="update" type="submit">Update</button>
                         <button class="cancel" type="button" onclick="document.getElementById('quantity-form-{{ $bike->id }}').style.display='none'">
                             Cancel
                         </button>
@@ -56,7 +50,6 @@
                 </td>
                 <td>
                     <div class="bikeactions">
-                        <!-- <a href="{{ route('bike.view',[$bike->id]) }}" class="view">View</a> -->
                         <a href="{{ route('bike.edit',[$bike->id]) }}" class="edit">Edit</a>
                         <a href="{{ route('bike.delete',[$bike->id]) }}" class="delete">Delete</a>
                     </div>

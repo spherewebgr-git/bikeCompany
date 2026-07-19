@@ -7,6 +7,7 @@ use App\Models\Provision;
 use App\Models\Brand;
 use App\Models\Type;
 use App\Models\Speed;
+use App\Models\Price;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\User;
@@ -111,7 +112,10 @@ class StaffmanagementController extends Controller
     public function delete($id)
     {
         $bike = Bike::query()->where('id', $id)->first();
+
+        Price::where('bike_id', $id)->delete();
         $bike->delete();
+
         return redirect('dashboard/management/bikes');
     }
 
@@ -123,20 +127,44 @@ class StaffmanagementController extends Controller
         $speeds = Speed::all();
 
         $bike = Bike::query()->where('id', $id)->first();
+        $prices = Price::query()->where('bike_id', $id)->get();
 
         return view('staff.bikes.bike-edit', compact(
             'bike',
             'provisions',
             'brands',
             'types',
-            'speeds'
+            'speeds',
+            'prices'
         ));
     }
 
     public function update($id, Request $request)
     {
         $bike = Bike::query()->where('id', $id)->first();
-        $bike->update($request->all());
+
+        $bike->update([
+            'colour' => $request->colour,
+            'image_path' => $request->image_path,
+            'brand_id' => $request->brand_id,
+            'type_id' => $request->type_id,
+            'speed_id' => $request->speed_id,
+            'provision_id' => $request->provision_id,
+        ]);
+
+        // Delete old prices
+        Price::where('bike_id', $id)->delete();
+
+        // And replace them with updated prices
+        foreach ($request->price ?? [] as $price)
+        // Use $request->price if it exists and is not null. Otherwise, use an empty array []
+        {
+            Price::create([
+                'bike_id' => $bike->id,
+                'price' => $price,
+            ]);
+        }
+
         return redirect('dashboard/management/bikes');
     }
 
@@ -144,21 +172,24 @@ class StaffmanagementController extends Controller
     {
         $request->validate(
             [
-                'brand' => 'required',
-                'type' => 'required',
-                'speed' => 'required',
-                'provision' => 'required',
+                'SKU' => 'required',
+                'brand_id' => 'required',
+                'type_id' => 'required',
+                'speed_id' => 'required',
+                'provision_id' => 'required',
                 'colour' => 'required',
-                'image_path' => 'required'
+                'image_path' => 'required',
+                'price' => 'required|array'
             ]
         );
 
         $bike = Bike::where([
+            'SKU' => $request->SKU,
             'colour' => $request->colour,
-            'brand_id' => $request->brand,
-            'type_id' => $request->type,
-            'speed_id' => $request->speed,
-            'provision_id' => $request->provision,
+            'brand_id' => $request->brand_id,
+            'type_id' => $request->type_id,
+            'speed_id' => $request->speed_id,
+            'provision_id' => $request->provision_id,
         ])->first();
 
 
@@ -168,15 +199,25 @@ class StaffmanagementController extends Controller
         }
         else
         {
-            Bike::create([
+            $bike = Bike::create([
+                'SKU' => $request->SKU,
                 'colour' => $request->colour,
                 'image_path' => $request->image_path,
-                'brand_id' => $request->brand,
-                'type_id' => $request->type,
-                'speed_id' => $request->speed,
-                'provision_id' => $request->provision,
+                'brand_id' => $request->brand_id,
+                'type_id' => $request->type_id,
+                'speed_id' => $request->speed_id,
+                'provision_id' => $request->provision_id,
                 'quantity' => 1,
             ]);
+
+            foreach ($request->price ?? [] as $price)
+            // Use $request->price if it exists and is not null. Otherwise, use an empty array []
+            {
+                Price::create([
+                    'bike_id' => $bike->id,
+                    'price' => $price,
+                ]);
+            }
         }
 
         return redirect('dashboard/management/bikes');
