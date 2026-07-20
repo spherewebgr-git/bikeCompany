@@ -28,11 +28,21 @@
 
             <header class="article-heading bike-card__header">
 
-                <h4 class="title-text bike-card__title">
-                    <a href="" class="bike-card__title-link">
-                        {{ $bike->brand->name }}
-                    </a>
-                </h4>
+                @if($bike->provision->name === 'buy')
+                    <h4 class="title-text bike-card__title">
+                        <a href="{{ route('bikes.sale.show', $bike) }}" class="bike-card__title-link">
+                            {{ $bike->brand->name }}
+                        </a>
+                    </h4>
+                @elseif($bike->provision->name === 'rent')
+                    <h4 class="title-text bike-card__title">
+                        <a href="{{ route('bikes.rental.show', $bike) }}" class="bike-card__title-link">
+                            {{ $bike->brand->name }}
+                        </a>
+                    </h4>
+                @endif
+
+
 
                 <div class="meta-data bike-card__meta">
 
