@@ -17,7 +17,8 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
                 'string',
@@ -25,6 +26,33 @@ class ProfileUpdateRequest extends FormRequest
                 'email',
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
+            ],
+
+            'phone' => [
+                'required',
+                'digits:10',
+            ],
+
+            'card_number' => [
+                'required',
+                'digits_between:13,19',
+            ],
+
+            'card_exp_month' => [
+                'required',
+                'integer',
+                'between:1,12',
+            ],
+
+            'card_exp_year' => [
+                'required',
+                'integer',
+                'min:' . date('Y'),
+            ],
+
+            'card_cvv' => [
+                'required',
+                'digits_between:3,4',
             ],
         ];
     }

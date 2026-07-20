@@ -8,19 +8,32 @@
             action="{{ route('staff.users.index') }}"
             class="user-filters"
         >
+            <div class="search-group">
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ request('search') }}"
+                    placeholder="Search users"
+                >
+
+                <button type="submit" class="btn-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+
             <div class="filter-field">
                 <label for="role">Role:</label>
 
                 <select name="role" id="role">
                     <option value="" @selected(!$selectedRole)>
-                        All users
+                        Any
                     </option>
 
                     <option
                         value="customer"
                         @selected($selectedRole === 'customer')
                     >
-                        Customers
+                        Customer
                     </option>
 
                     <option
@@ -33,15 +46,15 @@
             </div>
 
             <button type="submit" class="btn-filter">
-                Filter
+                FILTER
             </button>
 
-            @if($selectedRole)
+            @if($selectedRole || request('search'))
                 <a
                     href="{{ route('staff.users.index') }}"
                     class="btn-clear"
                 >
-                    Clear
+                    CLEAR
                 </a>
             @endif
         </form>
@@ -88,11 +101,12 @@
                                 <form
                                     method="POST"
                                     action="{{ route('staff.users.promote', $user) }}"
+                                    class="promote-form"
                                 >
                                     @csrf
                                     @method('PATCH')
 
-                                    <button type="submit">
+                                    <button type="submit" class="btn-promote">
                                         Make Staff
                                     </button>
                                 </form>
@@ -105,30 +119,16 @@
                                 <form
                                     method="POST"
                                     action="{{ route('staff.users.demote', $user) }}"
+                                    class="demote-form"
                                 >
                                     @csrf
                                     @method('PATCH')
 
-                                    <button type="submit">
+                                    <button type="submit" class="btn-demote">
                                         Remove Staff
                                     </button>
                                 </form>
                             @endif
-
-{{--                            @if(auth()->id() !== $user->id)--}}
-{{--                                <form--}}
-{{--                                    method="POST"--}}
-{{--                                    action="{{ route('staff.users.delete', $user) }}"--}}
-{{--                                    onsubmit="return confirm('Delete this user?')"--}}
-{{--                                >--}}
-{{--                                    @csrf--}}
-{{--                                    @method('DELETE')--}}
-
-{{--                                    <button type="submit">--}}
-{{--                                        Delete--}}
-{{--                                    </button>--}}
-{{--                                </form>--}}
-{{--                            @endif--}}
                         </td>
                     </tr>
                 @endforeach
@@ -136,4 +136,68 @@
         </table>
     </div>
     </div>
+
+    <script>
+        document.querySelectorAll('.promote-form').forEach(form => {
+
+            form.addEventListener('submit', function (e) {
+
+                e.preventDefault();
+
+                swal({
+                    title: "Are you sure?",
+                    text: "This user will become a staff member.",
+                    icon: "warning",
+                    buttons: {
+                        cancel: "Cancel",
+                        confirm: {
+                            text: "Yes, Promote",
+                            value: true
+                        }
+                    }
+                }).then((willPromote) => {
+
+                    if (willPromote) {
+                        form.submit();
+                    }
+
+                });
+
+            });
+
+        });
+    </script>
+
+    <script>
+        document.querySelectorAll('.demote-form').forEach(form => {
+
+            form.addEventListener('submit', function (e) {
+
+                e.preventDefault();
+
+                swal({
+                    title: "Are you sure?",
+                    text: "This user will be demoted.",
+                    icon: "warning",
+                    buttons: {
+                        cancel: "Cancel",
+                        confirm: {
+                            text: "Yes, Remove Staff",
+                            value: true
+                        }
+                    }
+                }).then((willPromote) => {
+
+                    if (willPromote) {
+                        form.submit();
+                    }
+
+                });
+
+            });
+
+        });
+    </script>
 </x-app-layout>
+
+

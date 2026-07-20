@@ -26,7 +26,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // DASHBOARD
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // BIKE LIST PAGES
