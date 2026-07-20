@@ -1,0 +1,153 @@
+@mixin orangebtn
+{
+    color: #fff;
+    text-transform: uppercase;
+    background: #fe4819;
+    border: 2px solid #fe4819;
+    transition: all 0.3s;
+    border-radius: 3px;
+}
+
+@mixin orangebtnhover
+{
+    border-color: #fe704c;
+    background: #fe704c;
+    color: #fff;
+}
+
+@mixin regularbtn
+{
+    text-transform: uppercase;
+    border: 1px solid #6c6c6c;
+    color: #6c6c6c;
+    font-weight: 700;
+    background-color: white;
+    transition: all 0.3s;
+}
+
+@mixin regularbtnhover
+{
+    color: #fe4819;
+    border-color: #fe4819;
+}
+
+#StaffCategories
+{
+    .container
+    {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .table
+    {
+        padding: 10px 40px;
+        margin: 12px;
+        background-color: white;
+        border-radius: 6px;
+    }
+
+    .cat-value
+    {
+        display: flex;
+        border-bottom: 1px solid #dbdbdb;
+        transition: all 0.3s;
+        padding: 0 10px;
+        border-radius: 4px;
+
+        p
+        {
+            font-size: 18px;
+            width: 220px;
+            margin: 15px 0;
+        }
+
+        a
+        {
+            text-decoration: none;
+
+            i
+            {
+                color: #6c6c6c;
+                transition: all 0.3s;
+                font-size: 18px;
+                padding-top: 22px;
+
+                &:hover
+                {
+                    color: red;
+                    font-weight: 600;
+                }
+            }
+        }
+
+        &:hover
+        {
+            background-color: #f2f2f2;
+            font-weight: 600;
+            color: black;
+        }
+    }
+
+    .new-category
+    {
+        @include orangebtn;
+        padding: 10px;
+        margin: 20px 0;
+        font-weight: 600;
+
+        a { color: #fff; }
+
+        &:hover { @include orangebtnhover; }
+    }
+
+    form
+    {
+        display: flex;
+        margin-bottom: 10px;
+
+        input
+        {
+            height: 30px;
+            font-size: 16px;
+        }
+
+        button
+        {
+            margin-left: 10px;
+            @include orangebtn;
+
+            &:hover { @include orangebtnhover; }
+        }
+    }
+
+    #newcat-gears, #newcat-provision, #newcat-status, #newcat-type, #newcat-location, #newcat-brand
+    {
+        display: none;
+        padding-top: 10px;
+
+        input
+        {
+            width: 100%;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .buttons
+        {
+            padding-top: 15px;
+
+            button
+            {
+                @include regularbtn;
+                padding: 10px;
+                position: relative;
+                width: 100px;
+
+                &:hover { @include regularbtnhover; }
+
+                &.cancel { left: 30px;}
+            }
+        }
+    }
+}

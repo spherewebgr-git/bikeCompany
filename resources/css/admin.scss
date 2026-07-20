@@ -1,17 +1,11 @@
 @use 'materialize' as *;
 @use 'style' as *;
 @use 'data-tables' as *;
-@use 'staff-management' as *;
-//@use '' as *;
-//@use '' as *;
-//@use '' as *;
-//@use '' as *;
-//@use '' as *;
-//@use '' as *;
-//@use '' as *;
+@use 'bike-management' as *;
+@use 'category-management.scss' as *;
 
 /*-------------------------------------------------
-  Dashboard common file for Analytics & eCommmerce
+	Dashboard common file for Analytics & eCommmerce
 --------------------------------------------------*/
 #revenue-chart {
 	span {

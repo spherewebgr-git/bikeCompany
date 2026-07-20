@@ -84,6 +84,12 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
 
     // --------- CATEGORIES --------- \\
     Route::get('/dashboard/management/categories', [StaffmanagementController::class, 'managecategories'])->name('dashboard.management.categories');
+
+    Route::get('/staff/categories/categories', [StaffmanagementController::class, 'searchcategory'])->name('category.search');
+
+    Route::get('/delete-category/{id}', [StaffmanagementController::class, 'deletecategory'])->name('category.delete');
+
+    Route::post('/category-create', [StaffmanagementController::class, 'newcategory'])->name('category.create');
 });
 
 require __DIR__.'/auth.php';

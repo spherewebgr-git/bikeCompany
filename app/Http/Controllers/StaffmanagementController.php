@@ -30,10 +30,10 @@ class StaffmanagementController extends Controller
             'prices'
         ])->get();
 
-        $provisions = Provision::all();
-        $brands = Brand::all();
-        $types = Type::all();
-        $speeds = Speed::all();
+        $provisions = Provision::all()->sortBy("name");
+        $brands = Brand::all()->sortBy("name");
+        $types = Type::all()->sortBy("name");
+        $speeds = Speed::all()->sortBy("gears");
 
         return view('staff.bikes.management', compact(
             'bikes',
@@ -55,10 +55,10 @@ class StaffmanagementController extends Controller
 
         return view('staff.bikes.management', [
             'bikes' => $bikes->get(),
-            'brands' => Brand::all(),
-            'types' => Type::all(),
-            'provisions' => Provision::all(),
-            'speeds' => Speed::all(),
+            'brands' => Brand::all()->sortBy("name"),
+            'types' => Type::all()->sortBy("name"),
+            'provisions' => Provision::all()->sortBy("name"),
+            'speeds' => Speed::all()->sortBy("gears"),
         ]);
     }
 
@@ -100,10 +100,10 @@ class StaffmanagementController extends Controller
 
         return view('staff.bikes.management', [
             'bikes' => $bikes->get(),
-            'brands' => Brand::all(),
-            'types' => Type::all(),
-            'provisions' => Provision::all(),
-            'speeds' => Speed::all(),
+            'brands' => Brand::all()->sortBy("name"),
+            'types' => Type::all()->sortBy("name"),
+            'provisions' => Provision::all()->sortBy("name"),
+            'speeds' => Speed::all()->sortBy("gears"),
         ]);
     }
 
@@ -125,10 +125,10 @@ class StaffmanagementController extends Controller
 
     public function edit($id)
     {
-        $provisions = Provision::all();
-        $brands = Brand::all();
-        $types = Type::all();
-        $speeds = Speed::all();
+        $provisions = Provision::all()->sortBy("name");
+        $brands = Brand::all()->sortBy("name");
+        $types = Type::all()->sortBy("name");
+        $speeds = Speed::all()->sortBy("gears");
 
         $bike = Bike::query()->where('id', $id)->first();
         $prices = Price::query()->where('bike_id', $id)->get();
@@ -290,12 +290,12 @@ class StaffmanagementController extends Controller
     // --------------- CATEGORIES --------------- \\
     public function managecategories()
     {
-        $provisions = Provision::all();
-        $brands = Brand::all();
-        $types = Type::all();
-        $speeds = Speed::all();
-        $statuses = Status::all();
-        $locations = Location::all();
+        $provisions = Provision::all()->sortBy("name");
+        $brands = Brand::all()->sortBy("name");
+        $types = Type::all()->sortBy("name");
+        $speeds = Speed::all()->sortBy("gears");
+        $statuses = Status::all()->sortBy("name");
+        $locations = Location::all()->sortBy("name");
 
 
         return view('staff.categories.management', compact(
@@ -306,5 +306,114 @@ class StaffmanagementController extends Controller
             'statuses',
             'locations'
         ));
+    }
+
+    public function searchcategory(Request $request)
+    {
+        $provisions = Provision::query();
+        $brands = Brand::query();
+        $types = Type::query();
+        $speeds = Speed::query();
+        $statuses = Status::query();
+        $locations = Location::query();
+
+        if ($request->filled('gears'))
+        {
+            $speeds = Speed::where('gears', $request->gears);
+        }
+        elseif ($request->filled('provisions'))
+        {
+            $provisions = Provision::where('name', $request->provisions);
+        }
+        elseif ($request->filled('loactions'))
+        {
+            $loactions = Location::where('name', $request->loactions);
+        }
+        elseif ($request->filled('statuses'))
+        {
+            $statuses = Status::where('name', $request->statuses);
+        }
+        elseif ($request->filled('types'))
+        {
+            $types = Type::where('name', $request->types);
+        }
+        elseif ($request->filled('brands'))
+        {
+            $brands = Brand::where('name', $request->brands);
+        }
+
+        return view('staff.categories.management', [
+            'provisions' => $provisions->orderBy('name')->get(),
+            'brands' => $brands->orderBy('name')->get(),
+            'types' => $types->orderBy('name')->get(),
+            'speeds' => $speeds->orderBy('gears')->get(),
+            'statuses' => $statuses->orderBy('name')->get(),
+            'locations' => $locations->orderBy('name')->get(),
+        ]);
+    }
+
+    public function deletecategory(int $id, string $category)
+    {
+        switch ($category)
+        {
+            case "provision":
+                Provision::where('id', $id)->delete();
+                break;
+            case "brand":
+                Brand::where('id', $id)->delete();
+                break;
+            case "type":
+                Type::where('id', $id)->delete();
+                break;
+            case "gears":
+                Speed::where('id', $id)->delete();
+                break;
+            case "status":
+                Status::where('id', $id)->delete();
+                break;
+            case "location":
+                Location::where('id', $id)->delete();
+                break;
+            default:
+                abort(404);
+        }
+
+        return redirect('dashboard/management/bikes');
+    }
+
+    public function newcategory(Request $request, string $category)
+    {
+
+        switch ($category)
+        {
+            case "provision":
+                $request->validate(['provision' => 'required']);
+                Provision::firstOrCreate(['name' => $request->provision]);
+                break;
+            case "brand":
+                $request->validate(['brand' => 'required']);
+                Brand::firstOrCreate(['name' => $request->brand]);
+                break;
+            case "type":
+                $request->validate(['type' => 'required']);
+                Type::firstOrCreate(['name' => $request->type]);
+                break;
+            case "gears":
+                $request->validate(['gears' => 'required']);
+                Speed::firstOrCreate(['gears' => $request->gears]);
+                break;
+            case "status":
+                $request->validate(['status' => 'required']);
+                Status::firstOrCreate(['name' => $request->status]);
+                break;
+            case "location":
+                $request->validate(['location' => 'required']);
+                Location::firstOrCreate(['name' => $request->location]);
+                break;
+            default:
+                abort(404);
+        }
+
+        return redirect('dashboard/management/bikes');
     }
 }
