@@ -46,27 +46,12 @@ Route::middleware('auth')->group(function () {
 
 // STAFF PAGES
 Route::middleware(['auth', 'role:staff'])->group(function () {
+    
+    // --------- BIKES --------- \\
     Route::get('/dashboard/management/bikes', [StaffmanagementController::class, 'management'])->name('dashboard.management.bikes');
 
-    Route::get(
-        '/staff/users',
-        [StaffmanagementController::class, 'users']
-    )->name('staff.users.index');
+    Route::get('/staff/bikes/filter', [StaffmanagementController::class, 'filter'])->name('bikes.filter');
 
-    Route::patch(
-        '/staff/users/{user}/promote',
-        [StaffmanagementController::class, 'promoteToStaff']
-    )->name('staff.users.promote');
-
-    Route::patch(
-        '/staff/users/{user}/demote',
-        [StaffmanagementController::class, 'demoteToCustomer']
-    )->name('staff.users.demote');
-
-    Route::get(
-        '/staff/bikes/filter',
-        [StaffmanagementController::class, 'filter']
-    )->name('bikes.filter');
     Route::get('/staff/bikes/search', [StaffmanagementController::class, 'search'])->name('bikes.search');
 
     Route::get('/staff/bikes/filter', [StaffmanagementController::class, 'filter'])->name('bikes.filter');
@@ -80,6 +65,17 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
     Route::post('/bike-update/{id}', [StaffmanagementController::class, 'update'])->name('bike.update');
 
     Route::get('/delete-bike/{id}', [StaffmanagementController::class, 'delete'])->name('bike.delete');
+
+
+    // --------- USERS --------- \\
+    Route::get('/staff/users',[StaffmanagementController::class, 'users'])->name('staff.users.index');
+
+    Route::patch('/staff/users/{user}/promote', [StaffmanagementController::class, 'promoteToStaff'])->name('staff.users.promote');
+
+    Route::patch('/staff/users/{user}/demote', [StaffmanagementController::class, 'demoteToCustomer'])->name('staff.users.demote');
+
+    // --------- CATEGORIES --------- \\
+    Route::get('/dashboard/management/categories', [StaffmanagementController::class, 'managecategories'])->name('dashboard.management.categories');
 });
 
 require __DIR__.'/auth.php';

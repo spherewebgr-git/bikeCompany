@@ -1,5 +1,6 @@
-<div class="bike-table">
-    <table>
+{{-- <div class="bike-table"> --}}
+<div id="data-table-simple_wrapper" class="dataTables_wrapper">
+    <table id="data-table-simple" class="display dataTable dtr-inline" role="grid">
         <tr>
             <th>SKU</th>
             <th>Image</th>

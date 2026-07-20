@@ -5,17 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Bike;
 use App\Models\Provision;
 use App\Models\Brand;
+use App\Models\Location;
 use App\Models\Type;
 use App\Models\Speed;
 use App\Models\Price;
-use Illuminate\Http\Request;
 use App\Models\Role;
+use App\Models\Status;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class StaffmanagementController extends Controller
 {
+
+    // --------------- BIKES --------------- \\
     public function management()
     {
         $bikes = Bike::with([
@@ -223,6 +227,8 @@ class StaffmanagementController extends Controller
         return redirect('dashboard/management/bikes');
     }
 
+
+    // --------------- USERS --------------- \\
     public function users(Request $request)
     {
         $selectedRole = $request->query('role');
@@ -281,4 +287,24 @@ class StaffmanagementController extends Controller
         );
     }
 
+    // --------------- CATEGORIES --------------- \\
+    public function managecategories()
+    {
+        $provisions = Provision::all();
+        $brands = Brand::all();
+        $types = Type::all();
+        $speeds = Speed::all();
+        $statuses = Status::all();
+        $locations = Location::all();
+
+
+        return view('staff.categories.management', compact(
+            'provisions',
+            'brands',
+            'types',
+            'speeds',
+            'statuses',
+            'locations'
+        ));
+    }
 }

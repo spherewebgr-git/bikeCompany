@@ -1,4 +1,6 @@
-<x-app-layout>
+@extends('layouts.admin')
+@section('content')
+    <link rel="stylesheet" type="text/css" href="data-tables.css">
     <div class="container" id="StaffManagement">
         <h2 class="section-heading">Bike Database</h2>
 
@@ -20,4 +22,4 @@
         @include('staff.bikes.table')
 
     </div>
-</x-app-layout>
+@endsection
