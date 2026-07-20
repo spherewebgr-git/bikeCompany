@@ -14,7 +14,7 @@
 
 
 
-            <h2 class="section-heading">Αγορά Ποδηλάτων</h2>
+            <h2 class="section-heading">Our Bikes for Sale</h2>
 
             <div class="blogs-list">
 
@@ -108,7 +108,9 @@
                                     @endforeach
                                 </select>
 
-
+                                <a href="{{ route('bikes.sale') }}" class="btn btn-fill">
+                                    Clear All Filters
+                                </a>
                                 <button type="submit" class="btn btn-fill">
                                     Filter
                                 </button>

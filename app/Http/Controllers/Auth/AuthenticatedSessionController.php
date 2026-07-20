@@ -34,8 +34,13 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('dashboard.management.bikes');
         }
 
+        //ΑΛΛΑΓΗ ΜΕ ΤΟ ΠΟΥ ΚΑΝΕΙΣ LOGIN ΝΑ ΣΕ ΒΑΖΕΙ ΣΤΗΝ ΑΡΧΙΚΗ ΣΕΛΙΔΑ ΚΑΙ ΟΧΙ ΣΤΟ DASHBOARD
         if($user->role?->name === 'customer'){
-            return redirect()->route('dashboard');
+            if ($request->filled('redirect')) {
+                return redirect($request->input('redirect'));
+            }
+
+            return redirect()->route('home');
         }
 
         Auth::logout();

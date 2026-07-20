@@ -85,22 +85,26 @@
                             @endforeach
                         </div>
 
+                        <footer class="bike-card__footer">
+                            @if($bike->provision->name === 'buy')
+                                <a href="{{route('bikes.sale.show', $bike)}}" class="btn btn-md btn-trans bike-card__button">
+                                    Details
+                                </a>
+                            @elseif($bike->provision->name === 'rent')
+                                <a href="{{route('bikes.rental.show', $bike)}}" class="btn btn-md btn-trans bike-card__button">
+                                    Details
+                                </a>
+                            @endif
+                        </footer>
+
                     </div>
+
                 </div>
+
 
             </div>
 
-            <footer class="bike-card__footer">
-                @if($bike->provision->name === 'buy')
-                    <a href="{{route('bikes.sale.show', $bike)}}" class="btn btn-md btn-trans bike-card__button">
-                        Details
-                    </a>
-                @elseif($bike->provision->name === 'rent')
-                    <a href="{{route('bikes.rental.show', $bike)}}" class="btn btn-md btn-trans bike-card__button">
-                        Details
-                    </a>
-                @endif
-            </footer>
+
 
         </div>
 

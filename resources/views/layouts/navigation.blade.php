@@ -10,6 +10,10 @@
 
             <div class="nav-links">
 
+                <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
+                    Home
+                </x-nav-link>
+
                 <x-nav-link :href="route('bikes.sale')" :active="request()->routeIs('bikes.sale')">
                     Bikes for sale
                 </x-nav-link>

@@ -12,7 +12,7 @@
     <div class="page-body">
         <div class="container">
 
-            <h2 class="section-heading">Ενοικίαση Ποδηλάτων</h2>
+            <h2 class="section-heading">Available Rentals</h2>
 
             <div class="blogs-list">
 
@@ -68,6 +68,9 @@
                                     @endforeach
                                 </select>
 
+                                <a href="{{ route('bikes.rental') }}" class="btn btn-fill">
+                                    Clear All Filters
+                                </a>
                                 <button type="submit" class="btn btn-fill">
                                     Filter
                                 </button>

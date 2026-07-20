@@ -7,6 +7,16 @@
 
             @csrf
 
+            @if(request('redirect'))
+                <input type="hidden" name="redirect" value="{{ request('redirect') }}">
+
+                <div class="alert alert-warning">
+                    {{ __('Please log in to continue with your purchase.') }}
+                    {{ __('If you are a new user, you can register') }}
+                    <a href="{{ route('register') }}?redirect={{ urlencode(request('redirect')) }}">{{ __('here') }}</a>.
+                </div>
+            @endif
+
 
             <div class="login-title">
 

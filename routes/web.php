@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RentalBikeController;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,13 @@ Route::get('/bikes/rental', [RentalBikeController::class, 'index'])->name('bikes
 Route::get('/bikes/rental/{bike}', [RentalBikeController::class, 'show'])->name('bikes.rental.show');
 
 
+//PURCHASE
+Route::middleware('auth')->group(function () {
+    Route::get('/checkout/{bike}', [CheckoutController::class, 'create'])->name('checkout.create');
+    Route::post('/checkout/{bike}', [CheckoutController::class, 'store'])->name('checkout.store');
+});
+
+
 // USER PAGES
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -46,7 +54,7 @@ Route::middleware('auth')->group(function () {
 
 // STAFF PAGES
 Route::middleware(['auth', 'role:staff'])->group(function () {
-    
+
     // --------- BIKES --------- \\
     Route::get('/dashboard/management/bikes', [StaffmanagementController::class, 'management'])->name('dashboard.management.bikes');
 
