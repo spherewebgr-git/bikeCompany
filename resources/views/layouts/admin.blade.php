@@ -118,7 +118,7 @@
     <aside class="sidenav-main nav-expanded nav-lock nav-collapsible sidenav-dark sidenav-active-rounded">
         <div class="brand-sidebar">
             <h1 class="logo-wrapper">
-                <a class="brand-logo darken-1" href="index.html">
+                <a class="brand-logo darken-1" href="{{ route('home') }}">
                     <img class="hide-on-med-and-down " src="http://[::1]:5173/resources/images/bikeco-light-logo.png" alt="logo"/>
                     <img class="show-on-medium-and-down hide-on-med-and-up" src="http://[::1]:5173/resources/images/bikeco-light-logo.png" alt="logo"/>
                 </a>

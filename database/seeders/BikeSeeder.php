@@ -31,6 +31,19 @@ function generateSku(): string
     return implode('-', $parts);
 }
 
+function generateSerialNum(): string
+{
+    $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    $part = '';
+
+    for ($i = 0; $i < rand(8, 18); $i++)
+    {
+        $part .= $chars[rand(0, strlen($chars) - 1)];
+    }
+
+    return $part;
+}
+
 class BikeSeeder extends Seeder
 {
     /**
@@ -40,18 +53,43 @@ class BikeSeeder extends Seeder
     {
         $bikes = json_decode(file_get_contents(database_path('data/bikes.json')), true);
 
-        foreach ($bikes as $bike) {
-            DB::table('bikes')->insert([
-                'SKU' => generateSku(),
-                'quantity' => rand(1, 50),
-                'colour' => $bike['colour'],
-                'image_path' => 'https://contents.mediadecathlon.com/p2573125/k$6293356c10a44533d9a7ec4f891c6777/kids-6-9-years-20quote-hybrid-bike-riverside-100.jpg',
+        foreach ($bikes as $bike)
+        {
+            $provisiontype = Provision::inRandomOrder()->first();
 
-                'type_id' => Type::inRandomOrder()->value('id'),
-                'brand_id' => Brand::inRandomOrder()->value('id'),
-                'speed_id' => Speed::inRandomOrder()->value('id'),
-                'provision_id' => Provision::inRandomOrder()->value('id'),
-            ]);
+            if ($provisiontype->name == 'buy')
+            {
+                DB::table('bikes')->insert([
+                    'SKU' => generateSku(),
+                    'colour' => $bike['colour'],
+                    'image_path' => 'https://contents.mediadecathlon.com/p2573125/k$6293356c10a44533d9a7ec4f891c6777/kids-6-9-years-20quote-hybrid-bike-riverside-100.jpg',
+
+                    'type_id' => Type::inRandomOrder()->value('id'),
+                    'brand_id' => Brand::inRandomOrder()->value('id'),
+                    'speed_id' => Speed::inRandomOrder()->value('id'),
+                    'provision_id' => $provisiontype->id,
+
+                    'quantity' => rand(1, 50),
+                    'serialnum' => NULL,
+                ]);                
+            }
+
+            else
+            {
+                DB::table('bikes')->insert([
+                    'SKU' => generateSku(),
+                    'colour' => $bike['colour'],
+                    'image_path' => 'https://contents.mediadecathlon.com/p2573125/k$6293356c10a44533d9a7ec4f891c6777/kids-6-9-years-20quote-hybrid-bike-riverside-100.jpg',
+
+                    'type_id' => Type::inRandomOrder()->value('id'),
+                    'brand_id' => Brand::inRandomOrder()->value('id'),
+                    'speed_id' => Speed::inRandomOrder()->value('id'),
+                    'provision_id' => $provisiontype->id,
+
+                    'quantity' => NULL,
+                    'serialnum' => generateSerialNum(),
+                ]);                
+            }
         }
     }
 }

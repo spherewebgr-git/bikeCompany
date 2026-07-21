@@ -121,6 +121,55 @@
         }
     }
 
+    .delconfirm
+    {
+        display: none;
+        position: absolute;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0,0,0,.3);
+
+        h3
+        {
+            font-size: 30px;
+        }
+
+        p
+        {
+            font-size: 20px;
+            max-width: 380px;
+        }
+
+        .buttons
+        {
+            text-align: center;
+            position: relative;
+            margin-top: 20px;
+            display: flex;
+            gap: 180px;
+
+            a
+            {
+                @include orangebtn;
+                padding: 10px;
+                width: 100px;
+
+                &:hover { @include orangebtnhover; }
+            }
+
+            .cancel
+            {
+                @include regularbtn;
+                left: 10%;
+                padding: 10px;
+                width: 100px;
+                
+                &:hover { @include regularbtnhover; }
+            }
+        }
+    }
+
     #newcat-gears, #newcat-provision, #newcat-status, #newcat-type, #newcat-location, #newcat-brand
     {
         display: none;

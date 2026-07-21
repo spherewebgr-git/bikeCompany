@@ -378,7 +378,7 @@ class StaffmanagementController extends Controller
                 abort(404);
         }
 
-        return redirect('dashboard/management/bikes');
+        return redirect('dashboard/management/categories');
     }
 
     public function newcategory(Request $request, string $category)
@@ -387,33 +387,33 @@ class StaffmanagementController extends Controller
         switch ($category)
         {
             case "provision":
-                $request->validate(['provision' => 'required']);
-                Provision::firstOrCreate(['name' => $request->provision]);
+                $request->validate(['provname' => 'required']);
+                Provision::firstOrCreate(['name' => $request->provname]);
                 break;
             case "brand":
-                $request->validate(['brand' => 'required']);
-                Brand::firstOrCreate(['name' => $request->brand]);
+                $request->validate(['brandname' => 'required']);
+                Brand::firstOrCreate(['name' => $request->brandname]);
                 break;
             case "type":
-                $request->validate(['type' => 'required']);
-                Type::firstOrCreate(['name' => $request->type]);
+                $request->validate(['typename' => 'required']);
+                Type::firstOrCreate(['name' => $request->typename]);
                 break;
             case "gears":
-                $request->validate(['gears' => 'required']);
-                Speed::firstOrCreate(['gears' => $request->gears]);
+                $request->validate(['gearamount' => 'required']);
+                Speed::firstOrCreate(['gears' => $request->gearamount]);
                 break;
             case "status":
-                $request->validate(['status' => 'required']);
-                Status::firstOrCreate(['name' => $request->status]);
+                $request->validate(['statname' => 'required']);
+                Status::firstOrCreate(['name' => $request->statname]);
                 break;
             case "location":
-                $request->validate(['location' => 'required']);
-                Location::firstOrCreate(['name' => $request->location]);
+                $request->validate(['locname' => 'required']);
+                Location::firstOrCreate(['name' => $request->locname]);
                 break;
             default:
                 abort(404);
         }
 
-        return redirect('dashboard/management/bikes');
+        return redirect('dashboard/management/categories');
     }
 }

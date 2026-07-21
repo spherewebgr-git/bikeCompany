@@ -62,8 +62,6 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
 
     Route::get('/staff/bikes/search', [StaffmanagementController::class, 'search'])->name('bikes.search');
 
-    Route::get('/staff/bikes/filter', [StaffmanagementController::class, 'filter'])->name('bikes.filter');
-
     Route::get('/bike/{id}', [StaffmanagementController::class, 'single'])->name('bike.view');
 
     Route::post('/bike-create', [StaffmanagementController::class, 'create'])->name('bike.create');
@@ -85,11 +83,11 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
     // --------- CATEGORIES --------- \\
     Route::get('/dashboard/management/categories', [StaffmanagementController::class, 'managecategories'])->name('dashboard.management.categories');
 
-    Route::get('/staff/categories/categories', [StaffmanagementController::class, 'searchcategory'])->name('category.search');
+    Route::get('/dashboard/management/categories/search', [StaffmanagementController::class, 'searchcategory'])->name('category.search');
 
-    Route::get('/delete-category/{id}', [StaffmanagementController::class, 'deletecategory'])->name('category.delete');
+    Route::get('/dashboard/management/categories/delete-{id}-{category}', [StaffmanagementController::class, 'deletecategory'])->name('category.delete');
 
-    Route::post('/category-create', [StaffmanagementController::class, 'newcategory'])->name('category.create');
+    Route::post('/dashboard/management/categories/create-{category}', [StaffmanagementController::class, 'newcategory'])->name('category.create');
 });
 
 require __DIR__.'/auth.php';
