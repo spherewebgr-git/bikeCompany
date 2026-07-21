@@ -69,14 +69,43 @@
             </div>
         </div>
 
-        <label for="provision_id">Provision:</label><br>
-        <select name="provision_id" id="provision_id" class="form-select">
-            @foreach ($provisions as $provision)
-                <option value="{{ $provision->id }}" @selected($bike?->provision?->id === $provision->id)>
-                    {{ $provision->name }}
-                </option>
-            @endforeach
-        </select><br>
+        <div class="horizontal">
+            @if (is_null($bike))
+                <div class="vertical">
+                    <label for="provision_id">Provision:</label><br>
+                    <select name="provision_id" id="provision_id" class="form-select">
+                        @foreach ($provisions as $provision)
+                            <option value="{{ $provision->id }}" @selected($bike?->provision?->id === $provision->id)>
+                                {{ $provision->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="vertical" id="quantity">
+                    <label for="quantity">Quantity:</label><br>
+                    <input type="number" id="quant" name="quant" placeholder="0"><br>
+                </div>
+
+                <div class="vertical" id="serial">
+                    <label for="serialnum">Serial Number:</label><br>
+                    <input type="text" id="serialnum" name="serialnum" placeholder="Serial Number"><br>
+                </div>
+            @else
+                <div class="vertical">
+                    <label for="provision_id">Provision:</label><br>
+                    <p>{{ $bike->provision->name }}</p><br>
+                </div>
+
+                @if ($bike->provision->name === 'rent')
+                    <div class="vertical" id="serial">
+                        <label for="serialnum">Serial Number:</label><br>
+                        <p>{{ $bike->serialnum }}</p><br>
+                    </div>                    
+                @endif
+
+            @endif
+        </div>
 
         <label for="price">Price(s):</label><br>
         @if (is_null($bike))
@@ -112,6 +141,17 @@
 
             priceFields.appendChild(input);
             priceFields.appendChild(document.createElement('br'));
+        }
+
+        if (count === 1) //buy
+        {
+            document.getElementById('quantity').style.display = 'block';
+            document.getElementById('serial').style.display = 'none';
+        }
+        else
+        {
+            document.getElementById('quantity').style.display = 'none';
+            document.getElementById('serial').style.display = 'block';
         }
     }
 

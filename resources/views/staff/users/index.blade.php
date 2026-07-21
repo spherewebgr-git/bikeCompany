@@ -1,4 +1,5 @@
-<x-app-layout>
+@extends('layouts.admin')
+@section('content')
     <div id="userManagement">
     <div class="container">
         <h1>User Management</h1>
@@ -198,6 +199,4 @@
 
         });
     </script>
-</x-app-layout>
-
-
+@endsection

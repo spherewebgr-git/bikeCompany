@@ -18,7 +18,7 @@ class Order extends Model
         'rent_start',
         'rent_end',
         'dropoff_address',
-        'bike_id', // CHECK: are they fillable?
+        'bike_id',
         'user_id',
         'status_id',
         'location_id',

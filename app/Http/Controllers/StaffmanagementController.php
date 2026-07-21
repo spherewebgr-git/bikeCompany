@@ -352,7 +352,7 @@ class StaffmanagementController extends Controller
         ]);
     }
 
-    public function deletecategory(int $id, string $category)
+    public function deletecategory($id, string $category)
     {
         switch ($category)
         {

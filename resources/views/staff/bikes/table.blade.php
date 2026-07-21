@@ -32,22 +32,24 @@
                     {{ $bike->colour }}
                 </td>
                 <td>
-                    <div class="bikeactions">
-                        <a href="#" onclick="showQuantityForm({{ $bike->id }}); return false;" class="quant">
-                            {{ $bike->quantity }}
-                            <i class="fa-regular fa-pen-to-square"></i>
-                        </a>
-                    </div>
+                    @if ($bike->quantity)
+                        <div class="bikeactions">
+                            <a href="#" onclick="showQuantityForm({{ $bike->id }}); return false;" class="quant">
+                                {{ $bike->quantity }}
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </a>
+                        </div>
 
-                    <form method="POST" action="{{ route('bike.update', [$bike]) }}" 
-                    class="edit-quantity" id="quantity-form-{{ $bike->id }}">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                        <input type="number" id="quantity" name="quantity" value="{{ $bike->quantity }}"><br>
-                        <button class="update" type="submit">Update</button>
-                        <button class="cancel" type="button" onclick="document.getElementById('quantity-form-{{ $bike->id }}').style.display='none'">
-                            Cancel
-                        </button>
-                    </form>
+                        <form method="POST" action="{{ route('bike.update', [$bike]) }}" 
+                        class="edit-quantity" id="quantity-form-{{ $bike->id }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                            <input type="number" id="quantity" name="quantity" value="{{ $bike->quantity }}"><br>
+                            <button class="update" type="submit">Update</button>
+                            <button class="cancel" type="button" onclick="document.getElementById('quantity-form-{{ $bike->id }}').style.display='none'">
+                                Cancel
+                            </button>
+                        </form>
+                    @endif
                 </td>
                 <td>
                     <div class="bikeactions">

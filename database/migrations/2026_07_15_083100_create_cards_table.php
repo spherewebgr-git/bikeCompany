@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('exp_month');
             $table->string('exp_year');
             $table->string('cvv');
-            $table->foreignId('user_id')->consrtained('users');
+            $table->foreignId('user_id')->consrtained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }

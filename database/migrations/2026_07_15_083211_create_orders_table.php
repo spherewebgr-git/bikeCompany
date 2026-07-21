@@ -17,14 +17,14 @@ return new class extends Migration
             $table->date('order_date');
             $table->boolean('payed_off');
             $table->foreignId('card_id')->nullable()->constrained('cards');
-            $table->foreignId('bike_id')->constrained('bikes');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('bike_id')->constrained('bikes'); // PROBLEM: When it gets deleted?
+            $table->foreignId('user_id')->constrained('users'); // PROBLEM: What if it gets deleted?
             $table->foreignId('status_id')->constrained('statuses');
 
             // BOOKING
             $table->date('rent_start')->nullable();
             $table->date('rent_end')->nullable();
-            $table->foreignId('location_id')->nullable()->constrained('locations');
+            $table->foreignId('location_id')->nullable()->constrained('locations'); // PROBLEM: What if it gets deleted?
 
             // PURCHASE
             $table->string('dropoff_address')->nullable();

@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('bikes', function (Blueprint $table) {
             $table->id();
-            // $table->integer('quantity');
             $table->string('colour');
             $table->string('image_path');
-            $table->foreignId('brand_id')->constrained('brands');
-            $table->foreignId('type_id')->constrained('types');
-            $table->foreignId('speed_id')->constrained('speeds');
-            $table->foreignId('provision_id')->constrained('provisions');
+            $table->foreignId('brand_id')->constrained('brands'); // CHECK: ->cascadeOnDelete(); ?
+            $table->foreignId('type_id')->constrained('types'); // CHECK: ->cascadeOnDelete(); ?
+            $table->foreignId('speed_id')->constrained('speeds'); // CHECK: ->cascadeOnDelete(); ?
+            $table->foreignId('provision_id')->constrained('provisions'); // CHECK: ->cascadeOnDelete(); ?
             $table->timestamps();
         });
     }
