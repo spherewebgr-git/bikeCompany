@@ -71,7 +71,6 @@
                 </div>
             </div>
         </div>
-
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const tabs = document.querySelectorAll('.tabs .tab a');
@@ -101,17 +100,15 @@
                     }
                 }
 
-                // Κάθε φορά που ανοίγει η σελίδα,
-                // εμφανίζεται πάντα η πρώτη φόρμα.
-                openTab('general');
+                const requestedTab = @json(request('tab', 'general'));
+
+                openTab(requestedTab);
 
                 tabs.forEach(function (tab) {
                     tab.addEventListener('click', function (event) {
                         event.preventDefault();
 
-                        const targetId = this.dataset.target;
-
-                        openTab(targetId);
+                        openTab(this.dataset.target);
                     });
                 });
             });

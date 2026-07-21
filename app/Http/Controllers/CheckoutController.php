@@ -40,7 +40,9 @@ class CheckoutController extends Controller
             'card_id' => null,
         ]);
 
-        return redirect()->route('checkout.create', [$bike, $order]);
+        return redirect()->route('payment.index', [
+            'order' => $order->id,
+        ]);
 
     }
 }

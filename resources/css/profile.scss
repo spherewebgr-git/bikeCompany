@@ -139,6 +139,130 @@
         }
     }
 
+    .saved-cards-section {
+        .profile-section-header {
+            margin-bottom: 30px;
+
+            p {
+                color: #9f9f9f;
+                font-size: 13px;
+                margin-top: 5px;
+            }
+        }
+    }
+
+    .saved-cards-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .saved-card {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 20px;
+        border: 1px solid #eeeeee;
+        border-radius: 6px;
+        background: #ffffff;
+
+        .saved-card-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: #fce4ec;
+
+            i {
+                color: #e91e63;
+                font-size: 20px;
+            }
+        }
+
+        .saved-card-information {
+            flex: 1;
+
+            h5 {
+                margin: 0 0 6px;
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            p {
+                margin: 0;
+                color: #777777;
+                font-size: 13px;
+            }
+
+            .card-expiration {
+                margin-top: 3px;
+            }
+        }
+    }
+
+    .no-saved-cards {
+        padding: 35px 20px;
+        border: 1px dashed #d8d8d8;
+        border-radius: 6px;
+        text-align: center;
+        color: #999999;
+
+        i {
+            margin-bottom: 12px;
+            font-size: 32px;
+        }
+
+        p {
+            margin: 0;
+        }
+    }
+
+    .add-card-container {
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px solid #eeeeee;
+    }
+
+    .add-card-header {
+        margin-bottom: 25px;
+
+        p {
+            color: #9f9f9f;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+    }
+
+    .card-date-fields {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .saved-card {
+            align-items: flex-start;
+            flex-wrap: wrap;
+
+            .delete-card-form {
+                width: 100%;
+
+                button {
+                    width: 100%;
+                }
+            }
+        }
+
+        .card-date-fields {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+    }
+
 
     // ============================================================
     // PROFILE FORM

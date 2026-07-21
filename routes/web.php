@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RentalBikeController;
 use Illuminate\Support\Facades\Route;
@@ -8,6 +9,7 @@ use App\Http\Controllers\SaleBikeController;
 use App\Http\Controllers\BikeController;
 use App\Http\Controllers\StaffmanagementController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CardController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -41,16 +43,24 @@ Route::get('/bikes/rental/{bike}', [RentalBikeController::class, 'show'])->name(
 Route::middleware('auth')->group(function () {
     Route::get('/checkout/{bike}', [CheckoutController::class, 'create'])->name('checkout.create');
     Route::post('/checkout/{bike}', [CheckoutController::class, 'store'])->name('checkout.store');
+
+    Route::get('/payment/{order}', [PaymentController::class, 'index'])->name('payment.index');
+    Route::post('/payment/{order}', [PaymentController::class, 'complete'])->name('payment.complete');
 });
 
 
 // USER PAGES
 Route::middleware('auth')->group(function () {
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::post('/profile/cards', [CardController::class, 'store'])->name('profile.cards.store');
+    Route::delete('/profile/cards/{card}', [CardController::class, 'destroy'])->name('profile.cards.destroy');
+
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
 
 // STAFF PAGES
 Route::middleware(['auth', 'role:staff'])->group(function () {

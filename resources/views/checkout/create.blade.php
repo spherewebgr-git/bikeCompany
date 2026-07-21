@@ -103,9 +103,8 @@
 
                             <div class="checkout-actions">
 
-                                <button type="submit"
-                                        class="btn btn-fill btn-lg">
-                                        Place Order
+                                <button type="submit" class="btn btn-fill btn-md">
+                                    {{ __('Place Order') }}
                                 </button>
 
                             </div>
