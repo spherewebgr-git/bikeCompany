@@ -28,6 +28,18 @@ class CheckoutController extends Controller
             ],
         ]);
 
+        $activeReservation = Order::where('bike_id', $bike->id)
+            ->whereNull('completed_at')
+            ->whereNotNull('reserved_until')
+            ->where('reserved_until', '>', now())
+            ->exists();
+
+        if ($activeReservation) {
+            return redirect()
+                ->back()
+                ->with('error', 'This bike is currently reserved by another customer.');
+        }
+
         $order = Order::create([
             'price' => $bike->prices->first()->price,
             'order_date' => now(),
@@ -36,6 +48,8 @@ class CheckoutController extends Controller
             'bike_id' => $bike->id,
             'user_id' => auth()->id(),
             'status_id' => 1,
+            'reserved_until' => now()->addMinutes(15),
+            'completed_at' => null,
             'location_id' => null,
             'card_id' => null,
         ]);

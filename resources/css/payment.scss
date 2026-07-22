@@ -237,6 +237,44 @@
         }
     }
 
+    .reservation-timer {
+        margin: 25px 0;
+        padding: 20px;
+        border: 2px solid #28a745;
+        border-radius: 8px;
+        text-align: center;
+        background: #f8fff8;
+
+        h4 {
+            margin-bottom: 10px;
+        }
+
+        .time {
+            font-size: 42px;
+            font-weight: bold;
+        }
+
+        p {
+            margin-top: 10px;
+            color: #666;
+        }
+
+        &.warning {
+            border-color: orange;
+            background: #fff8ec;
+        }
+
+        &.danger {
+            border-color: red;
+            background: #fff2f2;
+        }
+
+        &.complete-order-form button:disabled{
+            opacity:.6;
+            cursor:not-allowed;
+        }
+    }
+
     @media (max-width: 768px) {
         .new-card-row {
             grid-template-columns: 1fr;

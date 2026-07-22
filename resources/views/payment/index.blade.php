@@ -84,6 +84,7 @@
                                     type="radio"
                                     name="card_choice"
                                     value="saved:{{ $card->id }}"
+                                    {{old('card_choise') === 'saved:' . $card->id ? 'checked' : ''}}
                                 >
 
                                 <span class="saved-payment-card__icon">
@@ -115,7 +116,14 @@
                                 name="card_choice"
                                 value="new"
                                 id="new-card-option"
+                                {{ old('card_choice') === 'new' ? 'checked' : '' }}
                             >
+
+                            @error('card_choice')
+                            <p class="text-danger">
+                                {{ $message }}
+                            </p>
+                            @enderror
 
                             <span class="saved-payment-card__icon">
                 <i class="fa-solid fa-plus"></i>
@@ -213,6 +221,21 @@
                             </label>
 
                         </div>
+
+                    </div>
+
+                    <div id="reservationTimer" class="reservation-timer">
+
+                        <h4>⏳ Reservation Time Remaining</h4>
+
+                        <div id="reservationTime" class="time">
+                            15:00
+                        </div>
+
+                        <p>
+                            This bike is reserved for you.
+                            Complete your order before the timer expires.
+                        </p>
 
                     </div>
 
@@ -323,46 +346,136 @@
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        const reservationEndsAt = {{ $order->reserved_until->timestamp * 1000 }};
+        const timer = document.getElementById('reservationTime');
+        const timerBox = document.getElementById('reservationTimer');
+        const completeButton = document.querySelector('.complete-order-form button[type="submit"]');
 
+        function updateReservationTimer() {
+
+            const now = Date.now();
+
+            const diff = reservationEndsAt - now;
+
+            if (diff <= 0) {
+
+                timer.textContent = "00:00";
+
+                completeButton.disabled = true;
+
+                swal({
+                    title: "Reservation Expired",
+                    text: "Your reservation has expired.",
+                    icon: "warning",
+                    button: "OK",
+                    closeOnClickOutside: false,
+                    closeOnEsc: false,
+                }).then(() => {
+
+                    window.location.href = "{{ route('home') }}";
+
+                });
+
+                clearInterval(interval);
+
+                return;
+            }
+
+            const minutes = Math.floor(diff / 60000);
+
+            const seconds = Math.floor((diff % 60000) / 1000);
+
+            timer.textContent =
+                String(minutes).padStart(2, '0')
+                + ':'
+                + String(seconds).padStart(2, '0');
+
+            if (minutes < 2) {
+
+                timerBox.classList.remove('warning');
+
+                timerBox.classList.add('danger');
+
+            } else if (minutes < 5) {
+
+                timerBox.classList.add('warning');
+
+            }
+
+        }
+
+        updateReservationTimer();
+
+        const interval = setInterval(updateReservationTimer,1000);
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
             const form = document.querySelector('.complete-order-form');
 
-            form.addEventListener('submit', function (e) {
+            if (!form) {
+                return;
+            }
 
-                e.preventDefault();
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault();
 
-                fetch(form.action, {
-                    method: 'POST',
-                    body: new FormData(form),
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector(
-                            'meta[name="csrf-token"]'
-                        ).content,
-                        'Accept': 'application/json'
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-
-                        if(data.success){
-
-                            swal({
-                                title: "Order Completed!",
-                                text: "Your order has been completed successfully.",
-                                icon: "success",
-                                button: "OK"
-                            }).then(() => {
-
-                                window.location.href = "{{ route('home') }}";
-
-                            });
-
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: new FormData(form),
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document
+                                .querySelector('meta[name="csrf-token"]')
+                                .getAttribute('content')
                         }
-
                     });
 
-            });
+                    const data = await response.json();
 
+                    if (!response.ok) {
+                        let errorMessage = data.message || 'Please check the payment information.';
+
+                        if (data.errors) {
+                            const firstError = Object.values(data.errors)[0];
+
+                            if (firstError && firstError[0]) {
+                                errorMessage = firstError[0];
+                            }
+                        }
+
+                        swal({
+                            title: "Payment Error",
+                            text: errorMessage,
+                            icon: "error",
+                            button: "OK"
+                        });
+
+                        return;
+                    }
+
+                    if (data.success) {
+                        swal({
+                            title: "Order Completed!",
+                            text: "Your order has been completed successfully.",
+                            icon: "success",
+                            button: "OK",
+                            closeOnClickOutside: false,
+                            closeOnEsc: false
+                        }).then(function () {
+                            window.location.href = data.redirect;
+                        });
+                    }
+                } catch (error) {
+                    swal({
+                        title: "Error",
+                        text: "Something went wrong while completing the order.",
+                        icon: "error",
+                        button: "OK"
+                    });
+                }
+            });
         });
     </script>
 

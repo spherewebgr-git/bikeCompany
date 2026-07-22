@@ -23,6 +23,15 @@ class Order extends Model
         'status_id',
         'location_id',
         'card_id',
+        'reserved_until',
+        'completed_at',
+    ];
+
+    protected $casts = [
+        'payed_off' => 'boolean',
+        'order_date' => 'datetime',
+        'reserved_until' => 'datetime',
+        'completed_at' => 'datetime',
     ];
 
     public function location()
