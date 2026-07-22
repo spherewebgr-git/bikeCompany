@@ -6,6 +6,7 @@ use App\Models\Bike;
 use App\Models\Provision;
 use App\Models\Brand;
 use App\Models\Location;
+use App\Models\Order;
 use App\Models\Type;
 use App\Models\Speed;
 use App\Models\Price;
@@ -26,8 +27,7 @@ class StaffmanagementController extends Controller
             'brand',
             'type',
             'speed',
-            'provision',
-            'prices'
+            'provision'
         ])->get();
 
         $provisions = Provision::all()->sortBy("name");
@@ -105,12 +105,6 @@ class StaffmanagementController extends Controller
             'provisions' => Provision::all()->sortBy("name"),
             'speeds' => Speed::all()->sortBy("gears"),
         ]);
-    }
-
-    public function view($id)
-    {
-        $bike = Bike::query()->where('id', $id)->first();
-        return view('staff.bikes.bike-view', ['bike'=>$bike]);
     }
 
     public function delete($id)
@@ -415,5 +409,109 @@ class StaffmanagementController extends Controller
         }
 
         return redirect('dashboard/management/categories');
+    }
+
+    // --------------- ORDERS --------------- \\
+
+    public function manageorders()
+    {// NOTE: Add 'step' column in statuses table?
+        $orders = Order::query()->where('status_id', '<>', 4)->get();
+        
+        $user = User::all();
+        $bike = Bike::all();
+        $location = Location::all()->sortBy("name");
+        $status = Status::all()->sortBy("id");
+        $provision = Provision::all()->sortBy("id");
+
+        return view('staff.orders.management', compact(
+            'orders',
+            'user',
+            'bike',
+            'location',
+            'status',
+            'provision'
+        ));
+    }
+
+    public function orderupdate($id, Request $request)
+    {
+        $order = Order::query()->where('id', $id)->first();
+        $order->update([ 'status_id' => $request->stat ]);
+
+        return redirect('dashboard/management/orders');
+    }
+
+    public function searchorder(Request $request)
+    {
+        $orders = Order::query()->where('status_id', '<>', 4);
+
+        if ($request->filled('order'))
+        {
+            $orders->where('id', $request->order);
+        }
+
+        if ($request->filled('user'))
+        {
+            $orders->whereHas('user', function ($q) use ($request)
+            {
+                $q->where('first_name', 'LIKE', "%{$request->user}%")
+                ->orWhere('last_name', 'LIKE', "%{$request->user}%")
+                ->orWhere('phone', 'LIKE', "%{$request->user}%")
+                ->orWhere('email', 'LIKE', "%{$request->user}%");
+
+            });
+        }
+
+        if ($request->filled('product'))
+        {
+            $orders->whereHas('bike', function ($q) use ($request)
+            {
+                $q->where('SKU', 'LIKE', "%{$request->user}%")
+                ->orWhere('serialnum', 'LIKE', "%{$request->user}%");
+
+            });
+        }
+
+        if ($request->filled('provision'))
+        {
+            $orders->whereHas('bike.provision', function ($q) use ($request)
+            {
+                $q->where('id', $request->provision);
+            });
+        }
+
+        if ($request->filled('pickup'))
+        {
+            $orders->whereHas('location', function ($q) use ($request)
+            {
+                $q->where('id', $request->pickup);
+            });
+        }
+
+        if ($request->filled('status'))
+        {
+            $orders->whereHas('status', function ($q) use ($request)
+            {
+                $q->where('id', $request->status);
+            });
+        }
+
+        if ($request->filled('payment'))
+        {
+            $orders->where('payed_off', $request->payment);
+        }
+
+        return view('staff.orders.management', [
+            'orders' => $orders->get(),
+            'user' => User::all(),
+            'bike' => Bike::all(),
+            'location' => Location::all()->sortBy("name"),
+            'status' => Status::all()->sortBy("id"),
+            'provision' => Provision::all()->sortBy("id"),
+        ]);
+    }
+
+    public function filterorder(Request $request)
+    {
     }
 }

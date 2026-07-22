@@ -31,10 +31,9 @@
     border-color: #fe4819;
 }
 
-#StaffManagement
+#BikeManagement
 {
     margin: 0;
-    padding: 0 80px;
     font-family: "Oswald", sans-serif;
 
     img.bikephoto
@@ -96,7 +95,7 @@
 
     td
     {
-        padding: 10px 15px 10px 30px;
+        padding: 10px 15px;
         font-size: 20px;
         border-bottom: 1px solid gray;
 
@@ -160,7 +159,7 @@
 
     .bike-SKU
     {
-        min-width: 250px;
+        //min-width: 200px;
     }
 
     .bike-provision, .bike-gears
@@ -170,7 +169,7 @@
 
     .bike-model
     {
-        min-width: 300px;
+       // min-width: 200px;
     }
 
     .Create

@@ -72,8 +72,6 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
 
     Route::get('/staff/bikes/search', [StaffmanagementController::class, 'search'])->name('bikes.search');
 
-    Route::get('/bike/{id}', [StaffmanagementController::class, 'single'])->name('bike.view');
-
     Route::post('/bike-create', [StaffmanagementController::class, 'create'])->name('bike.create');
 
     Route::get('/bike-edit/{id}', [StaffmanagementController::class, 'edit'])->name('bike.edit');
@@ -98,6 +96,15 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
     Route::get('/dashboard/management/categories/delete-{id}-{category}', [StaffmanagementController::class, 'deletecategory'])->name('category.delete');
 
     Route::post('/dashboard/management/categories/create-{category}', [StaffmanagementController::class, 'newcategory'])->name('category.create');
+
+    // --------- ORDERS --------- \\
+    Route::get('/dashboard/management/orders', [StaffmanagementController::class, 'manageorders'])->name('dashboard.management.orders');
+
+    Route::post('/dashboard/management/order-update/{id}', [StaffmanagementController::class, 'orderupdate'])->name('order.update');
+
+    Route::get('/dashboard/management/orders/search', [StaffmanagementController::class, 'searchorder'])->name('order.search');
+
+    Route::get('/dashboard/management/orders/filter', [StaffmanagementController::class, 'filterorder'])->name('order.filter');
 });
 
 require __DIR__.'/auth.php';

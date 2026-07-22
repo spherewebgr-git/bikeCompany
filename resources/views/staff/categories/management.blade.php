@@ -47,7 +47,7 @@
                 </form> 
 
                 <button class="new-category">
-                    <a href="#" onclick="addSpeed(); return false;">+ Add New</a>
+                    <a href="#" onclick="addCategory('newcat-gears'); return false;">+ Add New</a>
                 </button>           
             </div>
 
@@ -94,7 +94,7 @@
                 </form> 
 
                 <button class="new-category">
-                    <a href="#" onclick="addProvision(); return false;">+ Add New</a>
+                    <a href="#" onclick="addCategory('newcat-provision'); return false;">+ Add New</a>
                 </button>  
             </div>
 
@@ -141,7 +141,7 @@
                 </form> 
 
                 <button class="new-category">
-                    <a href="#" onclick="addLocation(); return false;">+ Add New</a>
+                    <a href="#" onclick="addCategory('newcat-location'); return false;">+ Add New</a>
                 </button> 
             </div>
 
@@ -189,7 +189,7 @@
                 </form> 
 
                 <button class="new-category">
-                    <a href="#" onclick="addStatus(); return false;">+ Add New</a>
+                    <a href="#" onclick="addCategory('newcat-status'); return false;">+ Add New</a>
                 </button> 
             </div>
 
@@ -236,7 +236,7 @@
                 </form> 
 
                 <button class="new-category">
-                    <a href="#" onclick="addType(); return false;">+ Add New</a>
+                    <a href="#" onclick="addCategory('newcat-type'); return false;">+ Add New</a>
                 </button> 
             </div>
 
@@ -283,7 +283,7 @@
                 </form> 
 
                 <button class="new-category">
-                    <a href="#" onclick="addBrand(); return false;">+ Add New</a>
+                    <a href="#" onclick="addCategory('newcat-brand'); return false;">+ Add New</a>
                 </button> 
             </div>
 
@@ -295,34 +295,9 @@
             document.getElementById(id).style.display = 'block';
         }
 
-        function addSpeed(id)
+        function addCategory(id)
         {
-            document.getElementById('newcat-gears').style.display = 'block';
-        }
-
-        function addProvision(id)
-        {
-            document.getElementById('newcat-provision').style.display = 'block';
-        }
-
-        function addLocation(id)
-        {
-            document.getElementById('newcat-location').style.display = 'block';
-        }
-
-        function addStatus(id)
-        {
-            document.getElementById('newcat-status').style.display = 'block';
-        }
-
-        function addType(id)
-        {
-            document.getElementById('newcat-type').style.display = 'block';
-        }
-
-        function addBrand(id)
-        {
-            document.getElementById('newcat-brand').style.display = 'block';
+            document.getElementById(id).style.display = 'block';
         }
     </script>
 @endsection

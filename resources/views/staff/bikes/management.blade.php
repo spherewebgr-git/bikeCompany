@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-    <link rel="stylesheet" type="text/css" href="data-tables.css">
-    <div class="container" id="StaffManagement">
+    <div class="container" id="BikeManagement">
         <h2 class="section-heading">Bike Database</h2>
 
         <a href="{{ route('bike.edit', ["new"]) }}">
