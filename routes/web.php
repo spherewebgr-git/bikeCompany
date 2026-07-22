@@ -98,13 +98,16 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
     Route::post('/dashboard/management/categories/create-{category}', [StaffmanagementController::class, 'newcategory'])->name('category.create');
 
     // --------- ORDERS --------- \\
-    Route::get('/dashboard/management/orders', [StaffmanagementController::class, 'manageorders'])->name('dashboard.management.orders');
+    Route::get('/dashboard/management/pendingorders', [StaffmanagementController::class, 'manageorders'])->name('dashboard.management.orders');
 
     Route::post('/dashboard/management/order-update/{id}', [StaffmanagementController::class, 'orderupdate'])->name('order.update');
 
     Route::get('/dashboard/management/orders/search', [StaffmanagementController::class, 'searchorder'])->name('order.search');
 
-    Route::get('/dashboard/management/orders/filter', [StaffmanagementController::class, 'filterorder'])->name('order.filter');
+   // --------- ARCHIVE --------- \\
+    Route::get('/dashboard/management/orderhistory', [StaffmanagementController::class, 'history'])->name('dashboard.management.orderhistory');
+
+    Route::get('/dashboard/management/orderhistory/search', [StaffmanagementController::class, 'searchhistory'])->name('orderhistory.search');
 });
 
 require __DIR__.'/auth.php';

@@ -511,7 +511,84 @@ class StaffmanagementController extends Controller
         ]);
     }
 
-    public function filterorder(Request $request)
+    // --------------- ORDERS --------------- \\
+
+    public function history()
+    {// NOTE: Add 'step' column in statuses table?
+        $orders = Order::query()->where('status_id', 4)->get();
+        
+        $user = User::all();
+        $bike = Bike::all();
+        $location = Location::all()->sortBy("name");
+        $provision = Provision::all()->sortBy("id");
+
+        return view('staff.history.completed-orders', compact(
+            'orders',
+            'user',
+            'bike',
+            'location',
+            'provision'
+        ));
+    }
+
+    public function searchhistory(Request $request)
     {
+        $orders = Order::query()->where('status_id', 4);
+
+        if ($request->filled('order'))
+        {
+            $orders->where('id', $request->order);
+        }
+
+        if ($request->filled('user'))
+        {
+            $orders->whereHas('user', function ($q) use ($request)
+            {
+                $q->where('first_name', 'LIKE', "%{$request->user}%")
+                ->orWhere('last_name', 'LIKE', "%{$request->user}%")
+                ->orWhere('phone', 'LIKE', "%{$request->user}%")
+                ->orWhere('email', 'LIKE', "%{$request->user}%");
+
+            });
+        }
+
+        if ($request->filled('product'))
+        {
+            $orders->whereHas('bike', function ($q) use ($request)
+            {
+                $q->where('SKU', 'LIKE', "%{$request->user}%")
+                ->orWhere('serialnum', 'LIKE', "%{$request->user}%");
+
+            });
+        }
+
+        if ($request->filled('provision'))
+        {
+            $orders->whereHas('bike.provision', function ($q) use ($request)
+            {
+                $q->where('id', $request->provision);
+            });
+        }
+
+        if ($request->filled('pickup'))
+        {
+            $orders->whereHas('location', function ($q) use ($request)
+            {
+                $q->where('id', $request->pickup);
+            });
+        }
+
+        if ($request->filled('payment'))
+        {
+            $orders->where('payed_off', $request->payment);
+        }
+
+        return view('staff.history.completed-orders', [
+            'orders' => $orders->get(),
+            'user' => User::all(),
+            'bike' => Bike::all(),
+            'location' => Location::all()->sortBy("name"),
+            'provision' => Provision::all()->sortBy("id"),
+        ]);
     }
 }

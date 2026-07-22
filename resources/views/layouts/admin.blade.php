@@ -298,6 +298,19 @@
                     <span class="menu-title">User Management</span>
                 </a>
             </li>
+
+{{-- ORDERS HISTORY PAGE --}}
+            <li class="navigation-header">
+                <a class="navigation-header-text">Archive</a>
+                <i class="navigation-header-icon material-icons">more_horiz</i>
+            </li>
+
+            <li class="bold">
+                <a class="waves-effect waves-cyan " href="{{ route('dashboard.management.orderhistory') }}">
+                    <i class="fa-solid fa-clock-rotate-left" style="color: #fff;"></i>
+                    <span class="menu-title">Past Orders</span>
+                </a>
+            </li>
         </ul>
 
         <div class="navigation-background"></div>
