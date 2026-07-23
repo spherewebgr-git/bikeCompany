@@ -22,7 +22,7 @@
                             <h2>Checkout</h2>
                         </div>
 
-                        <form action="{{ route('checkout.store', $bike) }}"
+                        <form action="{{ route('checkout.store-sale', $bike) }}"
                               method="POST"
                               class="contact-form checkout-form">
 

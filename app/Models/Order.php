@@ -32,7 +32,14 @@ class Order extends Model
         'order_date' => 'datetime',
         'reserved_until' => 'datetime',
         'completed_at' => 'datetime',
+        'rent_start' => 'datetime',
+        'rent_end'   => 'datetime',
     ];
+
+//    protected $casts = [
+//        'rent_start' => 'datetime',
+//        'rent_end'   => 'datetime',
+//    ];
 
     public function location()
     {

@@ -31,7 +31,7 @@
                         </p>
                         <div class="buttons-section">
                             @auth
-                                <a href="{{ route('checkout.create', $bike) }}" class="btn btn-fill btn-md">{{ __('Buy now') }}</a>
+                                <a href="{{ route('checkout.create-sale', $bike) }}" class="btn btn-fill btn-md">{{ __('Buy now') }}</a>
                             @else
                                 <a href="{{ route('login') }}?redirect={{ urlencode(route('bikes.sale.show', $bike)) }}"
                                    class="btn btn-fill btn-md">

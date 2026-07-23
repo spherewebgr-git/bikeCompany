@@ -62,4 +62,17 @@ class RentalBikeController extends Controller
     {
         return view('bikes.rental.show', compact('bike'));
     }
+
+    public function availability(Bike $bike)
+    {
+        $orders = $bike->orders()
+            ->whereNotNull('rent_start')
+            ->whereNotNull('rent_end')
+            ->get([
+                'rent_start',
+                'rent_end'
+            ]);
+
+        return response()->json($orders);
+    }
 }

@@ -41,19 +41,23 @@ Route::get('/bikes/rental/{bike}', [RentalBikeController::class, 'show'])->name(
 
 //PURCHASE
 Route::middleware('auth')->group(function () {
-    Route::get('/checkout/{bike}', [CheckoutController::class, 'create'])->name('checkout.create');
-    Route::post('/checkout/{bike}', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('/sale/checkout/{bike}', [CheckoutController::class, 'createSale'])->name('checkout.create-sale');
+    Route::post('/sale/checkout/{bike}', [CheckoutController::class, 'storeSale'])->name('checkout.store-sale');
 
     Route::get('/payment/{order}', [PaymentController::class, 'index'])->name('payment.index');
     Route::post('/payment/{order}', [PaymentController::class, 'complete'])->name('payment.complete');
+
+    Route::get('/rental/checkout/{bike}', [CheckoutController::class, 'createRental'])->name('checkout.create-rental');
+    Route::post('/rental/checkout/{bike}', [CheckoutController::class, 'storeRental'])->name('checkout.store-rental');
 });
+
+//RENTAL AVAILABILITY
+Route::get('/bikes/{bike}/availability', [RentalBikeController::class, 'availability'])->name('bikes.availability');
 
 
 // USER PAGES
 Route::middleware('auth')->group(function () {
-
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::post('/profile/cards', [CardController::class, 'store'])->name('profile.cards.store');
@@ -61,6 +65,7 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 // STAFF PAGES
 Route::middleware(['auth', 'role:staff'])->group(function () {
@@ -71,6 +76,8 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
     Route::get('/staff/bikes/filter', [StaffmanagementController::class, 'filter'])->name('bikes.filter');
 
     Route::get('/staff/bikes/search', [StaffmanagementController::class, 'search'])->name('bikes.search');
+
+    Route::get('/bike/{id}', [StaffmanagementController::class, 'single'])->name('bike.view');
 
     Route::post('/bike-create', [StaffmanagementController::class, 'create'])->name('bike.create');
 
