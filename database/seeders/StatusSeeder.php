@@ -14,10 +14,11 @@ class StatusSeeder extends Seeder
     public function run(): void
     {
         DB::table('statuses')->insert([
-            ['name' => 'Accepted'],
-            ['name' => 'Processing...'],
-            ['name' => 'Ready'],
-            ['name' => 'Complete!'],
+            ['name' => 'PENDING', 'step' => 0],
+            ['name' => 'Accepted', 'step' => 1],
+            ['name' => 'Processing...', 'step' => 2],
+            ['name' => 'Ready', 'step' => 3],
+            ['name' => 'Complete!', 'step' => 4],
         ]);
     }
 }

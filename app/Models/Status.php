@@ -8,6 +8,7 @@ class Status extends Model
 {
     protected $fillable = [
         'name',
+        'step',
     ];
 
     public function orders()

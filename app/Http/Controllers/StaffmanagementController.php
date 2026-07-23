@@ -414,14 +414,16 @@ class StaffmanagementController extends Controller
     // --------------- ORDERS --------------- \\
 
     public function manageorders()
-    {// NOTE: Add 'step' column in statuses table?
-        $orders = Order::query()->where('status_id', '<>', 4)->get();
-        
+    {
         $user = User::all();
         $bike = Bike::all();
         $location = Location::all()->sortBy("name");
-        $status = Status::all()->sortBy("id");
+        $status = Status::where('step', '>', 0)->orderBy("step")->get();
         $provision = Provision::all()->sortBy("id");
+        
+        $complete = Status::max('step');
+        $orders = Order::whereHas('status', function ($query) use ($complete)
+        { $query->where('step', '>', 0)->where('step', '<', $complete); })->get();
 
         return view('staff.orders.management', compact(
             'orders',
@@ -438,12 +440,14 @@ class StaffmanagementController extends Controller
         $order = Order::query()->where('id', $id)->first();
         $order->update([ 'status_id' => $request->stat ]);
 
-        return redirect('dashboard/management/orders');
+        return redirect()->route('dashboard.management.orders');
     }
 
     public function searchorder(Request $request)
     {
-        $orders = Order::query()->where('status_id', '<>', 4);
+        $complete = Status::max('step');
+        $orders = Order::whereHas('status', function ($query) use ($complete)
+        { $query->where('step', '>', 0)->where('step', '<', $complete); })->get();
 
         if ($request->filled('order'))
         {
@@ -506,7 +510,7 @@ class StaffmanagementController extends Controller
             'user' => User::all(),
             'bike' => Bike::all(),
             'location' => Location::all()->sortBy("name"),
-            'status' => Status::all()->sortBy("id"),
+            'status' => Status::where('step', '>', 0)->sortBy("step"),
             'provision' => Provision::all()->sortBy("id"),
         ]);
     }
@@ -514,8 +518,10 @@ class StaffmanagementController extends Controller
     // --------------- ORDERS --------------- \\
 
     public function history()
-    {// NOTE: Add 'step' column in statuses table?
-        $orders = Order::query()->where('status_id', 4)->get();
+    {
+        $complete = Status::max('step');    
+        $orders = Order::whereHas('status', function ($query) use ($complete)
+        { $query->where('step', $complete); })->get();
         
         $user = User::all();
         $bike = Bike::all();
@@ -533,7 +539,9 @@ class StaffmanagementController extends Controller
 
     public function searchhistory(Request $request)
     {
-        $orders = Order::query()->where('status_id', 4);
+        $complete = Status::max('step');
+        $orders = Order::whereHas('status', function ($query) use ($complete)
+        { $query->where('step', $complete); })->get();
 
         if ($request->filled('order'))
         {
