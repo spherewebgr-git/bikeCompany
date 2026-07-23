@@ -288,7 +288,7 @@ class StaffmanagementController extends Controller
         $brands = Brand::all()->sortBy("name");
         $types = Type::all()->sortBy("name");
         $speeds = Speed::all()->sortBy("gears");
-        $statuses = Status::all()->sortBy("name");
+        $statuses = Status::all()->sortBy("step");
         $locations = Location::all()->sortBy("name");
 
 
@@ -397,7 +397,7 @@ class StaffmanagementController extends Controller
                 Speed::firstOrCreate(['gears' => $request->gearamount]);
                 break;
             case "status":
-                $request->validate(['statname' => 'required']);
+                $request->validate(['statname' => 'required'], ['statstep' => 'required']);
                 Status::firstOrCreate(['name' => $request->statname]);
                 break;
             case "location":

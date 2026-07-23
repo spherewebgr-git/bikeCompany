@@ -159,7 +159,7 @@
 
                 @foreach ($statuses as $status)
                 <div class="cat-value">
-                    <p>{{ $status->name }}</p>
+                    <p>{{ $status->step }}. {{ $status->name }}</p>
                     <a href="#" onclick="confirmDelete('delconfirm-{{ $status->name }}-{{ $status->id }}'); return false;" class="delete">
                         <i class="fa-regular fa-trash-can"></i>
                     </a>
@@ -179,6 +179,7 @@
 
                 <form method="POST" action="{{ route('category.create', ["status"]) }}" id="newcat-status">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                    <input type="number" id="statstep" name="statstep" placeholder="Status Step"><br>
                     <input type="text" id="statname" name="statname" placeholder="Status Phrase">
                     <div class="buttons">
                         <button class="confirm" type="submit">Confirm</button>
