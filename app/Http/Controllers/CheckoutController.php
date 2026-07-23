@@ -16,6 +16,13 @@ class CheckoutController extends Controller
     //------------------------- SALE -----------------------------------//
     public function createSale(Bike $bike)
     {
+
+        if ($bike->quantity <= 0) {
+            return redirect()
+                ->back()
+                ->with('error', 'This bike is currently out of stock.');
+        }
+
         $user = auth()->user();
 
         return view('checkout.sale.create', compact(

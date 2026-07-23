@@ -400,6 +400,21 @@
             display: flex;
             justify-content: space-around;
             gap: 15px;
+
+            .stock-status {
+                margin-bottom: 12px;
+                font-size: 16px;
+                font-weight: 600;
+
+                &.in-stock {
+                    color: #198754;
+                }
+
+                &.out-of-stock {
+                    color: #dc3545;
+                    text-transform: uppercase;
+                }
+            }
         }
     }
 }
