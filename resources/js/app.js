@@ -64,9 +64,11 @@ document.addEventListener('DOMContentLoaded', function () {
     let selectedType = 'hour';
     let currentStart = new Date(startDisplay.dataset.initialStart);
     let calendarSelection = null;
+    let availabilityEvents = [];
+    let calendar = null;
 
     // --- HOUR MODE ---
-    flatpickr(startDisplay, {
+    const flatpickrInstance = flatpickr(startDisplay, {
         enableTime: true,
         dateFormat: "d/m/Y H:i",
         minDate: "today",
@@ -76,11 +78,41 @@ document.addEventListener('DOMContentLoaded', function () {
             updateHourPrice();
         }
     });
+
     durationInput.addEventListener('input', updateHourPrice);
 
     function updateHourPrice() {
+
         const hours = parseInt(durationInput.value) || 0;
-        const end = new Date(currentStart.getTime() + hours * 3600 * 1000);
+
+        const end = new Date(
+            currentStart.getTime() + hours * 3600 * 1000
+        );
+
+        let unavailable = availabilityEvents.some(event => {
+
+            let eventStart = new Date(event.start);
+            let eventEnd   = new Date(event.end);
+
+            return currentStart < eventEnd &&
+                end > eventStart;
+
+        });
+
+        if (unavailable) {
+
+            alert('Το ποδήλατο δεν είναι διαθέσιμο αυτή την ώρα.');
+
+            submitBtn.disabled = true;
+
+            priceValue.textContent = '0';
+            priceSummary.textContent = '0 €';
+            durationSummary.textContent = '-';
+
+            return;
+
+        }
+
         const price = hours * hourPrice;
 
         rentStartField.value = currentStart.toISOString();
@@ -91,74 +123,154 @@ document.addEventListener('DOMContentLoaded', function () {
         priceSummary.textContent = `${price} €`;
         durationSummary.textContent = `${hours} ώρες`;
         submitBtn.disabled = hours < 1;
+
     }
 
-    // --- CALENDAR (day / week) ---
-    const calendar = new Calendar(calendarEl, {
-        plugins: [dayGridPlugin, interactionPlugin],
-        initialView: 'dayGridMonth',
-        selectable: true,
-        selectOverlap: false,
-        events: calendarEl.dataset.availabilityUrl,
+    // Φέρνουμε τα unavailable ranges μία φορά, νωρίς, και τα εφαρμόζουμε
+    // ΚΑΙ στο flatpickr (hour mode) ΚΑΙ στο calendar (day/week mode).
+    fetch(calendarEl.dataset.availabilityUrl)
+        .then(response => response.json())
+        .then(data => {
 
-        // DAY MODE: drag-select όσες μέρες θέλει ο χρήστης
-        select: function (selection) {
+            availabilityEvents = data;
 
-            if (selectedType !== 'day') return;
+            flatpickrInstance.set('disable', data.map(ev => ({
+                from: ev.start,
+                to: ev.end
+            })));
 
-            const start = selection.start;
+            updateHourPrice();
 
-            const days = parseInt(dayInput.value) || 1;
+        });
 
-            const end = new Date(start);
-            end.setDate(end.getDate() + days);
+    // --- CALENDAR (day / week) --- lazy init, ώστε να μη ζωγραφίζεται
+    // ενώ ο container είναι display:none (σπάει τα background events/μεγέθη)
+    function initCalendar() {
+        if (calendar) return;
 
-            calendarSelection = { start, end };
+        calendar = new Calendar(calendarEl, {
+            plugins: [dayGridPlugin, interactionPlugin],
+            initialView: 'dayGridMonth',
+            selectable: true,
+            selectOverlap: false,
 
-            calendar.getEvents()
-                .filter(e => e.id === 'day-preview')
-                .forEach(e => e.remove());
+            events: function(fetchInfo, successCallback, failureCallback) {
 
-            calendar.addEvent({
-                id: 'day-preview',
-                title: `${days} day(s)`,
-                start,
-                end,
-                allDay: true,
-                color: '#198754'
-            });
+                fetch(calendarEl.dataset.availabilityUrl)
+                    .then(response => response.json())
+                    .then(data => {
 
-            updateCalendarPrice();
-        },
+                        successCallback(
+                            data.map(event => ({
+                                id: 'blocked-' + event.start,
+                                title: event.title || 'Κρατημένο',
+                                start: event.start,
+                                end: event.end,
+                                allDay: true,               // <-- ΤΟ ΒΑΣΙΚΟ FIX: χωρίς αυτό, background events με ώρα στο start/end δεν "γεμίζουν" σωστά ολόκληρες τις ημέρες στο dayGridMonth
+                                display: 'background',
+                                backgroundColor: '#ffcccc',
+                                classNames: ['blocked-date']
+                            }))
+                        );
 
-        // WEEK MODE: ένα κλικ κλειδώνει αυτόματα 7 μέρες από εκείνη την ημέρα
-        dateClick: function (info) {
-            if (selectedType !== 'week') return;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        failureCallback(error);
+                    });
 
-            const start = info.date;
-            const weeks = parseInt(weeksInput.value) || 1;
+            },
 
-            const end = new Date(start);
-            end.setDate(end.getDate() + (weeks * 7));
+            // ΑΦΑΙΡΕΘΗΚΑΝ eventContent / eventDidMount που έκαναν μόνο console.log
+            // (ήταν debug κώδικας — δεν χρειάζονται για background events)
 
-            calendarSelection = { start, end };
+            selectAllow: function (selection) {
 
-            // οπτική επιβεβαίωση: highlight το 7ήμερο block
-            calendar.getEvents().filter(e => e.id === 'week-preview').forEach(e => e.remove());
-            calendar.addEvent({
-                id: 'week-preview',
-                title: 'One Full Week Selected',
-                start,
-                end,
-                allDay: true,
-                color: '#0d6efd'
-            });
+                let start = selection.start;
+                let end   = selection.end;
 
-            updateCalendarPrice();
-        }
-    });
+                let blocked = false;
 
-    calendar.render();
+                calendar.getEvents().forEach(event => {
+
+                    if (event.display === 'background') {
+
+                        let eventStart = event.start;
+                        let eventEnd   = event.end;
+
+                        if (start < eventEnd && end > eventStart) {
+
+                            blocked = true;
+
+                        }
+
+                    }
+
+                });
+
+                return !blocked;
+
+            },
+
+            // DAY MODE: drag-select όσες μέρες θέλει ο χρήστης
+            select: function (selection) {
+
+                if (selectedType !== 'day') return;
+
+                const start = selection.start;
+
+                const days = parseInt(dayInput.value) || 1;
+
+                const end = new Date(start);
+                end.setDate(end.getDate() + days);
+
+                calendarSelection = { start, end };
+
+                calendar.getEvents()
+                    .filter(e => e.id === 'day-preview')
+                    .forEach(e => e.remove());
+
+                calendar.addEvent({
+                    id: 'day-preview',
+                    title: `${days} day(s)`,
+                    start,
+                    end,
+                    allDay: true,
+                    color: '#198754'
+                });
+
+                updateCalendarPrice();
+            },
+
+            // WEEK MODE: ένα κλικ κλειδώνει αυτόματα 7 μέρες από εκείνη την ημέρα
+            dateClick: function (info) {
+                if (selectedType !== 'week') return;
+
+                const start = info.date;
+                const weeks = parseInt(weeksInput.value) || 1;
+
+                const end = new Date(start);
+                end.setDate(end.getDate() + (weeks * 7));
+
+                calendarSelection = { start, end };
+
+                // οπτική επιβεβαίωση: highlight το 7ήμερο block
+                calendar.getEvents().filter(e => e.id === 'week-preview').forEach(e => e.remove());
+                calendar.addEvent({
+                    id: 'week-preview',
+                    title: 'One Full Week Selected',
+                    start,
+                    end,
+                    allDay: true,
+                    color: '#0d6efd'
+                });
+
+                updateCalendarPrice();
+            }
+        });
+
+        calendar.render();
+    }
 
     weeksInput.addEventListener('input', () => {
 
@@ -228,14 +340,16 @@ document.addEventListener('DOMContentLoaded', function () {
         calendarSelection = null;
 
         // Σβήσε όλα τα preview events
-        calendar.getEvents().forEach(event => {
-            if (
-                event.id === 'week-preview' ||
-                event.id === 'day-preview'
-            ) {
-                event.remove();
-            }
-        });
+        if (calendar) {
+            calendar.getEvents().forEach(event => {
+                if (
+                    event.id === 'week-preview' ||
+                    event.id === 'day-preview'
+                ) {
+                    event.remove();
+                }
+            });
+        }
 
         // Καθάρισε hidden inputs
         rentStartField.value = '';
@@ -295,28 +409,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 hourMode.style.display = '';
                 dayGroup.style.display = 'none';
                 weeksGroup.style.display = 'none';
-                weeksGroup.style.display = 'none';
                 calendarMode.style.display = 'none';
                 updateHourPrice();
             } else {
                 hourMode.style.display = 'none';
                 calendarMode.style.display = '';
-                dayGroup.style.display =
-                    selectedType === 'day'
-                        ? ''
-                        : 'none';
+                dayGroup.style.display  = selectedType === 'day'  ? '' : 'none';
+                weeksGroup.style.display = selectedType === 'week' ? '' : 'none';
 
-                weeksGroup.style.display =
-                    selectedType === 'week'
-                        ? ''
-                        : 'none';
-                weeksGroup.style.display =
-                    selectedType === 'week'
-                        ? ''
-                        : 'none';
-                calendar.updateSize(); // fix layout μετά την αλλαγή display
-                submitBtn.disabled = true; // μέχρι να διαλέξει κάτι στο calendar
-
+                initCalendar();       // τώρα που το container είναι ήδη ορατό
+                calendar.updateSize(); // πάντα, όχι μόνο πρώτη φορά
+                submitBtn.disabled = true;
             }
         });
     });

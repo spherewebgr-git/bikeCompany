@@ -36,6 +36,7 @@ class Order extends Model
         'rent_end'   => 'datetime',
     ];
 
+
 //    protected $casts = [
 //        'rent_start' => 'datetime',
 //        'rent_end'   => 'datetime',

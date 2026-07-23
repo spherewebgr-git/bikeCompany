@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Bike;
 use App\Models\Brand;
+use App\Models\Order;
+use App\Models\Status;
 use App\Models\Type;
 use App\Models\Speed;
 use Illuminate\Http\Request;
@@ -65,14 +67,45 @@ class RentalBikeController extends Controller
 
     public function availability(Bike $bike)
     {
-        $orders = $bike->orders()
+
+        $orders = Order::where('bike_id', $bike->id)
             ->whereNotNull('rent_start')
             ->whereNotNull('rent_end')
-            ->get([
-                'rent_start',
-                'rent_end'
-            ]);
+            ->whereNull('completed_at')
+            // ίδιο κριτήριο με Bike::isAvailable(): μόνο πληρωμένες κρατήσεις
+            // ή κρατήσεις με ακόμα ενεργό hold μπλοκάρουν πραγματικά μέρες.
+            // Ένα order που έμεινε unpaid μετά τη λήξη του reserved_until
+            // δεν πρέπει να εμφανίζεται σαν "Not Available" για πάντα.
+            ->where(function ($q) {
 
-        return response()->json($orders);
+                $q->whereHas('status', function ($status) {
+                    $status->where('step', '>', 0);
+                })
+                    ->orWhere(function ($hold) {
+
+                        $hold->whereHas('status', function ($status) {
+                            $status->where('step', 0);
+                        })
+                            ->where('reserved_until', '>', now());
+
+                    });
+
+            })
+            ->get();
+
+
+        $events = $orders->map(function ($order) {
+
+            return [
+                'title' => 'Not Available',
+                'start' => $order->rent_start,
+                'end'   => $order->rent_end,
+                'display' => 'background',
+                'color' => '#ffcccc',
+            ];
+
+        });
+
+        return response()->json($events);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bike;
 use App\Models\Order;
 use App\Models\Card;
+use App\Models\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -95,7 +96,7 @@ class PaymentController extends Controller
             $order->update([
                 'payed_off' => false,
                 'card_id' => null,
-                'status_id' => 1,
+                'status_id' => Status::where('step', 1)->first()->id,
                 'completed_at' => now(),
                 'reserved_until' => null,
             ]);
@@ -198,7 +199,7 @@ class PaymentController extends Controller
         $order->update([
             'payed_off' => true,
             'card_id' => $cardId,
-            'status_id' => 1,
+            'status_id' => Status::where('step', 1)->first()->id,
             'completed_at' => now(),
             'reserved_until' => null,
         ]);

@@ -85,7 +85,7 @@
                                             <input type="text" id="rent_start_display" class="form-control"
                                                    data-hour-price="{{ $bike->prices[0]->numeric_price ?? 0 }}"
                                                    data-initial-start="{{ now()->toIso8601String() }}"
-                                                   readonly required>
+                                                   required>
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <label>Duration (hours)</label>
@@ -120,7 +120,12 @@
 
                                 </div>
 
-                                <p id="price-preview">Σύνολο: <strong id="price-value">{{ $price }}</strong> €</p>
+                                <p id="price-preview">
+                                    Σύνολο:
+                                    <strong id="price-value">
+                                        {{ $price }} €
+                                    </strong>
+                                </p>
 
                                 @error('rent_start')
                                 <span class="text-danger">{{ $message }}</span>
