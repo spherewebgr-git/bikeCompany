@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bike;
 use App\Models\Order;
 use App\Models\Card;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -49,8 +51,7 @@ class PaymentController extends Controller
 
     public function complete(Request $request, Order $order)
     {
-        abort_if(
-            (int) $order->user_id !== (int) auth()->id(),
+        abort_if($order->user_id !== auth()->id(),
             403
         );
 
@@ -206,5 +207,88 @@ class PaymentController extends Controller
             'success' => true,
             'redirect' => route('home'),
         ]);
+    }
+
+    public function expire(Order $order)
+    {
+        if ($order->user_id !== (int) auth()->id()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You are not allowed to access this order.',
+            ], 403);
+        }
+
+        try {
+            DB::transaction(function () use ($order) {
+
+                /*
+                 * Κλειδώνουμε την παραγγελία ώστε να μην μπορεί
+                 * να ολοκληρωθεί και να διαγραφεί ταυτόχρονα.
+                 */
+                $lockedOrder = Order::query()
+                    ->whereKey($order->id)
+                    ->lockForUpdate()
+                    ->first();
+
+                /*
+                 * Μπορεί να έχει ήδη διαγραφεί από άλλο request.
+                 */
+                if (!$lockedOrder) {
+                    return;
+                }
+
+                /*
+                 * Αν έχει ολοκληρωθεί, δεν επιστρέφουμε quantity
+                 * και δεν διαγράφουμε την παραγγελία.
+                 */
+                if ($lockedOrder->completed_at !== null) {
+                    throw new \RuntimeException(
+                        'This order has already been completed.'
+                    );
+                }
+
+                /*
+                 * Ο server επιβεβαιώνει ότι ο χρόνος έχει όντως λήξει.
+                 * Δεν εμπιστευόμαστε μόνο το JavaScript countdown.
+                 */
+                if (
+                    $lockedOrder->reserved_until !== null &&
+                    $lockedOrder->reserved_until->isFuture()
+                ) {
+                    throw new \RuntimeException(
+                        'The reservation has not expired yet.'
+                    );
+                }
+
+                /*
+                 * Κλειδώνουμε και το ποδήλατο πριν αλλάξουμε το stock.
+                 */
+                $lockedBike = Bike::query()
+                    ->whereKey($lockedOrder->bike_id)
+                    ->lockForUpdate()
+                    ->first();
+
+                if ($lockedBike) {
+                    $lockedBike->increment('quantity');
+                }
+
+                /*
+                 * Η προσωρινή παραγγελία δεν χρειάζεται πλέον.
+                 */
+                $lockedOrder->delete();
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'The reservation expired and the bike quantity was restored.',
+                'redirect' => route('home'),
+            ]);
+
+        } catch (\RuntimeException $exception) {
+            return response()->json([
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ], 409);
+        }
     }
 }

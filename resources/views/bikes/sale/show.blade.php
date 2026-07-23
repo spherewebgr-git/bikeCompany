@@ -30,15 +30,39 @@
                             @endforeach
                         </p>
                         <div class="buttons-section">
-                            @auth
-                                <a href="{{ route('checkout.create-sale', $bike) }}" class="btn btn-fill btn-md">{{ __('Buy now') }}</a>
+
+                            @if ($bike->quantity > 0)
+
+                                <div class="stock-status in-stock">
+                                    In Stock: {{ $bike->quantity }}
+                                </div>
+                                @auth
+                                    <a href="{{ route('checkout.create-sale', $bike) }}" class="btn btn-fill btn-md">{{ __('Buy now') }}</a>
+                                @else
+                                    <a href="{{ route('login') }}?redirect={{ urlencode(route('bikes.sale.show', $bike)) }}"
+                                    class="btn btn-fill btn-md">
+                                        {{ __('Buy now') }}
+                                    </a>
+                                @endauth
                             @else
-                                <a href="{{ route('login') }}?redirect={{ urlencode(route('bikes.sale.show', $bike)) }}"
-                                   class="btn btn-fill btn-md">
-                                    {{ __('Buy now') }}
-                                </a>
-                            @endauth
-                            <a href="{{ route('bikes.sale') }}" class="btn btn-trans btn-md">{{ __('Back to all bikes') }}</a>
+                                <div class="stock-status out-of-stock">
+                                    Out of Stock
+                                </div>
+                                @auth
+                                    <button type="button"
+                                            class="btn btn-fill btn-md disabled"
+                                            disabled>
+                                        Buy now
+                                    </button>
+                                @else
+                                    <a href="{{ route('login') }}?redirect={{ urlencode(route('bikes.sale.show', $bike)) }}"
+                                       class="btn btn-fill btn-md">
+                                        {{ __('Buy now') }}
+                                    </a>
+                                @endauth
+                            @endif
+
+                                <a href="{{ route('bikes.sale') }}" class="btn btn-trans btn-md">{{ __('Back to all bikes') }}</a>
                         </div>
                     </div>
                 </div>

@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/payment/{order}', [PaymentController::class, 'index'])->name('payment.index');
     Route::post('/payment/{order}', [PaymentController::class, 'complete'])->name('payment.complete');
+    Route::delete('/payment/{order}/expire', [PaymentController::class, 'expire'])->name('payment.expire');
 
     Route::get('/rental/checkout/{bike}', [CheckoutController::class, 'createRental'])->name('checkout.create-rental');
     Route::post('/rental/checkout/{bike}', [CheckoutController::class, 'storeRental'])->name('checkout.store-rental');

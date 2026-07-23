@@ -358,25 +358,55 @@
             const diff = reservationEndsAt - now;
 
             if (diff <= 0) {
-
-                timer.textContent = "00:00";
-
-                completeButton.disabled = true;
-
-                swal({
-                    title: "Reservation Expired",
-                    text: "Your reservation has expired.",
-                    icon: "warning",
-                    button: "OK",
-                    closeOnClickOutside: false,
-                    closeOnEsc: false,
-                }).then(() => {
-
-                    window.location.href = "{{ route('home') }}";
-
-                });
-
+                timer.textContent = '00:00';
                 clearInterval(interval);
+
+                if (completeButton) {
+                    completeButton.disabled = true;
+                }
+
+                fetch("{{ route('payment.expire', $order) }}", {
+                    method: 'DELETE',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute('content')
+                    }
+                })
+                    .then(async response => {
+                        const data = await response.json();
+
+                        if (!response.ok) {
+                            throw new Error(
+                                data.message || 'The reservation could not be released.'
+                            );
+                        }
+
+                        return data;
+                    })
+                    .then(data => {
+                        return swal({
+                            title: 'Reservation Expired',
+                            text: 'The bike is available again.',
+                            icon: 'warning',
+                            button: 'OK',
+                            closeOnClickOutside: false,
+                            closeOnEsc: false,
+                        }).then(() => {
+                            window.location.href = data.redirect;
+                        });
+                    })
+                    .catch(error => {
+                        swal({
+                            title: 'Reservation Error',
+                            text: error.message,
+                            icon: 'error',
+                            button: 'OK',
+                        }).then(() => {
+                            window.location.href = "{{ route('home') }}";
+                        });
+                    });
 
                 return;
             }

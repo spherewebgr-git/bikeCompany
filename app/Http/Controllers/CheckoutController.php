@@ -7,6 +7,8 @@ use App\Models\Order;
 use App\Models\Status;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class CheckoutController extends Controller
 {
@@ -33,32 +35,94 @@ class CheckoutController extends Controller
             ],
         ]);
 
-        $activeReservation = Order::where('bike_id', $bike->id)
-            ->whereNull('completed_at')
-            ->whereNotNull('reserved_until')
-            ->where('reserved_until', '>', now())
-            ->exists();
 
-        if ($activeReservation) {
+//        $activeReservation = Order::where('bike_id', $bike->id)
+//            ->whereNull('completed_at')
+//            ->whereNotNull('reserved_until')
+//            ->where('reserved_until', '>', now())
+//            ->exists();
+//
+//        if ($activeReservation) {
+//
+//            return redirect()->back()->with('error', 'This bike is currently reserved by another customer.');
+//        }
 
-            return redirect()->back()->with('error', 'This bike is currently reserved by another customer.');
-        }
 
 
+        $order = DB::transaction(function () use ($bike, $validated) {
 
-        $order = Order::create([
-            'price' => $bike->prices->first()->numeric_price,
-            'order_date' => now(),
-            'payed_off' => false,
-            'dropoff_address' => $validated['dropoff_address'],
-            'bike_id' => $bike->id,
-            'user_id' => auth()->id(),
-            'status_id' => Status::where('step', 0)->first()->id,
-            'reserved_until' => now()->addMinutes(15),
-            'completed_at' => null,
-            'location_id' => null,
-            'card_id' => null,
-        ]);
+            /*
+             * Ξαναδιαβάζουμε το ποδήλατο από τη βάση και κλειδώνουμε
+             * προσωρινά τη συγκεκριμένη γραμμή.
+             *
+             * Έτσι, αν δύο χρήστες πατήσουν checkout ταυτόχρονα,
+             * δεν θα μειωθεί λάθος το quantity.
+             */
+            $lockedBike = Bike::query()
+                ->whereKey($bike->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            /*
+             * Αν δεν υπάρχει διαθέσιμο απόθεμα,
+             * δεν δημιουργείται παραγγελία.
+             */
+            if ($lockedBike->quantity <= 0) {
+                throw ValidationException::withMessages([
+                    'bike' => 'This bike is currently unavailable.',
+                ]);
+            }
+
+            /*
+             * Παίρνουμε την τιμή πώλησης.
+             */
+            $price = $lockedBike->prices()
+                ->first()
+                ?->numeric_price;
+
+            if ($price === null) {
+                throw ValidationException::withMessages([
+                    'bike' => 'No sale price has been configured for this bike.',
+                ]);
+            }
+
+            /*
+             * Παίρνουμε το αρχικό status.
+             */
+            $statusId = Status::where('step', 0)->value('id');
+
+            if (!$statusId) {
+                throw ValidationException::withMessages([
+                    'order' => 'The initial order status was not found.',
+                ]);
+            }
+
+            /*
+             * Δημιουργείται η προσωρινή παραγγελία
+             * με κράτηση 15 λεπτών.
+             */
+            $order = Order::create([
+                'price' => $price,
+                'order_date' => now(),
+                'payed_off' => false,
+                'dropoff_address' => $validated['dropoff_address'],
+                'bike_id' => $lockedBike->id,
+                'user_id' => auth()->id(),
+                'status_id' => $statusId,
+                'reserved_until' => now()->addMinutes(2),
+                'completed_at' => null,
+                'location_id' => null,
+                'card_id' => null,
+            ]);
+
+            /*
+             * Το προϊόν δεσμεύεται αμέσως.
+             */
+            $lockedBike->decrement('quantity');
+
+            return $order;
+        });
+
 
 
         return redirect()->route('payment.index', $order);
