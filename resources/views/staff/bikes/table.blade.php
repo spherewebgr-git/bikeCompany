@@ -39,7 +39,7 @@
                             </a>
                         </div>
 
-                        <form method="POST" action="{{ route('bike.update', [$bike]) }}" 
+                        <form method="POST" action="{{ route('bike.quantity', [$bike]) }}" 
                         class="edit-quantity" id="quantity-form-{{ $bike->id }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                             <input type="number" id="quantity" name="quantity" value="{{ $bike->quantity }}"><br>

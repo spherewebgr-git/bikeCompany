@@ -65,6 +65,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile/cards/{card}', [CardController::class, 'destroy'])->name('profile.cards.destroy');
 
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/profile/history', [ProfileController::class, 'history'])->name('profile.history');
+
+    Route::get('/profile/history/search', [ProfileController::class, 'searchhistory'])->name('profile.history.search');
 });
 
 
@@ -87,6 +91,8 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
     Route::post('/bike-update/{id}', [StaffmanagementController::class, 'update'])->name('bike.update');
 
     Route::get('/delete-bike/{id}', [StaffmanagementController::class, 'delete'])->name('bike.delete');
+
+    Route::post('/bike-update/{id}', [StaffmanagementController::class, 'quantity'])->name('bike.quantity');
 
 
     // --------- USERS --------- \\

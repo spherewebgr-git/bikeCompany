@@ -1,0 +1,104 @@
+@mixin orangebtn
+{
+    color: #fff;
+    text-transform: uppercase;
+    background: #fe4819;
+    border: 2px solid #fe4819;
+    transition: all 0.3s;
+    border-radius: 3px;
+}
+
+@mixin orangebtnhover
+{
+    border-color: #fe704c;
+    background: #fe704c;
+    color: #fff;
+}
+
+@mixin regularbtn
+{
+    text-transform: uppercase;
+    border: 1px solid #6c6c6c;
+    color: #6c6c6c;
+    font-weight: 700;
+    background-color: white;
+    transition: all 0.3s;
+}
+
+@mixin regularbtnhover
+{
+    color: #fe4819;
+    border-color: #fe4819;
+}
+
+#MyHistory
+{
+    margin: 0;
+    padding: 0;
+    font-family: "Oswald", sans-serif;
+
+    .container
+    {
+        margin: 0;
+        padding: 60px;
+    }
+
+    img
+    {
+        max-height: 80px;
+        min-width: 80px !important;
+    }
+
+    .search 
+    {
+        padding-right: 15px;
+        
+        form
+        {
+            display: flex;
+
+            select, input
+            {
+                height: 40px;
+                background-color: #fff;
+                border: none;
+                border-radius: 3px;
+                margin-right: 6px;
+                padding: 0 6px;
+
+                &:focus-visible 
+                {
+                    box-shadow: 0 0 3px #fe4819;
+                    border-color: #fe4819;
+                    outline: none;
+                }
+            }
+
+            button { @include orangebtn; }
+            button:hover { @include orangebtnhover; }
+        }
+    }
+
+    td.orderid input { width: 40px; }
+
+    td.quantity { text-align: center; }
+
+    tr:nth-child(even)
+    {
+        background-color: #f4f4f4;
+    }
+
+    th 
+    {
+        font-size: 18px;
+        padding: 10px;
+        border-bottom: 1px solid gray;
+    }
+
+    td
+    {
+        padding: 10px 15px;
+        font-size: 20px;
+        border-bottom: 1px solid gray;
+    }
+}

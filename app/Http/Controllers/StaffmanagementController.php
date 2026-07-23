@@ -166,6 +166,17 @@ class StaffmanagementController extends Controller
         return redirect('dashboard/management/bikes');
     }
 
+    public function quantity($id, Request $request)
+    {
+        $bike = Bike::query()->where('id', $id)->first();
+
+        $bike->update([
+            'quantity' => $request->quantity,
+        ]);
+
+        return redirect('dashboard/management/bikes');
+    }
+
     public function create(Request $request)
     {
         $request->validate(

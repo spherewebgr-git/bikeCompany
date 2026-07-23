@@ -25,7 +25,7 @@
 
 
 {{--                STAFF MENU OPTIONS--}}
-                @auth
+                {{-- @auth
                     @if(Auth::user()->role->name === 'staff')
                         <x-nav-link :href="route('dashboard.management.bikes')" :active="request()->routeIs('dashboard.management.bikes')">
                             Bike Management
@@ -39,14 +39,25 @@
                             User/Staff Management
                         </x-nav-link>
                     @endif
-                @endauth
+                @endauth --}}
 
             </div>
 
             <div class="nav-user">
                 @auth
-{{--                    <a href="{{ route('dashboard') }}" class="btn btn-trans btn-md">Dashboard</a>--}}
-                    <a href="{{ route('profile.edit') }}" class="btn btn-trans btn-md">Profile</a>
+                {{-- <a href="{{ route('dashboard') }}" class="btn btn-trans btn-md">Dashboard</a> --}}
+
+                    <div class="profile-menu">
+                        <a href="#" onclick="document.getElementById('profile-menu-dropdown').style.display='block'" class="btn btn-trans btn-md">Profile</a>
+                        <div id="profile-menu-dropdown">
+                            <ul class="profile-links">
+                                <li><a href="{{ route('profile.edit') }}">Account</a></li>
+                                <li><a href="">My Orders</a></li>
+                                <li><a href="{{ route('profile.history') }}">History</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
                     <form method="POST" action="{{ route('logout') }}" class="d-inline">
                         @csrf
                         <button type="submit" class="btn btn-fill btn-md">Log Out</button>

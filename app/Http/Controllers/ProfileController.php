@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Bike;
+use App\Models\Location;
+use App\Models\Order;
+use App\Models\Provision;
+use App\Models\Status;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -56,5 +62,82 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+
+
+    public function history(Request $request)
+    {
+        $user = $request->user();
+        $complete = Status::max('step');    
+        $orders = Order::where('user_id', $user->id)->whereHas('status', function ($query) use ($complete)
+        { $query->where('step', $complete); })->get();
+        
+        $bike = Bike::all();
+        $location = Location::all()->sortBy("name");
+        $provision = Provision::all()->sortBy("id");
+
+        return view('profile.myhistory', compact(
+            'orders',
+            'bike',
+            'location',
+            'provision'
+        ));
+    }
+
+    public function searchhistory(Request $request)
+    {
+        $user = $request->user();
+        $complete = Status::max('step');
+        $orders = Order::where('user_id', $user->id)->whereHas('status', function ($query) use ($complete)
+        { $query->where('step', $complete); })->get();
+
+        if ($request->filled('date'))
+        {
+            $orders->where('order_date', $request->date);
+        }
+
+        if ($request->filled('order'))
+        {
+            $orders->where('id', $request->order);
+        }
+
+        if ($request->filled('product'))
+        {
+            $orders->whereHas('bike', function ($q) use ($request)
+            {
+                $q->where('SKU', 'LIKE', "%{$request->user}%")
+                ->orWhere('serialnum', 'LIKE', "%{$request->user}%");
+
+            });
+        }
+
+        if ($request->filled('provision'))
+        {
+            $orders->whereHas('bike.provision', function ($q) use ($request)
+            {
+                $q->where('id', $request->provision);
+            });
+        }
+
+        if ($request->filled('pickup'))
+        {
+            $orders->orWhere('dropoff_address', 'LIKE', "%{$request->pickup}%")
+            ->orWhereHas('location', function ($q) use ($request)
+            {
+                $q->where('id', 'LIKE', "%{$request->pickup}%");
+            });
+        }
+
+        if ($request->filled('price'))
+        {
+            $orders->where('price', 'LIKE', "%{$request->price}%");
+        }
+
+        return view('profile.myhistory', [
+            'orders' => $orders->get(),
+            'bike' => Bike::all(),
+            'provision' => Provision::all()->sortBy("id"),
+        ]);
     }
 }

@@ -1,0 +1,42 @@
+.profile-menu
+{
+    #profile-menu-dropdown
+    {
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        background-color: #6c6c6c;
+        position: absolute;
+        z-index: 999;
+        width: 109.2px;
+        padding-bottom: 0;
+        display: none;
+
+        .profile-links
+        {
+            gap: 40px;
+            padding: 0;
+
+            li
+            {
+                list-style-type: none;
+                padding: 10px;
+
+                &:hover {
+                    background-color: #fe4819;
+                }
+                &.active {
+                    background-color: #fe4819;
+                }
+            }
+
+            a {
+                font-family: 'Oswald', sans-serif;
+                text-transform: uppercase;
+                font-size: 14px;
+                font-weight: 600;
+                color: #fff;
+            }
+        }
+    }
+}
+
