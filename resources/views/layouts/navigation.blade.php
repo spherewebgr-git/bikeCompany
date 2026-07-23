@@ -48,12 +48,12 @@
                 {{-- <a href="{{ route('dashboard') }}" class="btn btn-trans btn-md">Dashboard</a> --}}
 
                     <div class="profile-menu">
-                        <a href="#" onclick="document.getElementById('profile-menu-dropdown').style.display='block'" class="btn btn-trans btn-md">Profile</a>
+                        <a href="#" class="btn btn-trans btn-md">Profile</a>
                         <div id="profile-menu-dropdown">
                             <ul class="profile-links">
-                                <li><a href="{{ route('profile.edit') }}">Account</a></li>
-                                <li><a href="">My Orders</a></li>
-                                <li><a href="{{ route('profile.history') }}">History</a></li>
+                                <a href="{{ route('profile.edit') }}"><li>Account</li></a>
+                                <a href=""><li>My Orders</li></a>
+                                <a href="{{ route('profile.history') }}"><li>History</li></a>
                             </ul>
                         </div>
                     </div>
