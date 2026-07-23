@@ -447,7 +447,7 @@ class StaffmanagementController extends Controller
     {
         $complete = Status::max('step');
         $orders = Order::whereHas('status', function ($query) use ($complete)
-        { $query->where('step', '>', 0)->where('step', '<', $complete); })->get();
+        { $query->where('step', '>', 0)->where('step', '<', $complete); });
 
         if ($request->filled('order'))
         {
@@ -510,7 +510,7 @@ class StaffmanagementController extends Controller
             'user' => User::all(),
             'bike' => Bike::all(),
             'location' => Location::all()->sortBy("name"),
-            'status' => Status::where('step', '>', 0)->sortBy("step"),
+            'status' => Status::where('step', '>', 0)->get()->sortBy("step"),
             'provision' => Provision::all()->sortBy("id"),
         ]);
     }
@@ -541,7 +541,7 @@ class StaffmanagementController extends Controller
     {
         $complete = Status::max('step');
         $orders = Order::whereHas('status', function ($query) use ($complete)
-        { $query->where('step', $complete); })->get();
+        { $query->where('step', $complete); });
 
         if ($request->filled('order'))
         {
