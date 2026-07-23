@@ -53,7 +53,7 @@ class CheckoutController extends Controller
             'dropoff_address' => $validated['dropoff_address'],
             'bike_id' => $bike->id,
             'user_id' => auth()->id(),
-            'status_id' => 1,
+            'status_id' => Status::where('step', 0)->first()->id,
             'reserved_until' => now()->addMinutes(15),
             'completed_at' => null,
             'location_id' => null,
@@ -150,7 +150,7 @@ class CheckoutController extends Controller
             'completed_at' => null,
             'rent_start' => $start,
             'rent_end'   => $end,
-            'status_id'  => 1,
+            'status_id'  => Status::where('step', 0)->first()->id,
         ]);
 
         return redirect()->route('payment.index', $order);
