@@ -24,30 +24,6 @@ class OrderSeeder extends Seeder
         {
             $bike = Bike::with('provision')->inRandomOrder()->first();
 
-<<<<<<< Updated upstream
-=======
-            // BOOKING
-            if ($bike->provision->id == 2)
-            {
-                    DB::table('orders')->insert([
-                    'price' => $order['price'],
-                    'order_date' => $order['order_date'],
-                    'payed_off' => $order['payed_off'],
-                    'bike_id' => $bike->id,
-                    'card_id' => Card::inRandomOrder()->value('id'),
-                    'user_id' => User::inRandomOrder()->value('id'),
-                    'status_id' => Status::where('step', '>', 0)->inRandomOrder()->value('id'),
-                    'location_id' => Location::inRandomOrder()->value('id'),
-                    'rent_start' => $order['rent_start'],
-                    'rent_end' => $order['rent_end'],
-                    'dropoff_address' => NULL,
-                ]);             
-            }
-
-            // PURCHASE
-            else
-            {
->>>>>>> Stashed changes
                 DB::table('orders')->insert([
                 'price' => $order['price'],
                 'order_date' => $order['order_date'],
