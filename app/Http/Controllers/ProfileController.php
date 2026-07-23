@@ -90,7 +90,7 @@ class ProfileController extends Controller
         $user = $request->user();
         $complete = Status::max('step');
         $orders = Order::where('user_id', $user->id)->whereHas('status', function ($query) use ($complete)
-        { $query->where('step', $complete); })->get();
+        { $query->where('step', $complete); });
 
         if ($request->filled('date'))
         {

@@ -42,8 +42,15 @@
         padding: 60px;
         border-radius: 8px;
         background-color: #eeeeee;
-        font-size: 22px;
         text-align: center;
+        position: relative;
+        left: 50%;
+        transform: translateX(-15%);
+
+        p
+        {
+            font-size: 22px;
+        }
     }
 
     .container

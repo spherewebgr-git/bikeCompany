@@ -127,17 +127,17 @@
                                     <i style="color: #d40040;">{{ $order->dropoff_address }}</i>
                                 @else
                                     <i class="fa-solid fa-warehouse" style="color: #244ecb;"></i>
-                                    <b style="color: #244ecb;">{{ $order->location->name }}</b>
+                                    <b style="color: #244ecb;">Our Store at {{ $order->location->name }}</b>
                                 @endif
                             </td>
                         </tr>
                     @endforeach
                 </table>
             </div>
-        @else 
-            <p class="no-orders">
-                You don't have any completed orders yet!
-            </p>
+        @else  
+            <div class="no-orders">
+                <p> You don't have any completed orders yet!</p>
+            </div>
         @endif
     </div>
 </div>
