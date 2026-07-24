@@ -119,6 +119,13 @@
 
                     <div class="sidebar-widget checkout-summary">
 
+                        <div class="checkout-summary__bike">
+                            <img src="{{ $bike->image_path }}"
+                                 alt="{{ $bike->brand->name }}"
+                                 class="checkout-summary__bike-img">
+                            <span class="checkout-summary__bike-badge">{{ $bike->brand->name }}</span>
+                        </div>
+
                         <h4 class="widget-title">
                             <i class="fa-solid fa-receipt"></i> Order Summary
                         </h4>

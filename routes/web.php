@@ -92,7 +92,7 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
 
     Route::get('/delete-bike/{id}', [StaffmanagementController::class, 'delete'])->name('bike.delete');
 
-    Route::post('/bike-update/{id}', [StaffmanagementController::class, 'quantity'])->name('bike.quantity');
+    Route::post('/bike-quantity/{id}', [StaffmanagementController::class, 'quantity'])->name('bike.quantity');
 
 
     // --------- USERS --------- \\

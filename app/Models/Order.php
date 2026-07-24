@@ -66,4 +66,16 @@ class Order extends Model
     {
         return $this->belongsTo(Card::class);
     }
+
+    // Order.php
+    public function scopeBlocking($query)
+    {
+        return $query->where(function ($q) {
+            $q->whereHas('status', fn($s) => $s->where('step', '>', 0))
+                ->orWhere(function ($hold) {
+                    $hold->whereHas('status', fn($s) => $s->where('step', 0))
+                        ->where('reserved_until', '>', now());
+                });
+        });
+    }
 }

@@ -25,7 +25,7 @@
                     <div class="bike-single-action">
                         <p class="price">
                             @foreach($bike->prices as $price)
-                                <strong class="price-value">{{ $price->price }}</strong> |
+                                <strong class="price-value">{{ $price->price }}{{$price->description}}</strong> |
                             @endforeach
                         </p>
 

@@ -163,7 +163,7 @@ class StaffmanagementController extends Controller
             ]);
         }
 
-        return redirect('dashboard/management/bikes');
+        return redirect()->route('bike.update');
     }
 
     public function quantity($id, Request $request)
@@ -431,7 +431,7 @@ class StaffmanagementController extends Controller
         $location = Location::all()->sortBy("name");
         $status = Status::where('step', '>', 0)->orderBy("step")->get();
         $provision = Provision::all()->sortBy("id");
-        
+
         $complete = Status::max('step');
         $orders = Order::whereHas('status', function ($query) use ($complete)
         { $query->where('step', '>', 0)->where('step', '<', $complete); })->get();
@@ -530,10 +530,10 @@ class StaffmanagementController extends Controller
 
     public function history()
     {
-        $complete = Status::max('step');    
+        $complete = Status::max('step');
         $orders = Order::whereHas('status', function ($query) use ($complete)
         { $query->where('step', $complete); })->get();
-        
+
         $user = User::all();
         $bike = Bike::all();
         $location = Location::all()->sortBy("name");

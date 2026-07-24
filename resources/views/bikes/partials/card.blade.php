@@ -80,7 +80,7 @@
                         <div class="bike-card__price-values">
                             @foreach($bike->prices as $price)
                                 <span class="bike-card__price-item">
-                                    {{ $price->price }}{{ $bike->provision->name === 'buy' ? ' €' : '' }}
+                                    {{ $price->price }}{{$price->description}}
                                 </span>
                             @endforeach
                         </div>

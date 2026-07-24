@@ -18,6 +18,42 @@
         position: sticky;
         top: 30px;
 
+        // NEW
+        &__bike {
+            position: relative;
+            margin: -35px -35px 25px -35px; // βγαίνει έξω από το padding του card
+            overflow: hidden;
+            border-radius: 12px 12px 0 0;
+        }
+
+        &__bike-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            transition: transform .4s ease;
+        }
+
+        &__bike:hover &__bike-img {
+            transform: scale(1.05);
+        }
+
+        &__bike-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: #fe4819;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .3px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(254,72,25,.35);
+        }
+        // END NEW
+
         .widget-title {
             margin-bottom: 25px;
             font-size: 24px;
@@ -244,10 +280,102 @@
     }
 }
 
+// ============================================================
+// CALENDAR — μη διαθέσιμες / επιλεγμένες ημερομηνίες
+// ============================================================
+
 .fc-bg-event {
-    opacity: 1 !important;
+    opacity: 0 !important;
 }
 
+.fc-bg-event .fc-event-title {
+    display: none !important;
+}
+
+// Μη διαθέσιμες μέρες (ήδη κρατημένες) — κόκκινο
 .blocked-date {
-    background-color: #ffcccc !important;
+    background: #ffe0e0 !important;
+}
+
+.day-cell-blocked {
+    background: #ffe0e0 !important;
+    cursor: not-allowed;
+
+    .fc-daygrid-day-number {
+        color: #d64545;
+        font-weight: 700;
+    }
+
+    &:hover {
+        background: #ffe0e0 !important;
+    }
+}
+
+// Preview επιλογής — μέρες: πράσινο
+.fc-event.day-selection {
+    background: #d9f2e3 !important;
+    border-color: #2fa360 !important;
+
+    .fc-event-title {
+        display: block !important;
+        color: #1f7a48;
+        font-weight: 700;
+        font-size: 11px;
+    }
+}
+
+// Preview επιλογής — εβδομάδες: μπλε
+.fc-event.week-selection {
+    background: #dbeafe !important;
+    border-color: #2f6fa3 !important;
+
+    .fc-event-title {
+        display: block !important;
+        color: #1f4e7a;
+        font-weight: 700;
+        font-size: 11px;
+    }
+}
+
+// Γενικά styling ελεύθερων ημερών (hover feedback)
+.fc-daygrid-day:not(.day-cell-blocked):hover {
+    background: #f7f7f7;
+    cursor: pointer;
+}
+// ============================================================
+// FLATPICKR — μη διαθέσιμες ημέρες/ώρες
+// ============================================================
+
+.flatpickr-day-reserved {
+    position: relative;
+    background: repeating-linear-gradient(
+            135deg,
+            rgba(254, 72, 25, .12),
+            rgba(254, 72, 25, .12) 6px,
+            rgba(254, 72, 25, .20) 6px,
+            rgba(254, 72, 25, .20) 12px
+    ) !important;
+    color: #b3260c !important;
+    font-weight: 700;
+    border-radius: 6px !important;
+    text-decoration: line-through;
+    text-decoration-color: rgba(179, 38, 12, .5);
+    cursor: not-allowed !important;
+
+    &:hover {
+        background: repeating-linear-gradient(
+                135deg,
+                rgba(254, 72, 25, .12),
+                rgba(254, 72, 25, .12) 6px,
+                rgba(254, 72, 25, .20) 6px,
+                rgba(254, 72, 25, .20) 12px
+        ) !important;
+        color: #b3260c !important;
+    }
+}
+
+#map {
+    height:400px;
+    width:100%;
+    border-radius:15px;
 }

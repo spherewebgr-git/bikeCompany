@@ -12,16 +12,11 @@ class Price extends Model
     protected $fillable = [
         'bike_id',
         'price',
+        'description',
     ];
 
     public function bike()
     {
         return $this->belongsTo(Bike::class);
-    }
-
-    // Price.php
-    public function getNumericPriceAttribute()
-    {
-        return (float) preg_replace('/[^0-9.]/', '', $this->price);
     }
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bike;
+use App\Models\Location;
 use App\Models\Order;
+use App\Models\Price;
 use App\Models\Status;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -34,12 +36,9 @@ class CheckoutController extends Controller
     public function storeSale(Request $request, Bike $bike)
     {
 
-        $validated = $request->validate([
-            'dropoff_address' => [
-                'required',
-                'string',
-                'max:255',
-            ],
+        $request->validate([
+            'location_id' => 'required|exists:locations,id',
+            'dropoff_address' => 'required|string|max:255',
         ]);
 
 
@@ -83,9 +82,7 @@ class CheckoutController extends Controller
             /*
              * Παίρνουμε την τιμή πώλησης.
              */
-            $price = $lockedBike->prices()
-                ->first()
-                ?->numeric_price;
+            $price = $lockedBike->prices()->first()?->price;
 
             if ($price === null) {
                 throw ValidationException::withMessages([
@@ -140,17 +137,21 @@ class CheckoutController extends Controller
     //------------------------- RENTAL -----------------------------------//
     public function createRental(Request $request, Bike $bike)
     {
+        $locations = Location::all();
+
         // defaults: ξεκινάει από τώρα, 1 ώρα διάρκεια — ο χρήστης τα αλλάζει στο checkout
         $rentStart = now();
         $duration  = 1;
         $rentEnd   = $rentStart->copy()->addHours($duration);
 
-        $hourPrice = $bike->prices[0]->numeric_price ?? 0;
+
+        $hourPrice = $bike->prices[0]?->price ?? 0;
         $price     = $duration * $hourPrice;
 
         return view('checkout.rental.create', [
             'bike'      => $bike,
             'user'      => auth()->user(),
+            'locations' => $locations,
             'rentStart' => $rentStart,
             'rentEnd'   => $rentEnd,
             'duration'  => $duration,
@@ -162,67 +163,85 @@ class CheckoutController extends Controller
     public function storeRental(Request $request, Bike $bike)
     {
         $validated = $request->validate([
-            'rent_start' => 'required|date|after_or_equal:now',
-            'rent_end'   => 'required|date|after:rent_start',
+            'location_id' => ['required', 'exists:locations,id'],
+            'rent_start'  => 'required|date',
+            'rent_end'    => 'required|date|after:rent_start',
+            'rental_type' => 'required|in:hour,day,week',
         ]);
-
-        $activeReservation = Order::where('bike_id', $bike->id)
-            ->whereNull('completed_at')
-            ->whereNotNull('reserved_until')
-            ->where('reserved_until', '>', now())
-            ->exists();
-
-        if ($activeReservation) {
-            return redirect()
-                ->back()
-                ->with('error', 'This bike is currently reserved by another customer.');
-        }
 
         $start = Carbon::parse($validated['rent_start']);
         $end   = Carbon::parse($validated['rent_end']);
+        $type  = $validated['rental_type'];
 
-        // ίδιο όριο (72 ώρες) με τη φόρμα του πρώτου βήματος
-        if ($start->diffInHours($end) > 72) {
-            return back()->withErrors(['rent_end' => 'Η μέγιστη διάρκεια ενοικίασης είναι 72 ώρες.']);
+        // Το όριο 72 ωρών έχει νόημα μόνο στο hour mode.
+        // Days/weeks δεν έχουν κανένα περιορισμό, όπως ζητήθηκε.
+        if ($type === 'hour' && $start->diffInHours($end) > 72) {
+            return back()->withErrors([
+                'rent_end' => 'Η μέγιστη διάρκεια ενοικίασης σε ώρες είναι 72.',
+            ]);
         }
 
-        if (!$bike->isAvailable($start, $end)) {
-            return back()->withErrors(['rent_start' => 'Το ποδήλατο δεν είναι διαθέσιμο αυτή την περίοδο.']);
+        try {
+            $order = DB::transaction(function () use ($bike, $start, $end, $type, $validated) {
+
+                $lockedBike = Bike::query()
+                    ->whereKey($bike->id)
+                    ->lockForUpdate()
+                    ->firstOrFail();
+
+                if (!$lockedBike->isAvailable($start, $end)) {
+                    throw ValidationException::withMessages([
+                        'rent_start' => 'Το ποδήλατο δεν είναι διαθέσιμο αυτή την περίοδο.',
+                    ]);
+                }
+
+                $priceIndex = match ($type) {
+                    'hour' => 0,
+                    'day'  => 1,
+                    'week' => 2,
+                    default => 0,
+                };
+
+                $pricePerUnit = $lockedBike->prices[$priceIndex]?->price
+                    ?? $lockedBike->prices[0]?->price
+                    ?? 0;
+
+                $hours = $start->diffInHours($end);
+                $days  = $start->diffInDays($end);
+
+                $units = match ($type) {
+                    'week' => max(1, (int) ceil($days / 7)),
+                    'day'  => max(1, $days),
+                    'hour' => max(1, $hours),
+                };
+
+                $price = $units * $pricePerUnit;
+
+                $statusId = Status::where('step', 0)->value('id');
+
+                if (!$statusId) {
+                    throw ValidationException::withMessages([
+                        'order' => 'The initial order status was not found.',
+                    ]);
+                }
+
+                return Order::create([
+                    'bike_id'        => $lockedBike->id,
+                    'user_id'        => auth()->id(),
+                    'location_id'    => $validated['location_id'],
+                    'price'          => $price,
+                    'order_date'     => now(),
+                    'payed_off'      => false,
+                    'reserved_until' => now()->addMinutes(15),
+                    'completed_at'   => null,
+                    'rent_start'     => $start,
+                    'rent_end'       => $end,
+                    'status_id'      => $statusId,
+                ]);
+            });
+        } catch (ValidationException $e) {
+            return back()->withErrors($e->errors());
         }
-
-        $type = $request->input('rental_type');
-
-        $priceIndex = match ($type) {
-            'hour' => 0,
-            'day'  => 1,
-            'week' => 2,
-            default => 0,
-        };
-
-        $priceRow = $bike->prices[$priceIndex] ?? $bike->prices[0];
-        $hours = $start->diffInHours($end);
-        $days  = $start->diffInDays($end);
-
-        $units = match ($type) {
-            'week' => max(1, ceil($days / 7)),
-            'day'  => max(1, $days),
-            default => max(1, $hours),
-        };
-
-        $price = $units * $priceRow->numeric_price;
-
-        $order = Order::create([
-            'bike_id'    => $bike->id,
-            'user_id'    => auth()->id(),
-            'price'      => $price,
-            'order_date' => now(),
-            'payed_off'  => false,
-            'reserved_until' => now()->addMinutes(15),
-            'completed_at' => null,
-            'rent_start' => $start,
-            'rent_end'   => $end,
-            'status_id'  => Status::where('step', 0)->first()->id,
-        ]);
 
         return redirect()->route('payment.index', $order);
     }

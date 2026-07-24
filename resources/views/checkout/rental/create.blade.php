@@ -1,4 +1,13 @@
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet/dist/leaflet.css"
+/>
+<script
+    src="https://unpkg.com/leaflet/dist/leaflet.js">
+</script>
+
 <x-app-layout>
+
 
     <div class="page-header">
         <div class="page-header-container">
@@ -59,6 +68,30 @@
 
                             <div class="checkout-section">
                                 <h4 class="checkout-title">
+                                    <i class="fa-solid fa-location-dot"></i> Pick-up Location
+                                </h4>
+
+                                <h3>Select Location</h3>
+
+                                <div id="map"></div>
+
+                                <input
+                                    type="hidden"
+                                    name="location_id"
+                                    id="location_id"
+                                    required
+                                >
+
+                                <p>
+                                    Selected:
+                                    <span id="selected-location">
+                                        None
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="checkout-section">
+                                <h4 class="checkout-title">
                                     <i class="fa-solid fa-calendar-days"></i> Rental Period
                                 </h4>
 
@@ -83,7 +116,7 @@
                                         <div class="col-md-6 form-group">
                                             <label>Start</label>
                                             <input type="text" id="rent_start_display" class="form-control"
-                                                   data-hour-price="{{ $bike->prices[0]->numeric_price ?? 0 }}"
+                                                   data-hour-price="{{ $bike->prices[0]?->price ?? 0 }}"
                                                    data-initial-start="{{ now()->toIso8601String() }}"
                                                    required>
                                         </div>
@@ -113,8 +146,8 @@
                                     </div>
 
                                     <div id="calendar"
-                                         data-day-price="{{ $bike->prices[1]->numeric_price ?? 0 }}"
-                                         data-week-price="{{ $bike->prices[2]->numeric_price ?? 0 }}"
+                                         data-day-price="{{ $bike->prices[1]?->price ?? 0 }}"
+                                         data-week-price="{{ $bike->prices[2]?->price ?? 0 }}"
                                          data-availability-url="{{ route('bikes.availability', $bike) }}">
                                     </div>
 
@@ -149,6 +182,14 @@
                 <div class="col-md-4">
 
                     <div class="sidebar-widget checkout-summary">
+
+                        <div class="checkout-summary__bike">
+                            <img src="{{ $bike->image_path }}"
+                                 alt="{{ $bike->brand->name }}"
+                                 class="checkout-summary__bike-img">
+                            <span class="checkout-summary__bike-badge">{{ $bike->brand->name }}</span>
+                        </div>
+
                         <h4 class="widget-title">
                             <i class="fa-solid fa-receipt"></i> Order Summary
                         </h4>
@@ -181,4 +222,72 @@
         </div>
     </div>
 
+    @push('scripts')
+
+        <script>
+
+            document.addEventListener('DOMContentLoaded', function () {
+
+                let map = L.map('map')
+                    .setView([37.9780,23.7275],15);
+
+
+                L.tileLayer(
+                    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    {
+                        attribution:'© OpenStreetMap'
+                    }
+                ).addTo(map);
+
+
+                let locations = @json($locations);
+
+
+                locations.forEach(location => {
+
+                    let marker = L.marker([
+                        location.latitude,
+                        location.longitude
+                    ])
+                        .addTo(map)
+                        .bindPopup(location.name);
+
+
+                    marker.on('click', function(){
+
+                        document.getElementById('location_id').value = location.id;
+
+                        document.getElementById('selected-location').innerHTML =
+                            location.name;
+
+                    });
+
+                });
+
+
+
+                // CHECK LOCATION BEFORE SUBMIT
+                document.querySelector('form').addEventListener('submit', function(e){
+
+                    let location = document.getElementById('location_id').value;
+
+
+                    if(!location){
+
+                        e.preventDefault();
+
+                        alert('Please select a delivery location on the map.');
+
+                    }
+
+                });
+
+
+            });
+
+        </script>
+
+    @endpush
+
 </x-app-layout>
+

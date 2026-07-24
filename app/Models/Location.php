@@ -8,6 +8,8 @@ class Location extends Model
 {
     protected $fillable = [
         'name',
+        'latitude',
+        'longitude'
     ];
 
     public function orders()

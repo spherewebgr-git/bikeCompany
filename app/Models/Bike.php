@@ -59,30 +59,10 @@ class Bike extends Model
     public function isAvailable(Carbon $start, Carbon $end): bool
     {
         return !$this->orders()
-            ->whereNull('completed_at')
-            // μόνο πληρωμένες κρατήσεις ή κρατήσεις με ακόμα ενεργό 15λεπτο hold
-            // μπλοκάρουν πραγματικά τη διαθεσιμότητα· ένα ληγμένο/απλήρωτο
-            // checkout δεν πρέπει να κρατάει τις μέρες κλειδωμένες για πάντα
-            ->where(function ($q) {
-
-                $q->whereHas('status', function ($status) {
-                    $status->where('step', '>', 0);
-                })
-                    ->orWhere(function ($hold) {
-
-                        $hold->whereHas('status', function ($status) {
-                            $status->where('step', 0);
-                        })
-                            ->where('reserved_until', '>', now());
-
-                    });
-
-            })
+            ->blocking()
             ->where(function ($query) use ($start, $end) {
-
                 $query->where('rent_start', '<', $end)
                     ->where('rent_end', '>', $start);
-
             })
             ->exists();
     }

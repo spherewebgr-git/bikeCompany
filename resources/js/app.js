@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', function () {
 
     const startDisplay = document.getElementById('rent_start_display');
-    if (!startDisplay) return; // δεν είμαστε στη σελίδα checkout rental
+    if (!startDisplay) return;
 
     const rentStartField   = document.getElementById('rent_start');
     const rentEndField     = document.getElementById('rent_end');
@@ -63,11 +63,46 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let selectedType = 'hour';
     let currentStart = new Date(startDisplay.dataset.initialStart);
-    let calendarSelection = null;
+    let calendarSelection = null; // { start: 'YYYY-MM-DD', end: 'YYYY-MM-DD' } (end exclusive)
     let availabilityEvents = [];
     let calendar = null;
 
-    // --- HOUR MODE ---
+    // ---------- Date-string helpers (καμία μετατροπή timezone) ----------
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function toDateStr(y, m, d) {
+        return `${y}-${pad(m)}-${pad(d)}`;
+    }
+
+    // Προσθέτει μέρες σε ένα 'YYYY-MM-DD' string χρησιμοποιώντας UTC ώστε
+    // να μην επηρεάζεται από DST/local timezone — δουλεύουμε καθαρά σε επίπεδο ημερολογιακής ημέρας.
+    function addDaysToDateStr(dateStr, days) {
+        const [y, m, d] = dateStr.split('-').map(Number);
+        const utcMs = Date.UTC(y, m - 1, d) + days * 86400000;
+        const dt = new Date(utcMs);
+        return toDateStr(dt.getUTCFullYear(), dt.getUTCMonth() + 1, dt.getUTCDate());
+    }
+
+    function formatDateStr(dateStr) {
+        const [y, m, d] = dateStr.split('-');
+        return `${d}/${m}/${y}`;
+    }
+
+    function lastInclusiveDayStr(endStr) {
+        return addDaysToDateStr(endStr, -1);
+    }
+
+    // Ελέγχει αν το [startStr, endStr) (end exclusive) επικαλύπτεται με
+    // κάποιο μπλοκαρισμένο διάστημα από τα availabilityEvents.
+    function isRangeBlocked(startStr, endStr) {
+        return availabilityEvents.some(event => {
+            const evStart = (event.start || '').slice(0, 10);
+            const evEnd   = (event.end || '').slice(0, 10);
+            return startStr < evEnd && endStr > evStart;
+        });
+    }
+
+    // ---------------- HOUR MODE ----------------
     const flatpickrInstance = flatpickr(startDisplay, {
         enableTime: true,
         dateFormat: "d/m/Y H:i",
@@ -76,41 +111,44 @@ document.addEventListener('DOMContentLoaded', function () {
         onChange: function (selectedDates) {
             currentStart = selectedDates[0];
             updateHourPrice();
+        },
+        onDayCreate: function (dObj, dStr, fp, dayElem) {
+            const dayStart = new Date(dayElem.dateObj);
+            dayStart.setHours(0, 0, 0, 0);
+            const dayEnd = new Date(dayStart);
+            dayEnd.setDate(dayEnd.getDate());
+
+            const isBlocked = availabilityEvents.some(event => {
+                const evStart = new Date(event.start);
+                const evEnd   = new Date(event.end);
+                return dayStart < evEnd && dayEnd > evStart;
+            });
+
+            if (isBlocked) {
+                dayElem.classList.add('flatpickr-day-reserved');
+            }
         }
     });
 
     durationInput.addEventListener('input', updateHourPrice);
 
     function updateHourPrice() {
-
         const hours = parseInt(durationInput.value) || 0;
+        const end = new Date(currentStart.getTime() + hours * 3600 * 1000);
 
-        const end = new Date(
-            currentStart.getTime() + hours * 3600 * 1000
-        );
-
-        let unavailable = availabilityEvents.some(event => {
-
-            let eventStart = new Date(event.start);
-            let eventEnd   = new Date(event.end);
-
-            return currentStart < eventEnd &&
-                end > eventStart;
-
+        const unavailable = availabilityEvents.some(event => {
+            const eventStart = new Date(event.start);
+            const eventEnd   = new Date(event.end);
+            return currentStart < eventEnd && end > eventStart;
         });
 
         if (unavailable) {
-
             alert('Το ποδήλατο δεν είναι διαθέσιμο αυτή την ώρα.');
-
             submitBtn.disabled = true;
-
             priceValue.textContent = '0';
             priceSummary.textContent = '0 €';
             durationSummary.textContent = '-';
-
             return;
-
         }
 
         const price = hours * hourPrice;
@@ -119,19 +157,15 @@ document.addEventListener('DOMContentLoaded', function () {
         rentEndField.value = end.toISOString();
         priceField.value = price;
 
-        priceValue.textContent = price;
-        priceSummary.textContent = `${price} €`;
+        priceValue.textContent = `${price.toFixed(2).replace('.', ',')} €`;
+        priceSummary.textContent = `${price.toFixed(2).replace('.', ',')} €`;
         durationSummary.textContent = `${hours} ώρες`;
         submitBtn.disabled = hours < 1;
-
     }
 
-    // Φέρνουμε τα unavailable ranges μία φορά, νωρίς, και τα εφαρμόζουμε
-    // ΚΑΙ στο flatpickr (hour mode) ΚΑΙ στο calendar (day/week mode).
     fetch(calendarEl.dataset.availabilityUrl)
         .then(response => response.json())
         .then(data => {
-
             availabilityEvents = data;
 
             flatpickrInstance.set('disable', data.map(ev => ({
@@ -140,25 +174,24 @@ document.addEventListener('DOMContentLoaded', function () {
             })));
 
             updateHourPrice();
-
         });
 
-    // --- CALENDAR (day / week) --- lazy init, ώστε να μη ζωγραφίζεται
-    // ενώ ο container είναι display:none (σπάει τα background events/μεγέθη)
+    // ---------------- CALENDAR (day / week) ----------------
     function initCalendar() {
         if (calendar) return;
 
         calendar = new Calendar(calendarEl, {
             plugins: [dayGridPlugin, interactionPlugin],
             initialView: 'dayGridMonth',
-            selectable: true,
-            selectOverlap: false,
+            validRange: {
+                start: new Date().toISOString().slice(0, 10)
+            },
 
-            events: function(fetchInfo, successCallback, failureCallback) {
-
+            events: function (fetchInfo, successCallback, failureCallback) {
                 fetch(calendarEl.dataset.availabilityUrl)
                     .then(response => response.json())
                     .then(data => {
+                        availabilityEvents = data;
 
                         successCallback(
                             data.map(event => ({
@@ -166,197 +199,142 @@ document.addEventListener('DOMContentLoaded', function () {
                                 title: event.title || 'Κρατημένο',
                                 start: event.start,
                                 end: event.end,
-                                allDay: true,               // <-- ΤΟ ΒΑΣΙΚΟ FIX: χωρίς αυτό, background events με ώρα στο start/end δεν "γεμίζουν" σωστά ολόκληρες τις ημέρες στο dayGridMonth
+                                allDay: true,
                                 display: 'background',
-                                backgroundColor: '#ffcccc',
                                 classNames: ['blocked-date']
                             }))
                         );
-
                     })
                     .catch(error => {
                         console.error(error);
                         failureCallback(error);
                     });
-
             },
 
-            // ΑΦΑΙΡΕΘΗΚΑΝ eventContent / eventDidMount που έκαναν μόνο console.log
-            // (ήταν debug κώδικας — δεν χρειάζονται για background events)
-
-            selectAllow: function (selection) {
-
-                let start = selection.start;
-                let end   = selection.end;
-
-                let blocked = false;
-
-                calendar.getEvents().forEach(event => {
-
-                    if (event.display === 'background') {
-
-                        let eventStart = event.start;
-                        let eventEnd   = event.end;
-
-                        if (start < eventEnd && end > eventStart) {
-
-                            blocked = true;
-
-                        }
-
-                    }
-
+            // Τρέχει αυτόματα σε ΚΑΘΕ render (αρχικό + κάθε αλλαγή μήνα) —
+            // δεν χρειάζεται κανένα χειροκίνητο re-render.
+            dayCellClassNames: function (arg) {
+                const dateStr = arg.date.toISOString().slice(0, 10);
+                const isBlocked = availabilityEvents.some(event => {
+                    const evStart = (event.start || '').slice(0, 10);
+                    const evEnd   = (event.end || '').slice(0, 10);
+                    return dateStr >= evStart && dateStr < evEnd;
                 });
 
-                return !blocked;
-
+                return isBlocked ? ['day-cell-blocked'] : [];
             },
 
-            // DAY MODE: drag-select όσες μέρες θέλει ο χρήστης
-            select: function (selection) {
-
-                if (selectedType !== 'day') return;
-
-                const start = selection.start;
-
-                const days = parseInt(dayInput.value) || 1;
-
-                const end = new Date(start);
-                end.setDate(end.getDate() + days);
-
-                calendarSelection = { start, end };
-
-                calendar.getEvents()
-                    .filter(e => e.id === 'day-preview')
-                    .forEach(e => e.remove());
-
-                calendar.addEvent({
-                    id: 'day-preview',
-                    title: `${days} day(s)`,
-                    start,
-                    end,
-                    allDay: true,
-                    color: '#198754'
-                });
-
-                updateCalendarPrice();
-            },
-
-            // WEEK MODE: ένα κλικ κλειδώνει αυτόματα 7 μέρες από εκείνη την ημέρα
             dateClick: function (info) {
-                if (selectedType !== 'week') return;
+                if (selectedType !== 'day' && selectedType !== 'week') return;
 
-                const start = info.date;
-                const weeks = parseInt(weeksInput.value) || 1;
+                const todayStr = new Date().toISOString().slice(0, 10);
+                if (info.dateStr < todayStr) {
+                    alert('Δεν μπορείτε να επιλέξετε ημερομηνία πριν από σήμερα.');
+                    return;
+                }
 
-                const end = new Date(start);
-                end.setDate(end.getDate() + (weeks * 7));
+                const startStr = info.dateStr; // 'YYYY-MM-DD', local ημερολογιακή μέρα, καμία μετατροπή
 
-                calendarSelection = { start, end };
+                const units = selectedType === 'week'
+                    ? (parseInt(weeksInput.value) || 1)
+                    : (parseInt(dayInput.value) || 1);
 
-                // οπτική επιβεβαίωση: highlight το 7ήμερο block
-                calendar.getEvents().filter(e => e.id === 'week-preview').forEach(e => e.remove());
-                calendar.addEvent({
-                    id: 'week-preview',
-                    title: 'One Full Week Selected',
-                    start,
-                    end,
-                    allDay: true,
-                    color: '#0d6efd'
+                const totalDays = selectedType === 'week' ? units * 7 : units;
+                const endStr = addDaysToDateStr(startStr, totalDays);
+
+                if (isRangeBlocked(startStr, endStr)) {
+                    alert('Το ποδήλατο δεν είναι διαθέσιμο για κάποια από τις επιλεγμένες ημέρες.');
+                    clearCalendarSelection();
+                    return;
+                }
+
+                calendarSelection = { start: startStr, end: endStr };
+                renderPreviewEvent();
+                updateCalendarPrice();
+            },
+            dayCellDidMount: function (arg) {
+                const dateStr = arg.date.toISOString().slice(0, 10);
+                const isBlocked = availabilityEvents.some(event => {
+                    const evStart = (event.start || '').slice(0, 10);
+                    const evEnd   = (event.end || '').slice(0, 10);
+                    return dateStr >= evStart && dateStr < evEnd;
                 });
 
-                updateCalendarPrice();
+                if (isBlocked) {
+                    arg.el.classList.add('day-cell-blocked');
+                }
             }
         });
 
         calendar.render();
     }
 
-    weeksInput.addEventListener('input', () => {
-
-        if (selectedType !== 'week') return;
-
-        if (!calendarSelection) return;
-
-        const start = calendarSelection.start;
-
-        const weeks = parseInt(weeksInput.value) || 1;
-
-        const end = new Date(start);
-        end.setDate(end.getDate() + weeks * 7);
-
-        calendarSelection = { start, end };
+    function renderPreviewEvent() {
+        if (!calendarSelection || !calendar) return;
 
         calendar.getEvents()
-            .filter(e => e.id === 'week-preview')
+            .filter(e => e.id === 'range-preview')
             .forEach(e => e.remove());
 
+        const lastDay = lastInclusiveDayStr(calendarSelection.end);
+        const isWeek = selectedType === 'week';
+
         calendar.addEvent({
-            id: 'week-preview',
-            title: `${weeks} week(s)`,
-            start,
-            end,
+            id: 'range-preview',
+            title: `${formatDateStr(calendarSelection.start)} - ${formatDateStr(lastDay)}`,
+            start: calendarSelection.start,
+            end: calendarSelection.end,
             allDay: true,
-            color: '#0d6efd'
+            classNames: [isWeek ? 'week-selection' : 'day-selection']
         });
+    }
 
+    // Όταν αλλάζει ο αριθμός ημερών/εβδομάδων ΑΦΟΥ έχει ήδη γίνει click σε
+    // ημερομηνία, ξαναϋπολογίζουμε το τέλος από το ίδιο start.
+    function recalcFromExistingStart() {
+        if (!calendarSelection) return;
+
+        const units = selectedType === 'week'
+            ? (parseInt(weeksInput.value) || 1)
+            : (parseInt(dayInput.value) || 1);
+
+        const totalDays = selectedType === 'week' ? units * 7 : units;
+        const newEnd = addDaysToDateStr(calendarSelection.start, totalDays);
+
+        if (isRangeBlocked(calendarSelection.start, newEnd)) {
+            alert('Το ποδήλατο δεν είναι διαθέσιμο για τόσες μέρες/εβδομάδες από αυτή την ημερομηνία.');
+            clearCalendarSelection();
+            return;
+        }
+
+        calendarSelection.end = newEnd;
+        renderPreviewEvent();
         updateCalendarPrice();
+    }
 
+    weeksInput.addEventListener('input', () => {
+        if (selectedType !== 'week') return;
+        recalcFromExistingStart();
     });
 
     dayInput.addEventListener('input', () => {
-
         if (selectedType !== 'day') return;
-        if (!calendarSelection) return;
-
-        const start = calendarSelection.start;
-
-        const days = parseInt(dayInput.value) || 1;
-
-        const end = new Date(start);
-        end.setDate(end.getDate() + days);
-
-        calendarSelection = { start, end };
-
-        calendar.getEvents()
-            .filter(e => e.id === 'day-preview')
-            .forEach(e => e.remove());
-
-        calendar.addEvent({
-            id: 'day-preview',
-            title: `${days} day(s)`,
-            start,
-            end,
-            allDay: true,
-            color: '#198754'
-        });
-
-        updateCalendarPrice();
-
+        recalcFromExistingStart();
     });
 
     function clearCalendarSelection() {
-
         calendarSelection = null;
 
-        // Σβήσε όλα τα preview events
         if (calendar) {
-            calendar.getEvents().forEach(event => {
-                if (
-                    event.id === 'week-preview' ||
-                    event.id === 'day-preview'
-                ) {
-                    event.remove();
-                }
-            });
+            calendar.getEvents()
+                .filter(e => e.id === 'range-preview')
+                .forEach(e => e.remove());
         }
 
-        // Καθάρισε hidden inputs
         rentStartField.value = '';
         rentEndField.value = '';
         priceField.value = '';
 
-        // Καθάρισε summary
         durationSummary.textContent = '-';
         priceSummary.textContent = '0 €';
         priceValue.textContent = '0';
@@ -367,42 +345,38 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateCalendarPrice() {
         if (!calendarSelection) return;
 
-        const start = calendarSelection.start;
-        const end = calendarSelection.end;
+        const { start, end } = calendarSelection;
+        const lastDay = lastInclusiveDayStr(end);
 
         let units, price, label;
         if (selectedType === 'week') {
-
             units = parseInt(weeksInput.value) || 1;
-
             price = units * weekPrice;
-
             label = `${units} εβδομάδες`;
         } else {
             units = parseInt(dayInput.value) || 1;
-
             price = units * dayPrice;
-
             label = `${units} ημέρες`;
         }
 
-        rentStartField.value = start.toISOString();
-        rentEndField.value = end.toISOString();
+        // Καθαρά ημερολογιακά strings, χωρίς toISOString() — έτσι δεν
+        // υπάρχει καμία απολύτως μετατόπιση timezone στο backend.
+        rentStartField.value = start;
+        rentEndField.value = end;
         priceField.value = price;
 
-        priceValue.textContent = price;
-        priceSummary.textContent = `${price} €`;
-        durationSummary.textContent = label;
+        priceValue.textContent = `${price.toFixed(2).replace('.', ',')} €`;
+        priceSummary.textContent = `${price.toFixed(2).replace('.', ',')} €`;
+        durationSummary.textContent = `${label} (${formatDateStr(start)} - ${formatDateStr(lastDay)})`;
         submitBtn.disabled = false;
     }
 
-    // --- RADIO SWITCH ---
+    // ---------------- RADIO SWITCH ----------------
     document.querySelectorAll('input[name="rental_type_radio"]').forEach(radio => {
         radio.addEventListener('change', e => {
             selectedType = e.target.value;
             rentalTypeField.value = selectedType;
 
-            // reset προηγούμενης επιλογής όταν αλλάζει mode, ώστε να μη μείνει "κολλημένη" λάθος τιμή
             clearCalendarSelection();
 
             if (selectedType === 'hour') {
@@ -417,13 +391,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 dayGroup.style.display  = selectedType === 'day'  ? '' : 'none';
                 weeksGroup.style.display = selectedType === 'week' ? '' : 'none';
 
-                initCalendar();       // τώρα που το container είναι ήδη ορατό
-                calendar.updateSize(); // πάντα, όχι μόνο πρώτη φορά
+                initCalendar();
+                calendar.updateSize();
                 submitBtn.disabled = true;
             }
         });
     });
 
-    // αρχικοποίηση σε hour mode
     updateHourPrice();
 });
+

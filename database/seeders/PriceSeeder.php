@@ -21,6 +21,7 @@ class PriceSeeder extends Seeder
                     DB::table('prices')->insert([
                         'bike_id' => $bike->id,
                         'price' => rand(300, 5000),
+                        'description' => '€',
                     ]);
 
                     break;
@@ -31,15 +32,18 @@ class PriceSeeder extends Seeder
                     DB::table('prices')->insert([
                         [
                             'bike_id' => $bike->id,
-                            'price' => rand(2, 9) . ' €/hour',
+                            'price' => rand(2, 9),
+                            'description' => ' €/hour',
                         ],
                         [
                             'bike_id' => $bike->id,
-                            'price' => rand(10, 39) . ' €/day',
+                            'price' => rand(10, 39),
+                            'description' => ' €/day',
                         ],
                         [
                             'bike_id' => $bike->id,
-                            'price' => rand(40, 150) . ' €/week',
+                            'price' => rand(40, 150),
+                            'description' => ' €/week',
                         ],
                     ]);
 

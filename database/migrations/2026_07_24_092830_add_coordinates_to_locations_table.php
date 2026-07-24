@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('prices', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('bike_id')->constrained()->cascadeOnDelete();
-            $table->float('price');
-            $table->timestamps();
+        Schema::table('locations', function (Blueprint $table) {
+            $table->decimal('latitude',10,7);
+            $table->decimal('longitude',10,7);
         });
     }
 
@@ -24,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('prices');
+        Schema::table('locations', function (Blueprint $table) {
+            Schema::dropIfExists('locations');
+        });
     }
 };
