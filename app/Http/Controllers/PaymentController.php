@@ -8,6 +8,8 @@ use App\Models\Card;
 use App\Models\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Mail\OrderCompletedMail;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
 {
@@ -101,10 +103,23 @@ class PaymentController extends Controller
                 'reserved_until' => null,
             ]);
 
+
+            $order->load([
+                'user',
+                'status',
+                'bike.brand',
+                'bike.type',
+            ]);
+
+            Mail::to($order->user->email)
+                ->queue(new OrderCompletedMail($order));
+
             return response()->json([
                 'success' => true,
                 'redirect' => route('home'),
             ]);
+
+
         }
 
         /*
@@ -203,6 +218,21 @@ class PaymentController extends Controller
             'completed_at' => now(),
             'reserved_until' => null,
         ]);
+
+        $order->load([
+            'user',
+            'status',
+            'bike.brand',
+            'bike.type',
+        ]);
+
+        /*
+         * Το email δεν αποστέλλεται μέσα στο request.
+         * Αποθηκεύεται στην queue και θα σταλεί
+         * από τον queue worker.
+        */
+        Mail::to($order->user->email)
+            ->queue(new OrderCompletedMail($order));
 
         return response()->json([
             'success' => true,

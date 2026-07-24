@@ -35,102 +35,85 @@ class CheckoutController extends Controller
 
     public function storeSale(Request $request, Bike $bike)
     {
-
-        $request->validate([
-            'location_id' => 'required|exists:locations,id',
-            'dropoff_address' => 'required|string|max:255',
+        $validated = $request->validate([
+            'dropoff_address' => ['required', 'string', 'max:255'],
         ]);
 
+        try {
+            $order = DB::transaction(function () use ($bike, $validated) {
 
-//        $activeReservation = Order::where('bike_id', $bike->id)
-//            ->whereNull('completed_at')
-//            ->whereNotNull('reserved_until')
-//            ->where('reserved_until', '>', now())
-//            ->exists();
-//
-//        if ($activeReservation) {
-//
-//            return redirect()->back()->with('error', 'This bike is currently reserved by another customer.');
-//        }
+                /*
+                 * Ξαναδιαβάζουμε το ποδήλατο από τη βάση
+                 * και κλειδώνουμε προσωρινά τη γραμμή.
+                 */
+                $lockedBike = Bike::query()
+                    ->whereKey($bike->id)
+                    ->lockForUpdate()
+                    ->firstOrFail();
 
+                /*
+                 * Έλεγχος διαθεσιμότητας.
+                 */
+                if ($lockedBike->quantity <= 0) {
+                    throw ValidationException::withMessages([
+                        'bike' => 'This bike is currently unavailable.',
+                    ]);
+                }
 
+                /*
+                 * Παίρνουμε την τιμή πώλησης.
+                 */
+                $price = $lockedBike->prices()->first()?->price;
 
-        $order = DB::transaction(function () use ($bike, $validated) {
+                if ($price === null) {
+                    throw ValidationException::withMessages([
+                        'bike' => 'No sale price has been configured for this bike.',
+                    ]);
+                }
 
-            /*
-             * Ξαναδιαβάζουμε το ποδήλατο από τη βάση και κλειδώνουμε
-             * προσωρινά τη συγκεκριμένη γραμμή.
-             *
-             * Έτσι, αν δύο χρήστες πατήσουν checkout ταυτόχρονα,
-             * δεν θα μειωθεί λάθος το quantity.
-             */
-            $lockedBike = Bike::query()
-                ->whereKey($bike->id)
-                ->lockForUpdate()
-                ->firstOrFail();
+                /*
+                 * Παίρνουμε το αρχικό status.
+                 */
+                $statusId = Status::where('step', 0)->value('id');
 
-            /*
-             * Αν δεν υπάρχει διαθέσιμο απόθεμα,
-             * δεν δημιουργείται παραγγελία.
-             */
-            if ($lockedBike->quantity <= 0) {
-                throw ValidationException::withMessages([
-                    'bike' => 'This bike is currently unavailable.',
+                if (!$statusId) {
+                    throw ValidationException::withMessages([
+                        'order' => 'The initial order status was not found.',
+                    ]);
+                }
+
+                /*
+                 * Δημιουργούμε την προσωρινή παραγγελία.
+                 */
+                $order = Order::create([
+                    'price' => $price,
+                    'order_date' => now(),
+                    'payed_off' => false,
+                    'dropoff_address' => $validated['dropoff_address'],
+                    'bike_id' => $lockedBike->id,
+                    'user_id' => auth()->id(),
+                    'status_id' => $statusId,
+                    'reserved_until' => now()->addMinutes(2),
+                    'completed_at' => null,
+                    'card_id' => null,
                 ]);
-            }
 
-            /*
-             * Παίρνουμε την τιμή πώλησης.
-             */
-            $price = $lockedBike->prices()->first()?->price;
+                /*
+                 * Μειώνουμε το διαθέσιμο απόθεμα.
+                 */
+                $lockedBike->decrement('quantity');
 
-            if ($price === null) {
-                throw ValidationException::withMessages([
-                    'bike' => 'No sale price has been configured for this bike.',
-                ]);
-            }
+                return $order;
+            });
+        } catch (ValidationException $e) {
+            return back()
+                ->withErrors($e->errors())
+                ->withInput();
+        }
 
-            /*
-             * Παίρνουμε το αρχικό status.
-             */
-            $statusId = Status::where('step', 0)->value('id');
-
-            if (!$statusId) {
-                throw ValidationException::withMessages([
-                    'order' => 'The initial order status was not found.',
-                ]);
-            }
-
-            /*
-             * Δημιουργείται η προσωρινή παραγγελία
-             * με κράτηση 15 λεπτών.
-             */
-            $order = Order::create([
-                'price' => $price,
-                'order_date' => now(),
-                'payed_off' => false,
-                'dropoff_address' => $validated['dropoff_address'],
-                'bike_id' => $lockedBike->id,
-                'user_id' => auth()->id(),
-                'status_id' => $statusId,
-                'reserved_until' => now()->addMinutes(2),
-                'completed_at' => null,
-                'location_id' => null,
-                'card_id' => null,
-            ]);
-
-            /*
-             * Το προϊόν δεσμεύεται αμέσως.
-             */
-            $lockedBike->decrement('quantity');
-
-            return $order;
-        });
-
-
-
-        return redirect()->route('payment.index', $order);
-
+        return redirect()->route('payment.index', [
+            'order' => $order->id,
+        ]);
     }
 
 
