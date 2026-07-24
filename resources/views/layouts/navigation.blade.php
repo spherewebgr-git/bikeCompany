@@ -24,7 +24,8 @@
 
 
 
-{{--                STAFF MENU OPTIONS--}}
+{{-- STAFF MENU OPTIONS--}}
+
                 {{-- @auth
                     @if(Auth::user()->role->name === 'staff')
                         <x-nav-link :href="route('dashboard.management.bikes')" :active="request()->routeIs('dashboard.management.bikes')">
@@ -44,15 +45,20 @@
             </div>
 
             <div class="nav-user">
+                        
                 @auth
-                {{-- <a href="{{ route('dashboard') }}" class="btn btn-trans btn-md">Dashboard</a> --}}
+                    @if(Auth::user()->role->name === 'staff')
+                        <a href="{{ route('dashboard.management.bikes') }}" class="btn btn-trans btn-md" style="height: 34px;">Dashboard</a>
+                    @endif
+                @endauth
 
+                @auth
                     <div class="profile-menu">
                         <a href="#" class="btn btn-trans btn-md">Profile</a>
                         <div id="profile-menu-dropdown">
                             <ul class="profile-links">
                                 <a href="{{ route('profile.edit') }}"><li>Account</li></a>
-                                <a href=""><li>My Orders</li></a>
+                                <a href="{{ route('profile.orders') }}"><li>My Orders</li></a>
                                 <a href="{{ route('profile.history') }}"><li>History</li></a>
                             </ul>
                         </div>

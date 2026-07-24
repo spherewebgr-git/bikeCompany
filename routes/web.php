@@ -69,6 +69,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/history', [ProfileController::class, 'history'])->name('profile.history');
 
     Route::get('/profile/history/search', [ProfileController::class, 'searchhistory'])->name('profile.history.search');
+
+    Route::get('/profile/orders', [ProfileController::class, 'orders'])->name('profile.orders');
+
+    Route::get('/profile/orders/search', [ProfileController::class, 'ordersearch'])->name('profile.orders.search');
 });
 
 

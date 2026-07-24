@@ -65,6 +65,26 @@ class ProfileController extends Controller
     }
 
 
+    public function orders(Request $request)
+    {
+        $user = $request->user();
+        $complete = Status::max('step');    
+        $orders = Order::where('user_id', $user->id)->whereHas('status', function ($query) use ($complete)
+        { $query->where('step', '<>', $complete)->where('step', '<>', 0); })->get();
+        
+        $bike = Bike::all();
+        $location = Location::all()->sortBy("name");
+        $provision = Provision::all()->sortBy("id");
+        $status = Status::all()->sortBy("step");
+
+        return view('profile.myorders', compact(
+            'orders',
+            'bike',
+            'location',
+            'provision',
+            'status'
+        ));
+    }
 
     public function history(Request $request)
     {

@@ -31,11 +31,16 @@
     border-color: #fe4819;
 }
 
-#MyHistory
+#MyOrders
 {
     margin: 0;
     padding: 0;
     font-family: "Oswald", sans-serif;
+
+    .card-container
+    {
+        display: flex;
+    }
 
     .no-orders
     {
@@ -57,18 +62,20 @@
         padding: 20px;
     }
 
-    .card-container
-    {
-        display: flex;
-    }
-
     .order-card
     {
         margin: 20px;
         padding: 20px;
-        display: flex;
         border-radius: 6px;
         box-shadow: 0 0 8px #fe704c;
+
+        .path
+        {
+            position: relative;
+            transform: translateX(10%);
+        }
+
+        .inner-card { display: flex; }
 
         .info
         {
@@ -127,7 +134,7 @@
     {
         margin-bottom: 20px;
     }
-    
+
     .search 
     {
         padding-right: 15px;
@@ -143,7 +150,7 @@
                 background-color: #fff;
                 border: none;
                 border-radius: 3px;
-                margin: 0 3px;
+                margin-right: 6px;
                 padding: 0 6px;
 
                 &:focus-visible 
