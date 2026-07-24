@@ -13,6 +13,7 @@
         <div class="page-header-container">
             <nav class="breadcrumb">
                 <a href="{{ route('home') }}"><i class="fa-solid fa-house"></i> Home</a> /
+                <a href="{{ route('bikes.rental') }}"> Rental Bikes</a> /
                 <span>Checkout</span>
             </nav>
         </div>
@@ -31,7 +32,8 @@
                             <h2>Checkout</h2>
                         </div>
 
-                        <form action="{{ route('checkout.store-rental', $bike) }}"
+                        <form id="checkout-form"
+                              action="{{ route('checkout.store-rental', $bike) }}"
                               method="POST"
                               class="contact-form checkout-form">
 
@@ -82,12 +84,19 @@
                                     required
                                 >
 
-                                <p>
-                                    Selected:
-                                    <span id="selected-location">
+                                <div class="selected-location-box">
+                                    <span class="selected-label">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        Selected location:
+                                    </span>
+                                    <span id="selected-location" class="selected-value empty">
                                         None
                                     </span>
-                                </p>
+                                </div>
+
+                                <div id="location-error" class="location-error">
+                                    Please select a pickup location on the map.
+                                </div>
                             </div>
 
                             <div class="checkout-section">
@@ -111,6 +120,7 @@
                                 </div>
 
                                 {{-- HOUR MODE: datetime + διάρκεια σε ώρες --}}
+                                {{-- HOUR MODE: datetime + διάρκεια σε ώρες --}}
                                 <div id="hour-mode" class="rental-mode">
                                     <div class="row">
                                         <div class="col-md-6 form-group">
@@ -120,10 +130,43 @@
                                                    data-initial-start="{{ now()->toIso8601String() }}"
                                                    required>
                                         </div>
+
                                         <div class="col-md-6 form-group">
-                                            <label>Duration (hours)</label>
-                                            <input type="number" id="rental_duration" class="form-control"
-                                                   min="1" max="72" value="1">
+                                            {{-- HOUR MODE: hourly calendar --}}
+                                            <div id="hour-mode" class="rental-mode">
+
+                                                <div class="form-group">
+                                                    <label>
+                                                        Select start time
+                                                    </label>
+
+                                                    <div id="hour-calendar"
+                                                         data-hour-price="{{ $bike->prices[0]?->price ?? 0 }}"
+                                                         data-availability-url="{{ route('bikes.availability', $bike) }}">
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <label>
+                                                        Duration (hours)
+                                                    </label>
+
+                                                    <input
+                                                        type="number"
+                                                        id="rental_duration"
+                                                        class="form-control"
+                                                        min="1"
+                                                        max="72"
+                                                        value="1">
+                                                </div>
+
+
+                                                {{-- κρατάμε το hidden για το controller --}}
+                                                <input
+                                                    type="hidden"
+                                                    id="rent_start_display">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -257,8 +300,15 @@
 
                         document.getElementById('location_id').value = location.id;
 
-                        document.getElementById('selected-location').innerHTML =
-                            location.name;
+                        let selected = document.getElementById('selected-location');
+
+                        selected.innerHTML = location.name;
+
+                        selected.classList.remove('empty');
+                        selected.classList.add('active');
+
+
+                        document.getElementById('location-error').style.display = 'none';
 
                     });
 
@@ -267,7 +317,7 @@
 
 
                 // CHECK LOCATION BEFORE SUBMIT
-                document.querySelector('form').addEventListener('submit', function(e){
+                document.querySelector('#checkout-form').addEventListener('submit', function(e){
 
                     let location = document.getElementById('location_id').value;
 
@@ -276,8 +326,19 @@
 
                         e.preventDefault();
 
-                        alert('Please select a delivery location on the map.');
 
+                        // εμφανίζει το μήνυμα
+                        document.getElementById('location-error').style.display = 'block';
+
+
+                        // scroll στον χάρτη
+                        document.getElementById('map').scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+
+
+                        return false;
                     }
 
                 });
