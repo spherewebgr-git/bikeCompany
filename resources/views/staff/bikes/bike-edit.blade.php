@@ -1,4 +1,5 @@
-<x-app-layout>
+@extends('layouts.admin')
+@section('content')
 <div id="BikeEdit">
     <form method="POST" action="{{ is_null($bike) ? route('bike.create') : route('bike.update', [$bike])}}">
 
@@ -12,7 +13,7 @@
                 </div>
                 <div class="vertical">
                     <label for="colour">Colour:</label><br>
-                    <input type="text" id="colour" name="colour" placeholder="Colour"><br>
+                    <input type="text" id="colour" name="colour" placeholder="Colour">
                 </div>
             </div>
 
@@ -26,7 +27,7 @@
                 </div>
                 <div class="vertical">
                     <label for="colour">Colour:</label><br>
-                    <input type="text" id="colour" name="colour" value="{{ $bike->colour }}"><br>
+                    <input type="text" id="colour" name="colour" value="{{ $bike->colour }}">
                 </div>
             </div>
 
@@ -65,7 +66,7 @@
                             {{ $speed->gears }}
                         </option>
                     @endforeach
-                </select><br>
+                </select>
             </div>
         </div>
 
@@ -84,23 +85,23 @@
 
                 <div class="vertical" id="quantity">
                     <label for="quantity">Quantity:</label><br>
-                    <input type="number" id="quant" name="quant" placeholder="0"><br>
+                    <input type="number" id="quant" name="quant" placeholder="0">
                 </div>
 
                 <div class="vertical" id="serial">
                     <label for="serialnum">Serial Number:</label><br>
-                    <input type="text" id="serialnum" name="serialnum" placeholder="Serial Number"><br>
+                    <input type="text" id="serialnum" name="serialnum" placeholder="Serial Number">
                 </div>
             @else
                 <div class="vertical">
                     <label for="provision_id">Provision:</label><br>
-                    <p>{{ $bike->provision->name }}</p><br>
+                    <p>{{ $bike->provision->name }}</p>
                 </div>
 
                 @if ($bike->provision->name === 'rent')
                     <div class="vertical" id="serial">
                         <label for="serialnum">Serial Number:</label><br>
-                        <p>{{ $bike->serialnum }}</p><br>
+                        <p>{{ $bike->serialnum }}</p>
                     </div>                    
                 @endif
 
@@ -111,15 +112,23 @@
         @if (is_null($bike))
             <div id="add-price" class="add-price"></div>
         @else
-            @foreach ($prices as $price)
-                <input type="text" id="price" name="price[]" value="{{ $price->price }}"><br>
-            @endforeach
+            @if ($bike->provision->name === 'rent')
+                <label for="pricehour">Per hour:</label><br>
+                <input type="text" id="price" name="pricehour" value="{{ $prices[0]->price }}"><br>
+                <label for="pricehour">Per day:</label><br>
+                <input type="text" id="price" name="priceday" value="{{ $prices[1]->price }}"><br>
+                <label for="pricehour">Per week:</label><br>
+                <input type="text" id="price" name="priceweek" value="{{ $prices[2]->price }}"><br>  
+            @else
+                <input type="text" id="price" name="pricebuy" value="{{ $prices[0]->price }}"><br>
+            @endif
+
         @endif
 
         <input type="submit" class="Submit" value={{ is_null($bike) ? "Add" : "Update"}}>
+        <a href="{{ route('dashboard.management.bikes') }}" type="submit" class="Cancel">Cancel</a>
     </form>
 </div>
-</x-app-layout>
 <script>
     const provision = document.getElementById('provision_id');
     const priceFields = document.getElementById('add-price');
@@ -128,28 +137,49 @@
     {
         priceFields.innerHTML = '';
 
+        let placeholders = ["Price in €", "Price in €/hour", "Price in €/day", "Price in €/week"]
+
         const selected = provision.options[provision.selectedIndex];
         const count = selected.textContent.trim().toLowerCase() === 'rent' ? 3 : 1;
 
-        for (let i = 0; i < count; i++)
+        if (count === 1) //buy
         {
+            const label = document.createElement('label');
+            label.textContent = placeholders[0];
+
             const input = document.createElement('input');
             input.type = 'text';
             input.name = 'price[]'; // [] for array (multiple prices)
             input.className = 'form-control';
-            input.placeholder = '0.0'
+            input.placeholder = '0.0';
 
+            priceFields.appendChild(label);
+            priceFields.appendChild(document.createElement('br'));
             priceFields.appendChild(input);
             priceFields.appendChild(document.createElement('br'));
-        }
 
-        if (count === 1) //buy
-        {
             document.getElementById('quantity').style.display = 'block';
             document.getElementById('serial').style.display = 'none';
         }
         else
         {
+            for (let i = 0; i < count; i++)
+            {
+                const label = document.createElement('label');
+                label.textContent = placeholders[i+1];
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = 'price[]'; // [] for array (multiple prices)
+                input.className = 'form-control';
+                input.placeholder = '0.0';
+
+                priceFields.appendChild(label);
+                priceFields.appendChild(document.createElement('br'));
+                priceFields.appendChild(input);
+                priceFields.appendChild(document.createElement('br'));
+            }
+
             document.getElementById('quantity').style.display = 'none';
             document.getElementById('serial').style.display = 'block';
         }
@@ -158,3 +188,4 @@
     provision.addEventListener('change', addPriceFields);
     addPriceFields(); // Render on page load
 </script>
+@endsection

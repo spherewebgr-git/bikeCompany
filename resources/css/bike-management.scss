@@ -243,7 +243,7 @@
             border-radius: 0;
             font-size: 20px;
 
-            &#image_path { width: 38%; }
+            &#image_path { width: 45%; }
 
             &:focus-visible 
             {
@@ -256,7 +256,6 @@
         p
         {
             font-size: 20px;
-            padding-top: 7px;
         }
 
         #price { margin-bottom: 30px; }
@@ -283,9 +282,21 @@
             @include orangebtn;
             font-size: 20px;
             padding: 10px 30px;
+            margin-top: 30px;
         }
 
         .Submit:hover { @include orangebtnhover; }
+
+        .Cancel
+        {
+            @include regularbtn();
+            font-size: 20px;
+            padding: 10px 30px;
+            margin-left: 40px;
+            margin-top: 30px;
+        }
+
+        .Cancel:hover { @include regularbtnhover; }
     }
 
 }
