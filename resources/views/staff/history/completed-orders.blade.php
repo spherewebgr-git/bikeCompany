@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 @section('content')
     <div class="container" id="CompletedOrders">
-        <h2 class="section-heading">Completed Orders</h2>
+        <h2 class="section-heading">Order History</h2>
+        <h4>Completed Orders</h4>
 
         <div id="data-table-simple_wrapper" class="dataTables_wrapper">
             <table id="data-table-simple" class="display dataTable dtr-inline" role="grid">

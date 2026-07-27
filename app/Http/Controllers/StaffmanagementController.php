@@ -50,7 +50,7 @@ class StaffmanagementController extends Controller
 
         if ($request->filled('SKU'))
         {
-            $bikes->where('SKU', $request->SKU);
+            $bikes->where('SKU', 'LIKE', "%{$request->SKU}%");
         }
 
         return view('staff.bikes.management', [
@@ -324,27 +324,27 @@ class StaffmanagementController extends Controller
 
         if ($request->filled('gears'))
         {
-            $speeds = Speed::where('gears', $request->gears);
+            $speeds = Speed::where('gears', 'LIKE', "%{$request->gears}%");
         }
         elseif ($request->filled('provisions'))
         {
-            $provisions = Provision::where('name', $request->provisions);
+            $provisions = Provision::where('name', "%{$request->provisions}%");
         }
-        elseif ($request->filled('loactions'))
+        elseif ($request->filled('locations'))
         {
-            $loactions = Location::where('name', $request->loactions);
+            $locations = Location::where('name', 'LIKE', "%{$request->locations}%");
         }
         elseif ($request->filled('statuses'))
         {
-            $statuses = Status::where('name', $request->statuses);
+            $statuses = Status::where('name', 'LIKE', "%{$request->statuses}%");
         }
         elseif ($request->filled('types'))
         {
-            $types = Type::where('name', $request->types);
+            $types = Type::where('name', 'LIKE', "%{$request->types}%");
         }
         elseif ($request->filled('brands'))
         {
-            $brands = Brand::where('name', $request->brands);
+            $brands = Brand::where('name', 'LIKE', "%{$request->brands}%");
         }
 
         return view('staff.categories.management', [
@@ -429,8 +429,8 @@ class StaffmanagementController extends Controller
         $user = User::all();
         $bike = Bike::all();
         $location = Location::all()->sortBy("name");
-        $status = Status::where('step', '>', 0)->orderBy("step")->get();
         $provision = Provision::all()->sortBy("id");
+        $status = Status::where('step', '>', 0)->orderBy("step")->get();
 
         $complete = Status::max('step');
         $orders = Order::whereHas('status', function ($query) use ($complete)
@@ -481,9 +481,8 @@ class StaffmanagementController extends Controller
         {
             $orders->whereHas('bike', function ($q) use ($request)
             {
-                $q->where('SKU', 'LIKE', "%{$request->user}%")
-                ->orWhere('serialnum', 'LIKE', "%{$request->user}%");
-
+                $q->where('SKU', 'LIKE', "%{$request->product}%")->where('serialnum', null)
+                ->orWhere('serialnum', 'LIKE', "%{$request->product}%");
             });
         }
 
@@ -575,8 +574,8 @@ class StaffmanagementController extends Controller
         {
             $orders->whereHas('bike', function ($q) use ($request)
             {
-                $q->where('SKU', 'LIKE', "%{$request->user}%")
-                ->orWhere('serialnum', 'LIKE', "%{$request->user}%");
+                $q->where('SKU', 'LIKE', "%{$request->product}%")->where('serialnum', null)
+                ->orWhere('serialnum', 'LIKE', "%{$request->product}%");
 
             });
         }

@@ -22,8 +22,8 @@ return new class extends Migration
             $table->foreignId('status_id')->constrained('statuses');
 
             // BOOKING
-            $table->date('rent_start')->nullable();
-            $table->date('rent_end')->nullable();
+            $table->datetime('rent_start')->nullable();
+            $table->datetime('rent_end')->nullable();
             $table->foreignId('location_id')->nullable()->constrained('locations'); // PROBLEM: What if it gets deleted?
 
             // PURCHASE

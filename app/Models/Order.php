@@ -36,12 +36,6 @@ class Order extends Model
         'rent_end'   => 'datetime',
     ];
 
-
-//    protected $casts = [
-//        'rent_start' => 'datetime',
-//        'rent_end'   => 'datetime',
-//    ];
-
     public function location()
     {
         return $this->belongsTo(Location::class);

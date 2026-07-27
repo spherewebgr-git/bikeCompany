@@ -72,7 +72,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/profile/orders', [ProfileController::class, 'orders'])->name('profile.orders');
 
-    Route::get('/profile/orders/search', [ProfileController::class, 'ordersearch'])->name('profile.orders.search');
+    Route::get('/profile/orders/search', [ProfileController::class, 'searchorders'])->name('profile.orders.search');
 });
 
 
@@ -116,7 +116,7 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
     Route::post('/dashboard/management/categories/create-{category}', [StaffmanagementController::class, 'newcategory'])->name('category.create');
 
     // --------- ORDERS --------- \\
-    Route::get('/dashboard/management/pendingorders', [StaffmanagementController::class, 'manageorders'])->name('dashboard.management.orders');
+    Route::get('/dashboard/management/orders', [StaffmanagementController::class, 'manageorders'])->name('dashboard.management.orders');
 
     Route::post('/dashboard/management/order-update/{id}', [StaffmanagementController::class, 'orderupdate'])->name('order.update');
 
