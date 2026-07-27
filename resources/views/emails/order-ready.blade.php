@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Order Completed</title>
+    <title>Your Order Is Ready</title>
 </head>
 
 <body style="margin:0; padding:0; background-color:#f3f4f6; font-family:Arial, Helvetica, sans-serif;">
+
+@php
+    $isSale = strtolower($order->bike->provision->name ?? '') === 'buy';
+@endphp
 
 <table role="presentation"
        width="100%"
@@ -35,23 +39,24 @@
                             width="180"
                             style="display:block; height:auto; max-width:180px; margin:0 auto 15px;">
 
-                        <h1 style="margin:0; color:#ffffff; font-size:28px; font-weight:700;">
-                            Bike Company
+                        <h1 style="margin:0; color:#ffffff; font-size:27px; font-weight:700;">
+                            Your order is ready
                         </h1>
 
                         <p style="margin:10px 0 0; color:#d1d5db; font-size:15px;">
-                            Thank you for your purchase
+                            @if($isSale)
+                                Your new bike will be with you soon
+                            @else
+                                Your rental bike is ready for pickup
+                            @endif
                         </p>
+
                     </td>
                 </tr>
 
                 {{-- Main content --}}
                 <tr>
                     <td style="padding:35px 30px; color:#374151; font-size:15px; line-height:1.6;">
-
-                        <h2 style="margin:0 0 20px; color:#111827; font-size:24px;">
-                            Order confirmation
-                        </h2>
 
                         <p style="margin:0 0 15px;">
                             Hello
@@ -65,10 +70,54 @@
                             </strong>,
                         </p>
 
-                        <p style="margin:0 0 25px;">
-                            Your order has been completed successfully.
-                            Below you can find the details of your bike and order.
-                        </p>
+                        @if($isSale)
+
+                            <p style="margin:0 0 20px;">
+                                We are happy to inform you that your order
+                                <strong>#{{ $order->id }}</strong>
+                                is ready and has entered the delivery process.
+                            </p>
+
+                            <div style="margin:25px 0; padding:20px; background-color:#ecfdf5; border:1px solid #a7f3d0; border-radius:6px;">
+
+                                <p style="margin:0; color:#065f46; font-size:16px; font-weight:700;">
+                                    Your bike is ready for delivery
+                                </p>
+
+                                <p style="margin:8px 0 0; color:#047857;">
+                                    Your order is expected to arrive at the selected delivery address
+                                    within 3–5 business days.
+                                </p>
+
+                            </div>
+
+                        @else
+
+                            <p style="margin:0 0 20px;">
+                                We are happy to inform you that your rental order
+                                <strong>#{{ $order->id }}</strong>
+                                is ready for pickup.
+                            </p>
+
+                            <div style="margin:25px 0; padding:20px; background-color:#eff6ff; border:1px solid #93c5fd; border-radius:6px;">
+
+                                <p style="margin:0; color:#1d4ed8; font-size:16px; font-weight:700;">
+                                    Your bike is ready for pickup
+                                </p>
+
+                                <p style="margin:8px 0 0; color:#1e40af;">
+                                    You can collect your bike from the location you selected
+                                    during your reservation.
+                                </p>
+
+                                <p style="margin:15px 0 0; color:#1e40af;">
+                                    <strong>Pickup location:</strong><br>
+                                    {{ $order->location->name ?? 'Not available' }}
+                                </p>
+
+                            </div>
+
+                        @endif
 
                         {{-- Bike information --}}
                         <h3 style="margin:0; padding:12px 15px; background-color:#f3f4f6; color:#111827; font-size:18px;">
@@ -126,35 +175,25 @@
                             </tr>
 
                             <tr>
-                                <td style="padding:12px 15px; border-bottom:1px solid #e5e7eb;">
+                                <td style="padding:12px 15px;">
                                     <strong>SKU</strong>
                                 </td>
 
                                 <td align="right"
-                                    style="padding:12px 15px; border-bottom:1px solid #e5e7eb;">
+                                    style="padding:12px 15px;">
                                     {{ $order->bike->SKU ?? 'Not available' }}
                                 </td>
                             </tr>
 
-                            <tr>
-                                @if($order->bike->provision->name == 'rent')
-                                    <td style="padding:12px 15px;">
-                                        <strong>Serial number</strong>
-                                    </td>
-
-                                    <td align="right"
-                                        style="padding:12px 15px;">
-                                        {{ $order->bike->serialnum }}
-                                    </td>
-                                @endif
-
-                            </tr>
-
                         </table>
 
-                        {{-- Order information --}}
+                        {{-- Delivery or pickup information --}}
                         <h3 style="margin:0; padding:12px 15px; background-color:#f3f4f6; color:#111827; font-size:18px;">
-                            Order information
+                            @if($isSale)
+                                Delivery information
+                            @else
+                                Pickup information
+                            @endif
                         </h3>
 
                         <table role="presentation"
@@ -176,65 +215,54 @@
 
                             <tr>
                                 <td style="padding:12px 15px; border-bottom:1px solid #e5e7eb;">
-                                    <strong>Order date</strong>
+                                    <strong>Order status</strong>
                                 </td>
 
                                 <td align="right"
-                                    style="padding:12px 15px; border-bottom:1px solid #e5e7eb;">
-                                    {{
-                                        $order->order_date
-                                            ? $order->order_date->format('d/m/Y')
-                                            : $order->created_at->format('d/m/Y')
-                                    }}
+                                    style="padding:12px 15px; border-bottom:1px solid #e5e7eb; font-weight:700; color:#047857;">
+                                    Ready
                                 </td>
                             </tr>
 
-                            <tr>
-                                <td style="padding:12px 15px; border-bottom:1px solid #e5e7eb;">
-                                    <strong>Price</strong>
-                                </td>
+                            @if($isSale)
 
-                                <td align="right"
-                                    style="padding:12px 15px; border-bottom:1px solid #e5e7eb; font-weight:700;">
-                                    {{ number_format($order->price, 2) }} EUR
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td style="padding:12px 15px; border-bottom:1px solid #e5e7eb;">
-                                    <strong>Payment method</strong>
-                                </td>
-
-                                <td align="right"
-                                    style="padding:12px 15px; border-bottom:1px solid #e5e7eb;">
-                                    {{ $order->payed_off ? 'Card' : 'Cash on delivery' }}
-                                </td>
-                            </tr>
-
-                            @if($order->dropoff_address)
                                 <tr>
                                     <td style="padding:12px 15px; border-bottom:1px solid #e5e7eb;">
-                                        <strong>Delivery address</strong>
+                                        <strong>Estimated delivery</strong>
                                     </td>
 
                                     <td align="right"
                                         style="padding:12px 15px; border-bottom:1px solid #e5e7eb;">
-                                        {{ $order->dropoff_address }}
+                                        3–5 business days
                                     </td>
                                 </tr>
-                            @endif
 
-                            @if($order->status)
+                                @if($order->dropoff_address)
+                                    <tr>
+                                        <td style="padding:12px 15px;">
+                                            <strong>Delivery address</strong>
+                                        </td>
+
+                                        <td align="right"
+                                            style="padding:12px 15px;">
+                                            {{ $order->dropoff_address }}
+                                        </td>
+                                    </tr>
+                                @endif
+
+                            @else
+
                                 <tr>
                                     <td style="padding:12px 15px;">
-                                        <strong>Order status</strong>
+                                        <strong>Pickup location</strong>
                                     </td>
 
                                     <td align="right"
                                         style="padding:12px 15px;">
-                                        {{ $order->status->name }}
+                                        {{ $order->location->name ?? 'Not available' }}
                                     </td>
                                 </tr>
+
                             @endif
 
                         </table>
@@ -244,7 +272,11 @@
                         </p>
 
                         <p style="margin:5px 0 0; color:#6b7280; font-size:14px;">
-                            Please keep this email as confirmation of your order.
+                            @if($isSale)
+                                You do not need to take any further action.
+                            @else
+                                Please visit the selected pickup location to collect your bike.
+                            @endif
                         </p>
 
                     </td>
@@ -260,8 +292,9 @@
                         </p>
 
                         <p style="margin:0;">
-                            This is an automated order confirmation email.
+                            This is an automated order status email.
                         </p>
+
                     </td>
                 </tr>
 
@@ -269,6 +302,7 @@
 
         </td>
     </tr>
+
 </table>
 
 </body>

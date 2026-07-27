@@ -16,6 +16,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\OrderReadyMail;
+use App\Mail\OrderDeliveredMail;
+use Illuminate\Support\Facades\Mail;
 
 class StaffmanagementController extends Controller
 {
@@ -449,7 +452,39 @@ class StaffmanagementController extends Controller
     public function orderupdate($id, Request $request)
     {
         $order = Order::query()->where('id', $id)->first();
-        $order->update([ 'status_id' => $request->stat ]);
+
+        // Κρατάμε το προηγούμενο status
+        $previousStatus = strtolower($order->status->name);
+
+        // Ενημερώνουμε το status
+        $order->update([
+            'status_id' => $request->stat
+        ]);
+
+        // Ξαναφορτώνουμε τη σχέση status
+        $order->load('status');
+
+        $isReady = strtolower($order->status->name) === 'ready';
+
+        $wasAlreadyReady = $previousStatus === 'ready';
+
+        if ($isReady && !$wasAlreadyReady) {
+
+            Mail::to($order->user->email)
+                ->queue(new OrderReadyMail($order));
+        }
+
+        $order->load('status');
+
+        $isComplete = strtolower($$order->status->name) === 'complete';
+
+        $wasAlreadyComplete = $previousStatus === 'complete';
+
+        if ($isComplete && !$wasAlreadyComplete) {
+
+            Mail::to($order->user->email)
+                ->queue(new OrderDeliveredMail($order));
+        }
 
         return redirect()->route('dashboard.management.orders');
     }
