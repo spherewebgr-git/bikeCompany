@@ -4,7 +4,7 @@
 
             <div class="nav-logo">
                 <a href="{{ route('home') }}">
-                    <img src="{{Vite::asset('resources/images/logo.png')}}" alt="{{ config('app.name', 'Trail Bike') }}">
+                    <img src="{{Vite::asset('resources/images/bikeco-dark-logo.png')}}" alt="{{ config('app.name', 'Trail Bike') }}" style="height: 60px; width: auto;">
                 </a>
             </div>
 

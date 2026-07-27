@@ -6,6 +6,10 @@
         {
             transition: all 0.3s;
             opacity: 1;
+            height: auto;
+
+            .profile-links, .profile-links a, .profile-links li { height: auto; }
+            .profile-links li { padding: 10px; }
         }
     }
 
@@ -17,12 +21,14 @@
         width: 109.2px;
         padding-bottom: 0;
         opacity: 0;
+        height: 0px;
         transition: all 0.3s;
 
         .profile-links
         {
             padding: 0;
             margin: 0;
+            height: 0px;
 
             a
             {
@@ -31,12 +37,18 @@
                 font-size: 14px;
                 font-weight: 600;
                 color: #fff;
+                padding: 0;
+                margin: 0;
+                height: 0px;
             }
 
             li
             {
                 list-style-type: none;
                 padding: 10px;
+                padding: 0;
+                margin: 0;
+                height: 0px;
 
                 &:hover {
                     background-color: #fe4819;

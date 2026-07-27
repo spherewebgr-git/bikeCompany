@@ -22,7 +22,7 @@
 
                 <div class="auth-logo">
                     <a href="/">
-                        <img src="{{Vite::asset('resources/images/logo.png')}}" alt="Logo">
+                        <img src="{{Vite::asset('resources/images/bikeco-dark-logo.png')}}" alt="Logo" style="height: 70px; width: auto;">
                     </a>
                 </div>
 

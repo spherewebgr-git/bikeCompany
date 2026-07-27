@@ -119,53 +119,29 @@
         width: auto;
     }
 
-    table
+    form
     {
+        display: flex;
         margin-bottom: 20px;
-        width: 100%;
-    }
-    
-    .search 
-    {
-        padding-right: 15px;
-        
-        form
+
+        select, input
         {
-            display: flex;
+            height: 40px;
+            background-color: #fff;
+            border: 1px solid #6c6c6c;
+            border-radius: 3px;
+            margin: 0 3px;
+            padding: 0 6px;
 
-            select, input
+            &:focus-visible 
             {
-                height: 40px;
-                background-color: #fff;
-                border: none;
-                border-radius: 3px;
-                margin: 0 3px;
-                padding: 0 6px;
-
-                &:focus-visible 
-                {
-                    box-shadow: 0 0 3px #fe4819;
-                    border-color: #fe4819;
-                    outline: none;
-                }
+                box-shadow: 0 0 3px #fe4819;
+                border-color: #fe4819;
+                outline: none;
             }
-
-            button { @include orangebtn; }
-            button:hover { @include orangebtnhover; }
         }
-    }
 
-    th 
-    {
-        font-size: 18px;
-        padding: 10px;
-        border-bottom: 1px solid gray;
-    }
-
-    td
-    {
-        padding: 10px 15px;
-        font-size: 20px;
-        border-bottom: 1px solid gray;
+        button { @include orangebtn; }
+        button:hover { @include orangebtnhover; }
     }
 }
