@@ -61,7 +61,7 @@ class Order extends Model
         return $this->belongsTo(Card::class);
     }
 
-    // Order.php
+
     public function scopeBlocking($query)
     {
         return $query->where(function ($q) {

@@ -75,12 +75,11 @@ class RentalBikeController extends Controller
 
         $events = $orders->map(fn ($order) => [
             'title'   => 'Not Available',
-            'start'   => $order->rent_start->toIso8601String(),
-            'end'     => $order->rent_end->toIso8601String(),
+            'start'   => $order->rent_start->format('Y-m-d H:i:s'),
+            'end'     => $order->rent_end->format('Y-m-d H:i:s'),
             'display' => 'background',
             'color'   => '#ffcccc',
         ]);
-
         return response()->json($events);
     }
 }

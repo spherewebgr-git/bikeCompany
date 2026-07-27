@@ -107,19 +107,18 @@
                                 <div class="rental-type-select">
                                     <label>
                                         <input type="radio" name="rental_type_radio" value="hour" checked>
-                                        Ώρα ({{ $bike->prices[0]->price ?? '-' }})
+                                        Hour ({{ $bike->prices[0]->price ?? '-' }} {{$bike->prices[0]->description}})
                                     </label>
                                     <label>
                                         <input type="radio" name="rental_type_radio" value="day">
-                                        Ημέρα ({{ $bike->prices[1]->price ?? '-' }})
+                                        Day ({{ $bike->prices[1]->price ?? '-' }} {{$bike->prices[1]->description}})
                                     </label>
                                     <label>
                                         <input type="radio" name="rental_type_radio" value="week">
-                                        Εβδομάδα ({{ $bike->prices[2]->price ?? '-' }})
+                                        Week ({{ $bike->prices[2]->price ?? '-' }} {{$bike->prices[2]->description}})
                                     </label>
                                 </div>
 
-                                {{-- HOUR MODE: datetime + διάρκεια σε ώρες --}}
                                 {{-- HOUR MODE: datetime + διάρκεια σε ώρες --}}
                                 <div id="hour-mode" class="rental-mode">
                                     <div class="row">
@@ -132,45 +131,22 @@
                                         </div>
 
                                         <div class="col-md-6 form-group">
-                                            {{-- HOUR MODE: hourly calendar --}}
-                                            <div id="hour-mode" class="rental-mode">
-
-                                                <div class="form-group">
-                                                    <label>
-                                                        Select start time
-                                                    </label>
-
-                                                    <div id="hour-calendar"
-                                                         data-hour-price="{{ $bike->prices[0]?->price ?? 0 }}"
-                                                         data-availability-url="{{ route('bikes.availability', $bike) }}">
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="form-group">
-                                                    <label>
-                                                        Duration (hours)
-                                                    </label>
-
-                                                    <input
-                                                        type="number"
-                                                        id="rental_duration"
-                                                        class="form-control"
-                                                        min="1"
-                                                        max="72"
-                                                        value="1">
-                                                </div>
-
-
-                                                {{-- κρατάμε το hidden για το controller --}}
-                                                <input
-                                                    type="hidden"
-                                                    id="rent_start_display">
-                                            </div>
+                                            <label>Duration (hours)</label>
+                                            <input type="number" id="rental_duration" class="form-control" min="1" max="72" value="1">
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="hour-availability-header">
+                                    <span class="hour-availability-label">
+                                        <i class="fa-regular fa-clock"></i> Hourly Availability (08:00 - 21:00)
+                                    </span>
+                                                                    <span class="hour-legend">
+                                        <span class="hour-legend-item"><i class="legend-dot legend-dot-available"></i> Available</span>
+                                        <span class="hour-legend-item"><i class="legend-dot legend-dot-blocked"></i> Booked</span>
+                                    </span>
+                                </div>
+                                <div id="hour-availability-bar" class="hour-availability-bar"></div>
                                 {{-- DAY/WEEK MODE: FullCalendar drag-select --}}
                                 <div id="calendar-mode" class="rental-mode" style="display:none;">
                                     <div class="form-group" id="week-count-group" style="display:none;">
@@ -197,9 +173,9 @@
                                 </div>
 
                                 <p id="price-preview">
-                                    Σύνολο:
+                                    Total Price:
                                     <strong id="price-value">
-                                        {{ $price }} €
+                                        {{ $price }}
                                     </strong>
                                 </p>
 

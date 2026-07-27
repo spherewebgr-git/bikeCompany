@@ -49,7 +49,11 @@ class PaymentController extends Controller
             'user.cards'
         ]);
 
-        return view('payment.index', compact('order'));
+        return response()
+            ->view('payment.index', compact('order'))
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 
     public function complete(Request $request, Order $order)

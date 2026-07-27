@@ -342,6 +342,63 @@
     background: #f7f7f7;
     cursor: pointer;
 }
+
+#calendar .fc {
+    .fc-col-header-cell-cushion {
+        color: #888;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 11px;
+        padding: 8px 0;
+    }
+
+    .fc-daygrid-day-number {
+        color: #222;
+        font-weight: 600;
+        padding: 6px 8px;
+    }
+
+    .fc-day-other .fc-daygrid-day-number {
+        color: #ccc;
+    }
+
+    // Σημερινή μέρα
+    .fc-day-today {
+        background: rgba(254, 72, 25, .06) !important;
+
+        .fc-daygrid-day-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            background: #fe4819;
+            color: #fff;
+            border-radius: 50%;
+        }
+    }
+
+    .fc-toolbar-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #222;
+    }
+
+    .fc-button-primary {
+        background: #fe4819;
+        border-color: #fe4819;
+
+        &:hover,
+        &:focus {
+            background: #e13d10;
+            border-color: #e13d10;
+        }
+    }
+
+    td, th {
+        border-color: #eee !important;
+    }
+}
 // ============================================================
 // FLATPICKR — μη διαθέσιμες ημέρες/ώρες
 // ============================================================
@@ -374,11 +431,212 @@
     }
 }
 
-.flatpickr-day {
-    &.selected {
-        background: #FE4819FF!important;
-        border-color: #666666 !important;
+// ============================================================
+// FLATPICKR — μη διαθέσιμες ημέρες/ώρες
+// ============================================================
+
+.flatpickr-calendar {
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    border-radius: 12px;
+
+    .flatpickr-weekdays,
+    .flatpickr-current-month {
+        color: #555;
     }
+
+    .flatpickr-weekday {
+        color: #888;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 11px;
+    }
+
+    .flatpickr-day {
+        color: #222;
+        font-weight: 600;
+        border-radius: 8px;
+
+        &.prevMonthDay,
+        &.nextMonthDay {
+            color: #ccc;
+        }
+
+        // Σημερινή μέρα — ίδιο accent με το υπόλοιπο site
+        &.today {
+            border: 2px solid #fe4819;
+            font-weight: 700;
+
+            &:hover {
+                border-color: #fe4819;
+            }
+        }
+
+        // Επιλεγμένη ώρα/ημερομηνία
+        &.selected {
+            background: #fe4819;
+            border-color: #fe4819;
+            color: #fff !important;
+        }
+
+        // Ελεύθερη μέρα
+        &.flatpickr-day-available {
+            background-color: #e8f5e9;
+            color: #2e7d32 !important;
+        }
+
+        // Μερικές ώρες κρατημένες
+        &.flatpickr-day-partial {
+            background-color: #fff3e0;
+            color: #a05a00 !important;
+            font-weight: 700;
+        }
+
+        // Ολόκληρη μέρα κλεισμένη
+        &.flatpickr-day-reserved {
+            position: relative;
+            background: repeating-linear-gradient(
+                    135deg,
+                    rgba(254, 72, 25, .12),
+                    rgba(254, 72, 25, .12) 6px,
+                    rgba(254, 72, 25, .20) 6px,
+                    rgba(254, 72, 25, .20) 12px
+            ) !important;
+            color: #b3260c !important;
+            font-weight: 700;
+            text-decoration: line-through;
+            text-decoration-color: rgba(179, 38, 12, .5);
+            cursor: not-allowed !important;
+            pointer-events: none;
+        }
+
+        // today + reserved μαζί: να φαίνεται πάντα το reserved
+        &.today.flatpickr-day-reserved {
+            border-color: #b3260c;
+        }
+
+        // Disabled (περασμένες μέρες) — πάντα λευκές, ανεξαρτήτως άλλης κλάσης
+        &.flatpickr-disabled,
+        &.flatpickr-disabled.flatpickr-day-available,
+        &.flatpickr-disabled.flatpickr-day-partial {
+            background: transparent !important;
+            color: #ccc !important;
+            cursor: not-allowed !important;
+            text-decoration: none !important;
+        }
+    }
+}
+
+.hour-availability-label {
+    margin-top: 16px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+
+    i {
+        color: #fe4819;
+        margin-right: 6px;
+    }
+}
+
+.hour-availability-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.hour-availability-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+
+    i {
+        color: #fe4819;
+        margin-right: 6px;
+    }
+}
+
+.hour-legend {
+    display: flex;
+    gap: 14px;
+}
+
+.hour-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+}
+
+.legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+
+    &.legend-dot-available { background: #2e7d32; }
+    &.legend-dot-blocked   { background: #c62828; }
+}
+
+.hour-availability-bar {
+    padding: 14px;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.hour-track {
+    display: flex;
+    height: 40px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px #eee;
+}
+
+.hour-segment {
+    flex: 1;
+    position: relative;
+    transition: transform .15s ease, filter .15s ease;
+
+    &:not(:last-child) {
+        border-right: 1px solid rgba(255,255,255,.6);
+    }
+
+    &:hover {
+        filter: brightness(0.92);
+        z-index: 1;
+    }
+}
+
+.hour-segment-available {
+    background: #a8d9ae;
+}
+
+.hour-segment-blocked {
+    background: #f2a5a5;
+}
+
+.hour-track-labels {
+    display: flex;
+    margin-top: 6px;
+}
+
+.hour-track-label {
+    flex: 1;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #999;
 }
 
 #map {

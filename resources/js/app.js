@@ -82,6 +82,54 @@ document.addEventListener('DOMContentLoaded', function () {
         const dt = new Date(utcMs);
         return toDateStr(dt.getUTCFullYear(), dt.getUTCMonth() + 1, dt.getUTCDate());
     }
+    // Κάνει parse ένα 'YYYY-MM-DD' ή 'YYYY-MM-DD HH:MM:SS' (ή με 'T') σαν LOCAL time,
+    // ώστε να μη μπερδεύεται ποτέ με το UTC parsing που κάνει native το new Date(string).
+    function parseLocalDateTime(str) {
+        const [datePart, timePart] = str.split(/[T ]/);
+        const [y, m, d] = datePart.split('-').map(Number);
+        if (!timePart) return new Date(y, m - 1, d); // date-only -> local μεσάνυχτα
+        const [hh, mm, ss] = timePart.split(':').map(Number);
+        return new Date(y, m - 1, d, hh || 0, mm || 0, ss || 0);
+    }
+
+    function renderHourAvailability(dateObj) {
+        const container = document.getElementById('hour-availability-bar');
+        if (!container) return;
+
+        container.innerHTML = '';
+
+        const track = document.createElement('div');
+        track.className = 'hour-track';
+
+        const labels = document.createElement('div');
+        labels.className = 'hour-track-labels';
+
+        for (let h = 8; h < 21; h++) {
+            const slotStart = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), h, 0, 0);
+            const slotEnd   = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), h + 1, 0, 0);
+
+            const isBlocked = availabilityEvents.some(event => {
+                const evStart = parseLocalDateTime(event.start);
+                const evEnd   = parseLocalDateTime(event.end);
+                return slotStart < evEnd && slotEnd > evStart;
+            });
+
+            const segment = document.createElement('div');
+            segment.className = 'hour-segment ' + (isBlocked ? 'hour-segment-blocked' : 'hour-segment-available');
+            segment.title = `${String(h).padStart(2, '0')}:00 - ${String(h + 1).padStart(2, '0')}:00 — ${isBlocked ? 'Κλεισμένο' : 'Διαθέσιμο'}`;
+            track.appendChild(segment);
+
+            // label κάθε 2 ώρες, ώστε να μη στριμώχνονται
+            const label = document.createElement('span');
+            label.className = 'hour-track-label';
+            label.textContent = (h % 2 === 0) ? `${String(h).padStart(2, '0')}h` : '';
+            labels.appendChild(label);
+        }
+
+        container.appendChild(track);
+        container.appendChild(labels);
+    }
+
 
     function formatDateStr(dateStr) {
         const [y, m, d] = dateStr.split('-');
@@ -97,7 +145,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function isRangeBlocked(startStr, endStr) {
         return availabilityEvents.some(event => {
             const evStart = (event.start || '').slice(0, 10);
-            const evEnd   = (event.end || '').slice(0, 10);
+            const evEndRaw = (event.end || '').slice(0, 10);
+            const evEnd = (evEndRaw === evStart) ? addDaysToDateStr(evStart, 1) : evEndRaw;
+
             return startStr < evEnd && endStr > evStart;
         });
     }
@@ -109,43 +159,74 @@ document.addEventListener('DOMContentLoaded', function () {
         minDate: "today",
         defaultDate: currentStart,
         onChange: function (selectedDates) {
+            userInteracted = true;
             currentStart = selectedDates[0];
             updateHourPrice();
         },
         onDayCreate: function (dObj, dStr, fp, dayElem) {
             const dayStart = new Date(dayElem.dateObj);
             dayStart.setHours(0, 0, 0, 0);
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            // Περασμένες μέρες: καμία κλάση διαθεσιμότητας, μένουν ουδέτερες
+            if (dayStart < today) {
+                return;
+            }
+
             const dayEnd = new Date(dayStart);
-            dayEnd.setDate(dayEnd.getDate());
+            dayEnd.setDate(dayEnd.getDate() + 1);
 
-            const isBlocked = availabilityEvents.some(event => {
-                const evStart = new Date(event.start);
-                const evEnd   = new Date(event.end);
-                return dayStart < evEnd && dayEnd > evStart;
-            });
+            let blockedHours = 0;
 
-            if (isBlocked) {
+            for (let h = 0; h < 24; h++) {
+                const slotStart = new Date(dayStart.getFullYear(), dayStart.getMonth(), dayStart.getDate(), h, 0, 0);
+                const slotEnd   = new Date(dayStart.getFullYear(), dayStart.getMonth(), dayStart.getDate(), h + 1, 0, 0);
+
+                const isSlotBlocked = availabilityEvents.some(event => {
+                    const eventStart = parseLocalDateTime(event.start);
+                    const eventEnd   = parseLocalDateTime(event.end);
+                    return slotStart < eventEnd && slotEnd > eventStart;
+                });
+
+                if (isSlotBlocked) blockedHours++;
+            }
+
+            if (blockedHours === 24) {
                 dayElem.classList.add('flatpickr-day-reserved');
+            } else if (blockedHours > 0) {
+                dayElem.classList.add('flatpickr-day-partial');
+            } else {
+                dayElem.classList.add('flatpickr-day-available');
             }
         }
     });
 
-    durationInput.addEventListener('input', updateHourPrice);
+    durationInput.addEventListener('input', () => {
+        userInteracted = true;
+        updateHourPrice();
+    });
 
+    let userInteracted = false; // true μόνο όταν ο χρήστης αλλάξει ημερομηνία/διάρκεια
     function updateHourPrice() {
+        renderHourAvailability(currentStart);
+
         const hours = parseInt(durationInput.value) || 0;
         const end = new Date(currentStart.getTime() + hours * 3600 * 1000);
 
         const unavailable = availabilityEvents.some(event => {
-            const eventStart = new Date(event.start);
-            const eventEnd   = new Date(event.end);
+            const eventStart = parseLocalDateTime(event.start);
+            const eventEnd   = parseLocalDateTime(event.end);
             return currentStart < eventEnd && end > eventStart;
         });
 
         if (unavailable) {
-            alert('Το ποδήλατο δεν είναι διαθέσιμο αυτή την ώρα.');
+            if (userInteracted) {
+                alert('Το ποδήλατο δεν είναι διαθέσιμο αυτή την ώρα.');
+            }
             submitBtn.disabled = true;
-            priceValue.textContent = '0';
+            priceValue.textContent = '0 €';
             priceSummary.textContent = '0 €';
             durationSummary.textContent = '-';
             return;
@@ -153,9 +234,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const price = hours * hourPrice;
 
-        rentStartField.value = currentStart.toISOString();
-        rentEndField.value = end.toISOString();
+        rentStartField.value = flatpickr.formatDate(currentStart, "Y-m-d H:i:S");
+        rentEndField.value   = flatpickr.formatDate(end, "Y-m-d H:i:S");
         priceField.value = price;
+
+        console.log('START:', rentStartField.value);
+        console.log('END:', rentEndField.value);
 
         priceValue.textContent = `${price.toFixed(2).replace('.', ',')} €`;
         priceSummary.textContent = `${price.toFixed(2).replace('.', ',')} €`;
@@ -163,6 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
         submitBtn.disabled = hours < 1;
     }
 
+    console.log('Checkout JS loaded');
     fetch(calendarEl.dataset.availabilityUrl)
         .then(response => response.json())
         .then(data => {
@@ -214,10 +299,19 @@ document.addEventListener('DOMContentLoaded', function () {
             // Τρέχει αυτόματα σε ΚΑΘΕ render (αρχικό + κάθε αλλαγή μήνα) —
             // δεν χρειάζεται κανένα χειροκίνητο re-render.
             dayCellClassNames: function (arg) {
-                const dateStr = arg.date.toISOString().slice(0, 10);
+                const dateStr =
+                    arg.date.getFullYear() + '-' +
+                    String(arg.date.getMonth()+1).padStart(2,'0') + '-' +
+                    String(arg.date.getDate()).padStart(2,'0');
+
                 const isBlocked = availabilityEvents.some(event => {
                     const evStart = (event.start || '').slice(0, 10);
-                    const evEnd   = (event.end || '').slice(0, 10);
+                    const evEndRaw = (event.end || '').slice(0, 10);
+
+                    // Αν start/end είναι η ίδια μέρα (κράτηση σε ώρες),
+                    // θεωρούμε ότι μπλοκάρει ολόκληρη τη μέρα στο calendar ημερών/εβδομάδων
+                    const evEnd = (evEndRaw === evStart) ? addDaysToDateStr(evStart, 1) : evEndRaw;
+
                     return dateStr >= evStart && dateStr < evEnd;
                 });
 
@@ -252,18 +346,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 renderPreviewEvent();
                 updateCalendarPrice();
             },
-            dayCellDidMount: function (arg) {
-                const dateStr = arg.date.toISOString().slice(0, 10);
-                const isBlocked = availabilityEvents.some(event => {
-                    const evStart = (event.start || '').slice(0, 10);
-                    const evEnd   = (event.end || '').slice(0, 10);
-                    return dateStr >= evStart && dateStr < evEnd;
-                });
-
-                if (isBlocked) {
-                    arg.el.classList.add('day-cell-blocked');
-                }
-            }
         });
 
         calendar.render();
@@ -337,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         durationSummary.textContent = '-';
         priceSummary.textContent = '0 €';
-        priceValue.textContent = '0';
+        priceValue.textContent = '0 €';
 
         submitBtn.disabled = true;
     }
