@@ -3,9 +3,9 @@
     <div class="containers">
         <h2 class="section-heading">Order History</h2>
 
-            <div class="row col-12">
-                @include('components.orderfilters')
-            </div>
+        <div class="row col-12">
+            @include('components.historyfilters')
+        </div>
 
         @if ($orders->first())
             <div class="row g-4">
@@ -68,7 +68,7 @@
             </div>
         @else  
             <div class="no-orders">
-                <p> You don't have any completed orders yet!</p>
+                <p> You don't have any completed orders yet,<br>or none of them match your filters!</p>
             </div>
         @endif
     </div>

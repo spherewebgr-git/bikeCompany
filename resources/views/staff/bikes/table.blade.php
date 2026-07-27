@@ -62,7 +62,21 @@
 </div>
 <script>
     function showQuantityForm(id)
-    {
+    { // Hide any other open forms first
+        document.querySelectorAll('.edit-quantity').forEach(form => { form.style.display = 'none'; });
         document.getElementById('quantity-form-' + id).style.display = 'block';
     }
+
+    document.addEventListener('click', function (event)
+    {
+        document.querySelectorAll('.edit-quantity').forEach(form =>
+        {
+            const trigger = form.previousElementSibling; // .bikeactions div
+
+            if (form.style.display === 'block'
+                && !form.contains(event.target) // Checks if the click was inside the form
+                && !trigger.contains(event.target)) // Checks if the click was on the button that opens the form
+            { form.style.display = 'none'; }
+        });
+    });
 </script>

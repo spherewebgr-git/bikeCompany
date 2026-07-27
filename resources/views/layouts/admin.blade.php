@@ -55,23 +55,10 @@
                         </a>
                         </li>
                         <li>
-                            <a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);" data-target="profile-dropdown">
-                                <span class="avatar-status avatar-online">
-                                    <img src="http://[::1]:5173/resources/images/avatar/avatar-7.png" alt="avatar">
-                                    <i></i>
-                                </span>
-                            </a>
-                        </li>
-                        <li>
                             <a class="waves-effect waves-block waves-light sidenav-trigger" href="#" data-target="slide-out-right">
                                 <i class="material-icons">format_indent_increase</i>
                             </a>
                         </li>
-                    </ul>
-
-                    <!-- translation-button-->
-                    <ul class="dropdown-content" id="translation-dropdown">
-                        <li class="dropdown-item"><a class="grey-text text-darken-1" href="#!" data-language="en"><i class="flag-icon flag-icon-gb"></i> English</a></li>
                     </ul>
 
                     <!-- notifications-dropdown-->
@@ -93,41 +80,6 @@
                                 Generate monthly report
                             </a>
                             <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">1 week ago</time>
-                        </li>
-                    </ul>
-
-                    <!-- profile-dropdown-->
-                    <ul class="dropdown-content" id="profile-dropdown">
-                        <li>
-                            <a class="grey-text text-darken-1" href="user-profile-page.html">
-                                <i class="material-icons">person_outline</i>
-                                Profile
-                            </a>
-                        </li>
-                        <li>
-                            <a class="grey-text text-darken-1" href="app-chat.html">
-                                <i class="material-icons">chat_bubble_outline</i>
-                                Chat
-                            </a>
-                        </li>
-                        <li>
-                            <a class="grey-text text-darken-1" href="page-faq.html">
-                                <i class="material-icons">help_outline</i>
-                                Help
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="grey-text text-darken-1" href="user-lock-screen.html">
-                                <i class="material-icons">lock_outline</i>
-                                Lock
-                            </a>
-                        </li>
-                        <li>
-                            <a class="grey-text text-darken-1" href="user-login.html">
-                                <i class="material-icons">keyboard_tab</i>
-                                Logout
-                            </a>
                         </li>
                     </ul>
                 </div>
@@ -161,36 +113,6 @@
         </div>
 
         <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="accordion">
-            <li class="active bold">
-                <a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)">
-                    <i class="material-icons">settings_input_svideo</i>
-                    <span class="menu-title" data-i18n="Dashboard">Dashboard</span>
-                    <span class="badge badge pill orange float-right mr-10">3</span>
-                </a>
-                <div class="collapsible-body">
-                    <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-                        <li>
-                            <a href="dashboard-modern.html">
-                                <i class="material-icons">radio_button_unchecked</i>
-                                <span data-i18n="Modern">Modern</span>
-                            </a>
-                        </li>
-                        <li class="active">
-                            <a class="active" href="dashboard-ecommerce.html">
-                                <i class="material-icons">radio_button_unchecked</i>
-                                <span data-i18n="eCommerce">eCommerce</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="dashboard-analytics.html">
-                                <i class="material-icons">radio_button_unchecked</i>
-                                <span data-i18n="Analytics">Analytics</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
 {{-- APPLICATIONS --}}
             <li class="navigation-header">
                 <a class="navigation-header-text">Applications</a>
@@ -198,7 +120,7 @@
             </li>
 
             <li class="bold">
-                <a class="waves-effect waves-cyan " href="app-email.html">
+                <a class="waves-effect waves-cyan" href="app-email.html">
                     <i class="material-icons">mail_outline</i>
                     <span class="menu-title" data-i18n="Mail">Mail</span>
                     <span class="badge new badge pill pink accent-2 float-right mr-2">5</span>
@@ -206,68 +128,10 @@
             </li>
 
             <li class="bold">
-                <a class="waves-effect waves-cyan " href="app-calendar.html">
-                    <i class="material-icons">today</i>
-                    <span class="menu-title" data-i18n="Calendar">Calendar</span>
-                </a>
-            </li>
-
-            <li class="bold">
-                <a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)">
+                <a class="waves-effect waves-cyan" href="app-invoice-list.html">
                     <i class="material-icons">receipt</i>
-                    <span class="menu-title" data-i18n="Invoice">Invoice</span>
+                    <span data-i18n="Invoice List">Invoice</span>
                 </a>
-                <div class="collapsible-body">
-                    <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-                        <li>
-                            <a href="app-invoice-list.html">
-                                <i class="material-icons">radio_button_unchecked</i>
-                                <span data-i18n="Invoice List">Invoice List</span>
-                                </a>
-                        </li>
-                        <li>
-                            <a href="app-invoice-view.html">
-                                <i class="material-icons">radio_button_unchecked</i>
-                                <span data-i18n="Invoice View">Invoice View</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="app-invoice-edit.html">
-                                <i class="material-icons">radio_button_unchecked</i>
-                                <span data-i18n="Invoice Edit">Invoice Edit</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="app-invoice-add.html">
-                                <i class="material-icons">radio_button_unchecked</i>
-                                <span data-i18n="Invoice Add">Invoice Add</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="bold">
-                <a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)">
-                    <i class="material-icons">add_shopping_cart</i>
-                    <span class="menu-title" data-i18n="eCommerce">eCommerce</span>
-                </a>
-                <div class="collapsible-body">
-                    <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-                        <li>
-                            <a href="eCommerce-products-page.html">
-                                <i class="material-icons">radio_button_unchecked</i>
-                                <span data-i18n="Products Page">Products Page</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="eCommerce-pricing.html">
-                                <i class="material-icons">radio_button_unchecked</i>
-                                <span data-i18n="Pricing">Pricing</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
             </li>
 
 {{-- MANAGEMENT PAGES --}}
@@ -277,28 +141,28 @@
             </li>
 
             <li class="bold">
-                <a class="waves-effect waves-cyan " href="{{ route('dashboard.management.bikes') }}">
+                <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.bikes') }}">
                     <i class="fa-solid fa-bicycle" style="color: #fff;"></i>
                     <span class="menu-title">Bike Management</span>
                 </a>
             </li>
 
             <li class="bold">
-                <a class="waves-effect waves-cyan " href="{{ route('dashboard.management.categories') }}">
+                <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.categories') }}">
                     <i class="fa-solid fa-table" style="color: #fff;"></i>
                     <span class="menu-title">Categories Management</span>
                 </a>
             </li>
 
             <li class="bold">
-                <a class="waves-effect waves-cyan " href="{{ route('dashboard.management.orders') }}">
+                <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.orders') }}">
                     <i class="fa-solid fa-store" style="color: #fff;"></i>
                     <span class="menu-title">Order Management</span>
                 </a>
             </li>
 
             <li class="bold">
-                <a class="waves-effect waves-cyan " href="{{ route('staff.users.index') }}">
+                <a class="waves-effect waves-cyan" href="{{ route('staff.users.index') }}">
                     <i class="fa-solid fa-users-gear" style="color: #fff;"></i>
                     <span class="menu-title">User Management</span>
                 </a>
@@ -311,7 +175,7 @@
             </li>
 
             <li class="bold">
-                <a class="waves-effect waves-cyan " href="{{ route('dashboard.management.orderhistory') }}">
+                <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.orderhistory') }}">
                     <i class="fa-solid fa-clock-rotate-left" style="color: #fff;"></i>
                     <span class="menu-title">Past Orders</span>
                 </a>

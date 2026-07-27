@@ -192,7 +192,21 @@
 </div>
 <script>
     function showStatusForm(id)
-    {
+    { // Hide any other open forms first
+        document.querySelectorAll('.edit-status').forEach(form => { form.style.display = 'none'; });
         document.getElementById('status-form-' + id).style.display = 'block';
     }
+
+    document.addEventListener('click', function (event)
+    {
+        document.querySelectorAll('.edit-status').forEach(form =>
+        {
+            const trigger = form.previousElementSibling;
+
+            if (form.style.display === 'block'
+                && !form.contains(event.target) // Checks if the click was inside the form
+                && !trigger.contains(event.target)) // Checks if the click was on the button that opens the form
+            { form.style.display = 'none'; }
+        });
+    });
 </script>

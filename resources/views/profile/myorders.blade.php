@@ -3,83 +3,11 @@
     <div class="containers">
         <h2 class="section-heading">Pending Orders</h2>
 
+        <div class="row col-12">
+            @include('components.orderfilters')
+        </div>
+
         @if ($orders->first())
-            <div class="row col-12">
-                <table>
-                    <tr>
-                        <th>Date</th>
-                        <th>Order ID</th>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Type</th>
-                        <th>Location</th>
-                    </tr>
-
-                    <tr>
-                        <td class="search">
-                            <form method="GET" action="{{ route('profile.orders.search') }}">
-                                <input type="date" id="orderdate" name="orderdate" placeholder="Search Date">
-                                <button type="submit">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </form>
-                        </td>
-
-                        <td class="search orderid">
-                            <form method="GET" action="{{ route('profile.orders.search') }}">
-                                <input type="text" id="order" name="order" placeholder="ID">
-                                <button type="submit">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </form>
-                        </td>
-
-                        <td class="search productcode">
-                            <form method="GET" action="{{ route('profile.orders.search') }}">
-                                <input type="text" id="product" name="product" placeholder="Search Product">
-                                <button type="submit">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </form>
-                        </td>
-
-                        <td class="search">
-                            <form method="GET" action="{{ route('profile.orders.search') }}">
-                                <input type="number" id="price" name="price" placeholder="Search Price">
-                                <button type="submit">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </form>
-                        </td>
-
-                        <td class="search">
-                            <form method="GET" action="{{ route('profile.orders.search') }}">
-                                <select name="provision" id="provision">
-                                    <option value="" selected> Any </option>
-                                    @foreach ($provision as $prov)
-                                        <option value="{{ $prov->id }}">
-                                            {{ $prov->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <button type="submit">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </form>
-                        </td>
-
-                        <td class="search">
-                            <form method="GET" action="{{ route('profile.orders.search') }}">
-                                <input type="text" id="pickup" name="pickup" placeholder="Search Location">
-                                <button type="submit">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
             <div class="row g-4">
                 @foreach ($orders as $order)
                     <div class="col-12 col-lg-6">
@@ -146,7 +74,7 @@
             </div>
         @else  
             <div class="no-orders">
-                <p> You don't have any pending orders!</p>
+                <p> You don't have any pending orders yet,<br>or none of them match your filters!</p>
             </div>
         @endif
     </div>

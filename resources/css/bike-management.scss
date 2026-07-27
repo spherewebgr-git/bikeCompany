@@ -56,7 +56,8 @@
         {
             font-size: 20px;
             border: 1px solid black;
-            padding: 10px;
+            padding: 0 10px;
+            height: 45px;
         }
 
         button
@@ -64,10 +65,9 @@
             @include orangebtn;
             position: relative;
             font-size: 20px;
-            padding: 10px;
             margin-left: 15px;
-            height: 52px;
-            width: 52px;
+            height: 45px;
+            width: 45px;
         }
 
         button:hover
@@ -130,7 +130,7 @@
         {
             display: none;
             position: absolute;
-            left: 56.5%;
+            right: 10%;
             background: white;
             padding: 20px;
             border-radius: 3px;
@@ -157,19 +157,9 @@
         }
     }
 
-    .bike-SKU
-    {
-        //min-width: 200px;
-    }
-
     .bike-provision, .bike-gears
     {
         text-align: center;
-    }
-
-    .bike-model
-    {
-       // min-width: 200px;
     }
 
     .Create
@@ -209,13 +199,14 @@
             padding: 8px;
             font-size: 20px;
             color: #6b6f82;
+            height: 45px;
         }
 
         .Filter 
         {
             @include orangebtn;
             font-size: 20px;
-            padding: 10px 30px;
+            padding: 0 30px;
         }
 
         .Filter:hover

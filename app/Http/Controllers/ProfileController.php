@@ -114,7 +114,7 @@ class ProfileController extends Controller
 
         if ($request->filled('orderdate'))
         {
-            $orders->where('order_date', 'LIKE', "%{$request->orderdate}%");
+            $orders->whereRaw("DATE(order_date) LIKE ?", ["{$request->orderdate}%"]);
         }
 
         if ($request->filled('order'))
@@ -149,9 +149,14 @@ class ProfileController extends Controller
             });
         }
 
-        if ($request->filled('price'))
+        if ($request->filled('min_price'))
         {
-            $orders->where('price', 'LIKE', "%{$request->price}%");
+            $orders->where('price', '>=', $request->min_price);
+        }
+
+        if ($request->filled('max_price'))
+        {
+            $orders->where('price', '<=', $request->max_price);
         }
 
         return view('profile.myhistory', [
@@ -170,7 +175,7 @@ class ProfileController extends Controller
 
         if ($request->filled('orderdate'))
         {
-            $orders->where('order_date', 'LIKE', "%{$request->orderdate}%");
+            $orders->whereRaw("DATE(order_date) LIKE ?", ["{$request->orderdate}%"]);
         }
 
         if ($request->filled('order'))
@@ -205,9 +210,14 @@ class ProfileController extends Controller
             });
         }
 
-        if ($request->filled('price'))
+        if ($request->filled('min_price'))
         {
-            $orders->where('price', 'LIKE', "%{$request->price}%");
+            $orders->where('price', '>=', $request->min_price);
+        }
+
+        if ($request->filled('max_price'))
+        {
+            $orders->where('price', '<=', $request->max_price);
         }
 
         return view('profile.myorders', [

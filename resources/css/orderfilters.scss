@@ -1,0 +1,67 @@
+#OrderFilters
+{
+    padding-bottom: 20px;
+
+    .contain
+    {
+        margin: 20px;
+        padding: 0 40px;
+    }
+
+    form
+    {
+        display: flex;
+
+        .labelfield
+        {
+            display: block;
+            margin: 0 10px;
+        }
+
+        label b
+        {
+            font-weight: 500;
+            color: #adabb3;
+        }
+
+        select, input
+        {
+            height: 40px;
+            background-color: #fff;
+            border: 1px solid #6c6c6c;
+            border-radius: 3px;
+            padding: 0 6px;
+            width: 100%;
+
+            &:focus-visible 
+            {
+                box-shadow: 0 0 3px #fe4819;
+                border-color: #fe4819;
+                outline: none;
+            }
+        }
+
+        .noUi-origin { right: 7px; }
+
+        .price-values
+        {
+            background-color: #dddddd;
+            border-radius: 3px;
+            width: 100%;
+
+            span {background-color: unset; }
+        }
+
+        button
+        {
+            @include orangebtn;
+            position: relative;
+            bottom: -28px;
+            height: 40px;
+            padding-right: 10px;
+            padding-left: 10px;
+
+            button:hover { @include orangebtnhover; }
+        }
+    }
+}

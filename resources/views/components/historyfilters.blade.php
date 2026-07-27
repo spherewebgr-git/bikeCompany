@@ -3,11 +3,11 @@
     <hr>
         <div class="row">
             <div class="col-12">
-                <form method="GET" action="{{ route('profile.orders.search') }}">
+                <form method="GET" action="{{ route('profile.history.search') }}">
 
                     <div class="labelfield">
                         <label>Order Date: <b>YYYY (-MM (-DD) )</b></label>
-                        <input type="text" name="orderdate" placeholder="YYYY or YYYY-MM or YYYY-MM-DD">
+                        <input type="text" name="orderdate" placeholder="YYYY-MM-DD">
                     </div>
 
                     <div class="labelfield">
@@ -22,7 +22,16 @@
 
                     <div class="labelfield">
                         <label>Price:</label>
-                        <input type="number" id="price" name="price" placeholder="Search Price">
+                        {{-- <input type="number" id="price" name="price" placeholder="Search Price"> --}}
+                        <div id="price-slider"></div>
+
+                        <div class="price-values">
+                            <span>€<span id="min-price"></span></span>
+                            <span>€<span id="max-price"></span></span>
+                        </div>
+
+                        <input type="hidden" name="min_price" id="min_price" value="{{ request('min_price', 0) }}">
+                        <input type="hidden" name="max_price" id="max_price" value="{{ request('max_price', 5000) }}">
                     </div>
 
                     <div class="labelfield">
