@@ -135,18 +135,19 @@
                                             <input type="number" id="rental_duration" class="form-control" min="1" max="72" value="1">
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="hour-availability-header">
+                                    <div class="hour-availability-header">
                                     <span class="hour-availability-label">
                                         <i class="fa-regular fa-clock"></i> Hourly Availability (08:00 - 21:00)
                                     </span>
-                                                                    <span class="hour-legend">
+                                        <span class="hour-legend">
                                         <span class="hour-legend-item"><i class="legend-dot legend-dot-available"></i> Available</span>
                                         <span class="hour-legend-item"><i class="legend-dot legend-dot-blocked"></i> Booked</span>
                                     </span>
+                                    </div>
+                                    <div id="hour-availability-bar" class="hour-availability-bar"></div>
                                 </div>
-                                <div id="hour-availability-bar" class="hour-availability-bar"></div>
+
+
                                 {{-- DAY/WEEK MODE: FullCalendar drag-select --}}
                                 <div id="calendar-mode" class="rental-mode" style="display:none;">
                                     <div class="form-group" id="week-count-group" style="display:none;">

@@ -338,9 +338,12 @@
 }
 
 // Γενικά styling ελεύθερων ημερών (hover feedback)
-.fc-daygrid-day:not(.day-cell-blocked):hover {
-    background: #f7f7f7;
+.fc-daygrid-day.fc-day-future:not(.day-cell-blocked):hover {
+    background: #d6f3d6;
     cursor: pointer;
+}
+.fc-daygrid-day.fc-day-future:not(.day-cell-blocked) {
+    background: #e8f5e9;
 }
 
 #calendar .fc {
@@ -439,6 +442,21 @@
     box-shadow: 0 10px 30px rgba(0,0,0,.08);
     border-radius: 12px;
 
+    .flatpickr-time-label {
+        text-align: center;
+        font-size: 12px;
+        font-weight: 700;
+        color: #fe4819;
+        text-transform: uppercase;
+        letter-spacing: .03em;
+        padding: 8px 0 4px;
+        border-top: 1px solid #eee;
+
+        i {
+            margin-right: 5px;
+        }
+    }
+
     .flatpickr-weekdays,
     .flatpickr-current-month {
         color: #555;
@@ -522,6 +540,23 @@
             color: #ccc !important;
             cursor: not-allowed !important;
             text-decoration: none !important;
+        }
+    }
+
+    .flatpickr-time {
+        .flatpickr-minute,
+        .flatpickr-time-separator {
+            display: none !important;
+        }
+
+        // τα βελάκια πάνω/κάτω της στήλης λεπτών
+        .numInputWrapper:has(.flatpickr-minute) {
+            display: none !important;
+        }
+
+        // η ώρα να πιάνει όλο το πλάτος αφού έφυγαν τα λεπτά
+        .numInputWrapper:has(.flatpickr-hour) {
+            width: 100%;
         }
     }
 }

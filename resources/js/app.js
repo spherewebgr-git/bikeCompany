@@ -155,12 +155,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // ---------------- HOUR MODE ----------------
     const flatpickrInstance = flatpickr(startDisplay, {
         enableTime: true,
+        noCalendar: false,
         dateFormat: "d/m/Y H:i",
         minDate: "today",
+        minTime: "08:00",
+        maxTime: "21:00",
+        minuteIncrement: 60,   // μόνο ακέραιες ώρες, χωρίς λεπτά ενδιάμεσα
+        time_24hr: true,       // 24ωρη μορφή, πιο καθαρό χωρίς AM/PM
         defaultDate: currentStart,
         onChange: function (selectedDates) {
             userInteracted = true;
             currentStart = selectedDates[0];
+            updateDurationLimit();
             updateHourPrice();
         },
         onDayCreate: function (dObj, dStr, fp, dayElem) {
@@ -200,6 +206,23 @@ document.addEventListener('DOMContentLoaded', function () {
             } else {
                 dayElem.classList.add('flatpickr-day-available');
             }
+        },
+
+        onOpen: function (selectedDates, dateStr, instance) {
+
+            const timeContainer = instance.calendarContainer.querySelector('.flatpickr-time');
+            if (!timeContainer) return;
+
+            // Σβήσε τυχόν προηγούμενα labels
+            instance.calendarContainer
+                .querySelectorAll('.flatpickr-time-label')
+                .forEach(el => el.remove());
+
+            const label = document.createElement('div');
+            label.className = 'flatpickr-time-label';
+            label.innerHTML = '<i class="fa-regular fa-clock"></i> Select start time of your ride';
+
+            timeContainer.parentNode.insertBefore(label, timeContainer);
         }
     });
 
@@ -208,11 +231,27 @@ document.addEventListener('DOMContentLoaded', function () {
         updateHourPrice();
     });
 
+
+
     let userInteracted = false; // true μόνο όταν ο χρήστης αλλάξει ημερομηνία/διάρκεια
     function updateHourPrice() {
         renderHourAvailability(currentStart);
 
         const hours = parseInt(durationInput.value) || 0;
+        const maxAllowed = getMaxHoursForStart(currentStart);
+
+        if (hours > maxAllowed) {
+            if (userInteracted) {
+                alert(`Το κατάστημα κλείνει στις 21:00 — μπορείτε να επιλέξετε μέχρι ${maxAllowed} ώρες από την ώρα έναρξης.`);
+            }
+
+            durationInput.value = maxAllowed;
+
+            // Ξαναυπολόγισε με τη νέα τιμή
+            updateHourPrice();
+            return;
+        }
+
         const end = new Date(currentStart.getTime() + hours * 3600 * 1000);
 
         const unavailable = availabilityEvents.some(event => {
@@ -245,7 +284,36 @@ document.addEventListener('DOMContentLoaded', function () {
         priceSummary.textContent = `${price.toFixed(2).replace('.', ',')} €`;
         durationSummary.textContent = `${hours} ώρες`;
         submitBtn.disabled = hours < 1;
+
     }
+
+    // Υπολογίζει πόσες ακέραιες ώρες απομένουν από το currentStart μέχρι τις 21:00 της ίδιας μέρας
+    function getMaxHoursForStart(startDate) {
+        const closingTime = new Date(
+            startDate.getFullYear(),
+            startDate.getMonth(),
+            startDate.getDate(),
+            21, 0, 0
+        );
+
+        const diffMs = closingTime.getTime() - startDate.getTime();
+        const maxHours = Math.floor(diffMs / 3600000);
+
+        return Math.max(0, maxHours);
+    }
+
+    function updateDurationLimit() {
+        const maxAllowed = Math.min(getMaxHoursForStart(currentStart), 72); // 72 = το υπάρχον απόλυτο όριο
+
+        durationInput.max = maxAllowed;
+
+        // Αν η τρέχουσα τιμή ξεπερνάει το νέο όριο, την κόβουμε στο μέγιστο
+        const currentValue = parseInt(durationInput.value) || 0;
+        if (currentValue > maxAllowed) {
+            durationInput.value = maxAllowed;
+        }
+    }
+
 
     console.log('Checkout JS loaded');
     fetch(calendarEl.dataset.availabilityUrl)
@@ -424,6 +492,8 @@ document.addEventListener('DOMContentLoaded', function () {
         submitBtn.disabled = true;
     }
 
+
+
     function updateCalendarPrice() {
         if (!calendarSelection) return;
 
@@ -480,6 +550,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    updateDurationLimit();
     updateHourPrice();
+
 });
 
