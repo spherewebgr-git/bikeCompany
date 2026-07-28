@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\StaffNewOrderMail;
 use App\Models\Bike;
 use App\Models\Order;
 use App\Models\Card;
 use App\Models\Status;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Mail\OrderCompletedMail;
@@ -117,6 +119,13 @@ class PaymentController extends Controller
 
             Mail::to($order->user->email)
                 ->queue(new OrderCompletedMail($order));
+
+            $staffUsers = User::where('role_id', 1)->get();
+
+            foreach ($staffUsers as $staff) {
+                Mail::to($staff->email)
+                    ->queue(new StaffNewOrderMail($order));
+            }
 
             return response()->json([
                 'success' => true,
@@ -237,6 +246,13 @@ class PaymentController extends Controller
         */
         Mail::to($order->user->email)
             ->queue(new OrderCompletedMail($order));
+
+        $staffUsers = User::where('role_id', 1)->get();
+
+        foreach ($staffUsers as $staff) {
+            Mail::to($staff->email)
+                ->queue(new StaffNewOrderMail($order));
+        }
 
         return response()->json([
             'success' => true,

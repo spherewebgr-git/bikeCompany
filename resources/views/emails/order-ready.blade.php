@@ -185,6 +185,20 @@
                                 </td>
                             </tr>
 
+                            <tr>
+                                @if($order->bike->provision->name == 'rent')
+                                    <td style="padding:12px 15px; border-top:1px solid #e5e7eb;">
+                                        <strong>Serial number</strong>
+                                    </td>
+
+                                    <td align="right"
+                                        style="padding:12px 15px; border-top:1px solid #e5e7eb;">
+                                        {{ $order->bike->serialnum }}
+                                    </td>
+                                @endif
+
+                            </tr>
+
                         </table>
 
                         {{-- Delivery or pickup information --}}

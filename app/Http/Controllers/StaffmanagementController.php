@@ -521,9 +521,9 @@ class StaffmanagementController extends Controller
 
         $order->load('status');
 
-        $isComplete = strtolower($$order->status->name) === 'complete';
+        $isComplete = strtolower($order->status->name) === 'complete!';
 
-        $wasAlreadyComplete = $previousStatus === 'complete';
+        $wasAlreadyComplete = $previousStatus === 'complete!';
 
         if ($isComplete && !$wasAlreadyComplete) {
 
