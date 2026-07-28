@@ -118,6 +118,8 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
     // --------- ACTIVE RENTALS TRACKING --------- \\
     Route::get('/dashboard/management/activerentals', [StaffmanagementController::class, 'activerentals'])->name('dashboard.management.activerentals');
 
+    Route::get('/dashboard/management/activerentals/filter', [StaffmanagementController::class, 'activerentalsfilter'])->name('activerentals.filter');
+
     // --------- ORDERS --------- \\
     Route::get('/dashboard/management/orders', [StaffmanagementController::class, 'manageorders'])->name('dashboard.management.orders');
 

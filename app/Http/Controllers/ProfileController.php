@@ -142,10 +142,13 @@ class ProfileController extends Controller
 
         if ($request->filled('pickup'))
         {
-            $orders->orWhere('dropoff_address', 'LIKE', "%{$request->pickup}%")
-            ->orWhereHas('location', function ($q) use ($request)
+            $orders->where(function ($query) use ($request)
             {
-                $q->where('id', 'LIKE', "%{$request->pickup}%");
+                $query->where('dropoff_address', 'LIKE', "%{$request->pickup}%")
+                    ->orWhereHas('location', function ($q) use ($request)
+                    {
+                        $q->where('name', 'LIKE', "%{$request->pickup}%");
+                    });
             });
         }
 
@@ -203,10 +206,13 @@ class ProfileController extends Controller
 
         if ($request->filled('pickup'))
         {
-            $orders->orWhere('dropoff_address', 'LIKE', "%{$request->pickup}%")
-            ->orWhereHas('location', function ($q) use ($request)
+            $orders->where(function ($query) use ($request)
             {
-                $q->where('id', 'LIKE', "%{$request->pickup}%");
+                $query->where('dropoff_address', 'LIKE', "%{$request->pickup}%")
+                    ->orWhereHas('location', function ($q) use ($request)
+                    {
+                        $q->where('name', 'LIKE', "%{$request->pickup}%");
+                    });
             });
         }
 

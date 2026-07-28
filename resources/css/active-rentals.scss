@@ -1,10 +1,100 @@
+@mixin orangebtn
+{
+    color: #fff;
+    text-transform: uppercase;
+    background: #fe4819;
+    border: 2px solid #fe4819;
+    transition: all 0.3s;
+    border-radius: 3px;
+}
+
+@mixin orangebtnhover
+{
+    border-color: #fe704c;
+    background: #fe704c;
+    color: #fff;
+}
+
 #ActiveRentals
 {
-    img
+    font-size: 18px;
+
+    p
     {
-        height: 100px;
+        padding: 0;
+        margin: 0;
     }
 
-    .overdue { color: red; }
-    .tobe { color: green; }
+    .filter
+    {
+        margin-bottom: 25px;
+
+        legend
+        {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        label { padding-right: 10px; }
+
+        [type="radio"]:checked
+        {
+            position: unset;
+            opacity: 1;
+        }
+
+        [type="radio"]:not(:checked)
+        {
+            position: unset;
+            pointer-events: all;
+            opacity: 1;
+        }
+
+        button
+        {
+            @include orangebtn;
+            padding: 6px 8px;
+            margin-left: 4px;
+            &:hover { @include orangebtnhover; }
+        }
+    }
+
+    .row
+    {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .active-single
+    {
+        display: flex;
+        margin: 5px;
+        padding: 15px;
+        border-radius: 6px;
+        box-shadow: 0 0 8px #ff9561;
+        flex: 0 0 calc(50% - 20px); // col-6
+
+        .overdue, .tobe
+        {
+            font-size: 24px;
+        }
+
+        .location
+        {
+            font-size: 20px;
+            font-weight: 600;
+        }
+    }
+
+    img
+    {
+        height: 180px;
+        border-radius: 6px;
+        width: auto;
+        margin-right: 15px;
+    }
+
+    .overdue { color: #fe4819; }
+    .tobe { color: #2268ff; }
 }

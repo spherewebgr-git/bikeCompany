@@ -259,6 +259,27 @@ class StaffmanagementController extends Controller
         ]);
     }
 
+    public function activerentalsfilter(Request $request)
+    {
+        $complete = Status::max('step');
+        $orders = Order::whereHas('status', function ($query) use ($complete)
+        { $query->where('step', $complete)->where('rent_end', '<>', null)->where('returned', false); });
+
+        if ($request->input('return') === 'overdue')
+        {
+            $orders = $orders->where('rent_end', '<', \now());
+        }
+
+        if ($request->input('return') === 'pending')
+        {
+            $orders = $orders->where('rent_end', '>=', \now());
+        }
+
+        return view('staff.activerentals.track', [
+            'orders' => $orders->orderBy("rent_end")->get()
+        ]);
+    }
+
     // --------------- USERS --------------- \\
     public function users(Request $request)
     {
