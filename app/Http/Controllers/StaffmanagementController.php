@@ -273,7 +273,8 @@ class StaffmanagementController extends Controller
 
     public function demoteToCustomer(User $user): RedirectResponse
     {
-        if (Auth::id() === $user->id) {
+        if (Auth::id() === $user->id)
+        {
             return back()->withErrors([
                 'user' => 'cannot demote to yourself',
             ]);
