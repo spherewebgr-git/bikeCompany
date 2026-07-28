@@ -17,6 +17,7 @@ class Order extends Model
         'payed_off',
         'rent_start',
         'rent_end',
+        'returned',
         'dropoff_address',
         'bike_id',
         'user_id',
@@ -29,6 +30,7 @@ class Order extends Model
 
     protected $casts = [
         'payed_off' => 'boolean',
+        'returned' => 'boolean',
         'order_date' => 'datetime',
         'reserved_until' => 'datetime',
         'completed_at' => 'datetime',

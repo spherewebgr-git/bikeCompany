@@ -61,6 +61,12 @@
                                         Our Store at {{ $order->location->name }}
                                     @endif
                                 </p>
+                                
+                                @if ($order->bike->serialnum)
+                                    <a href="{{ route('checkout.create-rental', $order->bike) }}">
+                                        Rent again
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>        

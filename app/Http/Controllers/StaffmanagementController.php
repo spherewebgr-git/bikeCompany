@@ -235,6 +235,29 @@ class StaffmanagementController extends Controller
         return redirect('dashboard/management/bikes');
     }
 
+    // --------- ACTIVE RENTALS --------- \\
+
+    public function activerentals()
+    {
+        $user = User::all();
+        $bike = Bike::all();
+        $location = Location::all()->sortBy("name");
+        $provision = Provision::all()->sortBy("id");
+        $status = Status::where('step', '>', 0)->orderBy("step")->get();
+
+        $complete = Status::max('step');
+        $orders = Order::whereHas('status', function ($query) use ($complete)
+        { $query->where('step', $complete)->where('rent_end', '<>', null)->where('returned', false); })->get();
+
+        return view('staff.activerentals.track', [
+            'orders' => $orders->sortBy("rent_end"),
+            'user' => $user,
+            'bike' => $bike,
+            'location' => $location,
+            'status' => $status,
+            'provision' => $provision
+        ]);
+    }
 
     // --------------- USERS --------------- \\
     public function users(Request $request)

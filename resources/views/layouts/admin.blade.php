@@ -141,6 +141,13 @@
             </li>
 
             <li class="bold">
+                <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.activerentals') }}">
+                    <i class="fa-regular fa-alarm-clock" style="color: #fff;"></i>
+                    <span class="menu-title">Active Rentals</span>
+                </a>
+            </li>
+
+            <li class="bold">
                 <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.bikes') }}">
                     <i class="fa-solid fa-bicycle" style="color: #fff;"></i>
                     <span class="menu-title">Bike Management</span>

@@ -43,6 +43,7 @@ class OrderSeeder extends Seeder
 
                 'rent_start' => $bike->provision->id == 2 ? $start : NULL,
                 'rent_end' => $bike->provision->id == 2 ? $end : NULL,
+                'returned' => $bike->provision->id == 2 ? ($end->isPast() ? rand(0,1) < 0.99 : false) : NULL,
 
                 'dropoff_address' => $bike->provision->id == 2 ? NULL : $order['dropoff_address'],
             ]);
