@@ -71,3 +71,43 @@
         }
     }
 }
+
+#FeaturedSearch
+{
+    form 
+    {
+        display: flex;
+
+        input 
+        {
+            font-size: 18px;
+            border: 1px solid black;
+            padding: 0 10px;
+            height: 40px;
+            border-radius: 3px;
+            min-width: 350px;
+
+            &:focus-visible 
+            {
+                box-shadow: 0 0 3px #fe4819;
+                border-color: #fe4819;
+                outline: none;
+            }
+        }
+
+        button
+        {
+            @include orangebtn;
+            position: relative;
+            font-size: 20px;
+            margin-left: 15px;
+            height: 40px;
+            width: 40px;
+        }
+
+        button:hover
+        {
+            @include orangebtnhover;
+        }
+    }
+}

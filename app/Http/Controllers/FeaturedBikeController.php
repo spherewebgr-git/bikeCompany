@@ -79,4 +79,35 @@ class FeaturedBikeController extends Controller
 
         return back()->with('status', 'Featured bikes have been updated.');
     }
+
+    public function featuredsearch(Request $request)
+    {
+        $allbikes = Bike::query();
+
+        if ($request->filled('featsearch'))
+        {
+            $search = $request->featuredsearch;
+
+            $allbikes->where(function ($q) use ($search)
+            {
+                $q->whereHas('brand', function ($q) use ($search)
+                {
+                    $q->where('name', 'LIKE', "%{$search}%");
+                })
+                ->orWhereHas('type', function ($q) use ($search)
+                {
+                    $q->where('name', 'LIKE', "%{$search}%");
+                })
+                ->orWhereHas('speed', function ($q) use ($search)
+                {
+                    $q->where('gears', 'LIKE', "%{$search}%");
+                })
+                ->orWhere('colour', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $availableBikes = $allbikes->get();
+
+        return view('staff.homepage.edit', compact('availableBikes'));
+    }
 }

@@ -130,14 +130,17 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
 
     Route::get('/dashboard/management/orders/search', [StaffmanagementController::class, 'searchorder'])->name('order.search');
 
-   // --------- ARCHIVE --------- \\
+   // --------- HISTORY --------- \\
     Route::get('/dashboard/management/orderhistory', [StaffmanagementController::class, 'history'])->name('dashboard.management.orderhistory');
 
     Route::get('/dashboard/management/orderhistory/search', [StaffmanagementController::class, 'searchhistory'])->name('orderhistory.search');
 
-    // routes/web.php
+    // --------- FEATURED BIKES --------- \\
     Route::get('featured-bikes', [FeaturedBikeController::class, 'edit'])->name('featured-bikes.edit');
+
     Route::put('featured-bikes', [FeaturedBikeController::class, 'update'])->name('featured-bikes.update');
+
+    Route::get('/dashboard/management/featured-bikes', [FeaturedBikeController::class, 'featuredsearch'])->name('featured-bikes.search');
 
     // --------- STATS --------- \\
     Route::get('/dashboard/management/statistics', [StaffmanagementController::class, 'statistics'])->name('dashboard.management.statistics');

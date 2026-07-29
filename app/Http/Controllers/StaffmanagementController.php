@@ -691,8 +691,9 @@ class StaffmanagementController extends Controller
 
     public function statistics()
     {
+        $bikes = Bike::all();
         return view('staff.statistics.view', [
-            
+            'bikes' => $bikes,
         ]);
     }
 }
