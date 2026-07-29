@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/rental/checkout/{bike}', [CheckoutController::class, 'createRental'])->name('checkout.create-rental');
     Route::post('/rental/checkout/{bike}', [CheckoutController::class, 'storeRental'])->name('checkout.store-rental');
+    Route::get('/rental/checkout/{bike}/check', [CheckoutController::class, 'checkAvailability'])->name('checkout.check-rental');
 });
 
 //RENTAL AVAILABILITY

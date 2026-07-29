@@ -1,5 +1,5 @@
 <nav x-data="{ open: false }" class="main-nav">
-    <div class="nav-container">
+    <div class="menu-header container-fluid">
         <div class="nav-wrapper">
 
             <div class="nav-logo">

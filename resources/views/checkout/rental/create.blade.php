@@ -134,6 +134,15 @@
                                             <label>Duration (hours)</label>
                                             <input type="number" id="rental_duration" class="form-control" min="1" max="72" value="1">
                                         </div>
+
+                                        {{-- ΝΕΟ: Check availability button --}}
+                                        <div class="col-md-12 form-group">
+                                            <a href="{{route('checkout.check-rental', $bike)}}" type="submit" id="check-availability-btn" class="btn btn-default">
+                                                Check Availability
+                                            </a>
+                                            <div id="availability-check-result"></div>
+                                        </div>
+
                                     </div>
                                     <div class="hour-availability-header">
                                         <span class="hour-availability-label">
@@ -150,27 +159,31 @@
 
                                 {{-- DAY/WEEK MODE: FullCalendar drag-select --}}
                                 <div id="calendar-mode" class="rental-mode" style="display:none;">
-                                    <div class="form-group" id="week-count-group" style="display:none;">
-                                        <label for="week_count">Amount of weeks</label>
-                                        <input type="number" id="week_count" class="form-control" min="1" value="1">
-                                    </div>
-                                    <div class="form-group" id="day-count-group" style="display:none;">
-                                        <label for="day_count">Amount of days</label>
-                                        <input
-                                            type="number"
-                                            id="day_count"
-                                            class="form-control"
-                                            min="1"
-                                            value="1"
-                                        >
+
+                                    <div class="calendar-top-section">
+                                        <div class="form-group" id="week-count-group" style="display:none;">
+                                            <label for="week_count">Amount of weeks</label>
+                                            <input type="number" id="week_count" class="form-control" min="1" value="1">
+                                        </div>
+                                        <div class="form-group" id="day-count-group" style="display:none;">
+                                            <label for="day_count">Amount of days</label>
+                                            <input
+                                                type="number"
+                                                id="day_count"
+                                                class="form-control"
+                                                min="1"
+                                                value="1"
+                                            >
+
+                                        </div>
 
                                         <div class="calendar-legend">
+                                        <span class="calendar-legend-item">
+                                            <i class="legend-dot legend-dot-available"></i> Available
+                                        </span>
                                             <span class="calendar-legend-item">
-                                                <i class="legend-dot legend-dot-available"></i> Available
-                                            </span>
-                                                <span class="calendar-legend-item">
-                                                <i class="legend-dot legend-dot-blocked"></i> Already booked
-                                            </span>
+                                            <i class="legend-dot legend-dot-blocked"></i> Already booked
+                                        </span>
                                         </div>
                                     </div>
 
@@ -198,10 +211,9 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
 
-                            </div>
-
-                            <div class="checkout-actions">
-                                <button type="submit" id="submit-btn" class="btn btn-fill btn-lg">Place Order</button>
+                                <div class="checkout-actions">
+                                    <button type="submit" id="submit-btn" class="btn btn-fill btn-lg">Place Order</button>
+                                </div>
                             </div>
 
                         </form>
@@ -210,7 +222,7 @@
 
                 </div>
 
-                <div class="col-md-4">
+                <div class="order-summary col-md-4">
 
                     <div class="sidebar-widget checkout-summary">
 

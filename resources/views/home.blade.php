@@ -23,77 +23,48 @@
     <section class="about-us" id="about">
         <div class="nav-container">
 
-            <div class="section-heading text-center">
-                <h6>{{ __('Who we are') }}</h6>
-                <h2 class="title-text">{{ __('About the club') }}</h2>
+            <div class="about-grid">
+
+                <div class="about-media">
+                    <img src="{{ Vite::asset('resources/images/about-image.jpg') }}" alt="{{ __('Trail Bike workshop') }}">
+                    <div class="about-tag">
+                        <span class="about-tag__line">{{ __('Tuning since') }}</span>
+                        <span class="about-tag__year">10+ {{ __('yrs') }}</span>
+                    </div>
+                </div>
+
+                <div class="about-copy">
+                    <span class="eyebrow">{{ __('Trail Bike Workshop') }}</span>
+                    <h2 class="about-heading">
+                        {{ __('Built on trails.') }}<br>
+                        <span>{{ __('Tuned by hand.') }}</span>
+                    </h2>
+
+                    <p>{{ __('We started as a handful of friends who couldn\'t stay off two wheels. Now we\'re a full workshop and store — inspecting, tuning, and servicing every bike before it leaves our hands, so you can focus on the ride.') }}</p>
+                    <p>{{ __('From city cruisers to full-suspension trail bikes, our catalog keeps growing. Whatever you ride, we\'re here with the right bike and honest advice.') }}</p>
+
+                    <ul class="about-values">
+                        <li><i class="fa fa-check-circle"></i> {{ __('Quality checked') }}</li>
+                        <li><i class="fa fa-clock"></i> {{ __('Flexible rentals') }}</li>
+                        <li><i class="fa fa-life-ring"></i> {{ __('Local support') }}</li>
+                        <li><i class="fa fa-refresh"></i> {{ __('Fresh stock') }}</li>
+                    </ul>
+                </div>
+
             </div>
 
-            <div class="row mb-30 about-intro">
-                <div class="col-md-6">
-                    <p>{{ __('Trail Bike started as a small group of friends who shared one thing in common: a love for two wheels and the open trail. Today we\'ve grown into a full workshop and store, offering both rental and sale bikes for every kind of rider — from weekend explorers to competitive racers.') }}</p>
-                    <p>{{ __('Every bike that leaves our shop is inspected, tuned, and serviced year-round before it reaches you — so you can focus on the ride, not the maintenance. Our catalog keeps growing, from city cruisers to full-suspension trail bikes.') }}</p>
-                    <p>{{ __('We\'re proud to support the cycling community with quality equipment, trusted advice, and bikes from leading brands. Whatever your experience level, we\'re here to help you ride with confidence — for a daily commute, a mountain trail, or a weekend getaway.') }}</p>
+            <div class="about-specs">
+                <div class="about-specs__item reveal-up">
+                    <span class="about-specs__label">{{ __('Bikes available') }}</span>
+                    <span class="about-specs__value">150+</span>
                 </div>
-
-                <div class="col-md-6">
-                    <div class="about-image">
-                        <img src="{{ Vite::asset('resources/images/about-image.jpg') }}" alt="{{ __('Trail Bike workshop') }}">
-                    </div>
+                <div class="about-specs__item reveal-up">
+                    <span class="about-specs__label">{{ __('Happy riders') }}</span>
+                    <span class="about-specs__value">2,000+</span>
                 </div>
-            </div>
-
-            <div class="row mb-30 about-values">
-                <div class="col-sm-3 text-center">
-                    <div class="value-card reveal-up">
-                        <i class="fa fa-check-circle"></i>
-                        <h5>{{ __('Quality checked') }}</h5>
-                        <p>{{ __('Every bike inspected before it reaches you.') }}</p>
-                    </div>
-                </div>
-                <div class="col-sm-3 text-center">
-                    <div class="value-card reveal-up">
-                        <i class="fa fa-clock"></i>
-                        <h5>{{ __('Flexible rentals') }}</h5>
-                        <p>{{ __('Rent by the hour, day, or week.') }}</p>
-                    </div>
-                </div>
-                <div class="col-sm-3 text-center">
-                    <div class="value-card reveal-up">
-                        <i class="fa fa-life-ring"></i>
-                        <h5>{{ __('Local support') }}</h5>
-                        <p>{{ __('Our team is here if anything comes up.') }}</p>
-                    </div>
-                </div>
-                <div class="col-sm-3 text-center">
-                    <div class="value-card reveal-up">
-                        <i class="fa fa-refresh"></i>
-                        <h5>{{ __('Always fresh stock') }}</h5>
-                        <p>{{ __('New arrivals added to the catalog regularly.') }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row about-stats">
-                <div class="col-sm-4 text-center">
-                    <div class="stat-card reveal-up">
-                        <i class="fa fa-bicycle"></i>
-                        <h4 class="title-text">150+</h4>
-                        <p>{{ __('Bikes available') }}</p>
-                    </div>
-                </div>
-                <div class="col-sm-4 text-center">
-                    <div class="stat-card reveal-up">
-                        <i class="fa fa-users"></i>
-                        <h4 class="title-text">2,000+</h4>
-                        <p>{{ __('Happy riders') }}</p>
-                    </div>
-                </div>
-                <div class="col-sm-4 text-center">
-                    <div class="stat-card reveal-up">
-                        <i class="fa fa-wrench"></i>
-                        <h4 class="title-text">10</h4>
-                        <p>{{ __('Years of experience') }}</p>
-                    </div>
+                <div class="about-specs__item reveal-up">
+                    <span class="about-specs__label">{{ __('Years of experience') }}</span>
+                    <span class="about-specs__value">10</span>
                 </div>
             </div>
 

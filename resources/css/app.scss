@@ -38,6 +38,13 @@ a {
 // ============================================================
 // NAVIGATION
 // ============================================================
+
+.menu-header {
+    position: relative;
+    z-index: 99;
+    background: #fff;
+}
+
 .main-nav {
     background: #fff;
     border-bottom: 1px solid #eee;
@@ -155,6 +162,7 @@ a {
     display: flex;
     align-items: center;
     overflow: hidden;
+    box-shadow: 0 0 55px -10px black;
 
     .slider-video {
         position: absolute;
@@ -327,137 +335,162 @@ a {
 }
 
 .about-us {
+    background: #fcfcfc;
+    padding: 90px 0 70px;
 
-    .about-intro {
-        align-items: flex-start;
-        margin-bottom: 60px;
+    .about-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        margin-bottom: 70px;
 
-        p {
-            text-align: left;
+        @media (max-width: 767px) {
+            grid-template-columns: 1fr;
+            gap: 30px;
         }
     }
 
-    .about-image {
-        position: sticky;
-        top: 120px;
-        // Με λιγότερο κείμενο δίπλα (3 παράγραφοι), προστατεύουμε ώστε
-        // η εικόνα να μην ξεπερνάει σε ύψος τη στήλη κειμένου —
-        // αλλιώς το sticky "κολλάει" πριν προλάβει να τελειώσει το scroll.
-        max-height: 70vh;
+    // ============ MEDIA / IMAGE + SIGNATURE TAG ============
+    .about-media {
+        position: relative;
 
         img {
             width: 100%;
-            height: 100%;
-            border-radius: 16px;
+            height: 420px;
             object-fit: cover;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
-        }
-    }
-
-    .about-values,
-    .about-stats {
-        .col-sm-3,
-        .col-sm-4 {
-            margin-bottom: 25px;
-        }
-    }
-
-    .about-values { margin-bottom: 60px; }
-
-    .value-card,
-    .stat-card {
-        background: #fff;
-        border: 1px solid #eee;
-        border-radius: 12px;
-        height: 100%;
-        transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
-
-        .fa {
-            color: #fe4819;
-            margin-bottom: 12px;
-            display: block;
+            border-radius: 4px;
         }
 
-        &:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, .08);
-        }
-    }
+        .about-tag {
+            position: absolute;
+            top: -14px;
+            left: -14px;
+            background: #fe4819;
+            color: #fff;
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(-8deg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
 
-    .value-card {
-        padding: 30px 20px;
-        min-height: 180px;
-
-        .fa { font-size: 28px; }
-        h5 { margin-bottom: 8px; font-weight: 700; color: #3b3738; }
-        p  { font-size: 13px; color: #9f9f9f; margin: 0; }
-
-        &:hover { border-color: #fe4819; }
-    }
-
-    .stat-card {
-        padding: 40px 20px;
-
-        .fa { font-size: 32px; margin-bottom: 10px; }
-        h4  { margin: 0 0 5px; }
-        p   { margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #9f9f9f; }
-    }
-
-    // ΔΙΑΓΡΑΨΕ ολόκληρο αυτό, είναι duplicate:
-    .about-stats {
-        .col-sm-4 {
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            background: #fff;
-            border: 1px solid #eee;
-            border-radius: 12px;
-            padding: 40px 20px;
-            transition: all .3s ease;
-
-            &:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 15px 35px rgba(0, 0, 0, .08);
+            &__line {
+                font-family: 'Oswald', sans-serif;
+                font-size: 10px;
+                letter-spacing: .08em;
+                text-transform: uppercase;
+                opacity: .85;
             }
+
+            &__year {
+                font-family: 'Oswald', sans-serif;
+                font-size: 19px;
+                font-weight: 700;
+                line-height: 1.2;
+            }
+        }
+    }
+
+    // ============ COPY ============
+    .about-copy {
+        .eyebrow {
+            display: inline-block;
+            font-family: 'Oswald', sans-serif;
+            font-size: 12px;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: #fe4819;
+            margin-bottom: 14px;
+        }
+
+        .about-heading {
+            font-family: 'Oswald', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            line-height: 1.05;
+            color: #26221f;
+            margin-bottom: 24px;
+
+            span {
+                color: #fe4819;
+            }
+        }
+
+        p {
+            font-size: 14px;
+            line-height: 1.9;
+            color: #6c6c6c;
+            margin-bottom: 18px;
+        }
+    }
+
+    .about-values {
+        list-style: none;
+        padding: 0;
+        margin: 24px 0 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 26px;
+
+        li {
+            font-size: 13px;
+            color: #3b3738;
+            font-weight: 500;
 
             .fa {
-                font-size: 32px;
                 color: #fe4819;
-                margin-bottom: 10px;
-                display: block;
-            }
-
-            h4 {
-                margin: 0 0 5px;
-            }
-
-            p {
-                margin: 0;
-                font-size: 13px;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                color: #9f9f9f;
+                margin-right: 8px;
             }
         }
     }
-    // Reusable scroll-reveal (ίδιο pattern με .trail-step)
-    .reveal-up {
-        opacity: 0;
-        transform: translateY(24px);
-        transition: opacity .6s ease, transform .6s ease;
 
-        &.is-visible {
-            opacity: 1;
-            transform: translateY(0);
+    // ============ SPEC STRIP ============
+    .about-specs {
+        display: flex;
+        border-top: 1px solid #e6e6e6;
+        border-bottom: 1px solid #e6e6e6;
+        padding: 30px 0;
+
+        @media (max-width: 767px) {
+            flex-direction: column;
+            gap: 20px;
         }
-    }
 
-    @media (prefers-reduced-motion: reduce) {
-        .reveal-up {
-            opacity: 1 !important;
-            transform: none !important;
-            transition: none !important;
+        &__item {
+            flex: 1;
+            text-align: center;
+
+            & + & {
+                border-left: 1px solid #e6e6e6;
+
+                @media (max-width: 767px) {
+                    border-left: none;
+                    border-top: 1px solid #e6e6e6;
+                    padding-top: 20px;
+                }
+            }
+        }
+
+        &__label {
+            display: block;
+            font-family: 'Oswald', sans-serif;
+            font-size: 11px;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: #9f9f9f;
+            margin-bottom: 8px;
+        }
+
+        &__value {
+            display: block;
+            font-family: 'Oswald', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: #26221f;
         }
     }
 }

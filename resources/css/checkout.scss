@@ -5,6 +5,13 @@
 .checkout-page {
     padding: 70px 0;
 
+    .order-summary {
+        position: sticky;
+        z-index: 1000;
+        top: 21px;
+        align-self: anchor-center;
+    }
+
     .checkout-card,
     .checkout-summary {
         background: #fff;
@@ -256,12 +263,18 @@
     }
 
     #calendar-mode {
+        .calendar-top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
         .form-group {
+
             max-width: 250px;
         }
 
         .calendar-legend {
-            display: flex;
+            display: inline-flex;
             flex-wrap: wrap;
             justify-content: end;
             gap: 14px;
@@ -274,8 +287,8 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 12.5px;
             font-weight: 600;
+            font-size: 14px;
             color: #555;
         }
 
