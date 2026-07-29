@@ -9,7 +9,6 @@
             </div>
 
             <div class="nav-links">
-
                 <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                     Home
                 </x-nav-link>
@@ -21,31 +20,9 @@
                 <x-nav-link :href="route('bikes.rental')" :active="request()->routeIs('bikes.rental')">
                     Rental Bikes
                 </x-nav-link>
-
-
-
-{{-- STAFF MENU OPTIONS--}}
-
-                {{-- @auth
-                    @if(Auth::user()->role->name === 'staff')
-                        <x-nav-link :href="route('dashboard.management.bikes')" :active="request()->routeIs('dashboard.management.bikes')">
-                            Bike Management
-                        </x-nav-link>
-                    @endif
-                @endauth
-
-                @auth
-                    @if(Auth::user()->role->name === 'staff')
-                        <x-nav-link :href="route('staff.users.index')" :active="request()->routeIs('staff.users.index')">
-                            User/Staff Management
-                        </x-nav-link>
-                    @endif
-                @endauth --}}
-
             </div>
 
             <div class="nav-user">
-                        
                 @auth
                     @if(Auth::user()->role->name === 'staff')
                         <a href="{{ route('dashboard.management.bikes') }}" class="btn btn-trans btn-md" style="height: 34px;">Dashboard</a>

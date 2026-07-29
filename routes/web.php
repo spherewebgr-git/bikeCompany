@@ -121,6 +121,8 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
 
     Route::get('/dashboard/management/activerentals/filter', [StaffmanagementController::class, 'activerentalsfilter'])->name('activerentals.filter');
 
+    Route::post('/dashboard/management/activerentals/{order}', [StaffmanagementController::class, 'updatereturned'])->name('activerentals.update');
+
     // --------- ORDERS --------- \\
     Route::get('/dashboard/management/orders', [StaffmanagementController::class, 'manageorders'])->name('dashboard.management.orders');
 
@@ -136,6 +138,9 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
     // routes/web.php
     Route::get('featured-bikes', [FeaturedBikeController::class, 'edit'])->name('featured-bikes.edit');
     Route::put('featured-bikes', [FeaturedBikeController::class, 'update'])->name('featured-bikes.update');
+
+    // --------- STATS --------- \\
+    Route::get('/dashboard/management/statistics', [StaffmanagementController::class, 'statistics'])->name('dashboard.management.statistics');
 
 });
 

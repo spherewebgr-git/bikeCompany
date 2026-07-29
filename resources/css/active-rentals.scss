@@ -87,14 +87,34 @@
         }
     }
 
+    .overdue { color: #fe4819; }
+    .tobe { color: #2268ff; }
+
     img
     {
-        height: 180px;
-        border-radius: 6px;
-        width: auto;
+        max-height: 180px;
+        border-radius: 3px;
+        width: 180px;
         margin-right: 15px;
     }
 
-    .overdue { color: #fe4819; }
-    .tobe { color: #2268ff; }
+    .returned
+    {
+        @include orangebtn;
+        padding: 4px;
+        position: absolute;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        width: 180px;
+        text-align: center;
+
+        &:hover { @include orangebtnhover; }
+    }
+
+    [type="checkbox"]:not(:checked), [type="checkbox"]:checked
+    {
+        position: unset;
+        pointer-events: all;
+        opacity: 1;
+    }
 }

@@ -141,20 +141,6 @@
             </li>
 
             <li class="bold">
-                <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.activerentals') }}">
-                    <i class="fa-regular fa-alarm-clock" style="color: #fff;"></i>
-                    <span class="menu-title">Active Rentals</span>
-                </a>
-            </li>
-
-            <li class="bold">
-                <a class="waves-effect waves-cyan" href="{{ route('featured-bikes.edit') }}">
-                    <i class="fa-solid fa-home" style="color: #fff;"></i>
-                    <span class="menu-title">Homepage Management</span>
-                </a>
-            </li>
-
-            <li class="bold">
                 <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.bikes') }}">
                     <i class="fa-solid fa-bicycle" style="color: #fff;"></i>
                     <span class="menu-title">Bike Management</span>
@@ -165,6 +151,13 @@
                 <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.categories') }}">
                     <i class="fa-solid fa-table" style="color: #fff;"></i>
                     <span class="menu-title">Categories Management</span>
+                </a>
+            </li>
+
+            <li class="bold">
+                <a class="waves-effect waves-cyan" href="{{ route('featured-bikes.edit') }}">
+                    <i class="fa-solid fa-home" style="color: #fff;"></i>
+                    <span class="menu-title">Homepage Management</span>
                 </a>
             </li>
 
@@ -182,16 +175,30 @@
                 </a>
             </li>
 
-{{-- ORDERS HISTORY PAGE --}}
+{{-- TRACKING PAGES --}}
             <li class="navigation-header">
-                <a class="navigation-header-text">Archive</a>
+                <a class="navigation-header-text">Tracking</a>
                 <i class="navigation-header-icon material-icons">more_horiz</i>
+            </li>
+
+            <li class="bold">
+                <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.activerentals') }}">
+                    <i class="fa-regular fa-alarm-clock" style="color: #fff;"></i>
+                    <span class="menu-title">Active Rentals</span>
+                </a>
             </li>
 
             <li class="bold">
                 <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.orderhistory') }}">
                     <i class="fa-solid fa-clock-rotate-left" style="color: #fff;"></i>
                     <span class="menu-title">Past Orders</span>
+                </a>
+            </li>
+
+            <li class="bold">
+                <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.statistics') }}">
+                    <i class="fa-solid fa-chart-line" style="color: #fff;"></i>
+                    <span class="menu-title">Statistics</span>
                 </a>
             </li>
         </ul>

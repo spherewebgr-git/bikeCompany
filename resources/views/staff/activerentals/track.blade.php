@@ -57,6 +57,14 @@
                                 {{ $order->user->email }}
                             </p>
                         </div>
+
+                        <form action="{{ route('activerentals.update', $order) }}" method="POST" class="returned">
+                            @csrf
+                            <label>
+                                Returned
+                                <input type="checkbox" name="returned" value="1" onchange="this.form.submit()" {{ $order->returned ? 'checked' : '' }}>
+                            </label>
+                        </form>
                     </div>
                 @endforeach
 
