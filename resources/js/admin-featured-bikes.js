@@ -1,5 +1,5 @@
 // resources/js/admin-featured-bikes.js
-import Sortable from 'sortablejs';
+//import Sortable from 'sortablejs';
 
 document.addEventListener('DOMContentLoaded', () => {
     const availableList = document.getElementById('available-list');

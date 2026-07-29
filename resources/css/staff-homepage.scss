@@ -93,39 +93,6 @@
     max-width: 50% !important;
 }
 
-.filter-search
-{
-    display: flex;
-}
-
-form
-{
-    margin: 20px;
-    display: flex;
-
-    input
-    {
-        font-size: 20px;
-        border: 1px solid black;
-        padding: 0 10px;
-        height: 45px;
-    }
-
-    button
-    {
-        @include orangebtn;
-        position: relative;
-        font-size: 20px;
-        margin-left: 15px;
-        height: 45px;
-        width: 45px;
-    }
-
-    button:hover
-    {
-        @include orangebtnhover;
-    }
-}
 
 .save-btn {
     text-align: center;

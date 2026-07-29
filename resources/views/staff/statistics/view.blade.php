@@ -74,10 +74,7 @@
                 </div>
                 
                 <div class="all-statistics">
-                    @foreach ($bikes as $bike)
-                        <p>{{ $bike->brand->name }} {{ $bike->type->name }} {{ $bike->colour }} {{ $bike->speed->gears }}</p>
-                        <br><br>
-                    @endforeach
+
                 </div>
             </div>
         </div>
