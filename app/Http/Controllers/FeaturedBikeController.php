@@ -68,7 +68,7 @@ class FeaturedBikeController extends Controller
             'bike_ids'   => 'required|array|max:6',
             'bike_ids.*' => 'exists:bikes,id',
         ], [
-            'bike_ids.max' => 'Μπορείτε να επιλέξετε το πολύ 6 ποδήλατα.',
+            'bike_ids.max' => 'The maximum amount of featured bikes is 6.',
         ]);
 
         FeaturedBike::query()->delete();
@@ -77,6 +77,6 @@ class FeaturedBikeController extends Controller
             FeaturedBike::create(['bike_id' => $bikeId, 'order' => $i]);
         }
 
-        return back()->with('status', 'Τα featured bikes ενημερώθηκαν.');
+        return back()->with('status', 'Featured bikes have been updated.');
     }
 }

@@ -47,18 +47,17 @@
         display: flex;
     }
 
-    form 
+    form
     {
         margin: 20px;
         display: flex;
 
-        input 
+        input
         {
             font-size: 20px;
             border: 1px solid black;
             padding: 0 10px;
             height: 45px;
-            border-radius: 3px;
         }
 
         button
@@ -87,7 +86,7 @@
         background-color: #f4f4f4;
     }
 
-    th 
+    th
     {
         font-size: 20px;
         padding: 20px 30px;
@@ -103,7 +102,7 @@
         .bikeactions
         {
             display: flex;
-            
+
             a
             {
                 margin: 0 10px;
@@ -179,7 +178,7 @@
 
 #BikeEdit
 {
-    form 
+    form
     {
         padding: 60px;
         font-size: 20px;
@@ -197,7 +196,7 @@
 
             &#image_path { width: 45%; }
 
-            &:focus-visible 
+            &:focus-visible
             {
                 box-shadow: 0 0 3px #fe4819;
                 border-color: #fe4819;
@@ -229,7 +228,7 @@
             &#provision_id { margin-bottom: 15px; }
         }
 
-        .Submit 
+        .Submit
         {
             @include orangebtn;
             font-size: 20px;

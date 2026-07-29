@@ -29,41 +29,44 @@
                 <div class="row">
 
                     {{-- Available Bikes --}}
-                    <div class="col s12 m6">
+                    <div class="col s12 m12">
                         <h5>Available Bikes</h5>
 
                         <div class="filter-search">
-                            <form method="GET" action="{{ route('featured-bikes.edit') }}">
-                                <input
-                                    type="text"
-                                    id="SKU"
-                                    name="SKU"
-                                    placeholder="Search SKUs"
-                                    value="{{ request('SKU') }}"
-                                >
+{{--                            <form method="GET" action="{{ route('featured-bikes.edit') }}">--}}
+{{--                                <input--}}
+{{--                                    type="text"--}}
+{{--                                    id="SKU"--}}
+{{--                                    name="SKU"--}}
+{{--                                    placeholder="Search SKUs"--}}
+{{--                                    value="{{ request('SKU') }}"--}}
+{{--                                >--}}
 
-                                <button type="submit">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </form>
+{{--                                <button type="submit">--}}
+{{--                                    <i class="fa-solid fa-magnifying-glass"></i>--}}
+{{--                                </button>--}}
+{{--                            </form>--}}
+{{--                            @include('components.bikefilters', [--}}
+{{--                                                        'action' => route('featured-bikes.edit')--}}
+{{--                                                    ])--}}
 
-                            @include('components.bikefilters', [
-                                'action' => route('featured-bikes.edit')
-                            ])
                         </div>
+                    </div>
 
+                    <div class="col s12 m6">
                         <ul id="available-list" class="bike-sort-list">
                             @foreach($availableBikes as $bike)
                                 <li class="bike-sort-item" data-id="{{ $bike->id }}">
                                     <img src="{{ $bike->image_path }}" alt="">
-                                    <span>{{ $bike->brand->name }}</span>
+                                    <span>{{ $bike->brand->name}} | {{$bike->type->name}} | {{$bike->colour}} | {{$bike->speed->gears}}</span>
                                 </li>
                             @endforeach
                         </ul>
                     </div>
 
+
                     {{-- Featured Bikes --}}
-                    <div class="col s12 m6">
+                    <div class="col s12 m6 right-section">
                         <h5>
                             Featured (max 6) —
                             <span id="selected-count">
@@ -75,21 +78,20 @@
                             @foreach($featuredBikes as $bike)
                                 <li class="bike-sort-item" data-id="{{ $bike->id }}">
                                     <img src="{{ $bike->image_path }}" alt="">
-                                    <span>{{ $bike->brand->name }}</span>
+                                    <span>{{ $bike->brand->name}} | {{$bike->type->name}} | {{$bike->colour}} | {{$bike->speed->gears}}</span>
+
                                 </li>
-                                <button type="button" class="remove-bike-btn" draggable="false" aria-label="Αφαίρεση" title="Αφαίρεση">
-                                    <i class="fa-solid fa-xmark" draggable="false"></i>
-                                </button>
+
                             @endforeach
                         </ul>
+                        {{-- Save --}}
+                        <div class="col s12 save-btn" style="margin-top:30px;">
+                            <button type="submit" class="btn btn-fill btn-md">
+                                Save
+                            </button>
+                        </div>
                     </div>
 
-                    {{-- Save --}}
-                    <div class="col s12 center-align" style="margin-top:30px;">
-                        <button type="submit" class="btn btn-fill btn-md">
-                            Save
-                        </button>
-                    </div>
 
                 </div>
             </form>

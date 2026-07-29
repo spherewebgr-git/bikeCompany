@@ -1,3 +1,42 @@
+@mixin orangebtn
+{
+    color: #fff;
+    text-transform: uppercase;
+    background: #fe4819;
+    border: 2px solid #fe4819;
+    transition: all 0.3s;
+    border-radius: 3px;
+}
+
+@mixin orangebtnhover
+{
+    border-color: #fe704c;
+    background: #fe704c;
+    color: #fff;
+}
+
+@mixin regularbtn
+{
+    text-transform: uppercase;
+    border: 1px solid #6c6c6c;
+    color: #6c6c6c;
+    font-weight: 700;
+    background-color: white;
+    transition: all 0.3s;
+}
+
+@mixin regularbtnhover
+{
+    color: #fe4819;
+    border-color: #fe4819;
+}
+
+.right-section {
+    position: sticky;
+    top: 70px;
+    align-self: flex-start;
+}
+
 .bike-sort-list {
     list-style: none;
     margin: 0;
@@ -40,42 +79,6 @@
     }
 }
 
-.bike-sort-list.is-full,
-.bike-sort-list.is-full * {
-    pointer-events: none;
-}
-
-.remove-bike-btn {
-    flex-shrink: 0;
-    width: 28px;
-    height: 28px;
-    border: none;
-    border-radius: 50%;
-    background: #f5f5f5;
-    color: #888;
-    font-size: 13px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background .2s ease, color .2s ease;
-
-    -webkit-user-drag: none;
-    user-select: none;
-    -webkit-user-select: none;
-
-    &:hover {
-        background: #fe4819;
-        color: #fff;
-    }
-
-    // reset native button focus/active styling (το "μπλε")
-    &:focus {
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(254,72,25,.2);
-    }
-}
-
 // ============================================================
 // FEATURED BIKES — FILTERS
 // ============================================================
@@ -90,88 +93,52 @@
     max-width: 50% !important;
 }
 
+.filter-search
+{
+    display: flex;
+}
 
-.filter-search {
-    margin-bottom: 20px;
-    padding: 18px 20px;
-    background: #fafafa;
-    border: 1px solid #eee;
-    border-radius: 12px;
+form
+{
+    margin: 20px;
+    display: flex;
 
-    // Search form (SKU)
-    > form {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 14px;
-
-        input[type="text"] {
-            flex: 1;
-            border: 1.5px solid #e2e2e2;
-            border-radius: 10px;
-            padding: 11px 16px;
-            font-size: 14px;
-            transition: border-color .2s ease, box-shadow .2s ease;
-
-            &::placeholder {
-                color: #aaa;
-            }
-
-            &:focus {
-                outline: none;
-                border-color: #fe4819;
-                box-shadow: 0 0 0 4px rgba(254,72,25,.12);
-            }
-        }
-
-        button {
-            width: 44px;
-            border: none;
-            border-radius: 10px;
-            background: #fe4819;
-            color: #fff;
-            font-size: 15px;
-            cursor: pointer;
-            transition: background .2s ease;
-
-            &:hover {
-                background: #e13d10;
-            }
-        }
+    input
+    {
+        font-size: 20px;
+        border: 1px solid black;
+        padding: 0 10px;
+        height: 45px;
     }
 
-    // Το component.bikefilters — υποθέτω selects για brand/type/provision/speed
-    // Αν έχει δικές του κλάσεις, πες μου τις ακριβείς ώστε να στοχεύσω σωστά.
-    select {
-        border: 1.5px solid #e2e2e2;
-        border-radius: 10px;
-        padding: 10px 36px 10px 14px;
-        font-size: 13.5px;
-        color: #444;
-        background: #fff;
-        appearance: none;
-        cursor: pointer;
-        transition: border-color .2s ease;
+    button
+    {
+        @include orangebtn;
+        position: relative;
+        font-size: 20px;
+        margin-left: 15px;
+        height: 45px;
+        width: 45px;
+    }
 
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%23888' stroke-width='2' fill='none' fill-rule='evenodd'/></svg>");
-        background-repeat: no-repeat;
-        background-position: right 12px center;
+    button:hover
+    {
+        @include orangebtnhover;
+    }
+}
 
+.save-btn {
+    text-align: center;
+
+
+
+    button {
+        font-weight: bold;
+        width: fit-content;
+        background-color: #fc4719;
         &:hover {
-            border-color: #ccc;
-        }
-
-        &:focus {
-            outline: none;
-            border-color: #fe4819;
-            box-shadow: 0 0 0 4px rgba(254,72,25,.12);
+            background-color: #dc4018;
         }
     }
 
-    // Wrapper γύρω από τα φίλτρα (αν το component βγάζει μια σειρά selects)
-    .filter-row,
-    .filters {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
 }
