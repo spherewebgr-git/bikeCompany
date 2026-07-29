@@ -276,6 +276,8 @@ class StaffmanagementController extends Controller
         }
 
         $order->returned = true;
+        if ($order->rent_end != null) { $order->rent_end = \now(); }
+        
         $order->save();
 
         $order->load([
@@ -545,6 +547,11 @@ class StaffmanagementController extends Controller
                 ->queue(new OrderDeliveredMail($order));
         }
 
+        if ($isComplete && $order->payed_off == false)
+        {
+            $order->update([  'payed_off' => true ]);
+        }
+
         return redirect()->route('dashboard.management.orders');
     }
 
@@ -708,9 +715,60 @@ class StaffmanagementController extends Controller
 
     public function statistics()
     {
+        $orders = Order::all();
+
+        $totalorders = 0;
+        $neworders = 0;
+        $totalprofit = 0;
+        $newprofit = 0;
+        $rents = 0;
+        $purchases = 0;
+
+        foreach ($orders as $order)
+        {
+            $totalprofit += $order->price;
+            $totalorders ++;
+
+            if ($order->order_date == \today())
+            {
+                $neworders ++;
+                $newprofit ++;
+            }
+
+            if ($order->rent_start != null)
+            {
+                $rents ++;
+            }
+            else
+            {
+                $purchases ++;
+            }
+        }
+
+        $users = User::all();
+
+        $totalusers = 0;
+        $newusers = 0;
+
+        foreach ($users as $user)
+        {
+            $totalusers ++;
+
+            if ($user->created_at == \today())
+            {
+                $newusers ++;
+            }
+        }
 
         return view('staff.statistics.view', [
-
+            'totalorders' => $totalorders,
+            'neworders' => $neworders,
+            'totalprofit' => $totalprofit,
+            'newprofit' => $newprofit,
+            'totalusers' => $totalusers,
+            'newusers' => $newusers,
+            'rents' => $rents,
+            'purchases' => $purchases
         ]);
     }
 }
