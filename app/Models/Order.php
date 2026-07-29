@@ -36,6 +36,7 @@ class Order extends Model
         'completed_at' => 'datetime',
         'rent_start' => 'datetime',
         'rent_end'   => 'datetime',
+        'return_reminder_sent_at' => 'datetime',
     ];
 
     public function location()

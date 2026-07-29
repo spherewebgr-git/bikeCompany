@@ -271,8 +271,24 @@ class StaffmanagementController extends Controller
 
     public function updatereturned(Order $order)
     {
+        if ($order->returned) {
+            return redirect()->back();
+        }
+
         $order->returned = true;
         $order->save();
+
+        $order->load([
+            'user',
+            'location',
+            'bike.provision',
+            'bike.brand',
+            'bike.type',
+            'bike.speed',
+        ]);
+
+        Mail::to($order->user->email)
+            ->queue(new OrderDeliveredMail($order));
 
         return redirect()->back();
     }
@@ -519,10 +535,11 @@ class StaffmanagementController extends Controller
         $order->load('status');
 
         $isComplete = strtolower($order->status->name) === 'complete!';
-
         $wasAlreadyComplete = $previousStatus === 'complete!';
 
-        if ($isComplete && !$wasAlreadyComplete) {
+        $isBuy = strtolower($order->bike->provision->name ?? '') === 'buy';
+
+        if ($isComplete && !$wasAlreadyComplete && $isBuy) {
 
             Mail::to($order->user->email)
                 ->queue(new OrderDeliveredMail($order));
@@ -691,9 +708,9 @@ class StaffmanagementController extends Controller
 
     public function statistics()
     {
-        $bikes = Bike::all();
+
         return view('staff.statistics.view', [
-            'bikes' => $bikes,
+
         ]);
     }
 }

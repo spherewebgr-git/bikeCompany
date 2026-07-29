@@ -6,23 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->boolean('returned')->nullable()->default(false);
+            $table->timestamp('return_reminder_sent_at')
+                ->nullable()
+                ->after('returned');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('returned');
+            $table->dropColumn('return_reminder_sent_at');
         });
     }
 };
