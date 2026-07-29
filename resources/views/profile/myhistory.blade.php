@@ -62,7 +62,7 @@
                                     @endif
                                 </p>
                                 
-                                @if ($order->bike->serialnum)
+                                @if ($order->bike->serialnum && $order->returned == true)
                                     <a href="{{ route('checkout.create-rental', $order->bike) }}">
                                         Rent again
                                     </a>

@@ -691,7 +691,6 @@ class StaffmanagementController extends Controller
 
     public function statistics()
     {
-
         return view('staff.statistics.view', [
             
         ]);

@@ -58,6 +58,7 @@
             border: 1px solid black;
             padding: 0 10px;
             height: 45px;
+            border-radius: 3px;
         }
 
         button
@@ -173,46 +174,6 @@
     .Create:hover
     {
         @include orangebtnhover;
-    }
-}
-
-#BikeFilters
-{
-    form 
-    {
-        margin: 20px;
-        font-size: 20px;
-        display: flex;
-
-        label
-        {
-            margin-right: 10px;
-            position: relative;
-            transform: translateY(20%);
-        }
-
-        select
-        {
-            margin-right: 30px;
-            background-color: white;
-            border: 1px solid black;
-            padding: 8px;
-            font-size: 20px;
-            color: #6b6f82;
-            height: 45px;
-        }
-
-        .Filter 
-        {
-            @include orangebtn;
-            font-size: 20px;
-            padding: 0 30px;
-        }
-
-        .Filter:hover
-        {
-            @include orangebtnhover;
-        }
     }
 }
 

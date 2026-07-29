@@ -2,11 +2,12 @@
 @use 'style' as *;
 @use 'data-tables' as *;
 @use 'bike-management' as *;
-@use 'category-management.scss' as *;
-@use 'user-management.scss' as *;
-@use 'order-management.scss' as *;
-@use 'active-rentals.scss' as *;
-@use 'staff-homepage.scss' as *;
+@use 'category-management' as *;
+@use 'user-management' as *;
+@use 'order-management' as *;
+@use 'active-rentals' as *;
+@use 'staff-homepage' as *;
+@use 'bikefilters' as *;
 
 /*-------------------------------------------------
 	Dashboard common file for Analytics & eCommmerce
