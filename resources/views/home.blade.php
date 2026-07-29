@@ -202,8 +202,6 @@
             document.addEventListener('DOMContentLoaded', function () {
                 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-                // Reveal steps στο scroll
-                // Αντί για querySelectorAll('.trail-step') μόνο, γενίκευσε σε ένα κοινό selector
                 const revealEls = document.querySelectorAll('.trail-step, .reveal-up');
                 if (revealEls.length) {
                     const revealObserver = new IntersectionObserver((entries) => {
@@ -218,7 +216,6 @@
                     revealEls.forEach(el => revealObserver.observe(el));
                 }
 
-                // Rider ακολουθεί το scroll progress πάνω στο trail
                 const track = document.getElementById('trailTrack');
                 const rider = document.getElementById('trailRider');
                 if (!track || !rider || reduceMotion) return;
@@ -232,7 +229,7 @@
                     let progress = passed / total;
                     progress = Math.min(1, Math.max(0, progress));
 
-                    const maxLeft = track.clientWidth - 52; // πλάτος του rider svg
+                    const maxLeft = track.clientWidth - 52;
                     rider.style.transform = `translateX(${progress * maxLeft}px)`;
                 }
 
