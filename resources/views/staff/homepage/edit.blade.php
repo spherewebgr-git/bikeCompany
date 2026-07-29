@@ -20,6 +20,8 @@
             </div>
             @enderror
 
+            @include('components.featured-search')
+
             <form action="{{ route('featured-bikes.update') }}" method="POST" id="featured-form">
                 @csrf
                 @method('PUT')
@@ -31,30 +33,16 @@
                     {{-- Available Bikes --}}
                     <div class="col s12 m12">
                         <h5>Available Bikes</h5>
-
-                        <div class="filter-search">
-{{--                            <form method="GET" action="{{ route('featured-bikes.edit') }}">--}}
-{{--                                <input--}}
-{{--                                    type="text"--}}
-{{--                                    id="SKU"--}}
-{{--                                    name="SKU"--}}
-{{--                                    placeholder="Search SKUs"--}}
-{{--                                    value="{{ request('SKU') }}"--}}
-{{--                                >--}}
-
-{{--                                <button type="submit">--}}
-{{--                                    <i class="fa-solid fa-magnifying-glass"></i>--}}
-{{--                                </button>--}}
-{{--                            </form>--}}
-{{--                            @include('components.bikefilters', [--}}
-{{--                                                        'action' => route('featured-bikes.edit')--}}
-{{--                                                    ])--}}
-
-                        </div>
                     </div>
 
                     <div class="col s12 m6">
                         <ul id="available-list" class="bike-sort-list">
+                            @if ($availableBikes->isEmpty())
+                                <p class="no-bikes-message" style="text-align: center; margin-top: 80px;">
+                                    No bikes matched your search
+                                </p>
+
+                            @endif
                             @foreach($availableBikes as $bike)
                                 <li class="bike-sort-item" data-id="{{ $bike->id }}">
                                     <img src="{{ $bike->image_path }}" alt="">

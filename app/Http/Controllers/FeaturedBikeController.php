@@ -17,26 +17,6 @@ class FeaturedBikeController extends Controller
     {
         $query = Bike::with('brand');
 
-        if ($request->filled('SKU')) {
-            $query->where('SKU', 'LIKE', "%{$request->SKU}%");
-        }
-
-        if ($request->filled('provision')) {
-            $query->whereHas('provision', fn ($q) => $q->where('name', $request->provision));
-        }
-
-        if ($request->filled('brand')) {
-            $query->whereHas('brand', fn ($q) => $q->where('name', $request->brand));
-        }
-
-        if ($request->filled('type')) {
-            $query->whereHas('type', fn ($q) => $q->where('name', $request->type));
-        }
-
-        if ($request->filled('gears')) {
-            $query->whereHas('speed', fn ($q) => $q->where('gears', $request->gears));
-        }
-
         $featuredIds = FeaturedBike::orderBy('order')->pluck('bike_id');
 
         $availableBikes = $query->get()->whereNotIn('id', $featuredIds)->values();
@@ -50,10 +30,6 @@ class FeaturedBikeController extends Controller
         return view('staff.homepage.edit', [
             'availableBikes' => $availableBikes,
             'featuredBikes'  => $featuredBikes,
-            'brands'         => Brand::all()->sortBy('name'),
-            'types'          => Type::all()->sortBy('name'),
-            'provisions'     => Provision::all()->sortBy('name'),
-            'speeds'         => Speed::all()->sortBy('gears'),
         ]);
     }
 
@@ -86,7 +62,7 @@ class FeaturedBikeController extends Controller
 
         if ($request->filled('featsearch'))
         {
-            $search = $request->featuredsearch;
+            $search = $request->featsearch;
 
             $allbikes->where(function ($q) use ($search)
             {
@@ -108,6 +84,19 @@ class FeaturedBikeController extends Controller
 
         $availableBikes = $allbikes->get();
 
-        return view('staff.homepage.edit', compact('availableBikes'));
+        $featuredIds = FeaturedBike::orderBy('order')->pluck('bike_id');
+
+        $featuredBikes = Bike::with('brand')
+            ->whereIn('id', $featuredIds)
+            ->get()
+            ->sortBy(fn ($bike) => $featuredIds->search($bike->id))
+            ->values();
+
+
+            return view('staff.homepage.edit', [
+                'availableBikes' => $availableBikes,
+                'featuredBikes'  => $featuredBikes,
+            ]);
+
     }
 }
