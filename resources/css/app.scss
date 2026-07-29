@@ -14,6 +14,7 @@
 @import "myorders";
 @import "order-status";
 @import "orderfilters";
+@import "staff-homepage";
 
 // ============================================================
 // BASE
@@ -150,9 +151,103 @@ a {
 // HOME PAGE / CONTENT
 // ============================================================
 .slider {
-    img {
-        margin: 0 auto;
+    position: relative;
+    height: 824px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    .slider-video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+        z-index: 0;
+    }
+
+    // Ήπιο darkening ΜΟΝΟ κάτω, ώστε το video να μένει καθαρό στο πάνω 2/3
+    // αλλά να «κάθεται» καλύτερα το card χαμηλά χωρίς να χάνεται στο φόντο
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.25) 100%);
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .slider-content {
+        z-index: 2;
         width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        background: rgba(253, 243, 231, 0.3);
+    }
+
+    .hero-content {
+        position: relative; // μόνο αυτό χρειάζεται z-index context
+        z-index: 2;
+
+        max-width: 560px;
+        margin-left: 8%;
+        padding: 48px 46px;
+        border-radius: 20px;
+        background: rgba(253, 243, 231, .4);
+        backdrop-filter: blur(14px) saturate(160%);
+        -webkit-backdrop-filter: blur(14px) saturate(160%);
+        border: 1px solid rgba(255,255,255,.35);
+        box-shadow: 0 20px 50px rgba(0,0,0,.18);
+
+        opacity: 0;
+        transform: translateY(20px);
+        animation: hero-reveal .8s ease .2s forwards;
+
+        .title-text { /* ...ίδιο... */ }
+        h5 { /* ...ίδιο... */ }
+    }
+
+    .hero-actions {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        a {
+            font-weight: 700;
+        }
+    }
+
+    @media (max-width: 768px) {
+        height: 620px;
+
+        .hero-content {
+            margin: 0 20px;
+            padding: 34px 28px;
+            max-width: none;
+
+            .title-text {
+                font-size: 32px;
+            }
+        }
+    }
+}
+
+@keyframes hero-reveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .slider .hero-content {
+        animation: none;
+        opacity: 1;
+        transform: none;
     }
 }
 
@@ -235,7 +330,7 @@ a {
 .about-us {
 
     .about-intro {
-        align-items: flex-start; // ήταν center — με 6 παραγράφους το κείμενο είναι πολύ ψηλότερο, το center έκανε την εικόνα να "κρέμεται" στη μέση
+        align-items: flex-start;
         margin-bottom: 60px;
 
         p {
@@ -245,59 +340,71 @@ a {
 
     .about-image {
         position: sticky;
-        top: 120px; // ακολουθεί το scroll όσο διαβάζεις το κείμενο δίπλα
+        top: 120px;
+        // Με λιγότερο κείμενο δίπλα (3 παράγραφοι), προστατεύουμε ώστε
+        // η εικόνα να μην ξεπερνάει σε ύψος τη στήλη κειμένου —
+        // αλλιώς το sticky "κολλάει" πριν προλάβει να τελειώσει το scroll.
+        max-height: 70vh;
 
         img {
             width: 100%;
+            height: 100%;
             border-radius: 16px;
             object-fit: cover;
             box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
         }
     }
 
-    .about-values {
-        margin-bottom: 60px;
-
-        .col-sm-3 {
+    .about-values,
+    .about-stats {
+        .col-sm-3,
+        .col-sm-4 {
             margin-bottom: 25px;
-        }
-
-        .value-card {
-            background: #fff;
-            border: 1px solid #eee;
-            border-radius: 12px;
-            padding: 30px 20px;
-            height: 100%;
-            transition: all .3s ease;
-            min-height: 180px;
-
-            &:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 15px 35px rgba(0, 0, 0, .08);
-                border-color: #fe4819;
-            }
-
-            .fa {
-                font-size: 28px;
-                color: #fe4819;
-                margin-bottom: 12px;
-                display: block;
-            }
-
-            h5 {
-                margin-bottom: 8px;
-                font-weight: 700;
-                color: #3b3738;
-            }
-
-            p {
-                font-size: 13px;
-                color: #9f9f9f;
-                margin: 0;
-            }
         }
     }
 
+    .about-values { margin-bottom: 60px; }
+
+    .value-card,
+    .stat-card {
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        height: 100%;
+        transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+
+        .fa {
+            color: #fe4819;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, .08);
+        }
+    }
+
+    .value-card {
+        padding: 30px 20px;
+        min-height: 180px;
+
+        .fa { font-size: 28px; }
+        h5 { margin-bottom: 8px; font-weight: 700; color: #3b3738; }
+        p  { font-size: 13px; color: #9f9f9f; margin: 0; }
+
+        &:hover { border-color: #fe4819; }
+    }
+
+    .stat-card {
+        padding: 40px 20px;
+
+        .fa { font-size: 32px; margin-bottom: 10px; }
+        h4  { margin: 0 0 5px; }
+        p   { margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #9f9f9f; }
+    }
+
+    // ΔΙΑΓΡΑΨΕ ολόκληρο αυτό, είναι duplicate:
     .about-stats {
         .col-sm-4 {
             margin-bottom: 25px;
@@ -334,6 +441,174 @@ a {
                 color: #9f9f9f;
             }
         }
+    }
+    // Reusable scroll-reveal (ίδιο pattern με .trail-step)
+    .reveal-up {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity .6s ease, transform .6s ease;
+
+        &.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .reveal-up {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+        }
+    }
+}
+
+// ============================================================
+// HOW IT WORKS
+// ============================================================
+.how-it-works {
+    position: relative;
+    padding: 90px 0;
+    overflow: hidden;
+    background: linear-gradient(180deg, #fff 0%, #fdf7f5 100%);
+
+    .leaf {
+        position: absolute;
+        font-size: 22px;
+        color: #7fae66;
+        opacity: .18;
+        pointer-events: none;
+
+        &--1 { top: 12%; left: 6%;  animation: leaf-float 7s ease-in-out infinite; }
+        &--2 { top: 65%; left: 88%; font-size: 28px; animation: leaf-float 9s ease-in-out infinite 1.5s; }
+        &--3 { top: 40%; left: 92%; font-size: 16px; animation: leaf-float 6s ease-in-out infinite .7s; }
+    }
+
+    .trail-track {
+        position: relative;
+        margin-top: 55px;
+    }
+
+    .trail-line {
+        display: none;
+        width: 100%;
+        height: 40px;
+
+        @media (min-width: 992px) {
+            display: block;
+        }
+    }
+
+    .trail-rider {
+        display: none;
+        position: absolute;
+        top: -6px;
+        left: 0;
+        will-change: transform;
+        animation: rider-bob 1s ease-in-out infinite;
+
+        @media (min-width: 992px) {
+            display: block;
+        }
+    }
+
+    .trail-steps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        margin-top: 10px;
+
+        @media (max-width: 991px) {
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+    }
+
+    .trail-step {
+        position: relative;
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 34px 26px;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity .6s ease, transform .6s ease, box-shadow .3s ease, border-color .3s ease;
+
+        &.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        &:nth-child(2) { transition-delay: .12s; }
+        &:nth-child(3) { transition-delay: .24s; }
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,.08);
+            border-color: #fe4819;
+        }
+
+        &__num {
+            position: absolute;
+            top: 18px;
+            right: 22px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .05em;
+            color: #f0d4c9;
+        }
+
+        &__icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(254,72,25,.08);
+
+            i {
+                font-size: 24px;
+                color: #fe4819;
+            }
+        }
+
+        h5 {
+            font-weight: 700;
+            color: #3b3738;
+            margin-bottom: 8px;
+        }
+
+        p {
+            font-size: 13.5px;
+            color: #9f9f9f;
+            margin: 0;
+        }
+    }
+}
+
+@keyframes leaf-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-16px) rotate(12deg); }
+}
+
+@keyframes rider-bob {
+    0%, 100% { margin-top: -6px; }
+    50%      { margin-top: -1px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .how-it-works .leaf,
+    .how-it-works .trail-rider {
+        animation: none !important;
+    }
+    .trail-step {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
     }
 }
 

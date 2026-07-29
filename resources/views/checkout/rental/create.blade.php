@@ -136,13 +136,13 @@
                                         </div>
                                     </div>
                                     <div class="hour-availability-header">
-                                    <span class="hour-availability-label">
-                                        <i class="fa-regular fa-clock"></i> Hourly Availability (08:00 - 21:00)
-                                    </span>
+                                        <span class="hour-availability-label">
+                                            <i class="fa-regular fa-clock"></i> Hourly Availability (08:00 - 21:00)
+                                        </span>
                                         <span class="hour-legend">
-                                        <span class="hour-legend-item"><i class="legend-dot legend-dot-available"></i> Available</span>
-                                        <span class="hour-legend-item"><i class="legend-dot legend-dot-blocked"></i> Booked</span>
-                                    </span>
+                                            <span class="hour-legend-item"><i class="legend-dot legend-dot-available"></i> Available</span>
+                                            <span class="hour-legend-item"><i class="legend-dot legend-dot-blocked"></i> Booked</span>
+                                        </span>
                                     </div>
                                     <div id="hour-availability-bar" class="hour-availability-bar"></div>
                                 </div>
@@ -151,11 +151,11 @@
                                 {{-- DAY/WEEK MODE: FullCalendar drag-select --}}
                                 <div id="calendar-mode" class="rental-mode" style="display:none;">
                                     <div class="form-group" id="week-count-group" style="display:none;">
-                                        <label for="week_count">Πόσες εβδομάδες</label>
+                                        <label for="week_count">Amount of weeks</label>
                                         <input type="number" id="week_count" class="form-control" min="1" value="1">
                                     </div>
                                     <div class="form-group" id="day-count-group" style="display:none;">
-                                        <label for="day_count">Πόσες ημέρες</label>
+                                        <label for="day_count">Amount of days</label>
                                         <input
                                             type="number"
                                             id="day_count"
@@ -163,7 +163,18 @@
                                             min="1"
                                             value="1"
                                         >
+
+                                        <div class="calendar-legend">
+                                            <span class="calendar-legend-item">
+                                                <i class="legend-dot legend-dot-available"></i> Available
+                                            </span>
+                                                <span class="calendar-legend-item">
+                                                <i class="legend-dot legend-dot-blocked"></i> Already booked
+                                            </span>
+                                        </div>
                                     </div>
+
+
 
                                     <div id="calendar"
                                          data-day-price="{{ $bike->prices[1]?->price ?? 0 }}"

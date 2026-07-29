@@ -25,6 +25,7 @@
         "@fullcalendar/interaction": "^6.1.21",
         "@fullcalendar/timegrid": "^6.1.21",
         "flatpickr": "^4.6.13",
-        "nouislider": "^15.8.1"
+        "nouislider": "^15.8.1",
+        "sortablejs": "^1.15.7"
     }
 }

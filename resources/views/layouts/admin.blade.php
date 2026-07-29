@@ -148,6 +148,13 @@
             </li>
 
             <li class="bold">
+                <a class="waves-effect waves-cyan" href="{{ route('featured-bikes.edit') }}">
+                    <i class="fa-solid fa-home" style="color: #fff;"></i>
+                    <span class="menu-title">Homepage Management</span>
+                </a>
+            </li>
+
+            <li class="bold">
                 <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.bikes') }}">
                     <i class="fa-solid fa-bicycle" style="color: #fff;"></i>
                     <span class="menu-title">Bike Management</span>
@@ -218,6 +225,8 @@
             </div>
         </div>
     </footer>
+
+    @stack('scripts')
 
 </body>
 </html>

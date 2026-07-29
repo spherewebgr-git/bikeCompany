@@ -6,6 +6,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import './admin-featured-bikes.js'
 
 window.Alpine = Alpine;
 Alpine.start();
@@ -61,8 +62,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const dayPrice  = parseFloat(calendarEl.dataset.dayPrice) || 0;
     const weekPrice = parseFloat(calendarEl.dataset.weekPrice) || 0;
 
+    // Στρογγυλοποιεί προς τα πάνω στην επόμενη ακέραια ώρα (π.χ. 14:32 -> 15:00, 14:00 -> 14:00)
+    function roundUpToWholeHour(date) {
+        const d = new Date(date);
+        if (d.getMinutes() > 0 || d.getSeconds() > 0 || d.getMilliseconds() > 0) {
+            d.setHours(d.getHours() + 1);
+        }
+        d.setMinutes(0, 0, 0);
+        return d;
+    }
+
     let selectedType = 'hour';
-    let currentStart = new Date(startDisplay.dataset.initialStart);
+    let currentStart = roundUpToWholeHour(new Date(startDisplay.dataset.initialStart));
     let calendarSelection = null; // { start: 'YYYY-MM-DD', end: 'YYYY-MM-DD' } (end exclusive)
     let availabilityEvents = [];
     let calendar = null;

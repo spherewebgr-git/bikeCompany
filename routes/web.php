@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\FeaturedBikeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RentalBikeController;
@@ -131,6 +132,11 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
     Route::get('/dashboard/management/orderhistory', [StaffmanagementController::class, 'history'])->name('dashboard.management.orderhistory');
 
     Route::get('/dashboard/management/orderhistory/search', [StaffmanagementController::class, 'searchhistory'])->name('orderhistory.search');
+
+    // routes/web.php
+    Route::get('featured-bikes', [FeaturedBikeController::class, 'edit'])->name('featured-bikes.edit');
+    Route::put('featured-bikes', [FeaturedBikeController::class, 'update'])->name('featured-bikes.update');
+
 });
 
 require __DIR__.'/auth.php';

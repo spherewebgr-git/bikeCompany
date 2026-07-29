@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FeaturedBike;
 use Illuminate\Http\Request;
 use App\Models\Bike;
 
 class HomeController extends Controller
 {
-    public function index() {
-        $featuredBikes = Bike::latest()->take(6)->get(); // TODO:Θα αλλάξει μελλοντικά να μπορεί το staff να διαλέγει ποια bikes θα εμφανίζονται!
+    // HomeController@index
+    public function index()
+    {
+        $featuredBikes = FeaturedBike::with('bike.brand', 'bike.type', 'bike.speed')
+            ->orderBy('order')
+            ->get()
+            ->pluck('bike');
 
         return view('home', compact('featuredBikes'));
     }
