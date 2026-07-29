@@ -14,6 +14,7 @@ use Carbon\Carbon;
 class Bike extends Model
 {
 
+
     protected $fillable = [
         'SKU',
         'quantity',
