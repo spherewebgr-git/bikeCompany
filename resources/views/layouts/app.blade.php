@@ -7,8 +7,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <link rel="shortcut icon" sizes="96x158" href="{{Vite::asset('resources/images/bikeco-favicon.png')}}">
-
+    <link rel="icon" type="image/png" href="{{ asset('bikeco-favicon.png') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
