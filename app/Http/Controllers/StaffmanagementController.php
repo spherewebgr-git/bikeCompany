@@ -715,6 +715,19 @@ class StaffmanagementController extends Controller
 
     public function statistics()
     {
+        $locations = Location::all();
+        $locsales = [];
+
+        foreach ($locations as $location)
+        {
+            $locsales[$location->name] = 
+            [
+                'location' => $location->name,
+                'profit' => 0.0,
+                'sales' => 0,
+            ];
+        }
+
         $orders = Order::all();
 
         $totalorders = 0;
@@ -729,15 +742,22 @@ class StaffmanagementController extends Controller
             $totalprofit += $order->price;
             $totalorders ++;
 
-            if ($order->order_date == \today())
+            if ($order->order_date->isToday())
             {
+                $newprofit += $order->price;
                 $neworders ++;
-                $newprofit ++;
             }
 
-            if ($order->rent_start != null)
+            if ($order->rent_start !== null)
             {
                 $rents ++;
+
+                $loc = $order->location?->name;
+                if ($loc)
+                {
+                    $locsales[$loc]['profit'] += $order->price;
+                    $locsales[$loc]['sales'] ++;
+                }                
             }
             else
             {
@@ -768,7 +788,8 @@ class StaffmanagementController extends Controller
             'totalusers' => $totalusers,
             'newusers' => $newusers,
             'rents' => $rents,
-            'purchases' => $purchases
+            'purchases' => $purchases,
+            'locsales' => array_values($locsales),
         ]);
     }
 }

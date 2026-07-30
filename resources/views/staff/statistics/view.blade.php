@@ -61,10 +61,33 @@
                             <p class="no-margin">Today</p>
                             <p>{{ $totalprofit }} €</p>
                         </div>
-                    </div>                
-                <div class="all-statistics">
+                    </div>
 
-                </div>
+                    <div id="location-stats">
+                        <div class="row">
+                            <div class="loc-card gradient-45deg-deep-purple-purple">
+                                <h6><b>{{ $locsales[0]['location'] }}</b></h6>
+                                <h6>{{ $locsales[0]['sales'] }} Total Sales</h6><br>
+                                <p>Total Profit: </p>
+                                <h5>{{ $locsales[0]['profit'] }} €</h5>
+                            </div>
+
+                            <div class="loc-card gradient-45deg-light-green-amber">
+                                <h6><b>{{ $locsales[1]['location'] }}</b></h6>
+                                <h6>{{ $locsales[1]['sales'] }} Total Sales</h6><br>
+                                <p>Total Profit: </p>
+                                <h5>{{ $locsales[1]['profit'] }} €</h5>
+                            </div>
+
+                            <div class="loc-card gradient-45deg-orange-deep-orange">
+                                <h6><b>{{ $locsales[2]['location'] }}</b></h6>
+                                <h6>{{ $locsales[2]['sales'] }} Total Sales</h6><br>
+                                <p>Total Profit: </p>
+                                <h5>{{ $locsales[2]['profit'] }} €</h5>
+                            </div>
+                        </div>
+                    </div>
+
             </div>
         </div>
     </div>

@@ -1,17 +1,52 @@
 #BusinessStatistics
 {
+    .row
+    {
+        width: 100%;
+    }
+
     .statistic-card
     {
         margin : 20px 10px;
         padding: 10px 20px;
         display: flex;
-        min-width: 250px;
         border-radius: 6px;
+        flex: 0 0 calc(20% - 20px); // 5 cards in a row
 
         .info
         {
             text-align: end;
             margin-left: auto;
+        }
+    }
+
+    #location-stats
+    {
+        display: flex;
+        width: 100%;
+        text-align: center;
+
+        .loc-card
+        {
+            background-color: #fff;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px;
+            flex: 0 0 calc(33.33% - 40px); // 3 cards in a row
+
+            h6 { font-size: 22px; }
+
+            p
+            {
+                font-size: 18px;
+                color: rgba(0,0,0,0.7);
+            }
+
+            h5, p
+            {
+                padding: 0;
+                margin: 0;
+            }
         }
     }
 }
