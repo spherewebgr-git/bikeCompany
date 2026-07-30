@@ -1,15 +1,20 @@
 <x-app-layout>
 
     <div id="ContactUs">
-        <div class="page-header">
-            <div class="page-header-container">
-                <h2>{{ __('Contact Us') }}</h2>
-            </div>
-        </div>
+
 
         <div class="page-content">
 
+            <div class="container">
+                <div class="page-header">
+                    <div class="section-heading">
+                        <h2>{{ __('Contact Us') }}</h2>
+                    </div>
+                </div>
+            </div>
             <div class="contact-us-container">
+
+
 
                 <div class="contact-us-intro">
 
