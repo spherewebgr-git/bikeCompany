@@ -137,10 +137,21 @@
 
                                         {{-- ΝΕΟ: Check availability button --}}
                                         <div class="col-md-12 form-group">
-                                            <a href="{{route('checkout.check-rental', $bike)}}" type="submit" id="check-availability-btn" class="btn btn-default">
-                                                Check Availability
-                                            </a>
-                                            <div id="availability-check-result"></div>
+                                            <div class="availability-check">
+                                                <div class="check-field">
+                                                    <p class="availability-check__hint">
+                                                        <i class="fa-regular fa-circle-check"></i>
+                                                        Check availability for your selected date &amp; time before placing your order.
+                                                    </p>
+
+                                                    <button type="button" id="check-availability-btn" class="btn availability-check__button"
+                                                            data-url="{{ route('checkout.check-rental', $bike) }}">
+                                                        Check Availability
+                                                    </button>
+                                                    <div id="availability-check-result" class="availability-check__result"></div>
+                                                </div>
+
+                                            </div>
                                         </div>
 
                                     </div>
@@ -341,6 +352,73 @@
                         return false;
                     }
 
+                });
+
+
+                function formatDisplayDate(mysqlDateStr) {
+                    // 'YYYY-MM-DD HH:MM:SS' -> 'DD/MM/YYYY HH:MM'
+                    const [datePart, timePart] = mysqlDateStr.split(' ');
+                    const [y, m, d] = datePart.split('-');
+                    const [hh, mm] = timePart.split(':');
+                    return `${d}/${m}/${y} ${hh}:${mm}`;
+                }
+
+                // Availability Check Script
+                document.getElementById('check-availability-btn').addEventListener('click', function () {
+
+                    const url = this.dataset.url;
+                    const resultBox = document.getElementById('availability-check-result');
+                    const btn = this;
+
+                    const rentStart = document.getElementById('rent_start').value;
+                    const rentEnd = document.getElementById('rent_end').value;
+
+                    btn.classList.remove('btn-available', 'btn-unavailable');
+
+                    if (!rentStart || !rentEnd) {
+                        resultBox.innerHTML = '<span class="text-danger">Please select a date and duration first.</span>';
+                        return;
+                    }
+
+                    const originalText = btn.innerHTML;
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Checking...';
+                    resultBox.innerHTML = '';
+
+                    const params = new URLSearchParams({ rent_start: rentStart, rent_end: rentEnd });
+
+                    const MIN_DELAY_MS = 600; // ΝΕΟ: ελάχιστη ψεύτικη καθυστέρηση
+                    const started = Date.now();
+
+                    fetch(`${url}?${params.toString()}`, {
+                        headers: { 'Accept': 'application/json' },
+                    })
+                        .then(async response => {
+                            const data = await response.json();
+
+                            // ΝΕΟ: υπολογίζουμε πόσο χρόνο πρέπει ακόμα να περιμένουμε
+                            const elapsed = Date.now() - started;
+                            const remaining = Math.max(0, MIN_DELAY_MS - elapsed);
+
+                            await new Promise(resolve => setTimeout(resolve, remaining));
+
+                            if (data.available) {
+                                resultBox.innerHTML = '<span class="text-success">✔ Available</span>';
+                                btn.classList.add('btn-available');
+                            } else {
+                                const from = formatDisplayDate(rentStart);
+                                const to = formatDisplayDate(rentEnd);
+                                resultBox.innerHTML = `<span class="text-danger">✘ Not available from ${from} to ${to}.<br>Please try another date.</span>`;
+                                btn.classList.add('btn-unavailable');
+                            }
+                        })
+                        .catch(() => {
+                            resultBox.innerHTML = '<span class="text-danger">Something went wrong while checking availability.</span>';
+                        })
+                        .finally(() => {
+                            btn.disabled = false;
+                            btn.innerHTML = originalText;
+                        });
                 });
 
 

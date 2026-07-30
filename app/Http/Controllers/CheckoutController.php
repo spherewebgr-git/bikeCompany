@@ -156,8 +156,14 @@ class CheckoutController extends Controller
         $end   = Carbon::parse($validated['rent_end']);
         $type  = $validated['rental_type'];
 
+
         try {
             $order = DB::transaction(function () use ($bike, $start, $end, $type, $validated) {
+
+                $lockedBike = Bike::query()
+                    ->whereKey($bike->id)
+                    ->lockForUpdate()
+                    ->firstOrFail();
 
                 $priceIndex = match ($type) {
                     'hour' => 0,
@@ -210,32 +216,21 @@ class CheckoutController extends Controller
         return redirect()->route('payment.index', $order);
     }
 
-    public function checkAvailability(Request $request, Bike $bike) {
-
+    public function checkAvailability(Request $request, Bike $bike)
+    {
         $validated = $request->validate([
-            'rent_start'  => 'required|date',
-            'rent_end'    => 'required|date|after:rent_start',
+            'rent_start' => 'required|date',
+            'rent_end'   => 'required|date|after:rent_start',
         ]);
 
         $start = Carbon::parse($validated['rent_start']);
         $end   = Carbon::parse($validated['rent_end']);
-        $type  = $validated['rental_type'];
+        \Log::debug('availability check', ['available' => $bike->isAvailable($start, $end)]);
+        if (!$bike->isAvailable($start, $end)) {
 
-        $lockedBike = Bike::query()
-            ->whereKey($bike->id)
-            ->lockForUpdate()
-            ->firstOrFail();
 
-        if (!$lockedBike->isAvailable($start, $end)) {
-            return response()->json([
-                'available' => false,
-                'message'   => 'Το ποδήλατο δεν είναι διαθέσιμο για τις επιλεγμένες ημερομηνίες.',
-            ], 422);
+            return response()->json(['available' => false]);
         }
-
-        return response()->json([
-            'available' => true,
-        ]);
-
+        return response()->json(['available' => true]);
     }
 }

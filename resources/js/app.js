@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const dayPrice  = parseFloat(calendarEl.dataset.dayPrice) || 0;
     const weekPrice = parseFloat(calendarEl.dataset.weekPrice) || 0;
 
-    // Στρογγυλοποιεί προς τα πάνω στην επόμενη ακέραια ώρα (π.χ. 14:32 -> 15:00, 14:00 -> 14:00)
     function roundUpToWholeHour(date) {
         const d = new Date(date);
         if (d.getMinutes() > 0 || d.getSeconds() > 0 || d.getMilliseconds() > 0) {
@@ -74,31 +73,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let selectedType = 'hour';
     let currentStart = roundUpToWholeHour(new Date(startDisplay.dataset.initialStart));
-    let calendarSelection = null; // { start: 'YYYY-MM-DD', end: 'YYYY-MM-DD' } (end exclusive)
+    let calendarSelection = null;
     let availabilityEvents = [];
     let calendar = null;
 
-    // ---------- Date-string helpers (καμία μετατροπή timezone) ----------
     function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
     function toDateStr(y, m, d) {
         return `${y}-${pad(m)}-${pad(d)}`;
     }
 
-    // Προσθέτει μέρες σε ένα 'YYYY-MM-DD' string χρησιμοποιώντας UTC ώστε
-    // να μην επηρεάζεται από DST/local timezone — δουλεύουμε καθαρά σε επίπεδο ημερολογιακής ημέρας.
     function addDaysToDateStr(dateStr, days) {
         const [y, m, d] = dateStr.split('-').map(Number);
         const utcMs = Date.UTC(y, m - 1, d) + days * 86400000;
         const dt = new Date(utcMs);
         return toDateStr(dt.getUTCFullYear(), dt.getUTCMonth() + 1, dt.getUTCDate());
     }
-    // Κάνει parse ένα 'YYYY-MM-DD' ή 'YYYY-MM-DD HH:MM:SS' (ή με 'T') σαν LOCAL time,
-    // ώστε να μη μπερδεύεται ποτέ με το UTC parsing που κάνει native το new Date(string).
+
     function parseLocalDateTime(str) {
         const [datePart, timePart] = str.split(/[T ]/);
         const [y, m, d] = datePart.split('-').map(Number);
-        if (!timePart) return new Date(y, m - 1, d); // date-only -> local μεσάνυχτα
+        if (!timePart) return new Date(y, m - 1, d);
         const [hh, mm, ss] = timePart.split(':').map(Number);
         return new Date(y, m - 1, d, hh || 0, mm || 0, ss || 0);
     }
@@ -130,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function () {
             segment.title = `${String(h).padStart(2, '0')}:00 - ${String(h + 1).padStart(2, '0')}:00 — ${isBlocked ? 'Κλεισμένο' : 'Διαθέσιμο'}`;
             track.appendChild(segment);
 
-            // label κάθε 2 ώρες, ώστε να μη στριμώχνονται
             const label = document.createElement('span');
             label.className = 'hour-track-label';
             label.textContent = (h % 2 === 0) ? `${String(h).padStart(2, '0')}h` : '';
@@ -141,7 +135,6 @@ document.addEventListener('DOMContentLoaded', function () {
         container.appendChild(labels);
     }
 
-
     function formatDateStr(dateStr) {
         const [y, m, d] = dateStr.split('-');
         return `${d}/${m}/${y}`;
@@ -151,8 +144,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return addDaysToDateStr(endStr, -1);
     }
 
-    // Ελέγχει αν το [startStr, endStr) (end exclusive) επικαλύπτεται με
-    // κάποιο μπλοκαρισμένο διάστημα από τα availabilityEvents.
     function isRangeBlocked(startStr, endStr) {
         return availabilityEvents.some(event => {
             const evStart = (event.start || '').slice(0, 10);
@@ -171,8 +162,8 @@ document.addEventListener('DOMContentLoaded', function () {
         minDate: "today",
         minTime: "08:00",
         maxTime: "21:00",
-        minuteIncrement: 60,   // μόνο ακέραιες ώρες, χωρίς λεπτά ενδιάμεσα
-        time_24hr: true,       // 24ωρη μορφή, πιο καθαρό χωρίς AM/PM
+        minuteIncrement: 60,
+        time_24hr: true,
         defaultDate: currentStart,
         onChange: function (selectedDates) {
             userInteracted = true;
@@ -187,13 +178,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const today = new Date();
             today.setHours(0, 0, 0, 0);
 
-            // Περασμένες μέρες: καμία κλάση διαθεσιμότητας, μένουν ουδέτερες
             if (dayStart < today) {
                 return;
             }
-
-            const dayEnd = new Date(dayStart);
-            dayEnd.setDate(dayEnd.getDate() + 1);
 
             let blockedHours = 0;
 
@@ -220,11 +207,9 @@ document.addEventListener('DOMContentLoaded', function () {
         },
 
         onOpen: function (selectedDates, dateStr, instance) {
-
             const timeContainer = instance.calendarContainer.querySelector('.flatpickr-time');
             if (!timeContainer) return;
 
-            // Σβήσε τυχόν προηγούμενα labels
             instance.calendarContainer
                 .querySelectorAll('.flatpickr-time-label')
                 .forEach(el => el.remove());
@@ -242,28 +227,24 @@ document.addEventListener('DOMContentLoaded', function () {
         updateHourPrice();
     });
 
-
-
-    let userInteracted = false; // true μόνο όταν ο χρήστης αλλάξει ημερομηνία/διάρκεια
+    let userInteracted = false;
     function updateHourPrice() {
         renderHourAvailability(currentStart);
 
         const hours = parseInt(durationInput.value) || 0;
         const maxAllowed = getMaxHoursForStart(currentStart);
 
+        // ΑΦΑΙΡΕΘΗΚΕ το alert — απλά κλαμπάρουμε σιωπηλά στο μέγιστο επιτρεπτό
         if (hours > maxAllowed) {
-            if (userInteracted) {
-                alert(`Το κατάστημα κλείνει στις 21:00 — μπορείτε να επιλέξετε μέχρι ${maxAllowed} ώρες από την ώρα έναρξης.`);
-            }
-
             durationInput.value = maxAllowed;
-
-            // Ξαναυπολόγισε με τη νέα τιμή
             updateHourPrice();
             return;
         }
 
         const end = new Date(currentStart.getTime() + hours * 3600 * 1000);
+
+        rentStartField.value = flatpickr.formatDate(currentStart, "Y-m-d H:i:S");
+        rentEndField.value   = flatpickr.formatDate(end, "Y-m-d H:i:S");
 
         const unavailable = availabilityEvents.some(event => {
             const eventStart = parseLocalDateTime(event.start);
@@ -271,34 +252,25 @@ document.addEventListener('DOMContentLoaded', function () {
             return currentStart < eventEnd && end > eventStart;
         });
 
+        // ΑΦΑΙΡΕΘΗΚΕ το alert — μένει το disable του submit + το price reset
         if (unavailable) {
-            if (userInteracted) {
-                alert('Το ποδήλατο δεν είναι διαθέσιμο αυτή την ώρα.');
-            }
             submitBtn.disabled = true;
             priceValue.textContent = '0 €';
             priceSummary.textContent = '0 €';
             durationSummary.textContent = '-';
+            priceField.value = '';
             return;
         }
 
         const price = hours * hourPrice;
-
-        rentStartField.value = flatpickr.formatDate(currentStart, "Y-m-d H:i:S");
-        rentEndField.value   = flatpickr.formatDate(end, "Y-m-d H:i:S");
         priceField.value = price;
-
-        console.log('START:', rentStartField.value);
-        console.log('END:', rentEndField.value);
 
         priceValue.textContent = `${price.toFixed(2).replace('.', ',')} €`;
         priceSummary.textContent = `${price.toFixed(2).replace('.', ',')} €`;
         durationSummary.textContent = `${hours} ώρες`;
         submitBtn.disabled = hours < 1;
-
     }
 
-    // Υπολογίζει πόσες ακέραιες ώρες απομένουν από το currentStart μέχρι τις 21:00 της ίδιας μέρας
     function getMaxHoursForStart(startDate) {
         const closingTime = new Date(
             startDate.getFullYear(),
@@ -314,19 +286,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateDurationLimit() {
-        const maxAllowed = Math.min(getMaxHoursForStart(currentStart), 72); // 72 = το υπάρχον απόλυτο όριο
+        const maxAllowed = Math.min(getMaxHoursForStart(currentStart), 72);
 
         durationInput.max = maxAllowed;
 
-        // Αν η τρέχουσα τιμή ξεπερνάει το νέο όριο, την κόβουμε στο μέγιστο
         const currentValue = parseInt(durationInput.value) || 0;
         if (currentValue > maxAllowed) {
             durationInput.value = maxAllowed;
         }
     }
 
-
-    console.log('Checkout JS loaded');
     fetch(calendarEl.dataset.availabilityUrl)
         .then(response => response.json())
         .then(data => {
@@ -375,8 +344,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
             },
 
-            // Τρέχει αυτόματα σε ΚΑΘΕ render (αρχικό + κάθε αλλαγή μήνα) —
-            // δεν χρειάζεται κανένα χειροκίνητο re-render.
             dayCellClassNames: function (arg) {
                 const dateStr =
                     arg.date.getFullYear() + '-' +
@@ -386,9 +353,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 const isBlocked = availabilityEvents.some(event => {
                     const evStart = (event.start || '').slice(0, 10);
                     const evEndRaw = (event.end || '').slice(0, 10);
-
-                    // Αν start/end είναι η ίδια μέρα (κράτηση σε ώρες),
-                    // θεωρούμε ότι μπλοκάρει ολόκληρη τη μέρα στο calendar ημερών/εβδομάδων
                     const evEnd = (evEndRaw === evStart) ? addDaysToDateStr(evStart, 1) : evEndRaw;
 
                     return dateStr >= evStart && dateStr < evEnd;
@@ -400,13 +364,13 @@ document.addEventListener('DOMContentLoaded', function () {
             dateClick: function (info) {
                 if (selectedType !== 'day' && selectedType !== 'week') return;
 
+                // ΑΦΑΙΡΕΘΗΚΕ το alert — αγνοούμε σιωπηλά κλικ σε περασμένη μέρα
                 const todayStr = new Date().toISOString().slice(0, 10);
                 if (info.dateStr < todayStr) {
-                    alert('Δεν μπορείτε να επιλέξετε ημερομηνία πριν από σήμερα.');
                     return;
                 }
 
-                const startStr = info.dateStr; // 'YYYY-MM-DD', local ημερολογιακή μέρα, καμία μετατροπή
+                const startStr = info.dateStr;
 
                 const units = selectedType === 'week'
                     ? (parseInt(weeksInput.value) || 1)
@@ -415,8 +379,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 const totalDays = selectedType === 'week' ? units * 7 : units;
                 const endStr = addDaysToDateStr(startStr, totalDays);
 
+                // ΑΦΑΙΡΕΘΗΚΕ το alert — καθαρίζουμε σιωπηλά την επιλογή αν είναι μπλοκαρισμένη
                 if (isRangeBlocked(startStr, endStr)) {
-                    alert('Το ποδήλατο δεν είναι διαθέσιμο για κάποια από τις επιλεγμένες ημέρες.');
                     clearCalendarSelection();
                     return;
                 }
@@ -450,8 +414,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Όταν αλλάζει ο αριθμός ημερών/εβδομάδων ΑΦΟΥ έχει ήδη γίνει click σε
-    // ημερομηνία, ξαναϋπολογίζουμε το τέλος από το ίδιο start.
     function recalcFromExistingStart() {
         if (!calendarSelection) return;
 
@@ -462,8 +424,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const totalDays = selectedType === 'week' ? units * 7 : units;
         const newEnd = addDaysToDateStr(calendarSelection.start, totalDays);
 
+        // ΑΦΑΙΡΕΘΗΚΕ το alert
         if (isRangeBlocked(calendarSelection.start, newEnd)) {
-            alert('Το ποδήλατο δεν είναι διαθέσιμο για τόσες μέρες/εβδομάδες από αυτή την ημερομηνία.');
             clearCalendarSelection();
             return;
         }
@@ -503,8 +465,6 @@ document.addEventListener('DOMContentLoaded', function () {
         submitBtn.disabled = true;
     }
 
-
-
     function updateCalendarPrice() {
         if (!calendarSelection) return;
 
@@ -522,8 +482,6 @@ document.addEventListener('DOMContentLoaded', function () {
             label = `${units} ημέρες`;
         }
 
-        // Καθαρά ημερολογιακά strings, χωρίς toISOString() — έτσι δεν
-        // υπάρχει καμία απολύτως μετατόπιση timezone στο backend.
         rentStartField.value = start;
         rentEndField.value = end;
         priceField.value = price;
@@ -534,7 +492,6 @@ document.addEventListener('DOMContentLoaded', function () {
         submitBtn.disabled = false;
     }
 
-    // ---------------- RADIO SWITCH ----------------
     document.querySelectorAll('input[name="rental_type_radio"]').forEach(radio => {
         radio.addEventListener('change', e => {
             selectedType = e.target.value;
@@ -565,4 +522,3 @@ document.addEventListener('DOMContentLoaded', function () {
     updateHourPrice();
 
 });
-
