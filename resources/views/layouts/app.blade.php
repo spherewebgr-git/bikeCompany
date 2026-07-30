@@ -50,14 +50,16 @@
             <div class="row">
 
                 <div class="col-md-4 footer-col">
-                    <h2>{{ config('app.name') }}</h2>
+                    <a href="{{ route('home') }}">
+                        <img src="{{Vite::asset('resources/images/bikeco-light-logo.png')}}" alt="{{ config('app.name') }}" style="height: 80px; width: auto;">
+                    </a>
                     <p>{{ __('Your trail, your bike. Quality bikes for sale and rent, serviced and ready to ride.') }}</p>
 
                     <div class="social-icon">
                         <ul>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                            <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -68,7 +70,7 @@
                         <li><a href="{{ route('home') }}">{{ __('Home') }}</a></li>
                         <li><a href="{{ route('bikes.sale') }}">{{ __('Buy Bikes') }}</a></li>
                         <li><a href="{{ route('bikes.rental') }}">{{ __('Rental Bikes') }}</a></li>
-                        <li><a href="#about">{{ __('About Us') }}</a></li>
+                        <li><a href="{{ route('contact-us') }}">{{ __('Contact Us') }}</a></li>
                     </ul>
                 </div>
 

@@ -1364,15 +1364,23 @@ article footer {
 .footer-bottom .social-icon ul li {
     display: inline-block;
     margin-right: 20px;
-    font-size: 12px;
     font-weight: 700;
+    background-color: #fe4819;
+    padding: 5px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    text-align: center;
 }
 .footer-bottom .social-icon ul li a {
     color: #fff;
+    font-size: 18px;
 }
-.footer-bottom .social-icon ul li:hover .fa {
-    color: #fe4819;
+.footer-bottom .social-icon ul li:hover {
     background: #fff;
+}
+.footer-bottom .social-icon ul li:hover a{
+    color: #fe4819;
 }
 .footer-bottom .social-icon .fa {
     height: 30px;
