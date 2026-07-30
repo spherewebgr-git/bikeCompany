@@ -20,6 +20,10 @@
                 <x-nav-link :href="route('bikes.rental')" :active="request()->routeIs('bikes.rental')">
                     Rental Bikes
                 </x-nav-link>
+
+                <x-nav-link :href="route('contact-us')" :active="request()->routeIs('contact-us')">
+                    Contact Us
+                </x-nav-link>
             </div>
 
             <div class="nav-user">
