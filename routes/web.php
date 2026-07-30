@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlockedDateController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\FeaturedBikeController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RentalBikeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SaleBikeController;
-use App\Http\Controllers\BikeController;
 use App\Http\Controllers\StaffmanagementController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CardController;
@@ -45,8 +45,9 @@ Route::get('/contact-us', [ContactUsController::class, 'index'])->name('contact-
 Route::post('/contact-us', [ContactUsController::class, 'send'])->name('contact-us.send');
 
 
-//PURCHASE
+
 Route::middleware('auth')->group(function () {
+    //PURCHASE
     Route::get('/sale/checkout/{bike}', [CheckoutController::class, 'createSale'])->name('checkout.create-sale');
     Route::post('/sale/checkout/{bike}', [CheckoutController::class, 'storeSale'])->name('checkout.store-sale');
 
@@ -55,6 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/payment/{order}/expire', [PaymentController::class, 'expire'])->name('payment.expire');
     Route::delete('payment/{order}/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
+    //RENTAL
     Route::get('/rental/checkout/{bike}', [CheckoutController::class, 'createRental'])->name('checkout.create-rental');
     Route::post('/rental/checkout/{bike}', [CheckoutController::class, 'storeRental'])->name('checkout.store-rental');
     Route::get('/rental/checkout/{bike}/check', [CheckoutController::class, 'checkAvailability'])->name('checkout.check-rental');
@@ -148,6 +150,12 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
     Route::put('/dashboard/management/featured-bikes/update', [FeaturedBikeController::class, 'update'])->name('featured-bikes.update');
 
     Route::get('/dashboard/management/featured-bikes/search', [FeaturedBikeController::class, 'featuredsearch'])->name('featured-bikes.search');
+
+    // --------- BLOCKED DATES --------- \\
+    Route::get('/dashboard/management/blocked-dates', [BlockedDateController::class, 'index'])->name('blocked-dates.index');
+    Route::get('/dashboard/management/blocked-dates/events', [BlockedDateController::class, 'events'])->name('blocked-dates.events');
+    Route::post('/dashboard/management/blocked-dates', [BlockedDateController::class, 'store'])->name('blocked-dates.store');
+    Route::delete('/dashboard/management/blocked-dates/{blockedDate}', [BlockedDateController::class, 'destroy'])->name('blocked-dates.destroy');
 
     // --------- STATS --------- \\
     Route::get('/dashboard/management/statistics', [StaffmanagementController::class, 'statistics'])->name('dashboard.management.statistics');

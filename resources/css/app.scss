@@ -93,6 +93,10 @@ a {
 }
 
 .nav-user {
+    // menu button unnecessary margin bottom ?
+    form {
+        margin-bottom: 0;
+    }
     display: flex;
     gap: 10px;
     .user-button {

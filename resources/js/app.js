@@ -11,6 +11,7 @@ import './admin-featured-bikes.js'
 window.Alpine = Alpine;
 Alpine.start();
 
+
 // Price filter slider
 document.addEventListener('DOMContentLoaded', () => {
     const slider = document.getElementById('price-slider');
@@ -234,8 +235,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const hours = parseInt(durationInput.value) || 0;
         const maxAllowed = getMaxHoursForStart(currentStart);
 
-        // ΑΦΑΙΡΕΘΗΚΕ το alert — απλά κλαμπάρουμε σιωπηλά στο μέγιστο επιτρεπτό
         if (hours > maxAllowed) {
+            // ΝΕΟ: alert μόνο εδώ, μόνο αν το προκάλεσε ο χρήστης
+            if (userInteracted) {
+                alert(`Sorry but we close at 21:00 — you can select up to ${maxAllowed} hours from your start time.`);
+            }
             durationInput.value = maxAllowed;
             updateHourPrice();
             return;
@@ -252,7 +256,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return currentStart < eventEnd && end > eventStart;
         });
 
-        // ΑΦΑΙΡΕΘΗΚΕ το alert — μένει το disable του submit + το price reset
         if (unavailable) {
             submitBtn.disabled = true;
             priceValue.textContent = '0 €';
@@ -329,7 +332,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         successCallback(
                             data.map(event => ({
                                 id: 'blocked-' + event.start,
-                                title: event.title || 'Κρατημένο',
+                                title: event.title || 'Booked',
                                 start: event.start,
                                 end: event.end,
                                 allDay: true,
@@ -521,4 +524,96 @@ document.addEventListener('DOMContentLoaded', function () {
     updateDurationLimit();
     updateHourPrice();
 
+});
+
+// ============================================================
+// ADMIN — BLOCKED DATES CALENDAR (drag-select block/unblock)
+// ============================================================
+document.addEventListener('DOMContentLoaded', function () {
+
+    const adminCalendarEl = document.getElementById('admin-calendar');
+    if (!adminCalendarEl) return; // δεν είμαστε στη σελίδα admin blocked-dates, skip
+
+    const bikeFilter = document.getElementById('bike-filter');
+    const modal = document.getElementById('block-reason-modal');
+    const reasonInput = document.getElementById('block-reason');
+
+    let pendingSelection = null;
+
+    const adminCalendar = new Calendar(adminCalendarEl, {
+        plugins: [dayGridPlugin, interactionPlugin],
+        initialView: 'dayGridMonth',
+        selectable: true,
+        selectMinDistance: 0, // επιτρέπει selection και με ένα click, όχι μόνο drag
+
+        events: function (info, successCallback, failureCallback) {
+            const bikeId = bikeFilter.value;
+            const url = adminCalendarEl.dataset.eventsUrl + (bikeId ? `?bike_id=${bikeId}` : '');
+
+            fetch(url)
+                .then(r => r.json())
+                .then(data => successCallback(data.map(ev => ({
+                    id: ev.id,
+                    title: ev.title,
+                    start: ev.start,
+                    end: ev.end,
+                    display: 'background',
+                    color: '#ffcccc'
+                }))))
+                .catch(failureCallback);
+        },
+
+        select: function (info) {
+            pendingSelection = { start: info.startStr, end: info.endStr };
+            modal.style.display = 'block';
+            adminCalendar.unselect();
+        },
+
+        eventClick: function (info) {
+            if (!confirm(`Unblock "${info.event.title}"?`)) return;
+
+            fetch(`/admin/blocked-dates/${info.event.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json',
+                }
+            }).then(() => adminCalendar.refetchEvents());
+        }
+    });
+
+    adminCalendar.render();
+
+    document.getElementById('confirm-block').addEventListener('click', function () {
+        if (!pendingSelection) return;
+
+        fetch(adminCalendarEl.dataset.storeUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                bike_id: bikeFilter.value || null,
+                start_date: pendingSelection.start,
+                end_date: pendingSelection.end,
+                reason: reasonInput.value || null,
+            })
+        })
+            .then(r => r.json())
+            .then(() => {
+                modal.style.display = 'none';
+                reasonInput.value = '';
+                pendingSelection = null;
+                adminCalendar.refetchEvents();
+            });
+    });
+
+    document.getElementById('cancel-block').addEventListener('click', function () {
+        modal.style.display = 'none';
+        pendingSelection = null;
+    });
+
+    bikeFilter.addEventListener('change', () => adminCalendar.refetchEvents());
 });

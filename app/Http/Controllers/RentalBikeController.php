@@ -73,13 +73,26 @@ class RentalBikeController extends Controller
             ->blocking()
             ->get();
 
-        $events = $orders->map(fn ($order) => [
+        $orderEvents = $orders->map(fn ($order) => [
             'title'   => 'Not Available',
             'start'   => $order->rent_start->format('Y-m-d H:i:s'),
             'end'     => $order->rent_end->format('Y-m-d H:i:s'),
             'display' => 'background',
             'color'   => '#ffcccc',
         ]);
+
+        $blockedDates = \App\Models\BlockedDate::forBike($bike->id)->get();
+
+        $blockedEvents = $blockedDates->map(fn ($blocked) => [
+            'title'   => $blocked->reason ?? 'Booked',
+            'start'   => $blocked->start_date->format('Y-m-d'),
+            'end'     => $blocked->end_date->format('Y-m-d'),
+            'display' => 'background',
+            'color'   => '#ffcccc',
+        ]);
+
+        $events = $orderEvents->concat($blockedEvents)->values();
+
         return response()->json($events);
     }
 }

@@ -1,0 +1,223 @@
+@mixin orangebtn
+{
+    color: #fff;
+    text-transform: uppercase;
+    background: #fe4819;
+    border: 2px solid #fe4819;
+    transition: all 0.3s;
+    border-radius: 3px;
+}
+
+@mixin orangebtnhover
+{
+    border-color: #fe704c;
+    background: #fe704c;
+    color: #fff;
+}
+
+@mixin regularbtn
+{
+    text-transform: uppercase;
+    border: 1px solid #6c6c6c;
+    color: #6c6c6c;
+    font-weight: 700;
+    background-color: white;
+    transition: all 0.3s;
+}
+
+@mixin regularbtnhover
+{
+    color: #fe4819;
+    border-color: #fe4819;
+}
+
+// ============================================================
+// ADMIN — BLOCKED DATES CALENDAR
+// ============================================================
+
+#admin-calendar {
+    background: #fff;
+    border: 1px solid #ececec;
+    border-radius: 6px;
+    padding: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.04);
+
+    .fc-toolbar-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #3b3738;
+    }
+
+    .fc-col-header-cell-cushion {
+        color: #999;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 11px;
+        padding: 8px 0;
+    }
+
+    .fc-daygrid-day-number {
+        color: #3b3738;
+        font-weight: 600;
+        padding: 6px 8px;
+    }
+
+    .fc-day-other .fc-daygrid-day-number {
+        color: #ccc;
+    }
+
+    .fc-day-today {
+        opacity: 0.5;
+        background: rgb(220 191 107 / 0.41) !important;
+    }
+
+    .fc-button-primary {
+        background: #fe4819;
+        border-color: #fe4819;
+        text-transform: uppercase;
+        font-size: 12px;
+        box-shadow: none !important;
+
+        &:hover,
+        &:focus {
+            background: #fe704c;
+            border-color: #fe704c;
+        }
+
+        &:disabled {
+            background: #f4f4f4;
+            border-color: #d2d2d2;
+        }
+    }
+
+    td, th {
+        border-color: #ececec !important;
+    }
+
+    // Ελεύθερες μέρες — hover feedback
+    .fc-daygrid-day.fc-day-future:not(.day-cell-blocked):hover {
+        background: rgba(254,72,25,.04);
+        cursor: pointer;
+    }
+
+    // Μπλοκαρισμένη μέρα
+    .day-cell-blocked {
+        background: #fde3dc !important;
+        cursor: not-allowed;
+
+        .fc-daygrid-day-number {
+            color: #fe4819;
+            font-weight: 700;
+        }
+
+        &:hover {
+            background: #fde3dc !important;
+        }
+    }
+
+    // Background events (τα ίδια τα blocked-date ranges) — κρύβουμε το κόκκινο overlay
+    // αφού το day-cell-blocked κάνει ήδη το χρωματισμό, πιο καθαρό αποτέλεσμα
+    .fc-bg-event {
+        opacity: 0.8 !important;
+    }
+
+    // Preview επιλογής πριν το confirm
+    .fc-event.admin-selection-preview {
+        background: rgba(254,72,25,.12) !important;
+        border: 2px solid #fe4819 !important;
+
+        .fc-event-title {
+            display: block !important;
+            color: #fe4819;
+            font-weight: 700;
+            font-size: 11px;
+            padding: 2px 4px;
+        }
+    }
+}
+
+// ============================================================
+// ADMIN — BLOCKED DATES LIST (sidebar list με unblock buttons)
+// ============================================================
+
+#blocked-list {
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 4px;
+
+    // Κάθε row (inline-styled div μέσα στο JS) — στοχεύουμε το πρώτο-level div child
+    > div {
+        border: 1px solid #ececec !important;
+        border-radius: 6px !important;
+        transition: all .2s ease;
+
+        &:hover {
+            border-color: #fe4819 !important;
+            box-shadow: 0 4px 14px rgba(254,72,25,.08);
+        }
+    }
+}
+
+.unblock-btn {
+    padding: 0!important;
+    padding-right: 10px!important;
+    padding-left: 10px!important;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: .02em;
+    color: #6c6c6c;
+    background: #fff;
+    border: 1px solid #6c6c6c;
+    border-radius: 3px;
+    transition: all .2s;
+
+    &:hover {
+        color: #fe4819;
+        border-color: #fe4819;
+        background: rgba(254,72,25,.06);
+    }
+}
+
+// ============================================================
+// ADMIN — BLOCK REASON MODAL
+// ============================================================
+
+#block-reason-modal {
+    background: #fff;
+    border: 1px solid #ececec;
+    border-radius: 8px;
+    padding: 25px 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    max-width: 420px;
+
+    #block-reason {
+        margin-bottom: 15px;
+        padding: 10px 80px;
+    }
+
+    #cancel-block {
+        background-color: #ff1500;
+    }
+
+    #confirm-block {
+        margin-right: 10px;
+        background-color: #1b6c00;
+    }
+}
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+
+@media (max-width: 991px) {
+    // Το inline flex container (calendar + λίστα) γίνεται column σε μικρότερες οθόνες
+    .page-body > div[style*="display: flex"] {
+        flex-direction: column;
+    }
+
+    #blocked-list,
+    div[style*="width: 320px"] {
+        width: 100% !important;
+    }
+}

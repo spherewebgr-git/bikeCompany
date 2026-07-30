@@ -408,7 +408,7 @@
                             } else {
                                 const from = formatDisplayDate(rentStart);
                                 const to = formatDisplayDate(rentEnd);
-                                resultBox.innerHTML = `<span class="text-danger">✘ Not available from ${from} to ${to}.<br>Please try another date.</span>`;
+                                resultBox.innerHTML = `<span class="text-danger">✘ Not available from ${from} to ${to}.<br>Please try another time.</span>`;
                                 btn.classList.add('btn-unavailable');
                             }
                         })

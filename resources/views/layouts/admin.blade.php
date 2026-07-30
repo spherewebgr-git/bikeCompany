@@ -142,10 +142,19 @@
                 <i class="navigation-header-icon material-icons">more_horiz</i>
             </li>
 
+
+
             <li class="bold">
                 <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.bikes') }}">
                     <i class="fa-solid fa-bicycle" style="color: #fff;"></i>
                     <span class="menu-title">Bike Management</span>
+                </a>
+            </li>
+
+            <li class="bold">
+                <a class="waves-effect waves-cyan" href="{{ route('blocked-dates.index') }}">
+                    <i class="fa-solid fa-calendar" style="color: #fff;"></i>
+                    <span class="menu-title">Calendar Blocked Dates</span>
                 </a>
             </li>
 

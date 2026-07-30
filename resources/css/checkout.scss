@@ -578,10 +578,18 @@
 // ============================================================
 
 .fc-bg-event {
-    opacity: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 
     .fc-event-title {
-        display: none !important;
+        opacity: 0.8;
+        font-weight: bold;
+        display: block;
+        width: fit-content;
+        letter-spacing: 5px;
+
     }
 }
 
@@ -915,3 +923,4 @@
         color: #0C723B;
     }
 }
+

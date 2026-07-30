@@ -59,12 +59,22 @@ class Bike extends Model
 
     public function isAvailable(Carbon $start, Carbon $end): bool
     {
-        return !$this->orders()
+        $hasBlockingOrder = $this->orders()
             ->blocking()
             ->where(function ($query) use ($start, $end) {
                 $query->where('rent_start', '<', $end)
                     ->where('rent_end', '>', $start);
             })
             ->exists();
+
+        if ($hasBlockingOrder) {
+            return false;
+        }
+
+        $hasBlockedDate = \App\Models\BlockedDate::forBike($this->id)
+            ->overlapping($start->copy()->startOfDay(), $end->copy())
+            ->exists();
+
+        return !$hasBlockedDate;
     }
 }

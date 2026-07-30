@@ -139,33 +139,35 @@
         </div>
     </section>
 
-    {{-- ============ FEATURED BIKES ============ --}}
-    <section class="bike-trail">
-        <div class="nav-container">
-            <div class="section-heading text-center">
-                <h6>{{ __('Fresh from the shop') }}</h6>
-                <h2 class="title-text">{{ __('Featured bikes') }}</h2>
-            </div>
+    @if(!$featuredBikes->isEmpty())
+        {{-- ============ FEATURED BIKES ============ --}}
+        <section class="bike-trail">
+            <div class="nav-container">
+                <div class="section-heading text-center">
+                    <h6>{{ __('Fresh from the shop') }}</h6>
+                    <h2 class="title-text">{{ __('Featured bikes') }}</h2>
+                </div>
 
-            <div class="row">
-                @foreach ($featuredBikes as $bike)
-                    <div class="col-md-4">
-                        <div class="bike-card" style="background-image: url('{{ $bike->image_path }}')">
-                            <div class="bike-info">
-                                <h3>{{ $bike->brand->name }}</h3>
-                                <p><i class="fa fa-bicycle"></i> {{ $bike->type->name }}</p>
-                                <p><i class="fa fa-cog"></i> {{ $bike->speed->gears }}</p>
+                <div class="row">
+                    @foreach ($featuredBikes as $bike)
+                        <div class="col-md-4">
+                            <div class="bike-card" style="background-image: url('{{ $bike->image_path }}')">
+                                <div class="bike-info">
+                                    <h3>{{ $bike->brand->name }}</h3>
+                                    <p><i class="fa fa-bicycle"></i> {{ $bike->type->name }}</p>
+                                    <p><i class="fa fa-cog"></i> {{ $bike->speed->gears }}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
 
-            <div class="more-info text-center">
-                <a href="{{ route('bikes.sale') }}" class="btn btn-trans btn-md">{{ __('See all bikes') }}</a>
+                <div class="more-info text-center">
+                    <a href="{{ route('bikes.sale') }}" class="btn btn-trans btn-md">{{ __('See all bikes') }}</a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
 
     @push('scripts')
