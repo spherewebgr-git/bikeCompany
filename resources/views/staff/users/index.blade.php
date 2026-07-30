@@ -1,79 +1,79 @@
 @extends('layouts.admin')
 @section('content')
     <div id="userManagement">
-    <div class="container">
-        <h1>User Management</h1>
+        <div class="container">
+            <h1>User Management</h1>
 
-        <form
-            method="GET"
-            action="{{ route('staff.users.index') }}"
-            class="user-filters"
-        >
-            <div class="search-group">
-                <input
-                    type="text"
-                    name="search"
-                    value="{{ request('search') }}"
-                    placeholder="Search users"
-                >
+            <form
+                method="GET"
+                action="{{ route('staff.users.index') }}"
+                class="user-filters"
+            >
+                <div class="search-group">
+                    <input
+                        type="text"
+                        name="search"
+                        value="{{ request('search') }}"
+                        placeholder="Search users"
+                    >
 
-                <button type="submit" class="btn-search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <button type="submit" class="btn-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+
+                <div class="filter-field">
+                    <label for="role">Role:</label>
+
+                    <select name="role" id="role">
+                        <option value="" @selected(!$selectedRole)>
+                            Any
+                        </option>
+
+                        <option
+                            value="customer"
+                            @selected($selectedRole === 'customer')
+                        >
+                            Customer
+                        </option>
+
+                        <option
+                            value="staff"
+                            @selected($selectedRole === 'staff')
+                        >
+                            Staff
+                        </option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-filter">
+                    FILTER
                 </button>
-            </div>
 
-            <div class="filter-field">
-                <label for="role">Role:</label>
-
-                <select name="role" id="role">
-                    <option value="" @selected(!$selectedRole)>
-                        Any
-                    </option>
-
-                    <option
-                        value="customer"
-                        @selected($selectedRole === 'customer')
+                @if($selectedRole || request('search'))
+                    <a
+                        href="{{ route('staff.users.index') }}"
+                        class="btn-clear"
                     >
-                        Customer
-                    </option>
+                        CLEAR
+                    </a>
+                @endif
+            </form>
 
-                    <option
-                        value="staff"
-                        @selected($selectedRole === 'staff')
-                    >
-                        Staff
-                    </option>
-                </select>
-            </div>
-
-            <button type="submit" class="btn-filter">
-                FILTER
-            </button>
-
-            @if($selectedRole || request('search'))
-                <a
-                    href="{{ route('staff.users.index') }}"
-                    class="btn-clear"
-                >
-                    CLEAR
-                </a>
+            @if(session('message'))
+                <div class="alert alert-success">
+                    {{ session('message') }}
+                </div>
             @endif
-        </form>
 
-        @if(session('message'))
-            <div class="alert alert-success">
-                {{ session('message') }}
-            </div>
-        @endif
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    {{ $errors->first() }}
+                </div>
+            @endif
 
-        @if($errors->any())
-            <div class="alert alert-danger">
-                {{ $errors->first() }}
-            </div>
-        @endif
-
-        <table>
-            <thead>
+            <table>
+                <thead>
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
@@ -81,9 +81,9 @@
                     <th>Role</th>
                     <th>Actions</th>
                 </tr>
-            </thead>
+                </thead>
 
-            <tbody>
+                <tbody>
                 @foreach($users as $user)
                     <tr>
                         <td>
@@ -133,9 +133,9 @@
                         </td>
                     </tr>
                 @endforeach
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>

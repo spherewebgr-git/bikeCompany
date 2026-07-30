@@ -277,7 +277,7 @@ class StaffmanagementController extends Controller
 
         $order->returned = true;
         if ($order->rent_end != null) { $order->rent_end = \now(); }
-        
+
         $order->save();
 
         $order->load([
@@ -326,7 +326,7 @@ class StaffmanagementController extends Controller
         ]);
         return back()->with(
             'message',
-            'demoted.'
+            'promoted.'
         );
     }
 
@@ -720,7 +720,7 @@ class StaffmanagementController extends Controller
 
         foreach ($locations as $location)
         {
-            $locsales[$location->name] = 
+            $locsales[$location->name] =
             [
                 'location' => $location->name,
                 'profit' => 0.0,
@@ -757,7 +757,7 @@ class StaffmanagementController extends Controller
                 {
                     $locsales[$loc]['profit'] += $order->price;
                     $locsales[$loc]['sales'] ++;
-                }                
+                }
             }
             else
             {
