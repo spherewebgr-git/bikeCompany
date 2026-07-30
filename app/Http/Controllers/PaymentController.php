@@ -342,4 +342,70 @@ class PaymentController extends Controller
             ], 409);
         }
     }
+
+    public function cancel(Order $order)
+    {
+        if ($order->user_id !== (int) auth()->id()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You are not allowed to access this order.',
+            ], 403);
+        }
+
+        try {
+            DB::transaction(function () use ($order) {
+
+                /*
+                 * Κλειδώνουμε την παραγγελία ώστε να μην μπορεί
+                 * να ολοκληρωθεί και να διαγραφεί ταυτόχρονα.
+                 */
+                $lockedOrder = Order::query()
+                    ->whereKey($order->id)
+                    ->lockForUpdate()
+                    ->first();
+
+                /*
+                 * Μπορεί να έχει ήδη διαγραφεί από άλλο request.
+                 */
+                if (!$lockedOrder) {
+                    return;
+                }
+
+                /*
+                 * Αν έχει ολοκληρωθεί, δεν επιστρέφουμε quantity
+                 * και δεν διαγράφουμε την παραγγελία.
+                 */
+                if ($lockedOrder->completed_at !== null) {
+                    throw new \RuntimeException(
+                        'This order has already been completed.'
+                    );
+                }
+                $lockedBike = Bike::query()
+                    ->whereKey($lockedOrder->bike_id)
+                    ->lockForUpdate()
+                    ->first();
+
+                if ($lockedBike) {
+                    $lockedBike->increment('quantity');
+                }
+
+                /*
+                 * Η προσωρινή παραγγελία δεν χρειάζεται πλέον.
+                 */
+                $lockedOrder->delete();
+            });
+
+            return response()->json([
+                'success' => true,
+                'redirect' => route('home'),
+            ]);
+
+        } catch (\RuntimeException $exception) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ], 409);
+        }
+    }
 }

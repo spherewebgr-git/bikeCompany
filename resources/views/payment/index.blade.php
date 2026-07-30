@@ -248,6 +248,15 @@
                     </div>
 
                     <div class="form-actions">
+
+                        <button
+                            type="button"
+                            id="cancelReservation"
+                            class="btn btn-outline-danger btn-md"
+                        >
+                            {{__('Cancel Order')}}
+                        </button>
+
                         <button
                             type="submit"
                             class="btn btn-fill btn-md"
@@ -350,6 +359,7 @@
         const timer = document.getElementById('reservationTime');
         const timerBox = document.getElementById('reservationTimer');
         const completeButton = document.querySelector('.complete-order-form button[type="submit"]');
+        const cancelButton = document.getElementById('cancelReservation')
 
         function updateReservationTimer() {
 
@@ -437,6 +447,77 @@
         updateReservationTimer();
 
         const interval = setInterval(updateReservationTimer,1000);
+
+        if (cancelButton) {
+
+            cancelButton.addEventListener('click', function () {
+
+                swal({
+                    title: "Cancel order?",
+                    text: "Your reservation will be cancelled and the bike will become available again.",
+                    icon: "warning",
+                    buttons: ["No", "Yes"],
+                    dangerMode: true,
+                }).then(function (confirmed) {
+
+                    if (!confirmed) {
+                        return;
+                    }
+
+                    clearInterval(interval);
+
+                    completeButton.disabled = true;
+                    cancelButton.disabled = true;
+
+                    fetch("{{ route('payment.cancel', $order) }}", {
+                        method: "DELETE",
+                        headers: {
+                            "Accept": "application/json",
+                            "X-CSRF-TOKEN": document
+                                .querySelector('meta[name="csrf-token"]')
+                                .getAttribute("content")
+                        }
+                    })
+                        .then(async response => {
+
+                            const data = await response.json();
+
+                            if (!response.ok) {
+                                throw new Error(data.message);
+                            }
+
+                            return data;
+                        })
+                        .then(data => {
+
+                            swal({
+                                title: "Order Cancelled",
+                                text: "Your reservation has been cancelled.",
+                                icon: "success",
+                                button: "OK",
+                            }).then(function () {
+
+                                window.location.href = data.redirect;
+
+                            });
+
+                        })
+                        .catch(error => {
+
+                            swal({
+                                title: "Error",
+                                text: error.message,
+                                icon: "error",
+                                button: "OK",
+                            });
+
+                        });
+
+                });
+
+            });
+
+        }
     </script>
 
     <script>
