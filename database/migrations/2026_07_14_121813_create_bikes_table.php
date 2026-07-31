@@ -14,11 +14,18 @@ return new class extends Migration
         Schema::create('bikes', function (Blueprint $table) {
             $table->id();
             $table->string('colour');
+<<<<<<< Updated upstream
             $table->string('image_path');
             $table->foreignId('brand_id')->nullable()->constrained('brands')->nullOnDelete(); // CHECK: ->cascadeOnDelete();
             $table->foreignId('type_id')->constrained('types'); // CHECK: ->cascadeOnDelete();
             $table->foreignId('speed_id')->constrained('speeds'); // CHECK: ->cascadeOnDelete();
             $table->foreignId('provision_id')->constrained('provisions'); // CHECK: ->cascadeOnDelete();
+=======
+            $table->foreignId('brand_id')->constrained('brands'); // CHECK: ->cascadeOnDelete(); ?
+            $table->foreignId('type_id')->constrained('types'); // CHECK: ->cascadeOnDelete(); ?
+            $table->foreignId('speed_id')->constrained('speeds'); // CHECK: ->cascadeOnDelete(); ?
+            $table->foreignId('provision_id')->constrained('provisions'); // CHECK: ->cascadeOnDelete(); ?
+>>>>>>> Stashed changes
             $table->timestamps();
         });
     }

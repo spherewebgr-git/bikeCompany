@@ -16,7 +16,7 @@
                     {{ $bike->SKU }}
                 </td>
                 <td>
-                    <img class="bikephoto" src="{{ $bike->image_path }}"/>
+                    <img class="bikephoto" src="{{ asset($bike->images->first()->image) }}"/>
                 </td>
                 <td class="bike-provision">
                     {{ $bike->provision->name }}

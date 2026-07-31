@@ -39,8 +39,14 @@
 
     .containers
     {
-        margin: 0 10px;
-        padding: 20px;
+        margin: 0 20px;
+    }
+
+    .rows
+    {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
     }
 
     .order-card
@@ -49,8 +55,12 @@
         padding: 20px;
         display: flex;
         border-radius: 6px;
+        border-top-right-radius: 0px;
         box-shadow: 0 0 8px #fe704c;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
+        position: relative;
+        background-color: #fff;
+        flex: 0 0 calc(50% - 45px); // col-6
 
         .info
         {
@@ -101,6 +111,7 @@
 
     & img
     {
+        max-width: 300px;
         max-height: 300px;
         border-radius: 6px;
         width: auto;
@@ -109,9 +120,15 @@
     & a
     {
         @include orangebtn;
-        padding: 10px;
+        padding: 4px 10px;
         position: absolute;
-        right: 25px;
+        right: 0;
+        top: -35px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        box-shadow: 0 0 8px #fe704c;
+        text-decoration: none;
+        width: 118px;
 
         &:hover { @include orangebtnhover; }
     }

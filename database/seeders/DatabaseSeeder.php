@@ -78,6 +78,7 @@ class DatabaseSeeder extends Seeder
             StatusSeeder::class,
             LocationSeeder::class,
             OrderSeeder::class,
+            ImageSeeder::class,
         ]);
     }
 }

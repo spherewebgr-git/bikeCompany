@@ -23,7 +23,7 @@
                 @foreach ($orders as $order)
                     <div class="active-single">
 
-                        <img src={{ $order->bike->image_path }}>
+                        <img src="{{ asset($order->bike->images->first()->image) }}">
 
                         <div class="bikeinfo">
                             <p class="ids">

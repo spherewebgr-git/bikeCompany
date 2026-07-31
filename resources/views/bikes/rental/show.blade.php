@@ -15,7 +15,14 @@
             <div class="bike-single-grid row">
 
                 <div class="bike-single-image col-sm-6">
+<<<<<<< Updated upstream
                     <img src="{{ $bike->image_path }}" alt="{{ $bike?->brand?->name ?? 'N/A' }}">
+=======
+                    <!-- TODO: add slider -->
+                    @foreach ($bike->images as $image)
+                        <img src="{{ asset($image->image) }}" alt="{{ $bike->brand->name }}">
+                    @endforeach
+>>>>>>> Stashed changes
                 </div>
 
                 <div class="bike-single-right-section col-sm-6">
@@ -34,7 +41,7 @@
                                 <a href="{{ route('checkout.create-rental', $bike) }}" class="btn btn-fill btn-md">{{ __('Rent this bike') }}</a>
                             @else
                                 <a href="{{ route('login') }}?redirect={{ urlencode(route('bikes.rental.show', $bike)) }}"
-                                   class="btn btn-fill btn-md">
+                                    class="btn btn-fill btn-md">
                                     {{ __('Rent this bike') }}
                                 </a>
                             @endauth

@@ -4,9 +4,15 @@
         <div class="col-md-5 bike-card__image-col">
             <figure class="hover-img bike-card__image">
 
+<<<<<<< Updated upstream
                 <img src="{{ $bike->image_path }}"
                      alt="{{ $bike?->brand?->name ?? 'N/A' }}"
                      class="img-responsive bike-card__img">
+=======
+                <img src="{{ asset($bike->images->first()->image) }}"
+                    alt="{{ $bike->brand->name }}"
+                    class="img-responsive bike-card__img">
+>>>>>>> Stashed changes
 
                 <div class="img-hover-content bike-card__overlay">
 

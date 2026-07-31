@@ -19,7 +19,6 @@ class Bike extends Model
         'SKU',
         'quantity',
         'colour',
-        'image_path',
         'brand_id',
         'type_id',
         'speed_id',
@@ -50,6 +49,11 @@ class Bike extends Model
     public function prices()
     {
         return $this->hasMany(Price::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
     }
 
     public function orders()

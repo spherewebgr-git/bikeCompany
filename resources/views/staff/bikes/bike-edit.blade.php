@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div id="BikeEdit">
-    <form method="POST" action="{{ is_null($bike) ? route('bike.create') : route('bike.update', [$bike->id])}}">
+    <form method="POST" action="{{ is_null($bike) ? route('bike.create') : route('bike.update', [$bike->id])}} "enctype="multipart/form-data">
 
         <input type="hidden" name="_token" placeholder="{{ csrf_token() }}" />
 
@@ -17,8 +17,8 @@
                 </div>
             </div>
 
-            <label for="image_path">Image URL:</label><br>
-            <input type="text" id="image_path" name="image_path" placeholder="Bike Image URL">
+            <label for="image_path">Images:</label><br>
+            <input type="file" name="images[]" id="images" multiple accept="image/*">
         @else
             <div class="horizontal">
                 <div class="vertical">
@@ -31,8 +31,21 @@
                 </div>
             </div>
 
-            <label for="image_path">Image URL:</label><br>
-            <input type="text" id="image_path" name="image_path" value="{{ $bike->image_path }}">
+            <label for="image_path">Images:</label><br> <!-- TODO: manage existing images -->
+            <div class="selected-photos">
+                @foreach ($bike->images as $image)
+                <div class="image-check">
+                    <img src="{{ asset($image->image) }}" width="150">
+
+                    <div class="del-photo">
+                        <input type="checkbox" name="delete_images[]" value="{{ $image->id }}">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            <input type="file" name="images[]" id="images" multiple accept="image/*">
         @endif
 
         <div class="horizontal">

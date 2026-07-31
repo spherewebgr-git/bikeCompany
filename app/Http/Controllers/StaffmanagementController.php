@@ -13,12 +13,14 @@ use App\Models\Price;
 use App\Models\Role;
 use App\Models\Status;
 use App\Models\User;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\OrderReadyMail;
 use App\Mail\OrderDeliveredMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class StaffmanagementController extends Controller
 {
@@ -146,7 +148,6 @@ class StaffmanagementController extends Controller
 
         $bike->update([
             'colour' => $request->colour,
-            'image_path' => $request->image_path,
             'brand_id' => $request->brand_id,
             'type_id' => $request->type_id,
             'speed_id' => $request->speed_id,
@@ -189,6 +190,28 @@ class StaffmanagementController extends Controller
             ]);
         }
 
+        // Delete selected images
+        if ($request->filled('delete_images')) {
+            $images = Image::whereIn('id', $request->delete_images)->where('bike_id', $bike->id)->get();
+
+            foreach ($images as $image)
+            {
+                // Delete the file from public/images/bikes:
+                Storage::disk('public')->delete(str_replace('storage/', '', $image->image));
+                $image->delete();
+            }
+        }
+
+        // Add new images
+        if ($request->hasFile('images'))
+        {
+            foreach ($request->file('images') as $file)
+            {
+                $path = $file->store('bikes', 'public');
+                Image::create([ 'bike_id' => $bike->id, 'image' => 'storage/' . $path, ]);
+            }
+        }
+
         return redirect('dashboard/management/bikes');
     }
 
@@ -213,8 +236,8 @@ class StaffmanagementController extends Controller
                 'speed_id' => 'required',
                 'provision_id' => 'required',
                 'colour' => 'required',
-                'image_path' => 'required',
-                'price' => 'required|array'
+                'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+                //'price' => 'required|array'
             ]
         );
 
@@ -237,13 +260,21 @@ class StaffmanagementController extends Controller
             $bike = Bike::create([
                 'SKU' => $request->SKU,
                 'colour' => $request->colour,
-                'image_path' => $request->image_path,
                 'brand_id' => $request->brand_id,
                 'type_id' => $request->type_id,
                 'speed_id' => $request->speed_id,
                 'provision_id' => $request->provision_id,
-                'quantity' => 1,
+                'quantity' => $request->quant,
             ]);
+
+            if ($request->hasFile('images'))
+            {
+                foreach ($request->file('images') as $file)
+                {
+                    $path = $file->store('bikes', 'public');
+                    Image::create([ 'bike_id' => $bike->id, 'image' => 'storage/' . $path, ]);
+                }
+            }
 
             foreach ($request->price ?? [] as $price)
             // Use $request->price if it exists and is not null. Otherwise, use an empty array []

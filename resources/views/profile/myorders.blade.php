@@ -17,7 +17,7 @@
                             </div>
                             
                             <div class="inner-card">
-                                <img src="{{ $order->bike->image_path }}" alt="bike"/>
+                                <img src="{{ asset($order->bike->images->first()->image) }}" alt="bike"/>
                                 
                                 <div class="info">
                                     <h4 class="model">

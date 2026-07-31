@@ -62,8 +62,6 @@ class BikeSeeder extends Seeder
                 DB::table('bikes')->insert([
                     'SKU' => generateSku(),
                     'colour' => $bike['colour'],
-                    'image_path' => $bike['image_path'],
-
                     'type_id' => Type::inRandomOrder()->value('id'),
                     'brand_id' => Brand::inRandomOrder()->value('id'),
                     'speed_id' => Speed::inRandomOrder()->value('id'),
@@ -79,8 +77,6 @@ class BikeSeeder extends Seeder
                 DB::table('bikes')->insert([
                     'SKU' => generateSku(),
                     'colour' => $bike['colour'],
-                    'image_path' => $bike['image_path'],
-
                     'type_id' => Type::inRandomOrder()->value('id'),
                     'brand_id' => Brand::inRandomOrder()->value('id'),
                     'speed_id' => Speed::inRandomOrder()->value('id'),
