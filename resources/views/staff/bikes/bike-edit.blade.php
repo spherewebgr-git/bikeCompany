@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            <label for="image_path">Images:</label><br>
+            <label for="images">Images:</label><br>
             <input type="file" name="images[]" id="images" multiple accept="image/*">
         @else
             <div class="horizontal">
@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <label for="image_path">Images:</label><br> <!-- TODO: manage existing images -->
+            <label for="images">Images:</label><br> <!-- TODO: manage existing images -->
             <div class="selected-photos">
                 @foreach ($bike->images as $image)
                 <div class="image-check">

@@ -211,32 +211,23 @@
 
                 <div class="row">
                     @foreach ($featuredBikes as $bike)
-<<<<<<< Updated upstream
                         @if($bike->provision->name == 'buy')
                             <a href="{{ route('bikes.sale.show', $bike) }}">
                                 <div class="col-md-4">
-                                    <div class="bike-card" style="background-image: url('{{ $bike->image_path }}')">
+                                    <div class="bike-card" style="background-image: url('{{ asset($bike->images->first()->image) }}')">
                                         <div class="bike-info">
                                             <h3>{{ $bike?->brand?->name ?? 'N/A' }}</h3>
                                             <p><i class="fa fa-bicycle"></i> {{ $bike->type->name }}</p>
                                             <p><i class="fa fa-cog"></i> {{ $bike->speed->gears }}</p>
                                         </div>
                                     </div>
-=======
-                        <div class="col-md-4">
-                            <div class="bike-card" style="background-image: url('{{ asset($bike->images->first()->image) }}')">
-                                <div class="bike-info">
-                                    <h3>{{ $bike->brand->name }}</h3>
-                                    <p><i class="fa fa-bicycle"></i> {{ $bike->type->name }}</p>
-                                    <p><i class="fa fa-cog"></i> {{ $bike->speed->gears }}</p>
->>>>>>> Stashed changes
                                 </div>
 
                             </a>
                         @else
                             <a href="{{ route('bikes.rental.show', $bike) }}">
                                 <div class="col-md-4">
-                                    <div class="bike-card" style="background-image: url('{{ $bike->image_path }}')">
+                                    <div class="bike-card" style="background-image: url('{{ asset($bike->images->first()->image) }}')">
                                         <div class="bike-info">
                                             <h3>{{ $bike?->brand?->name ?? 'N/A' }}</h3>
                                             <p><i class="fa fa-bicycle"></i> {{ $bike->type->name }}</p>

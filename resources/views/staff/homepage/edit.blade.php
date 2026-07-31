@@ -43,23 +43,12 @@
                                 </p>
 
                             @endif
-<<<<<<< Updated upstream
-                                @if(!$availableBikes->isEmpty())
-                                    @foreach($availableBikes as $bike)
-                                        <li class="bike-sort-item" data-id="{{ $bike->id }}">
-                                            <img src="{{ $bike->image_path }}" alt="">
-                                            <span>{{ $bike?->brand?->name ?? 'N/A'}} | {{$bike->type->name}} | {{$bike->colour}} | {{$bike->speed->gears}}</span>
-                                        </li>
-                                    @endforeach
-                                @endif
-=======
                             @foreach($availableBikes as $bike)
                                 <li class="bike-sort-item" data-id="{{ $bike->id }}">
                                     <img src="{{ asset($bike->images->first()->image) }}" alt="">
                                     <span>{{ $bike->brand->name}} | {{$bike->type->name}} | {{$bike->colour}} | {{$bike->speed->gears}}</span>
                                 </li>
                             @endforeach
->>>>>>> Stashed changes
                         </ul>
                     </div>
 
@@ -76,14 +65,8 @@
                         <ul id="selected-list" class="bike-sort-list bike-sort-list--target">
                             @foreach($featuredBikes as $bike)
                                 <li class="bike-sort-item" data-id="{{ $bike->id }}">
-<<<<<<< Updated upstream
-                                    <img src="{{ $bike->image_path }}" alt="">
-                                    <span>{{ $bike?->brand?->name ?? 'N/A'}} | {{$bike->type->name}} | {{$bike->colour}} | {{$bike->speed->gears}}</span>
-=======
                                     <img src="{{ asset($bike->images->first()->image) }}" alt="">
-                                    <span>{{ $bike->brand->name}} | {{$bike->type->name}} | {{$bike->colour}} | {{$bike->speed->gears}}</span>
->>>>>>> Stashed changes
-
+                                    <span>{{ $bike?->brand?->name ?? 'N/A'}} | {{$bike->type->name}} | {{$bike->colour}} | {{$bike->speed->gears}}</span>
                                 </li>
 
                             @endforeach

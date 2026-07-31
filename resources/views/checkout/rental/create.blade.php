@@ -238,17 +238,10 @@
                     <div class="sidebar-widget checkout-summary">
 
                         <div class="checkout-summary__bike">
-<<<<<<< Updated upstream
-                            <img src="{{ $bike->image_path }}"
-                                 alt="{{ $bike?->brand?->name ?? 'N/A' }}"
-                                 class="checkout-summary__bike-img">
-                            <span class="checkout-summary__bike-badge">{{ $bike?->brand?->name ?? 'N/A' }}</span>
-=======
                             <img src="{{ asset($bike->images->first()->image) }}"
                                 alt="{{ $bike->brand->name }}"
                                 class="checkout-summary__bike-img">
                             <span class="checkout-summary__bike-badge">{{ $bike->brand->name }}</span>
->>>>>>> Stashed changes
                         </div>
 
                         <h4 class="widget-title">
