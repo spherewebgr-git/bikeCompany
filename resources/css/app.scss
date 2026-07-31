@@ -911,16 +911,22 @@ a {
 // ============================================================
 // PAGE HEADER / CONTENT
 // ============================================================
+.page-header {
 
-.page-header-container {
-    max-width: 1200px;
-    margin: 0 auto;
+    padding-bottom: 9px;
+    margin: -20px 0 20px;
+    border-bottom: 1px solid #eee;
 
-    h2,
-    h3 {
-        font-family: 'Oswald', sans-serif;
-        text-transform: uppercase;
-        color: #3b3738;
+    .page-header-container {
+        max-width: 1200px;
+        margin: 0 auto;
+
+        h2,
+        h3 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            color: #3b3738;
+        }
     }
 }
 

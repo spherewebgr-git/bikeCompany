@@ -256,37 +256,63 @@
     }
 
     .saved-card {
+        position: relative;
         display: flex;
         align-items: center;
-        gap: 18px;
-        padding: 20px;
-        background: #ffffff;
-        border: 1px solid #e8ebef;
-        border-radius: 12px;
+        gap: 20px;
+        overflow: hidden;
+        padding: 24px;
+        background:
+            linear-gradient(
+                135deg,
+                rgba(254, 72, 25, 0.025),
+                rgba(255, 255, 255, 1)
+            );
+        border: 1px solid #e7eaf0;
+        border-radius: 14px;
         transition:
             transform 0.22s ease,
             box-shadow 0.22s ease,
             border-color 0.22s ease;
 
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                #fe4819,
+                #ff8b67
+            );
+        }
+
         &:hover {
-            border-color: rgba(254, 72, 25, 0.22);
+            border-color: rgba(254, 72, 25, 0.25);
             transform: translateY(-3px);
-            box-shadow: 0 14px 30px rgba(17, 24, 39, 0.08);
+            box-shadow: 0 15px 30px rgba(17, 24, 39, 0.09);
         }
 
         .saved-card-icon {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 52px;
-            height: 52px;
+            width: 58px;
+            height: 58px;
             flex-shrink: 0;
-            background: rgba(254, 72, 25, 0.1);
-            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                rgba(254, 72, 25, 0.14),
+                rgba(255, 112, 72, 0.08)
+            );
+            border: 1px solid rgba(254, 72, 25, 0.12);
+            border-radius: 14px;
 
             i {
                 color: #fe4819;
-                font-size: 21px;
+                font-size: 23px;
             }
         }
 
@@ -294,8 +320,8 @@
             flex: 1;
 
             h5 {
-                margin: 0 0 6px;
-                color: #2b3442;
+                margin: 0 0 7px;
+                color: #202938;
                 font-size: 16px;
                 font-weight: 700;
             }
@@ -304,7 +330,14 @@
                 margin: 0;
                 color: #7b8493;
                 font-size: 13px;
-                line-height: 1.5;
+                line-height: 1.6;
+            }
+
+            .card-number {
+                color: #475467;
+                font-size: 15px;
+                font-weight: 600;
+                letter-spacing: 1.5px;
             }
 
             .card-expiration {
@@ -313,18 +346,7 @@
         }
 
         .delete-card-form {
-            button {
-                min-height: 42px;
-                padding: 9px 18px;
-                border-radius: 8px;
-                transition:
-                    transform 0.2s ease,
-                    box-shadow 0.2s ease;
-
-                &:hover {
-                    transform: translateY(-1px);
-                }
-            }
+            flex-shrink: 0;
         }
     }
 
@@ -351,25 +373,41 @@
 
     .add-card-container {
         margin-top: 35px;
-        padding-top: 32px;
-        border-top: 1px solid #edf0f4;
-    }
+        padding: 32px;
+        background: #fafbfc;
+        border: 1px solid #e7eaf0;
+        border-radius: 14px;
+        animation: profileFadeIn 0.3s ease;
 
-    .add-card-header {
-        margin-bottom: 28px;
+        .add-card-header {
+            position: relative;
+            margin-bottom: 28px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #e7eaf0;
 
-        h4,
-        h5 {
-            margin: 0;
-            color: #1f2937;
-            font-weight: 700;
-        }
+            &::after {
+                content: "";
+                position: absolute;
+                bottom: -1px;
+                left: 0;
+                width: 65px;
+                height: 3px;
+                background: #fe4819;
+                border-radius: 20px;
+            }
 
-        p {
-            margin: 7px 0 0;
-            color: #8a94a6;
-            font-size: 14px;
-            line-height: 1.6;
+            h4 {
+                margin: 0 0 7px;
+                color: #202938;
+                font-size: 21px;
+                font-weight: 700;
+            }
+
+            p {
+                margin: 0;
+                color: #8a94a6;
+                font-size: 14px;
+            }
         }
     }
 
@@ -436,23 +474,46 @@
 
             .password-wrapper {
                 position: relative;
+                width: 100%;
+
+                input{
+                    position: relative;
+                    z-index: 1;
+                }
 
                 .form-control {
-                    padding-right: 48px;
+                    width: 100%;
+                    padding-right: 60px;
                 }
 
                 .toggle-password {
                     position: absolute;
-                    top: 50%;
-                    right: 16px;
-                    color: #8a94a6;
+                    top: 25px;
+                    right: 12px;
+                    z-index: 5;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    width: 38px;
+                    height: 38px;
+
+                    color: #7f899c;
+                    font-size: 16px;
+
+                    background: #f8f9fb;
+                    border: 1px solid #d9dee7;
+                    border-radius: 9px;
+
                     cursor: pointer;
-                    user-select: none;
                     transform: translateY(-50%);
-                    transition: color 0.2s ease;
+                    transition: 0.2s ease;
 
                     &:hover {
                         color: #fe4819;
+                        background: rgba(254, 72, 25, 0.08);
+                        border-color: rgba(254, 72, 25, 0.25);
                     }
                 }
             }
@@ -462,6 +523,43 @@
                 margin: 7px 0 0;
                 color: #dc2626;
                 font-size: 13px;
+            }
+        }
+    }
+
+    .password-form {
+        max-width: 760px;
+
+        .password-wrapper {
+            position: relative;
+
+            .form-control {
+                padding-right: 52px;
+            }
+
+            .toggle-password {
+                position: absolute;
+                top: 50%;
+                right: 17px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 30px;
+                height: 30px;
+                color: #8a94a6;
+                font-size: 16px;
+                background: transparent;
+                border-radius: 50%;
+                cursor: pointer;
+                transform: translateY(-50%);
+                transition:
+                    color 0.2s ease,
+                    background-color 0.2s ease;
+
+                &:hover {
+                    color: #fe4819;
+                    background: rgba(254, 72, 25, 0.09);
+                }
             }
         }
     }
@@ -953,6 +1051,40 @@
                 width: 46px;
                 height: 46px;
             }
+        }
+    }
+
+    @media (max-width: 600px) {
+        .btn-fill,
+        .btn-light-pink {
+            width: 100%;
+        }
+
+        .saved-message {
+            display: flex;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .saved-card {
+            align-items: flex-start;
+            flex-direction: column;
+
+            .saved-card-information {
+                width: 100%;
+            }
+
+            .delete-card-form {
+                width: 100%;
+
+                button {
+                    width: 100%;
+                }
+            }
+        }
+
+        .add-card-container {
+            padding: 25px 18px;
         }
     }
 }
