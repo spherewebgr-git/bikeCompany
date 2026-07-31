@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <div id="ProfileSection">
-        <div class="page-header">
+        <div class="page-header-profile">
             <div class="page-header-container">
                 <h2>{{ __('Profile') }}</h2>
             </div>

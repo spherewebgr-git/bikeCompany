@@ -18,10 +18,6 @@ return new class extends Migration
             $table->foreignId('type_id')->constrained('types'); // CHECK: ->cascadeOnDelete();
             $table->foreignId('speed_id')->constrained('speeds'); // CHECK: ->cascadeOnDelete();
             $table->foreignId('provision_id')->constrained('provisions'); // CHECK: ->cascadeOnDelete();
-            $table->foreignId('brand_id')->constrained('brands'); // CHECK: ->cascadeOnDelete(); ?
-            $table->foreignId('type_id')->constrained('types'); // CHECK: ->cascadeOnDelete(); ?
-            $table->foreignId('speed_id')->constrained('speeds'); // CHECK: ->cascadeOnDelete(); ?
-            $table->foreignId('provision_id')->constrained('provisions'); // CHECK: ->cascadeOnDelete(); ?
             $table->timestamps();
         });
     }
