@@ -67,19 +67,26 @@
         {
             text-decoration: none;
 
-
             i
             {
                 color: #6c6c6c;
                 transition: all 0.3s;
                 font-size: 18px;
                 padding-top: 22px;
+            }
 
-                &:hover
-                {
-                    color: red;
-                    font-weight: 600;
-                }
+            &.delete i { margin-left: 8px; }
+
+            &.edit i:hover
+            {
+                color: #fe4819;
+                font-weight: 600;
+            }
+
+            &.delete i:hover
+            {
+                color: red;
+                font-weight: 600;
             }
         }
 
@@ -130,11 +137,13 @@
     .delconfirm
     {
         display: none;
-        position: absolute;
+        position: fixed;
         background: white;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 15px rgba(0,0,0,.3);
+        left: 50%;
+        transform: translateX(-25%);
 
         h3
         {
@@ -200,6 +209,49 @@
                 width: 40%;
 
                 &:hover { @include regularbtnhover; }
+            }
+
+            .confirm
+            {
+                @include orangebtn;
+
+                &:hover {@include orangebtnhover; }
+            }
+        }
+    }
+
+    .editform
+    {
+        display: none;
+        padding-top: 10px;
+
+        input
+        {
+            width: 100%;
+            padding: 20px;
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        .buttons
+        {
+            padding-top: 15px;
+            text-align: center;
+
+            button
+            {
+                @include regularbtn;
+                position: relative;
+                width: 40%;
+
+                &:hover { @include regularbtnhover; }
+            }
+
+            .confirm
+            {
+                @include orangebtn;
+
+                &:hover {@include orangebtnhover; }
             }
         }
     }

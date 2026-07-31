@@ -52,36 +52,9 @@
                         </a>
                         </li>
                         <li>
-                            <a class="waves-effect waves-block waves-light notification-button" href="javascript:void(0);" data-target="notifications-dropdown">{{--  TODO: notification count --}}
-                            <i class="material-icons">notifications_none<small class="notification-badge">5</small></i>
-                        </a>
-                        </li>
-                        <li>
                             <a class="waves-effect waves-block waves-light sidenav-trigger" href="#" data-target="slide-out-right">
                                 <i class="material-icons">format_indent_increase</i>
                             </a>
-                        </li>
-                    </ul>
-
-                    <!-- notifications-dropdown-->
-                    <ul class="dropdown-content" id="notifications-dropdown">
-                        <li>
-                            <h6>NOTIFICATIONS<span class="new badge">5</span></h6>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="black-text" href="#!">
-                                <span class="material-icons icon-bg-circle cyan small">add_shopping_cart</span>
-                                A new order has been placed!
-                            </a>
-                            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">2 hours ago</time>
-                        </li>
-                        <li>
-                            <a class="black-text" href="#!">
-                                <span class="material-icons icon-bg-circle amber small">trending_up</span>
-                                Generate monthly report
-                            </a>
-                            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">1 week ago</time>
                         </li>
                     </ul>
                 </div>
@@ -115,34 +88,11 @@
         </div>
 
         <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="accordion">
-{{-- APPLICATIONS --}}
-            <li class="navigation-header">
-                <a class="navigation-header-text">Applications</a>
-                <i class="navigation-header-icon material-icons">more_horiz</i>
-            </li>
-
-            <li class="bold">
-                <a class="waves-effect waves-cyan" href="app-email.html">
-                    <i class="material-icons">mail_outline</i>
-                    <span class="menu-title" data-i18n="Mail">Mail</span>
-                    <span class="badge new badge pill pink accent-2 float-right mr-2">5</span>
-                </a>
-            </li>
-
-            <li class="bold">
-                <a class="waves-effect waves-cyan" href="app-invoice-list.html">
-                    <i class="material-icons">receipt</i>
-                    <span data-i18n="Invoice List">Invoice</span>
-                </a>
-            </li>
-
 {{-- MANAGEMENT PAGES --}}
             <li class="navigation-header">
                 <a class="navigation-header-text">Management</a>
                 <i class="navigation-header-icon material-icons">more_horiz</i>
             </li>
-
-
 
             <li class="bold">
                 <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.bikes') }}">

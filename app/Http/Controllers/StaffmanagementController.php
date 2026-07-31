@@ -474,33 +474,98 @@ class StaffmanagementController extends Controller
 
     public function newcategory(Request $request, string $category)
     {
-
         switch ($category)
         {
             case "provision":
                 $request->validate(['provname' => 'required']);
-                Provision::firstOrCreate(['name' => $request->provname]);
+                Provision::firstOrCreat(['name' => $request->provname]);
                 break;
+
             case "brand":
                 $request->validate(['brandname' => 'required']);
-                Brand::firstOrCreate(['name' => $request->brandname]);
+                Brand::firstOrCreat(['name' => $request->brandname]);
                 break;
+
             case "type":
                 $request->validate(['typename' => 'required']);
-                Type::firstOrCreate(['name' => $request->typename]);
+                Type::firstOrCreat(['name' => $request->typename]);
                 break;
+
             case "gears":
                 $request->validate(['gearamount' => 'required']);
-                Speed::firstOrCreate(['gears' => $request->gearamount]);
+                Speed::firstOrCreat(['gears' => $request->gearamount]);
                 break;
+
             case "status":
-                $request->validate(['statname' => 'required'], ['statstep' => 'required']);
-                Status::firstOrCreate(['name' => $request->statname]);
+                $request->validate(['statname' => 'required', 'statstep' => 'required']);
+                Status::firstOrCreat(['name' => $request->statname, 'step' => $request->statstep]);
                 break;
+
             case "location":
                 $request->validate(['locname' => 'required']);
-                Location::firstOrCreate(['name' => $request->locname]);
+                $request->validate(['latitude' => 'required']);
+                $request->validate(['longitude' => 'required']);
+                Location::firstOrCreat([
+                    'name' => $request->locname,
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude
+                ]);
                 break;
+
+            default:
+                abort(404);
+        }
+
+        return redirect('dashboard/management/categories');
+    }
+
+    public function editcategory(Request $request, string $category)
+    {
+        switch ($category)
+        {
+            case "provision":
+                $request->validate(['prov' => 'required']);
+                $prov = Provision::query()->where('id', $request->provID);
+                $prov->update(['name' => $request->prov]);
+                break;
+
+            case "brand":
+                $request->validate(['brand' => 'required']);
+                $brand = Brand::query()->where('id', $request->brandID);
+                $brand->update(['name' => $request->brand]);
+                break;
+
+            case "type":
+                $request->validate(['type' => 'required']);
+                $type = Type::query()->where('id', $request->typeID);
+                $type->update(['name' => $request->type]);
+                break;
+
+            case "gears":
+                $request->validate(['gear' => 'required']);
+                $speed = Speed::query()->where('id', $request->gearID);
+                $speed->update(['gears' => $request->gear]);
+                break;
+
+            case "status":
+                $request->validate(['stat' => 'required', 'step' => 'required']);
+                $stat = Status::query()->where('id', $request->statID);
+                $stat->update(['name' => $request->stat, 'step' => $request->step]);
+                break;
+
+            case "location":
+                $request->validate(['loc' => 'required']);
+                $request->validate(['lat' => 'required']);
+                $request->validate(['long' => 'required']);
+
+                $loc = Location::query()->where('id', $request->locID);
+                $loc->update([
+                    'name' => $request->loc,
+                    'latitude' => $request->lat,
+                    'longitude' => $request->long
+                ]);
+                break;
+
             default:
                 abort(404);
         }

@@ -125,6 +125,8 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
 
     Route::post('/dashboard/management/categories/create-{category}', [StaffmanagementController::class, 'newcategory'])->name('category.create');
 
+    Route::post('/dashboard/management/categories/edit-{category}', [StaffmanagementController::class, 'editcategory'])->name('category.edit');
+
     // --------- ACTIVE RENTALS TRACKING --------- \\
     Route::get('/dashboard/management/activerentals', [StaffmanagementController::class, 'activerentals'])->name('dashboard.management.activerentals');
 
