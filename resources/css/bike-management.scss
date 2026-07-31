@@ -204,6 +204,21 @@
             }
         }
 
+        .read
+        {
+            border: none;
+            background: none;
+            color: #6b6f82;
+            padding-left: 0;
+            
+            &:focus-visible
+            {
+                box-shadow: none;
+                border-color: none;
+                outline: none;
+            }
+        }
+
         p
         {
             font-size: 20px;

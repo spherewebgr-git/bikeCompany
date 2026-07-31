@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div id="BikeEdit">
-    <form method="POST" action="{{ is_null($bike) ? route('bike.create') : route('bike.update', [$bike])}}">
+    <form method="POST" action="{{ is_null($bike) ? route('bike.create') : route('bike.update', [$bike->id])}}">
 
         <input type="hidden" name="_token" placeholder="{{ csrf_token() }}" />
 
@@ -23,7 +23,7 @@
             <div class="horizontal">
                 <div class="vertical">
                     <label for="SKU">SKU:</label><br>
-                    <p>{{ $bike->SKU }}</p>
+                    <input class="read" type="text" id="SKU" name="SKU" value="{{ $bike->SKU }}" readonly>
                 </div>
                 <div class="vertical">
                     <label for="colour">Colour:</label><br>
@@ -95,13 +95,17 @@
             @else
                 <div class="vertical">
                     <label for="provision_id">Provision:</label><br>
-                    <p>{{ $bike->provision->name }}</p>
+                    <select name="provision_id" id="provision_id" class="form-select">
+                        <option value="{{ $bike->provision_id }}" selected>
+                            {{ $bike->provision->name }}
+                        </option>
+                    </select>
                 </div>
 
                 @if ($bike->provision->name === 'rent')
                     <div class="vertical" id="serial">
                         <label for="serialnum">Serial Number:</label><br>
-                        <p>{{ $bike->serialnum }}</p>
+                        <input class="read" type="text" id="serialnum" name="serialnum" value="{{ $bike->serialnum }}" readonly>
                     </div>                    
                 @endif
 
@@ -122,7 +126,6 @@
             @else
                 <input type="text" id="price" name="pricebuy" value="{{ $prices[0]->price }}"><br>
             @endif
-
         @endif
 
         <input type="submit" class="Submit" value={{ is_null($bike) ? "Add" : "Update"}}>

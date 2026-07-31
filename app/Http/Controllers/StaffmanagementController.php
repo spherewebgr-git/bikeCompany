@@ -157,16 +157,39 @@ class StaffmanagementController extends Controller
         Price::where('bike_id', $id)->delete();
 
         // And replace them with updated prices
-        foreach ($request->price ?? [] as $price)
-        // Use $request->price if it exists and is not null. Otherwise, use an empty array []
+        if ($request->pricebuy)
         {
             Price::create([
                 'bike_id' => $bike->id,
-                'price' => $price,
+                'price' => $request->pricebuy,
             ]);
         }
 
-        return redirect()->route('bike.update');
+        if ($request->pricehour)
+        {
+            Price::create([
+                'bike_id' => $bike->id,
+                'price' => $request->pricehour,
+            ]);
+        }
+
+        if ($request->priceday)
+        {
+            Price::create([
+                'bike_id' => $bike->id,
+                'price' => $request->priceday,
+            ]);
+        }
+
+        if ($request->priceweek)
+        {
+            Price::create([
+                'bike_id' => $bike->id,
+                'price' => $request->priceweek,
+            ]);
+        }
+
+        return redirect('dashboard/management/bikes');
     }
 
     public function quantity($id, Request $request)
