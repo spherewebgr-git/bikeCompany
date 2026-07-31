@@ -71,60 +71,6 @@
         </div>
     </section>
 
-    {{-- ============ SPLIT SCREEN ============ --}}
-    <section class="rb-split" aria-label="Choose between renting or buying a bike">
-
-        <a href="{{ route('bikes.rental') ?? '#' }}" class="rb-panel rb-panel--rent" data-panel="rent">
-            <span class="rb-panel__bg" aria-hidden="true" style="--rb-photo: url('{{ asset('images/rent-bike-home.avif') }}')"></span>
-            <span class="rb-panel__stripes" aria-hidden="true"></span>
-
-            <span class="rb-panel__icon" aria-hidden="true">
-            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="16" cy="46" r="10" stroke="currentColor" stroke-width="3"/>
-                <circle cx="48" cy="46" r="10" stroke="currentColor" stroke-width="3"/>
-                <path d="M16 46L28 22H40M28 22L40 46M40 46L48 46M40 22L48 46" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M22 22H28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                <path d="M14 34L28 22" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
-            </svg>
-        </span>
-
-            <span class="rb-panel__content">
-            <span class="rb-panel__eyebrow">No Commitment</span>
-            <span class="rb-panel__title">Rent<br>a Bike</span>
-            <span class="rb-panel__desc">Rent a bike for a day, a weekend, or as long as you need. No maintenance, no storage, no hassle.</span>
-            <span class="rb-panel__cta">Browse Rentals <span class="rb-panel__arrow">→</span></span>
-        </span>
-        </a>
-
-        <div class="rb-divider" aria-hidden="true">
-            <div class="rb-divider__chain"></div>
-        </div>
-
-        <a href="{{ route('bikes.sale') ?? '#' }}" class="rb-panel rb-panel--buy" data-panel="buy">
-            <span class="rb-panel__bg" aria-hidden="true" style="--rb-photo: url('{{ asset('images/buy-bike-home.jpg') }}')"></span>
-            <span class="rb-panel__spokes" aria-hidden="true"></span>
-
-            <span class="rb-panel__icon" aria-hidden="true">
-            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="16" cy="46" r="12" stroke="currentColor" stroke-width="3"/>
-                <circle cx="48" cy="46" r="12" stroke="currentColor" stroke-width="3"/>
-                <circle cx="16" cy="46" r="1.5" fill="currentColor"/>
-                <circle cx="48" cy="46" r="1.5" fill="currentColor"/>
-                <path d="M16 46L8 46" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
-                <path d="M48 46L56 46" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
-            </svg>
-        </span>
-
-            <span class="rb-panel__content">
-            <span class="rb-panel__eyebrow">Yours to Keep</span>
-            <span class="rb-panel__title">Buy<br>a Bike</span>
-            <span class="rb-panel__desc">Find the perfect bike to ride for years to come. New and pre-owned bicycles, carefully inspected.</span>
-            <span class="rb-panel__cta">Shop Bikes <span class="rb-panel__arrow">→</span></span>
-        </span>
-        </a>
-
-    </section>
-
 
     {{-- ============ HOW IT WORKS ============ --}}
     <section class="how-it-works" id="how-it-works">
@@ -194,6 +140,66 @@
         </div>
     </section>
 
+    {{-- ============ SECTION DIVIDER ============ --}}
+    <div class="section-divider"></div>
+
+    {{-- ============ SPLIT SCREEN ============ --}}
+    <section class="rb-split" aria-label="Choose between renting or buying a bike">
+
+        <a href="{{ route('bikes.rental') ?? '#' }}" class="rb-panel rb-panel--rent" data-panel="rent">
+            <span class="rb-panel__bg" aria-hidden="true" style="--rb-photo: url('{{ asset('images/rent-bike-home.avif') }}')"></span>
+            <span class="rb-panel__stripes" aria-hidden="true"></span>
+
+            <span class="rb-panel__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="46" r="10" stroke="currentColor" stroke-width="3"/>
+                <circle cx="48" cy="46" r="10" stroke="currentColor" stroke-width="3"/>
+                <path d="M16 46L28 22H40M28 22L40 46M40 46L48 46M40 22L48 46" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 22H28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                <path d="M14 34L28 22" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+            </svg>
+        </span>
+
+            <span class="rb-panel__content">
+            <span class="rb-panel__eyebrow">No Commitment</span>
+            <span class="rb-panel__title">Rent<br>a Bike</span>
+            <span class="rb-panel__desc">Rent a bike for a day, a weekend, or as long as you need. No maintenance, no storage, no hassle.</span>
+            <span class="rb-panel__cta">Browse Rentals <span class="rb-panel__arrow">→</span></span>
+        </span>
+        </a>
+
+        <div class="rb-divider" aria-hidden="true">
+            <div class="rb-divider__chain"></div>
+        </div>
+
+        <a href="{{ route('bikes.sale') ?? '#' }}" class="rb-panel rb-panel--buy" data-panel="buy">
+            <span class="rb-panel__bg" aria-hidden="true" style="--rb-photo: url('{{ asset('images/buy-bike-home.jpg') }}')"></span>
+            <span class="rb-panel__spokes" aria-hidden="true"></span>
+
+            <span class="rb-panel__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="46" r="12" stroke="currentColor" stroke-width="3"/>
+                <circle cx="48" cy="46" r="12" stroke="currentColor" stroke-width="3"/>
+                <circle cx="16" cy="46" r="1.5" fill="currentColor"/>
+                <circle cx="48" cy="46" r="1.5" fill="currentColor"/>
+                <path d="M16 46L8 46" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+                <path d="M48 46L56 46" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+            </svg>
+        </span>
+
+            <span class="rb-panel__content">
+            <span class="rb-panel__eyebrow">Yours to Keep</span>
+            <span class="rb-panel__title">Buy<br>a Bike</span>
+            <span class="rb-panel__desc">Find the perfect bike to ride for years to come. New and pre-owned bicycles, carefully inspected.</span>
+            <span class="rb-panel__cta">Shop Bikes <span class="rb-panel__arrow">→</span></span>
+        </span>
+        </a>
+
+    </section>
+
+
+
+
     @if(!$featuredBikes->isEmpty())
         {{-- ============ FEATURED BIKES ============ --}}
         <section class="bike-trail">
@@ -243,6 +249,26 @@
         </section>
     @endif
 
+    {{-- ============ CONTACT US CTA ============ --}}
+    <section class="cta-block" id="contact-cta" style="--cta-photo: url('{{ asset('images/cta-image.jpg') }}')">
+
+        <a href="{{ route('contact-us') ?? '#' }}" class="cta-block__main" id="cta-magnetic-area">
+            <div class="cta-block__copy">
+                <span class="cta-block__eyebrow">WE ARE HERE</span>
+                <h2 class="cta-block__title">TELL US<br>WHAT YOU NEED</h2>
+            </div>
+
+            <div class="cta-block__button" id="cta-magnetic-button">
+                <span class="cta-block__button-label">Contact us</span>
+                <div class="cta-block__button-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 34L34 14M34 14H18M34 14V30" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
+        </a>
+
+    </section>
 
     @push('scripts')
         <script>
@@ -284,6 +310,35 @@
                 window.addEventListener('resize', updateRider);
                 updateRider();
             });
+
+            // Magnetic button: the circular CTA drifts slightly toward the cursor while hovering the section.
+            (function () {
+                const area = document.getElementById('cta-magnetic-area');
+                const button = document.getElementById('cta-magnetic-button');
+                if (!area || !button) return;
+
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+                if (prefersReducedMotion || !isFinePointer) return;
+
+                const strength = 0.2;  // how strongly the button follows the cursor (0–1)
+                const maxOffset = 14;  // px, keeps the drift subtle rather than chasing the cursor
+
+                area.addEventListener('mousemove', (e) => {
+                    const rect = area.getBoundingClientRect();
+                    const relX = (e.clientX - rect.left) / rect.width - 0.5;
+                    const relY = (e.clientY - rect.top) / rect.height - 0.5;
+
+                    const offsetX = Math.max(-maxOffset, Math.min(maxOffset, relX * maxOffset * 2 * strength));
+                    const offsetY = Math.max(-maxOffset, Math.min(maxOffset, relY * maxOffset * 2 * strength));
+
+                    button.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(1.05)`;
+                });
+
+                area.addEventListener('mouseleave', () => {
+                    button.style.transform = 'translate(0, 0) scale(1)';
+                });
+            })();
         </script>
     @endpush
 
