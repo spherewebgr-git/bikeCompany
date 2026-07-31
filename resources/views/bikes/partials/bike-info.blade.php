@@ -1,6 +1,6 @@
 
 <div class="bike-single-info">
-    <h3 class="title-text">{{ $bike->brand->name }}</h3>
+    <h3 class="title-text">{{ $bike?->brand?->name ?? 'N/A' }}</h3>
 
     <ul class="bike-specs">
         <li><i class="fa fa-bicycle"></i> {{ __('Type') }}: {{ $bike->type->name }}</li>

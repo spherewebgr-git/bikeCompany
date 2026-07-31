@@ -71,6 +71,61 @@
         </div>
     </section>
 
+    {{-- ============ SPLIT SCREEN ============ --}}
+    <section class="rb-split" aria-label="Choose between renting or buying a bike">
+
+        <a href="{{ route('bikes.rental') ?? '#' }}" class="rb-panel rb-panel--rent" data-panel="rent">
+            <span class="rb-panel__bg" aria-hidden="true" style="--rb-photo: url('{{ asset('images/rent-bike-home.avif') }}')"></span>
+            <span class="rb-panel__stripes" aria-hidden="true"></span>
+
+            <span class="rb-panel__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="46" r="10" stroke="currentColor" stroke-width="3"/>
+                <circle cx="48" cy="46" r="10" stroke="currentColor" stroke-width="3"/>
+                <path d="M16 46L28 22H40M28 22L40 46M40 46L48 46M40 22L48 46" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 22H28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                <path d="M14 34L28 22" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+            </svg>
+        </span>
+
+            <span class="rb-panel__content">
+            <span class="rb-panel__eyebrow">No Commitment</span>
+            <span class="rb-panel__title">Rent<br>a Bike</span>
+            <span class="rb-panel__desc">Rent a bike for a day, a weekend, or as long as you need. No maintenance, no storage, no hassle.</span>
+            <span class="rb-panel__cta">Browse Rentals <span class="rb-panel__arrow">→</span></span>
+        </span>
+        </a>
+
+        <div class="rb-divider" aria-hidden="true">
+            <div class="rb-divider__chain"></div>
+        </div>
+
+        <a href="{{ route('bikes.sale') ?? '#' }}" class="rb-panel rb-panel--buy" data-panel="buy">
+            <span class="rb-panel__bg" aria-hidden="true" style="--rb-photo: url('{{ asset('images/buy-bike-home.jpg') }}')"></span>
+            <span class="rb-panel__spokes" aria-hidden="true"></span>
+
+            <span class="rb-panel__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="46" r="12" stroke="currentColor" stroke-width="3"/>
+                <circle cx="48" cy="46" r="12" stroke="currentColor" stroke-width="3"/>
+                <circle cx="16" cy="46" r="1.5" fill="currentColor"/>
+                <circle cx="48" cy="46" r="1.5" fill="currentColor"/>
+                <path d="M16 46L8 46" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+                <path d="M48 46L56 46" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+            </svg>
+        </span>
+
+            <span class="rb-panel__content">
+            <span class="rb-panel__eyebrow">Yours to Keep</span>
+            <span class="rb-panel__title">Buy<br>a Bike</span>
+            <span class="rb-panel__desc">Find the perfect bike to ride for years to come. New and pre-owned bicycles, carefully inspected.</span>
+            <span class="rb-panel__cta">Shop Bikes <span class="rb-panel__arrow">→</span></span>
+        </span>
+        </a>
+
+    </section>
+
+
     {{-- ============ HOW IT WORKS ============ --}}
     <section class="how-it-works" id="how-it-works">
         <div class="leaf leaf--1"><i class="fa-solid fa-leaf"></i></div>
@@ -150,15 +205,34 @@
 
                 <div class="row">
                     @foreach ($featuredBikes as $bike)
-                        <div class="col-md-4">
-                            <div class="bike-card" style="background-image: url('{{ $bike->image_path }}')">
-                                <div class="bike-info">
-                                    <h3>{{ $bike->brand->name }}</h3>
-                                    <p><i class="fa fa-bicycle"></i> {{ $bike->type->name }}</p>
-                                    <p><i class="fa fa-cog"></i> {{ $bike->speed->gears }}</p>
+                        @if($bike->provision->name == 'buy')
+                            <a href="{{ route('bikes.sale.show', $bike) }}">
+                                <div class="col-md-4">
+                                    <div class="bike-card" style="background-image: url('{{ $bike->image_path }}')">
+                                        <div class="bike-info">
+                                            <h3>{{ $bike?->brand?->name ?? 'N/A' }}</h3>
+                                            <p><i class="fa fa-bicycle"></i> {{ $bike->type->name }}</p>
+                                            <p><i class="fa fa-cog"></i> {{ $bike->speed->gears }}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+
+                            </a>
+                        @else
+                            <a href="{{ route('bikes.rental.show', $bike) }}">
+                                <div class="col-md-4">
+                                    <div class="bike-card" style="background-image: url('{{ $bike->image_path }}')">
+                                        <div class="bike-info">
+                                            <h3>{{ $bike?->brand?->name ?? 'N/A' }}</h3>
+                                            <p><i class="fa fa-bicycle"></i> {{ $bike->type->name }}</p>
+                                            <p><i class="fa fa-cog"></i> {{ $bike->speed->gears }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        @endif
+
+
                     @endforeach
                 </div>
 

@@ -5,7 +5,7 @@
             <nav class="breadcrumb">
                 <a href="{{ route('home') }}">{{ __('Home') }}</a> /
                 <a href="{{ route('bikes.sale') }}">{{ __('Bikes for sale') }}</a> /
-                <span class="active">{{ $bike->brand->name }}</span>
+                <span class="active">{{ $bike?->brand?->name ?? 'N/A' }}</span>
             </nav>
         </div>
     </div>
@@ -16,7 +16,7 @@
             <div class="bike-single-grid row">
 
                 <div class="bike-single-image col-sm-6">
-                    <img src="{{ $bike->image_path }}" alt="{{ $bike->brand->name }}">
+                    <img src="{{ $bike->image_path }}" alt="{{ $bike?->brand?->name ?? 'N/A' }}">
                 </div>
 
                 <div class="bike-single-right-section col-sm-6">

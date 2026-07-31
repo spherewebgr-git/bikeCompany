@@ -11,7 +11,7 @@
                 <select id="bike-filter" class="form-control">
                     <option value="">All bikes (global block)</option>
                     @foreach($bikes as $bike)
-                        <option value="{{ $bike->id }}">{{ $bike->id }} - {{ $bike->SKU }} — {{ $bike->brand->name ?? '' }}</option>
+                        <option value="{{ $bike->id }}">{{ $bike->id }} - {{ $bike->SKU }} — {{ $bike?->brand?->name ?? 'N/A' ?? '' }}</option>
                     @endforeach
                 </select>
             </div>

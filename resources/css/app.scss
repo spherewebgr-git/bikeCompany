@@ -501,6 +501,262 @@ a {
 }
 
 // ============================================================
+// SPLIT SCREEN SECTION
+// ============================================================
+.rb-split {
+    --rb-dark: #14171a;
+    --rb-dark-2: #1b1e22;
+    --rb-rent: #d7ff3d;
+    --rb-buy: #fc471a;
+    --rb-text-dim: rgba(255, 255, 255, 0.55);
+
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 78vh;
+    min-height: 460px;
+    max-height: 760px;
+    overflow: hidden;
+    background: var(--rb-dark);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.rb-panel {
+    position: relative;
+    flex: 1 1 50%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 48px;
+    overflow: hidden;
+    text-decoration: none;
+    color: #fff;
+    transition: flex-basis 0.65s cubic-bezier(0.22, 1, 0.36, 1), flex-grow 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    cursor: pointer;
+}
+
+.rb-panel__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: var(--rb-photo, none);
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Dark gradient sits on top of the photo so title/CTA text stays legible */
+.rb-panel--rent .rb-panel__bg::after,
+.rb-panel--buy .rb-panel__bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transition: opacity 0.65s ease;
+}
+
+.rb-panel--rent .rb-panel__bg::after {
+    background: radial-gradient(120% 140% at 15% 100%, rgba(35, 40, 31, 0.55) 0%, rgba(20, 23, 26, 0.88) 100%);
+}
+
+.rb-panel--buy .rb-panel__bg::after {
+    background: radial-gradient(120% 140% at 85% 100%, rgba(38, 33, 26, 0.55) 0%, rgba(27, 30, 34, 0.88) 100%);
+}
+
+/* Subtle zoom on hover, like a real hero photo, not just a flat swatch */
+@media (hover: hover) and (pointer: fine) {
+    .rb-panel:hover .rb-panel__bg {
+        transform: scale(1.06);
+    }
+
+    .rb-panel:hover .rb-panel__bg::after {
+        opacity: 0; /* overlay fades away completely, revealing the photo */
+    }
+
+
+}
+
+/* Hi-vis diagonal stripes for the rent side — bike-lane paint motif */
+
+
+/* Spoke/radial motif for the buy side — wheel & frame motif */
+
+.rb-panel__icon {
+    position: absolute;
+    top: 44px;
+    right: 44px;
+    width: 56px;
+    height: 56px;
+    z-index: 1;
+    opacity: 0.9;
+    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rb-panel--rent .rb-panel__icon { color: #bfe13e; }
+.rb-panel--buy .rb-panel__icon { color: #fc471a; }
+
+.rb-panel__content {
+    position: relative;
+    z-index: 1;
+    max-width: 420px;
+}
+
+.rb-panel__eyebrow {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.rb-panel--rent .rb-panel__eyebrow { color: var(--rb-rent); }
+.rb-panel--buy .rb-panel__eyebrow { color: var(--rb-buy); }
+
+.rb-panel__title {
+    display: block;
+    font-family: 'Archivo Black', 'Arial Black', sans-serif;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 0.98;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+}
+
+.rb-panel__desc {
+    display: block;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--rb-text-dim);
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.5s ease;
+    margin-bottom: 0;
+}
+
+.rb-panel__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    padding-bottom: 2px;
+    border-bottom: 1.5px solid currentColor;
+    opacity: 0.85;
+}
+
+.rb-panel--rent .rb-panel__cta { color: var(--rb-rent); }
+.rb-panel--buy .rb-panel__cta { color: var(--rb-buy); }
+
+.rb-panel__arrow {
+    display: inline-block;
+    transition: transform 0.35s ease;
+}
+
+/* Center divider styled as a bicycle chain, cut on a diagonal */
+.rb-divider {
+    position: relative;
+    background: transparent;
+    overflow: visible;   /* let the rotated bar extend past its own box; .rb-split clips it at the section edges */
+    pointer-events: none; /* don't block hover on the panels underneath */
+    z-index: 2;
+}
+
+.rb-divider__chain {
+    width: 2px;
+    height: 144%;        /* taller than the section so the rotated bar still reaches top & bottom */
+    background-image: radial-gradient(circle at 50% 6px, #3a3f45 0 4px, transparent 4.5px);
+    background-size: 10% 16px;
+    background-color: #000;
+    transform-origin: center;
+    animation: rb-chain-scroll 6s linear infinite;
+    opacity: 0.9;
+}
+
+@keyframes rb-chain-scroll {
+    from { background-position-y: 0; }
+    to   { background-position-y: 160px; }
+}
+
+@keyframes rb-chain-scroll-x {
+    from { background-position-x: 0; }
+    to   { background-position-x: 160px; }
+}
+
+/* --- Hover behavior (pointer devices only) --- */
+@media (hover: hover) and (pointer: fine) {
+    .rb-panel:hover { flex-basis: 62%; }
+    .rb-split:has(.rb-panel:hover) .rb-panel:not(:hover) { flex-basis: 38%; }
+
+    .rb-panel:hover .rb-panel__stripes,
+    .rb-panel:hover .rb-panel__spokes {
+        opacity: 0.14;
+    }
+
+    .rb-panel:hover .rb-panel__title {
+        color: white;
+    }
+
+    .rb-panel:hover .rb-panel__icon {
+        transform: scale(1.15) translateY(-4px);
+    }
+
+    .rb-panel:hover .rb-panel__desc {
+        max-height: 120px;
+        opacity: 1;
+        margin-bottom: 18px;
+    }
+
+    .rb-panel:hover .rb-panel__arrow {
+        transform: translateX(4px);
+    }
+
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rb-panel, .rb-panel__icon, .rb-panel__desc, .rb-panel__arrow, .rb-panel__stripes,
+    .rb-panel__bg, .rb-panel__bg::after {
+        transition: none;
+    }
+    .rb-divider__chain { animation: none; }
+}
+
+/* --- Mobile: stack vertically, no hover reliance, content always visible --- */
+@media (max-width: 767px) {
+    .rb-split {
+        flex-direction: column;
+        height: auto;
+        max-height: none;
+    }
+    .rb-panel {
+        flex-basis: auto;
+        padding: 36px 28px;
+        min-height: 280px;
+    }
+    .rb-panel__icon { width: 44px; height: 44px; top: 28px; right: 28px; }
+    .rb-panel__title { font-size: 34px; }
+    .rb-panel__desc {
+        max-height: none;
+        opacity: 1;
+        margin-bottom: 16px;
+    }
+    .rb-divider {
+        flex-basis: 34px;
+    }
+    .rb-divider__chain {
+        top: 50%;
+        left: -12%;
+        width: 124%;      /* wider than the row so the rotated bar still reaches both edges */
+        height: 6px;
+        background-image: radial-gradient(circle at 6px 50%, #3a3f45 0 4px, transparent 4.5px);
+        background-size: 16px 100%;
+        background-repeat: repeat-x;
+        transform: translateY(-50%) rotate(4deg);
+        animation: rb-chain-scroll-x 6s linear infinite;
+    }
+}
+// ============================================================
 // HOW IT WORKS
 // ============================================================
 .how-it-works {

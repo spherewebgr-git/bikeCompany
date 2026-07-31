@@ -48,11 +48,16 @@
                                 Cancel
                             </button>
                         </div>
-                    </form> 
+                    </form>
 
                     <button class="new-category">
+<<<<<<< Updated upstream
                         <a href="#" onclick="showme('newcat-gears'); return false;">+ Add New</a>
                     </button>           
+=======
+                        <a href="#" onclick="addCategory('newcat-gears'); return false;">+ Add New</a>
+                    </button>
+>>>>>>> Stashed changes
                 </div>
 
     {{-- PROVISIONS --}}
@@ -81,15 +86,20 @@
                                 Cancel
                             </button>
                         </div>
-                    </form> 
+                    </form>
 
                     <button class="new-category">
+<<<<<<< Updated upstream
                         <a href="#" onclick="showme('newcat-provision'); return false;">+ Add New</a>
                     </button>  
+=======
+                        <a href="#" onclick="addCategory('newcat-provision'); return false;">+ Add New</a>
+                    </button>
+>>>>>>> Stashed changes
                 </div>
 
     {{-- LOCATIONS --}}
-                <div class="locations table col-sm-6 col-md-3">
+                <div class="locations table col-sm-6 col-md-3">{{--  TODO: Add logntidude and latidude for imidiate map checkpoint addition --}}
                     <h5>Locations</h5>
 
                     <form method="GET" action="{{ route('category.search') }}">
@@ -150,11 +160,16 @@
                                 Cancel
                             </button>
                         </div>
-                    </form> 
+                    </form>
 
                     <button class="new-category">
+<<<<<<< Updated upstream
                         <a href="#" onclick="showme('newcat-location'); return false;">+ Add New</a>
                     </button> 
+=======
+                        <a href="#" onclick="addCategory('newcat-location'); return false;">+ Add New</a>
+                    </button>
+>>>>>>> Stashed changes
                 </div>
 
     {{-- STATUS --}}
@@ -218,11 +233,16 @@
                                 Cancel
                             </button>
                         </div>
-                    </form> 
+                    </form>
 
                     <button class="new-category">
+<<<<<<< Updated upstream
                         <a href="#" onclick="showme('newcat-status'); return false;">+ Add New</a>
                     </button> 
+=======
+                        <a href="#" onclick="addCategory('newcat-status'); return false;">+ Add New</a>
+                    </button>
+>>>>>>> Stashed changes
                 </div>
 
     {{-- TYPES --}}
@@ -269,11 +289,16 @@
                                 Cancel
                             </button>
                         </div>
-                    </form> 
+                    </form>
 
                     <button class="new-category">
+<<<<<<< Updated upstream
                         <a href="#" onclick="showme('newcat-type'); return false;">+ Add New</a>
                     </button> 
+=======
+                        <a href="#" onclick="addCategory('newcat-type'); return false;">+ Add New</a>
+                    </button>
+>>>>>>> Stashed changes
                 </div>
 
     {{-- BRANDS --}}
@@ -320,11 +345,16 @@
                                 Cancel
                             </button>
                         </div>
-                    </form> 
+                    </form>
 
                     <button class="new-category">
+<<<<<<< Updated upstream
                         <a href="#" onclick="showme('newcat-brand'); return false;">+ Add New</a>
                     </button> 
+=======
+                        <a href="#" onclick="addCategory('newcat-brand'); return false;">+ Add New</a>
+                    </button>
+>>>>>>> Stashed changes
                 </div>
             </div>
         </div>

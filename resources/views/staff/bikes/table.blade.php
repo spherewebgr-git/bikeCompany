@@ -22,7 +22,7 @@
                     {{ $bike->provision->name }}
                 </td>
                 <td class="bike-model">
-                    {{ $bike->brand->name }}: {{ $bike->type->name }}
+                    {{ $bike?->brand?->name ?? 'N/A' }}: {{ $bike->type->name }}
                 </td>
                 <td class="bike-gears">
                     {{ $bike->speed->gears }}
@@ -39,7 +39,7 @@
                             </a>
                         </div>
 
-                        <form method="POST" action="{{ route('bike.quantity', [$bike]) }}" 
+                        <form method="POST" action="{{ route('bike.quantity', [$bike]) }}"
                         class="edit-quantity" id="quantity-form-{{ $bike->id }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                             <input type="number" id="quantity" name="quantity" value="{{ $bike->quantity }}"><br>

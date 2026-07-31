@@ -5,7 +5,7 @@
             <figure class="hover-img bike-card__image">
 
                 <img src="{{ $bike->image_path }}"
-                     alt="{{ $bike->brand->name }}"
+                     alt="{{ $bike?->brand?->name ?? 'N/A' }}"
                      class="img-responsive bike-card__img">
 
                 <div class="img-hover-content bike-card__overlay">
@@ -31,13 +31,13 @@
                 @if($bike->provision->name === 'buy')
                     <h4 class="title-text bike-card__title">
                         <a href="{{ route('bikes.sale.show', $bike) }}" class="bike-card__title-link">
-                            {{ $bike->brand->name }}
+                            {{ $bike?->brand?->name ?? 'N/A' }}
                         </a>
                     </h4>
                 @elseif($bike->provision->name === 'rent')
                     <h4 class="title-text bike-card__title">
                         <a href="{{ route('bikes.rental.show', $bike) }}" class="bike-card__title-link">
-                            {{ $bike->brand->name }}
+                            {{ $bike?->brand?->name ?? 'N/A' }}
                         </a>
                     </h4>
                 @endif

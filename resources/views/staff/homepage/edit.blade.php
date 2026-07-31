@@ -43,12 +43,14 @@
                                 </p>
 
                             @endif
-                            @foreach($availableBikes as $bike)
-                                <li class="bike-sort-item" data-id="{{ $bike->id }}">
-                                    <img src="{{ $bike->image_path }}" alt="">
-                                    <span>{{ $bike->brand->name}} | {{$bike->type->name}} | {{$bike->colour}} | {{$bike->speed->gears}}</span>
-                                </li>
-                            @endforeach
+                                @if(!$availableBikes->isEmpty())
+                                    @foreach($availableBikes as $bike)
+                                        <li class="bike-sort-item" data-id="{{ $bike->id }}">
+                                            <img src="{{ $bike->image_path }}" alt="">
+                                            <span>{{ $bike?->brand?->name ?? 'N/A'}} | {{$bike->type->name}} | {{$bike->colour}} | {{$bike->speed->gears}}</span>
+                                        </li>
+                                    @endforeach
+                                @endif
                         </ul>
                     </div>
 
@@ -66,7 +68,7 @@
                             @foreach($featuredBikes as $bike)
                                 <li class="bike-sort-item" data-id="{{ $bike->id }}">
                                     <img src="{{ $bike->image_path }}" alt="">
-                                    <span>{{ $bike->brand->name}} | {{$bike->type->name}} | {{$bike->colour}} | {{$bike->speed->gears}}</span>
+                                    <span>{{ $bike?->brand?->name ?? 'N/A'}} | {{$bike->type->name}} | {{$bike->colour}} | {{$bike->speed->gears}}</span>
 
                                 </li>
 
