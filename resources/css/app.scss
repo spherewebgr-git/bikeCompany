@@ -1550,7 +1550,7 @@ a {
 // PAGE HEADER / CONTENT
 // ============================================================
 .page-header-profile {
-
+    padding-top: 40px;
     padding-bottom: 9px;
     margin: -20px 0 20px;
     border-bottom: 1px solid #eee;
@@ -1559,7 +1559,13 @@ a {
         max-width: 1200px;
         margin: 0 auto;
 
-        h2,
+        h2{
+            font-size: 4.5em;
+            font-weight: 300;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            color:  #6c6c6c;
+        }
         h3 {
             font-family: 'Oswald', sans-serif;
             text-transform: uppercase;
@@ -1572,7 +1578,13 @@ a {
     max-width: 1200px;
     margin: 0 auto;
 
-    h2,
+    h2{
+        font-size: 4.5em;
+        font-weight: 300;
+        font-family: 'Oswald', sans-serif;
+        text-transform: uppercase;
+        color: #3b3738;
+    }
     h3 {
         font-family: 'Oswald', sans-serif;
         text-transform: uppercase;
