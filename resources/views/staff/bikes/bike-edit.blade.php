@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <label for="images">Images:</label><br> <!-- TODO: manage existing images -->
+            <label for="images">Images:</label><br>
             <div class="selected-photos">
                 @foreach ($bike->images as $image)
                 <div class="image-check">
