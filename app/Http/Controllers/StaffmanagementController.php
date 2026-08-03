@@ -26,7 +26,7 @@ class StaffmanagementController extends Controller
 {
 
     // --------------- BIKES --------------- \\
-    public function management() // TODO: add 'visible' edit
+    public function management()
     {
         $bikes = Bike::with([
             'brand',
