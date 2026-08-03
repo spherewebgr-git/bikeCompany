@@ -20,7 +20,7 @@
     />
 
     @viteReactRefresh
-    @vite(['resources/css/admin.scss', 'resources/js/admin.js'])
+    @vite(['resources/css/admin.scss', 'resources/js/admin.js', 'resources/js/react/App.jsx'])
 
 </head>
 
