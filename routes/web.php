@@ -172,4 +172,9 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
 
 });
 
+//REACT TEST
+Route::get('/test/bikes', function () {
+    return view('react');
+});
+
 require __DIR__.'/auth.php';
