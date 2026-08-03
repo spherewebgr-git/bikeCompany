@@ -504,6 +504,44 @@ a {
 }
 
 .bike-trail {
+    .section-heading {
+
+        h6 {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #fe4819;
+            letter-spacing: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+
+            &::before {
+                content: "";
+                width: 20px;
+                height: 2px;
+                background: #fe4819;
+                margin-right: 10px;
+            }
+            &::after {
+                content: "";
+                width: 20px;
+                height: 2px;
+                background: #fe4819;
+            }
+        }
+
+        .title-text {
+            color: #fff;
+            font-size: clamp(40px, 5vw, 70px);
+            text-transform: uppercase;
+            font-weight: 900;
+            line-height: 1.1;
+        }
+    }
+
+
     .bike-card {
         position: relative;
         min-height: 320px;
@@ -512,18 +550,18 @@ a {
 
         background-color: #f5f5f5;
         background-size: cover;
-        background-position: center;
+        background-position: top;
         background-repeat: no-repeat;
 
         box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
         transition: transform .3s ease, box-shadow .3s ease;
 
         &:hover {
-            transform: translateY(-3px);
+            transform: translateY(-1px);
             box-shadow: 0 12px 30px rgba(0, 0, 0, .15);
 
             &::after {
-                animation: shine-sweep 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+                animation: shine-sweep 0.9s cubic-bezier(0.8, 0, 0.2, 1);
             }
         }
 

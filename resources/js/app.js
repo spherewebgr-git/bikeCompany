@@ -7,6 +7,14 @@ import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import './admin-featured-bikes.js'
+import Swiper from 'swiper';
+import { Navigation, Pagination, Thumbs } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/thumbs';
+
+Swiper.use([Navigation, Pagination, Thumbs]);
 
 window.Alpine = Alpine;
 Alpine.start();
@@ -616,4 +624,45 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     bikeFilter.addEventListener('change', () => adminCalendar.refetchEvents());
+});
+
+// ============================================================
+// SWIPER - BIKE GALLERY
+// ============================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const gallery = document.querySelector('.bikeGallery');
+    const thumbsEl = document.querySelector('.bikeGalleryThumbs');
+
+    if (!gallery || !thumbsEl) return;
+
+    const galleryThumbs = new Swiper(thumbsEl, {
+        direction: 'vertical',
+        loop: false,
+        spaceBetween: 10,
+        slidesPerView: 5,
+        watchSlidesProgress: true,
+        observer: true,
+        observeParents: true,
+    });
+
+    new Swiper(gallery, {
+        loop: true,
+        slidesPerView: 1,
+        observer: true,
+        observeParents: true,
+        pagination: {
+            el: gallery.querySelector('.swiper-pagination'),
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.bike-gallery-next',
+            prevEl: '.bike-gallery-prev',
+        },
+        thumbs: {
+            swiper: galleryThumbs,
+        },
+    });
+
 });

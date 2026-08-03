@@ -15,11 +15,35 @@
 
             <div class="bike-single-grid row">
 
-                <div class="bike-single-image col-sm-6">
-                    <!-- TODO: add slider -->
-                    @foreach ($bike->images as $image)
-                        <img src="{{ asset($image->image) }}" alt="{{ $bike->brand->name }}">
-                    @endforeach
+                <div class="col-md-5 bike-card__image-col">
+
+                    <div class="bikeGalleryWrapper">
+
+                        <div class="swiper bikeGalleryThumbs">
+                            <div class="swiper-wrapper">
+                                @foreach($bike->images as $image)
+                                    <div class="swiper-slide">
+                                        <img src="{{ asset($image->image) }}" alt="{{ $bike?->brand?->name ?? 'Bike' }}">
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div class="swiper bikeGallery">
+                            <div class="swiper-wrapper">
+                                @foreach($bike->images as $image)
+                                    <div class="swiper-slide">
+                                        <img src="{{ asset($image->image) }}" alt="{{ $bike?->brand?->name ?? 'Bike' }}">
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <div class="swiper-button-next bike-gallery-next"></div>
+                            <div class="swiper-button-prev bike-gallery-prev"></div>
+                        </div>
+
+                    </div>
+
                 </div>
 
                 <div class="bike-single-right-section col-sm-6">

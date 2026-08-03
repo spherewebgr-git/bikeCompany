@@ -80,7 +80,10 @@
                         <div class="bike-card__price-values">
                             @foreach($bike->prices as $price)
                                 <span class="bike-card__price-item">
-                                    {{ $price->price }}{{$price->description}}
+                                    {{ $price->price }}
+                                    @if($price->description)
+                                        <small class="bike-card__price-desc">{{ $price->description }}</small>
+                                    @endif
                                 </span>
                             @endforeach
                         </div>
@@ -110,3 +113,4 @@
 
     </div>
 </article>
+
