@@ -2,10 +2,14 @@
 {
     color: #fff;
     text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    letter-spacing: .03em;
     background: #fe4819;
-    border: 2px solid #fe4819;
-    transition: all 0.3s;
-    border-radius: 3px;
+    border: 1px solid #fe4819;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(254, 72, 25, .25);
+    transition: background .3s ease, border-color .3s ease, transform .25s ease, box-shadow .3s ease;
 }
 
 @mixin orangebtnhover
@@ -13,27 +17,38 @@
     border-color: #fe704c;
     background: #fe704c;
     color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(254, 72, 25, .35);
 }
 
 #MyHistory
 {
     margin: 0;
     padding: 0;
-    font-family: "Oswald", sans-serif;
+    font-family: 'Open Sans', sans-serif;
 
-    h2 { margin: 20px 0; }
+    //h2 {
+    //    margin: 20px 0;
+    //    font-family: 'Oswald', sans-serif;
+    //    text-transform: uppercase;
+    //    font-weight: 700;
+    //    color: #3b3738;
+    //}
 
     .no-orders
     {
         padding: 60px;
-        border-radius: 8px;
-        background-color: #eeeeee;
+        border-radius: 10px;
+        background-color: #fcfcfc;
+        border: 1px solid #eee;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, .08);
         text-align: center;
         position: relative;
 
         p
         {
-            font-size: 22px;
+            font-size: 20px;
+            color: #6c6c6c;
         }
     }
 
@@ -54,13 +69,42 @@
         width: 100%;
         padding: 20px;
         display: flex;
-        border-radius: 6px;
-        border-top-right-radius: 0px;
-        box-shadow: 0 0 8px #fe704c;
+        border-radius: 10px;
+        background-color: #fff;
+        border: 1px solid #eee;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, .08);
         margin-bottom: 20px;
         position: relative;
-        background-color: #fff;
-        flex: 0 0 calc(50% - 45px); // col-6
+        overflow: hidden;
+        flex: 0 0 calc(50% - 15px); // col-6, μαζί με gap: 30px
+        transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+
+        // top accent bar, ίδιο μοτίβο με τα άλλα cards
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #fe4819;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .35s ease;
+        }
+
+        &:hover {
+            box-shadow: 0 20px 45px rgba(0, 0, 0, .12);
+            border-color: rgba(254, 72, 25, .25);
+
+            &::before {
+                transform: scaleX(1);
+            }
+
+            img {
+                transform: scale(1.02);
+            }
+        }
 
         .info
         {
@@ -69,6 +113,8 @@
             hr
             {
                 margin: 6px 0;
+                border: none;
+                border-top: 1px solid #eee;
             }
 
             .group
@@ -79,7 +125,10 @@
             h4
             {
                 color: #fe4819;
-                font-weight: 400;
+                font-family: 'Oswald', sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: .02em;
                 margin-top: 0;
                 margin-bottom: 0;
             }
@@ -97,14 +146,16 @@
 
             .date, .quantity, .price
             {
-                font-size: 18px;
-                color: #373739;
+                font-size: 16px;
+                font-weight: 600;
+                color: #3b3738;
             }
 
             .address, .provision
             {
-                font-weight: 500;
-                font-size: 16px;
+                font-weight: 400;
+                font-size: 14px;
+                color: #6c6c6c;
             }
         }
     }
@@ -113,22 +164,22 @@
     {
         max-width: 300px;
         max-height: 300px;
-        border-radius: 6px;
+        border-radius: 8px;
         width: auto;
+        transition: transform .5s cubic-bezier(.22, 1, .36, 1);
     }
 
     & a
     {
         @include orangebtn;
-        padding: 4px 10px;
+        padding: 6px 14px;
         position: absolute;
-        right: 0;
-        top: -35px;
-        border-bottom-left-radius: 0px;
-        border-bottom-right-radius: 0px;
-        box-shadow: 0 0 8px #fe704c;
+        right: 20px;
+        top: 20px;
+        font-size: 12px;
         text-decoration: none;
         width: 118px;
+        text-align: center;
 
         &:hover { @include orangebtnhover; }
     }

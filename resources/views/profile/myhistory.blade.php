@@ -1,18 +1,18 @@
 <x-app-layout>
 <div id="MyHistory">
-    <div class="containers">
+    <div class="container">
         <h2 class="section-heading">Order History</h2>
 
-        <div class="rowed">
+        <div class="row">
             @include('components.historyfilters')
         </div>
 
         @if ($orders->first())
-            <div class="rows">
+            <div class="row">
                 @foreach ($orders as $order)
                     <div class="order-card">
-                        <img src="{{ asset($bike->images->first()->image) }}" alt="bike"/>
-                        
+                        <img src="{{ asset($order->bike->images->first()->image) }}" alt="bike"/>
+
                         <div class="info">
                             <h4 class="model">
                                 {{ $order->bike->speed->gears }}-speed {{ $order->bike->colour }} {{ $order->bike->brand->name }} {{ $order->bike->type->name }} Bike
@@ -60,7 +60,7 @@
                                     Our Store at {{ $order->location->name }}
                                 @endif
                             </p>
-                            
+
                             @if ($order->bike->serialnum && $order->returned == true)
                                 <a href="{{ route('checkout.create-rental', $order->bike) }}">
                                     Rent again
@@ -70,7 +70,7 @@
                     </div>
                 @endforeach
             </div>
-        @else  
+        @else
             <div class="no-orders">
                 <p> You don't have any completed orders yet,<br>or none of them match your filters!</p>
             </div>

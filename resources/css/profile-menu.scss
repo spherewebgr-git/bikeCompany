@@ -21,7 +21,6 @@
     {
         background: #fff;
         border-radius: 8px;
-        border-top-right-radius: 0;
         box-shadow: 10px 24px 34px 10px rgba(0, 0, 0, 0.12);
         position: absolute;
         top: 100%;
@@ -82,7 +81,7 @@
                     background-color: #fe4819;
                     a { color: #fff; }
 
-                    &:first-child { border-radius: 8px 0 0 0; }
+                    &:first-child { border-radius: 8px 8px 0 0; }
                     &:last-child:hover { border-radius: 0 0 8px 8px; }
                 }
             }

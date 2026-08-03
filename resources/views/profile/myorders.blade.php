@@ -1,6 +1,6 @@
 <x-app-layout>
 <div id="MyOrders">
-    <div class="containers">
+    <div class="container">
         <h2 class="section-heading">Pending Orders</h2>
 
         <div class="row col-12">
@@ -10,15 +10,15 @@
         @if ($orders->first())
             <div class="row g-4">
                 @foreach ($orders as $order)
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12">
                         <div class="order-card">
                             <div class="path">
                                 @include ('components.orderstatus')
                             </div>
-                            
+
                             <div class="inner-card">
                                 <img src="{{ asset($order->bike->images->first()->image) }}" alt="bike"/>
-                                
+
                                 <div class="info">
                                     <h4 class="model">
                                         {{ $order->bike->speed->gears }}-speed {{ $order->bike->colour }} {{ $order->bike->brand->name }} {{ $order->bike->type->name }} Bike
@@ -72,7 +72,7 @@
                     </div>
                 @endforeach
             </div>
-        @else  
+        @else
             <div class="no-orders">
                 <p> You don't have any pending orders yet,<br>or none of them match your filters!</p>
             </div>

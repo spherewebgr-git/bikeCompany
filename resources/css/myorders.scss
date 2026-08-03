@@ -2,10 +2,14 @@
 {
     color: #fff;
     text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    letter-spacing: .03em;
     background: #fe4819;
-    border: 2px solid #fe4819;
-    transition: all 0.3s;
-    border-radius: 3px;
+    border: 1px solid #fe4819;
+    border-radius: 30px;
+    box-shadow: 0 8px 20px rgba(254, 72, 25, .25);
+    transition: background .3s ease, border-color .3s ease, transform .25s ease, box-shadow .3s ease;
 }
 
 @mixin orangebtnhover
@@ -13,43 +17,60 @@
     border-color: #fe704c;
     background: #fe704c;
     color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(254, 72, 25, .35);
 }
 
 @mixin regularbtn
 {
     text-transform: uppercase;
-    border: 1px solid #6c6c6c;
-    color: #6c6c6c;
-    font-weight: 700;
-    background-color: white;
-    transition: all 0.3s;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    letter-spacing: .03em;
+    border: 1px solid #eee;
+    color: #3b3738;
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .04);
+    transition: background .3s ease, border-color .3s ease, color .3s ease, transform .25s ease;
 }
 
 @mixin regularbtnhover
 {
     color: #fe4819;
-    border-color: #fe4819;
+    background: rgba(254, 72, 25, .06);
+    border-color: rgba(254, 72, 25, .25);
+    transform: translateY(-2px);
 }
 
 #MyOrders
 {
     margin: 0;
     padding: 0;
-    font-family: "Oswald", sans-serif;
+    font-family: 'Open Sans', sans-serif;
 
-    h2 { margin: 20px 0; }
+    //h2 {
+    //    margin: 20px 0;
+    //    font-family: 'Oswald', sans-serif;
+    //    text-transform: uppercase;
+    //    font-weight: 700;
+    //    color: #3b3738;
+    //}
 
     .no-orders
     {
         padding: 60px;
-        border-radius: 8px;
-        background-color: #eeeeee;
+        border-radius: 10px;
+        background-color: #fcfcfc;
+        border: 1px solid #eee;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, .08);
         text-align: center;
         position: relative;
 
         p
         {
-            font-size: 22px;
+            font-size: 20px;
+            color: #6c6c6c;
         }
     }
 
@@ -61,11 +82,39 @@
 
     .order-card
     {
+        position: relative;
         width: 100%;
         padding: 20px;
-        border-radius: 6px;
-        box-shadow: 0 0 8px #fe704c;
+        border-radius: 10px;
+        background: #fff;
+        border: 1px solid #eee;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, .08);
         margin-bottom: 30px;
+        overflow: hidden;
+        transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+
+        // top accent bar, όπως στο .trail-step
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #fe4819;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .35s ease;
+        }
+
+        &:hover {
+            box-shadow: 0 20px 45px rgba(0, 0, 0, .12);
+            border-color: rgba(254, 72, 25, .25);
+
+            &::before {
+                transform: scaleX(1);
+            }
+        }
 
         .path
         {
@@ -89,6 +138,8 @@
             hr
             {
                 margin: 6px 0;
+                border: none;
+                border-top: 1px solid #eee;
             }
 
             .group
@@ -99,7 +150,10 @@
             h4
             {
                 color: #fe4819;
-                font-weight: 400;
+                font-family: 'Oswald', sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: .02em;
                 margin-top: 0;
                 margin-bottom: 0;
             }
@@ -117,14 +171,16 @@
 
             .date, .quantity, .price
             {
-                font-size: 18px;
-                color: #373739;
+                font-size: 16px;
+                font-weight: 600;
+                color: #3b3738;
             }
 
             .address, .provision
             {
-                font-weight: 500;
-                font-size: 16px;
+                font-weight: 400;
+                font-size: 14px;
+                color: #6c6c6c;
             }
         }
     }
@@ -133,7 +189,12 @@
     {
         max-width: 300px;
         max-height: 300px;
-        border-radius: 6px;
+        border-radius: 8px;
         margin-top: 120px;
+        transition: transform .5s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .order-card:hover img {
+        transform: scale(1.02);
     }
 }

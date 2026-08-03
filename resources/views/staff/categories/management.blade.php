@@ -24,7 +24,7 @@
                     </div>
 
                     <form method="POST" action="{{ route('category.edit', ["gears"]) }}" id="edit-gears-{{ $speed->id }}" class="editform">
-                        
+
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                         <input type="hidden" name="gearID" value="{{ $speed->id }}" />
 
@@ -51,13 +51,9 @@
                     </form>
 
                     <button class="new-category">
-<<<<<<< Updated upstream
                         <a href="#" onclick="showme('newcat-gears'); return false;">+ Add New</a>
-                    </button>           
-=======
-                        <a href="#" onclick="addCategory('newcat-gears'); return false;">+ Add New</a>
                     </button>
->>>>>>> Stashed changes
+
                 </div>
 
     {{-- PROVISIONS --}}
@@ -89,13 +85,9 @@
                     </form>
 
                     <button class="new-category">
-<<<<<<< Updated upstream
                         <a href="#" onclick="showme('newcat-provision'); return false;">+ Add New</a>
-                    </button>  
-=======
-                        <a href="#" onclick="addCategory('newcat-provision'); return false;">+ Add New</a>
                     </button>
->>>>>>> Stashed changes
+
                 </div>
 
     {{-- LOCATIONS --}}
@@ -121,7 +113,7 @@
                     </div>
 
                     <form method="POST" action="{{ route('category.edit', ["location"]) }}" id="edit-location-{{ $location->id }}" class="editform">
-                        
+
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                         <input type="hidden" name="locID" value="{{ $location->id }}" />
 
@@ -163,13 +155,8 @@
                     </form>
 
                     <button class="new-category">
-<<<<<<< Updated upstream
                         <a href="#" onclick="showme('newcat-location'); return false;">+ Add New</a>
-                    </button> 
-=======
-                        <a href="#" onclick="addCategory('newcat-location'); return false;">+ Add New</a>
                     </button>
->>>>>>> Stashed changes
                 </div>
 
     {{-- STATUS --}}
@@ -196,7 +183,7 @@
                     </div>
 
                     <form method="POST" action="{{ route('category.edit', ["status"]) }}" id="edit-status-{{ $status->id }}" class="editform">
-                        
+
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                         <input type="hidden" name="statID" value="{{ $status->id }}" />
 
@@ -236,13 +223,9 @@
                     </form>
 
                     <button class="new-category">
-<<<<<<< Updated upstream
                         <a href="#" onclick="showme('newcat-status'); return false;">+ Add New</a>
-                    </button> 
-=======
-                        <a href="#" onclick="addCategory('newcat-status'); return false;">+ Add New</a>
                     </button>
->>>>>>> Stashed changes
+
                 </div>
 
     {{-- TYPES --}}
@@ -265,7 +248,7 @@
                     </div>
 
                     <form method="POST" action="{{ route('category.edit', ["type"]) }}" id="edit-type-{{ $type->id }}" class="editform">
-                        
+
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                         <input type="hidden" name="typeID" value="{{ $type->id }}" />
 
@@ -292,13 +275,8 @@
                     </form>
 
                     <button class="new-category">
-<<<<<<< Updated upstream
                         <a href="#" onclick="showme('newcat-type'); return false;">+ Add New</a>
-                    </button> 
-=======
-                        <a href="#" onclick="addCategory('newcat-type'); return false;">+ Add New</a>
                     </button>
->>>>>>> Stashed changes
                 </div>
 
     {{-- BRANDS --}}
@@ -321,7 +299,7 @@
                     </div>
 
                     <form method="POST" action="{{ route('category.edit', ["brand"]) }}" id="edit-brand-{{ $brand->id }}" class="editform">
-                        
+
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                         <input type="hidden" name="brandID" value="{{ $brand->id }}" />
 
@@ -348,13 +326,9 @@
                     </form>
 
                     <button class="new-category">
-<<<<<<< Updated upstream
                         <a href="#" onclick="showme('newcat-brand'); return false;">+ Add New</a>
-                    </button> 
-=======
-                        <a href="#" onclick="addCategory('newcat-brand'); return false;">+ Add New</a>
                     </button>
->>>>>>> Stashed changes
+
                 </div>
             </div>
         </div>

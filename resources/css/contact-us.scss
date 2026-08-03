@@ -12,6 +12,58 @@
         padding-bottom: 80px;
     }
 
+    .contact-hero {
+        position: relative;
+        height: 400px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &__video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        &__overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.75));
+            z-index: 1;
+        }
+
+        &__content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+
+            h6 {
+                color: #fe4819;
+                letter-spacing: 4px;
+                font-size: 12px;
+                font-weight: 700;
+                text-transform: uppercase;
+                margin-bottom: 10px;
+            }
+
+            h2 {
+                color: #fff;
+                font-size: clamp(36px, 5vw, 56px);
+                font-weight: 900;
+                text-transform: uppercase;
+                margin: 0;
+            }
+        }
+    }
+
     .contact-us-container {
         width: 100%;
         max-width: 900px;

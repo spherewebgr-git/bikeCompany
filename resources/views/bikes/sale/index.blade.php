@@ -12,14 +12,17 @@
     <div class="page-body">
         <div class="container">
 
-
-
             <h2 class="section-heading">Our Bikes for Sale</h2>
 
-            <div class="blogs-list">
+            <div class="blogs-list" x-data="{
+                gridView: localStorage.getItem('bikesView') === 'grid',
+                setView(view) {
+                    this.gridView = view === 'grid';
+                    localStorage.setItem('bikesView', view);
+                }
+            }">
 
                 <div class="bike-filters" x-data="{ open: {{ request()->hasAny(['brand','type','speed','color','min_price','max_price','sort']) ? 'true' : 'false' }} }">
-
 
                     <button type="button"
                             class="filter-toggle"
@@ -28,47 +31,37 @@
                         <span x-text="open ? '▲' : '▼'"></span>
                     </button>
 
-
                     <div class="bike-filters__content"
                          x-show="open"
                          x-transition>
 
                         <form action="{{ route('bikes.sale') }}" method="GET" class="bike-filters__form">
 
-
                             <div class="sort-filter">
                                 Sort by:
                                 <select name="sort">
                                     <option value="">Sort By</option>
-
                                     <option value="price_asc" @selected(request('sort') == 'price_asc')>
                                         Price: Low to High
                                     </option>
-
                                     <option value="price_desc" @selected(request('sort') == 'price_desc')>
                                         Price: High to Low
                                     </option>
                                 </select>
                             </div>
 
-
                             <div class="price-filter">
                                 <label>Price Range</label>
-
                                 <div id="price-slider"></div>
-
                                 <div class="price-values">
                                     <span>€<span id="min-price"></span></span>
                                     <span>€<span id="max-price"></span></span>
                                 </div>
-
                                 <input type="hidden" name="min_price" id="min_price" value="{{ request('min_price', 0) }}">
                                 <input type="hidden" name="max_price" id="max_price" value="{{ request('max_price', 5000) }}">
                             </div>
 
-
                             <div class="select-filters">
-
                                 <select name="brand">
                                     <option value="">All Brands</option>
                                     @foreach($brands as $brand)
@@ -77,7 +70,6 @@
                                         </option>
                                     @endforeach
                                 </select>
-
 
                                 <select name="type">
                                     <option value="">All Types</option>
@@ -88,7 +80,6 @@
                                     @endforeach
                                 </select>
 
-
                                 <select name="speed">
                                     <option value="">All Speeds</option>
                                     @foreach($speeds as $speed)
@@ -97,7 +88,6 @@
                                         </option>
                                     @endforeach
                                 </select>
-
 
                                 <select name="color">
                                     <option value="">All Colors</option>
@@ -114,7 +104,6 @@
                                 <button type="submit" class="btn btn-fill">
                                     Filter
                                 </button>
-
                             </div>
 
                         </form>
@@ -123,12 +112,21 @@
 
                 </div>
 
-                <div class="row">
+                <div class="view-toggle">
+                    <button type="button" :class="{ 'is-active': !gridView }" @click="setView('list')">
+                        <i class="fa fa-bars"></i> List
+                    </button>
+                    <button type="button" :class="{ 'is-active': gridView }" @click="setView('grid')">
+                        <i class="fa fa-th-large"></i> Grid
+                    </button>
+                </div>
+
+                <div class="row" :class="{ 'row--grid': gridView }">
                     @foreach($bikes as $bike)
                         @include('bikes.partials.card')
                     @endforeach
-
                 </div>
+
                 <div class="pagination-wrapper">
                     {{ $bikes->links() }}
                 </div>

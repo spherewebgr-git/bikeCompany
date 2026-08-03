@@ -50,12 +50,14 @@
                     @include('bikes.partials.bike-info')
 
                     <div class="bike-single-action">
-                        <p class="price">
-                            {{ __('Price') }}:
-                            @foreach($bike->prices as $price)
-                                <strong class="price-value">{{ $price->price }} €</strong>
-                            @endforeach
-                        </p>
+
+                        <div class="price-simple">
+                            <span class="price-simple__label">{{ __('Price') }}:</span>
+                            <span class="price-simple__value">
+                                {{ $bike->prices->first()->price ?? '-' }} €
+                            </span>
+                        </div>
+
                         <div class="buttons-section">
 
                             @if ($bike->quantity > 0)

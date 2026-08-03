@@ -1,41 +1,53 @@
-#OrderFilters
-{
+#OrderFilters {
     padding-bottom: 30px;
 
-    .contain
-    {
-        margin: 20px;
-        padding: 0 40px;
+    .container {
+        padding: 25px 40px;
+        background: #fff;
+        border: 1px solid #e8e8e8;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
     }
 
-    form
-    {
+    form {
         display: flex;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 20px;
 
-        .labelfield
-        {
+        .labelfield {
             display: block;
-            margin: 0 10px;
+            margin: 0;
         }
 
-        label b
-        {
-            font-weight: 500;
-            color: #adabb3;
+        label b {
+            display: block;
+            font-family: 'Oswald', sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            font-weight: 700;
+            color: #9f9f9f;
+            margin-bottom: 8px;
         }
 
-        select, input
-        {
-            height: 40px;
+        select, input {
+            height: 44px;
             background-color: #fff;
-            border: 1px solid #6c6c6c;
-            border-radius: 3px;
-            padding: 0 6px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 0 15px;
             width: 100%;
+            font-size: 14px;
+            color: #3b3738;
+            transition: border-color .3s ease, box-shadow .3s ease;
 
-            &:focus-visible 
-            {
-                box-shadow: 0 0 3px #fe4819;
+            &:hover {
+                border-color: #fe4819;
+            }
+
+            &:focus-visible {
+                box-shadow: 0 0 0 3px rgba(254, 72, 25, .15);
                 border-color: #fe4819;
                 outline: none;
             }
@@ -43,25 +55,56 @@
 
         .noUi-origin { right: 7px; }
 
-        .price-values
-        {
-            background-color: #dddddd;
-            border-radius: 3px;
+        .price-values {
+            background-color: #f4f4f4;
+            border-radius: 20px;
             width: 100%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 700;
+            color: #3b3738;
 
-            span {background-color: unset; }
+            span {
+                background-color: unset;
+                padding: 4px 12px;
+            }
         }
 
-        button
+        .labelfield:last-child
         {
-            @include orangebtn;
-            position: relative;
-            bottom: -28px;
-            height: 40px;
-            padding-right: 10px;
-            padding-left: 10px;
+            margin-left: auto;
+        }
 
-            button:hover { @include orangebtnhover; }
+        button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 44px;
+            padding: 0 28px;
+            border-radius: 8px;
+            border: none;
+            background: #fe4819;
+            color: #fff;
+
+            font-family: 'Oswald', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .03em;
+
+            box-shadow: 0 8px 20px rgba(254, 72, 25, .25);
+            transition: transform .3s ease, box-shadow .3s ease;
+            cursor: pointer;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 28px rgba(254, 72, 25, .35);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
         }
     }
 }

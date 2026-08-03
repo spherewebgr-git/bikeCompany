@@ -29,7 +29,7 @@
             <div class="nav-user">
                 @auth
                     @if(Auth::user()->role->name === 'staff')
-                        <a href="{{ route('dashboard.management.bikes') }}" class="btn btn-trans btn-md" style="height: 34px;">Dashboard</a>
+                        <a href="{{ route('dashboard.management.bikes') }}" class="btn btn-trans btn-md">Dashboard</a>
                     @endif
                 @endauth
 

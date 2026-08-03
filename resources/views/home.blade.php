@@ -25,7 +25,7 @@
 
             <div class="about-grid">
 
-                <div class="about-media">
+                <div class="about-media reveal reveal--left">
                     <img src="{{ Vite::asset('resources/images/about-image.jpg') }}" alt="{{ __('Trail Bike workshop') }}">
                     <div class="about-tag">
                         <span class="about-tag__line">{{ __('Tuning since') }}</span>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
 
-                <div class="about-copy">
+                <div class="about-copy reveal reveal--right">
                     <span class="eyebrow">{{ __('Trail Bike Workshop') }}</span>
                     <h2 class="about-heading">
                         {{ __('Built on trails.') }}<br>
@@ -54,15 +54,15 @@
             </div>
 
             <div class="about-specs">
-                <div class="about-specs__item reveal-up">
+                <div class="about-specs__item reveal-up" style="--delay: 0s">
                     <span class="about-specs__label">{{ __('Bikes available') }}</span>
                     <span class="about-specs__value">150+</span>
                 </div>
-                <div class="about-specs__item reveal-up">
+                <div class="about-specs__item reveal-up" style="--delay: .12s">
                     <span class="about-specs__label">{{ __('Happy riders') }}</span>
                     <span class="about-specs__value">2,000+</span>
                 </div>
-                <div class="about-specs__item reveal-up">
+                <div class="about-specs__item reveal-up" style="--delay: .24s">
                     <span class="about-specs__label">{{ __('Years of experience') }}</span>
                     <span class="about-specs__value">10</span>
                 </div>

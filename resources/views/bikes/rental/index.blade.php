@@ -14,7 +14,13 @@
 
             <h2 class="section-heading">Available Rentals</h2>
 
-            <div class="blogs-list">
+            <div class="blogs-list" x-data="{
+                gridView: localStorage.getItem('bikesView') === 'grid',
+                setView(view) {
+                    this.gridView = view === 'grid';
+                    localStorage.setItem('bikesView', view);
+                }
+            }">
 
                 <div class="bike-filters" x-data="{ open: {{ request()->hasAny(['brand','type','speed','color','min_price','max_price','sort']) ? 'true' : 'false' }} }">
 
@@ -77,11 +83,22 @@
                             </div>
 
                         </form>
+
+
                     </div>
 
                 </div>
 
-                <div class="row">
+                <div class="view-toggle">
+                    <button type="button" :class="{ 'is-active': !gridView }" @click="setView('list')">
+                        <i class="fa fa-bars"></i> List
+                    </button>
+                    <button type="button" :class="{ 'is-active': gridView }" @click="setView('grid')">
+                        <i class="fa fa-th-large"></i> Grid
+                    </button>
+                </div>
+
+                <div class="row" :class="{ 'row--grid': gridView }">
                     @foreach($bikes as $bike)
                         @include('bikes.partials.card')
                     @endforeach

@@ -509,34 +509,34 @@ class StaffmanagementController extends Controller
         {
             case "provision":
                 $request->validate(['provname' => 'required']);
-                Provision::firstOrCreat(['name' => $request->provname]);
+                Provision::firstOrCreate(['name' => $request->provname]);
                 break;
 
             case "brand":
                 $request->validate(['brandname' => 'required']);
-                Brand::firstOrCreat(['name' => $request->brandname]);
+                Brand::firstOrCreate(['name' => $request->brandname]);
                 break;
 
             case "type":
                 $request->validate(['typename' => 'required']);
-                Type::firstOrCreat(['name' => $request->typename]);
+                Type::firstOrCreate(['name' => $request->typename]);
                 break;
 
             case "gears":
                 $request->validate(['gearamount' => 'required']);
-                Speed::firstOrCreat(['gears' => $request->gearamount]);
+                Speed::firstOrCreate(['gears' => $request->gearamount]);
                 break;
 
             case "status":
                 $request->validate(['statname' => 'required', 'statstep' => 'required']);
-                Status::firstOrCreat(['name' => $request->statname, 'step' => $request->statstep]);
+                Status::firstOrCreate(['name' => $request->statname, 'step' => $request->statstep]);
                 break;
 
             case "location":
                 $request->validate(['locname' => 'required']);
                 $request->validate(['latitude' => 'required']);
                 $request->validate(['longitude' => 'required']);
-                Location::firstOrCreat([
+                Location::firstOrCreate([
                     'name' => $request->locname,
                     'latitude' => $request->latitude,
                     'longitude' => $request->longitude
