@@ -38,9 +38,9 @@
                         <a href="#" class="btn btn-trans btn-md">Profile</a>
                         <div id="profile-menu-dropdown">
                             <ul class="profile-links">
-                                <a href="{{ route('profile.edit') }}"><li>Account</li></a>
-                                <a href="{{ route('profile.orders') }}"><li>My Orders</li></a>
-                                <a href="{{ route('profile.history') }}"><li>History</li></a>
+                                <li><a href="{{ route('profile.edit') }}">Account</a></li>
+                                <li><a href="{{ route('profile.orders') }}">My Orders</a></li>
+                                <li><a href="{{ route('profile.history') }}">History</a></li>
                             </ul>
                         </div>
                     </div>
