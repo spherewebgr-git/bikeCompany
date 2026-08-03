@@ -10,6 +10,7 @@
 
         <!-- Styles / Scripts -->
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+            @viteReactRefresh
             @vite(['resources/css/app.scss', 'resources/js/app.js'])
         @else
             <style>

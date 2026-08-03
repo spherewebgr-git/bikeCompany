@@ -19,6 +19,7 @@
         href="https://unpkg.com/leaflet/dist/leaflet.css"
     />
 
+    @viteReactRefresh
     @vite(['resources/css/admin.scss', 'resources/js/admin.js'])
 
 </head>
