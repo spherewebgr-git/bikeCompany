@@ -33,7 +33,7 @@
                             <p>Rented</p>
                         </div>
                         <div class="info">
-                            <h5 class="mb-0 white-text">{{ $rents * 100 / $totalorders }}%</h5>
+                            <h5 class="mb-0 white-text">{{ number_format(($rents * 100) / $totalorders, 2) }}%</h5>
                             <p class="no-margin">Of Orders</p>
                             <p>{{ $rents }}</p>
                         </div>
@@ -45,7 +45,7 @@
                             <p>Purchases</p>
                         </div>
                         <div class="info">
-                            <h5 class="mb-0 white-text">{{ $purchases * 100 / $totalorders }}%</h5>
+                            <h5 class="mb-0 white-text">{{ number_format(($purchases * 100) / $totalorders, 2) }}%</h5>
                             <p class="no-margin">Of Orders</p>
                             <p>{{ $purchases }}</p>
                         </div>

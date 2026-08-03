@@ -26,7 +26,7 @@ class StaffmanagementController extends Controller
 {
 
     // --------------- BIKES --------------- \\
-    public function management()
+    public function management() // TODO: add 'visible' edit
     {
         $bikes = Bike::with([
             'brand',
@@ -152,6 +152,7 @@ class StaffmanagementController extends Controller
             'type_id' => $request->type_id,
             'speed_id' => $request->speed_id,
             'provision_id' => $request->provision_id,
+            'visible' => $request->visible,
         ]);
 
         // Delete old prices
@@ -219,9 +220,12 @@ class StaffmanagementController extends Controller
     {
         $bike = Bike::query()->where('id', $id)->first();
 
-        $bike->update([
-            'quantity' => $request->quantity,
-        ]);
+        $bike->update(['quantity' => $request->quantity]);
+
+        if ($request->quantity < 1)
+        {
+            $bike->update(['visible' => false]);
+        }
 
         return redirect('dashboard/management/bikes');
     }
@@ -254,6 +258,11 @@ class StaffmanagementController extends Controller
         if ($bike)
         {
             $bike->increment('quantity');
+
+            if ($bike->visible == false)
+            {
+                $bike->update(['visible' => true]);
+            }
         }
         else
         {
@@ -265,6 +274,7 @@ class StaffmanagementController extends Controller
                 'speed_id' => $request->speed_id,
                 'provision_id' => $request->provision_id,
                 'quantity' => $request->quant,
+                'visible' => true,
             ]);
 
             if ($request->hasFile('images'))
@@ -640,12 +650,13 @@ class StaffmanagementController extends Controller
             'status_id' => $request->stat
         ]);
 
+        $complete = Status::max('step');
+
         // Ξαναφορτώνουμε τη σχέση status
         $order->load('status');
 
-        $isReady = strtolower($order->status->name) === 'ready';
-
-        $wasAlreadyReady = $previousStatus === 'ready';
+        $isReady = strtolower($order->status->name) == $complete-1; // "Ready"
+        $wasAlreadyReady = $previousStatus == $complete-1; // "Ready"
 
         if ($isReady && !$wasAlreadyReady) {
 
@@ -655,8 +666,8 @@ class StaffmanagementController extends Controller
 
         $order->load('status');
 
-        $isComplete = strtolower($order->status->name) === 'complete!';
-        $wasAlreadyComplete = $previousStatus === 'complete!';
+        $isComplete = strtolower($order->status->step) == $complete;
+        $wasAlreadyComplete = $previousStatus == $complete;
 
         $isBuy = strtolower($order->bike->provision->name ?? '') === 'buy';
 
@@ -668,7 +679,17 @@ class StaffmanagementController extends Controller
 
         if ($isComplete && $order->payed_off == false)
         {
-            $order->update([  'payed_off' => true ]);
+            $order->update(['payed_off' => true]);
+        }
+
+        if ($isComplete && $order->bike->provision->name === 'buy')
+        {
+            $order->bike->quantity -- ;
+
+            if ($order->bike->quantity < 1)
+            {
+                $order->bike->update(['visible' => false]);
+            }
         }
 
         return redirect()->route('dashboard.management.orders');

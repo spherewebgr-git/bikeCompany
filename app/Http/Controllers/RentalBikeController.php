@@ -14,7 +14,7 @@ class RentalBikeController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Bike::whereHas('provision', function ($q) {
+        $query = Bike::where('visible', true)->whereHas('provision', function ($q) {
             $q->where('name', 'rent');
         });
 
