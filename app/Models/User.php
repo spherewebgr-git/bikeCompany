@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Bike;
 
 #[Fillable(['first_name', 'last_name', 'phone', 'email', 'password','role_id'])]
 #[Hidden(['password', 'remember_token'])]
@@ -42,5 +43,14 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function wishlistBikes()
+    {
+        return $this->belongsToMany(
+            Bike::class,
+            'whishlists'
+        )->withTimestamps();
+
     }
 }

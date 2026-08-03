@@ -10,6 +10,7 @@ use App\Models\Speed;
 use App\Models\Provision;
 use App\Models\Price;
 use Carbon\Carbon;
+use App\Models\User;
 
 class Bike extends Model
 {
@@ -59,6 +60,13 @@ class Bike extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function wishlistedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'wishlists')
+            ->withTimestamps();
+
     }
 
     public function isAvailable(Carbon $start, Carbon $end): bool
