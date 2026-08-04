@@ -177,4 +177,8 @@ Route::get('/test/bikes', function () {
     return view('react');
 });
 
+Route::get('/about-us-react', function () {
+    return view('react');
+})->name('about-us-react');
+
 require __DIR__.'/auth.php';

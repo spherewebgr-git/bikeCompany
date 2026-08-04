@@ -29,6 +29,7 @@
         "nouislider": "^15.8.1",
         "react": "^19.2.8",
         "react-dom": "^19.2.8",
+        "react-router-dom": "^7.18.2",
         "sass": "^1.102.0",
         "sass-loader": "^17.0.0",
         "sortablejs": "^1.15.7",
