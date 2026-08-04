@@ -49,8 +49,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(
             Bike::class,
-            'whishlists'
+            'wishlists'
         )->withTimestamps();
-
     }
 }

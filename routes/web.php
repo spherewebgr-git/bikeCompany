@@ -86,6 +86,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/orders/search', [ProfileController::class, 'searchorders'])->name('profile.orders.search');
 
     // WISHLIST
+    Route::get('/profile/wishlist', [WishlistController::class, 'index'])->name('profile.wishlist.index');
+
+    Route::get('/profile/wishlist/items', [WishlistController::class, 'items'])->name('profile.wishlist.items');
+
     Route::get('/profile/wishlist/{bike}/status', [WishlistController::class, 'status'])->name('wishlist.status');
 
     Route::post('/profile/wishlist/{bike}', [WishlistController::class, 'store'])->name('wishlist.store');
