@@ -91,6 +91,24 @@
                                 @endauth
                             @endif
 
+
+                                @php
+                                    $isWishlisted = auth()->check()
+                                        ? auth()->user()
+                                            ->wishlistBikes()
+                                            ->where('bikes.id', $bike->id)
+                                            ->exists()
+                                        : false;
+                                @endphp
+
+                                <div
+                                    data-wishlist-root
+                                    data-bike-id="{{ $bike->id }}"
+                                    data-wishlisted="{{ $isWishlisted ? 'true' : 'false' }}"
+                                ></div>
+
+                                @vite('resources/js/wishlist.jsx')
+
                                 <a href="{{ route('bikes.sale') }}" class="btn btn-trans btn-md">{{ __('Back to all bikes') }}</a>
                         </div>
                     </div>

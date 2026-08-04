@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.scss', 'resources/js/app.js'],
+            input: ['resources/css/app.scss', 'resources/js/app.js', 'resources/js/wishlist.jsx'],
             refresh: true,
         }),
         react(),
