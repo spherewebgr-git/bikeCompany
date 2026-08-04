@@ -2,8 +2,10 @@
 
     <div id="ProfileSection">
         <div class="page-header-profile">
-            <div class="page-header-container">
-                <h2>{{ __('Profile') }}</h2>
+            <div class="container">
+                <h2 class="section-heading">
+                    {{ __('Profile') }}
+                </h2>
             </div>
         </div>
 
