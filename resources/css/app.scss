@@ -515,358 +515,428 @@ a {
 }
 
 .bike-trail {
-    .section-heading {
+    padding: 100px 0;
+    background: #141212; // σκούρο, edgy background — spot διαφορετικό απ' το υπόλοιπο site
+    position: relative;
+    overflow: hidden;
+
+    &__heading {
+        text-align: center;
+        margin-bottom: 64px;
+        padding: 0 24px;
 
         h6 {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
             color: #fe4819;
-            letter-spacing: 4px;
-            font-size: 12px;
-            font-weight: 700;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
+            font-size: 0.85rem;
             margin-bottom: 8px;
 
-            &::before {
-                content: "";
-                width: 20px;
-                height: 2px;
-                background: #fe4819;
-                margin-right: 10px;
-            }
+            &::before,
             &::after {
-                content: "";
-                width: 20px;
+                content: '';
+                display: inline-block;
+                margin: 0 10px 5px;
+                width: 32px;
                 height: 2px;
                 background: #fe4819;
+                vertical-align: middle;
+                animation: heroLineGrow 0.6s ease-out 0.5s backwards;
             }
         }
 
         .title-text {
             color: #fff;
-            font-size: clamp(40px, 5vw, 70px);
-            text-transform: uppercase;
-            font-weight: 900;
-            line-height: 1.1;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
         }
     }
 
+    &__row {
+        display: flex;
+        gap: 4px; // λεπτό κενό ανάμεσα στις "λόξες" κάρτες — δίνει το κοφτό feel
+        height: 560px;
+        padding: 0 4px;
 
-    .bike-card {
-        position: relative;
-        min-height: 320px;
-        border-radius: 10px;
-        overflow: hidden;
+        @media (max-width: 900px) {
+            flex-direction: column;
+            height: auto;
+        }
+    }
 
-        background-color: #f5f5f5;
+    &__more {
+        text-align: center;
+        margin-top: 56px;
+
+        a {
+            border-radius: 3px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        a:hover {
+            box-shadow: 0 0 12px rgba(254, 72, 25, 0.5);
+        }
+    }
+}
+
+.bike-slice {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    transition: flex 0.5s cubic-bezier(0.65, 0, 0.35, 1); // η κάρτα "φαρδαίνει" στο hover
+
+    // Στο hover, αυτή η κάρτα "τρώει" περισσότερο χώρο από τις άλλες
+    &:hover {
+        flex: 1.4;
+    }
+
+    &:hover &__img {
+        transform: scale(1.15);
+    }
+
+    &:hover &__overlay {
+        background: linear-gradient(
+            180deg,
+            rgba(20, 18, 18, 0.1) 0%,
+            rgba(254, 72, 25, 0.75) 100%
+        );
+    }
+
+    &:hover &__cta {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    &:hover &__arrow {
+        transform: translateX(6px);
+    }
+
+    &__img {
+        position: absolute;
+        inset: 0;
         background-size: cover;
-        background-position: top;
         background-repeat: no-repeat;
+        background-position: center;
+        transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+        transform: scale(1.02);
+    }
 
-        box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
-        transition: transform .3s ease, box-shadow .3s ease;
+    &__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            180deg,
+            rgba(20, 18, 18, 0.1) 0%,
+            rgba(20, 18, 18, 0.9) 100%
+        );
+        transition: background 0.4s ease;
+    }
+
+    &__info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 32px 28px;
+        color: #fff;
+
+        @media (max-width: 900px) {
+            padding: 24px;
+        }
+    }
+
+    &__num {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #fe4819;
+        letter-spacing: 0.1em;
+        margin-bottom: 8px;
+    }
+
+    h3 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        margin: 0 0 8px;
+        text-transform: uppercase;
+    }
+
+    p {
+        font-size: 0.9rem;
+        opacity: 0.85;
+        margin: 2px 0;
+
+        i {
+            width: 18px;
+            color: #fe4819;
+        }
+    }
+
+    &__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 16px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s;
+    }
+
+    &__arrow {
+        transition: transform 0.3s ease;
+    }
+
+    @media (max-width: 900px) {
+        height: 240px;
+        clip-path: none !important; // στο mobile βγάζουμε το κοφτό σχήμα, μπερδεύει σε στενή οθόνη
 
         &:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, .15);
-
-            &::after {
-                animation: shine-sweep 0.9s cubic-bezier(0.8, 0, 0.2, 1);
-            }
+            flex: 1; // δεν έχει νόημα το flex-grow σε column layout
         }
 
-        // ΗΛΙΑΧΤΙΔΑ / SHINE
-        &::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -75%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(
-                    75deg,
-                    rgba(255, 255, 255, 0) 0%,
-                    rgba(255, 255, 255, 0.55) 50%,
-                    rgba(255, 255, 255, 0) 100%
-            );
-            pointer-events: none;
-        }
-
-        .bike-info {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            padding: .75rem 1.25rem;
-
-            background: linear-gradient(to top, rgb(0 0 0 / 90%), rgba(0, 0, 0, 0));
-
-            h3 {
-                margin: 0 0 .15rem;
-                color: #fff;
-                font-size: 1.2rem;
-                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-            }
-
-            p {
-                margin: 0;
-                color: #fff;
-                font-size: .85rem;
-                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-            }
+        &__cta {
+            opacity: 1;
+            transform: translateY(0); // πάντα ορατό σε mobile, αφού δεν υπάρχει hover
         }
     }
 }
 
-@keyframes shine-sweep {
-    0% {
-        left: -75%;
-    }
-    100% {
-        left: 125%;
+.about-section {
+    position: relative;
+    padding: 120px 0;
+    background: #faf8f6;
+    overflow: hidden;
+
+    // Διακοσμητικό background shape
+    &::before {
+        content: '';
+        position: absolute;
+        top: -10%;
+        right: -5%;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(254, 72, 25, 0.06) 0%, transparent 70%);
+        z-index: 0;
     }
 }
 
-.about-us {
-    background: #fcfcfc;
-    padding: 90px 0 70px;
+.about-layout {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 0.85fr 1fr; // ασύμμετρο, όχι 50/50
+    gap: 80px;
+    align-items: center;
+    margin-bottom: 100px;
 
-    // ---- SCROLL REVEAL BASE ----
-    .reveal {
-        opacity: 0;
-        transition: opacity .8s cubic-bezier(.22, 1, .36, 1), transform .8s cubic-bezier(.22, 1, .36, 1);
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+}
 
-        &.is-visible {
-            opacity: 1;
-            transform: none;
+// ============ Media (εικόνα με tilt effect) ============
+.about-media {
+    position: relative;
+    transition: transform 0.15s ease-out;
+    transform-style: preserve-3d;
+    will-change: transform;
+
+    img {
+        width: 100%;
+        height: 520px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 30px 60px -20px rgba(20, 18, 18, 0.3);
+    }
+
+    &__badge {
+        position: absolute;
+        bottom: -24px;
+        left: -24px;
+        background: #fe4819;
+        color: #fff;
+        padding: 20px 24px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 12px 30px -8px rgba(254, 72, 25, 0.5);
+        transform: translateZ(40px); // "ξεκολλάει" απ' την εικόνα στο 3D tilt
+
+        &-line {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            opacity: 0.85;
         }
 
-        &--left {
-            transform: translateX(-40px);
-        }
-
-        &--right {
-            transform: translateX(40px);
+        &-year {
+            font-size: 1.6rem;
+            font-weight: 700;
         }
     }
 
-    .reveal-up {
-        opacity: 0;
-        transform: translateY(24px);
-        transition: opacity .6s ease, transform .6s ease;
-        transition-delay: var(--delay, 0s);
-
-        &.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    @media (max-width: 900px) {
+        img { height: 360px; }
+        &__badge { left: 16px; bottom: -16px; padding: 14px 18px; }
     }
+}
 
-    @media (prefers-reduced-motion: reduce) {
-        .reveal,
-        .reveal-up {
-            transition: none !important;
-            opacity: 1 !important;
-            transform: none !important;
-        }
+// ============ Copy ============
+.about-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #fe4819;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+
+    &__dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #fe4819;
+        animation: pulse 2s ease-in-out infinite;
     }
+}
 
-    .about-grid {
-        display: grid;
-        grid-template-columns: 1.1fr 1fr;
-        gap: 60px;
+.about-heading {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: #141212;
+    margin: 0 0 28px;
+
+    &__accent {
+        display: block;
+        color: #fe4819;
+    }
+}
+
+.about-text {
+    color: #5c5654;
+    line-height: 1.75;
+    margin-bottom: 18px;
+    font-size: 1.05rem;
+}
+
+.about-values {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 32px 0 0;
+    padding: 0;
+
+    &__item {
+        display: flex;
         align-items: center;
-        margin-bottom: 70px;
+        gap: 12px;
+        padding: 14px 16px;
+        background: #fff;
+        border-radius: 10px;
+        border: 1px solid #eee;
+        opacity: 0;
+        transform: translateY(12px);
+        animation: fadeUp 0.5s ease-out forwards;
+        animation-delay: var(--delay, 0s);
+        transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 
-        @media (max-width: 767px) {
-            grid-template-columns: 1fr;
-            gap: 30px;
-        }
-    }
-
-    // ============ MEDIA / IMAGE + SIGNATURE TAG ============
-    .about-media {
-        position: relative;
-
-        img {
-            width: 100%;
-            height: 420px;
-            object-fit: cover;
-            border-radius: 8px;
-            transition: transform .6s cubic-bezier(.22, 1, .36, 1);
+        &:hover {
+            border-color: #fe4819;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px -8px rgba(254, 72, 25, 0.2);
         }
 
-        &:hover img {
-            transform: scale(1.02);
-        }
-
-        .about-tag {
-            position: absolute;
-            top: -14px;
-            left: -14px;
-            background: #fe4819;
-            color: #fff;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transform: rotate(-8deg);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
-            transition: transform .4s cubic-bezier(.22, 1, .36, 1);
-
-            &:hover {
-                transform: rotate(0deg) scale(1.05);
-            }
-
-            &__line {
-                font-family: 'Oswald', sans-serif;
-                font-size: 10px;
-                letter-spacing: .08em;
-                text-transform: uppercase;
-                opacity: .85;
-            }
-
-            &__year {
-                font-family: 'Oswald', sans-serif;
-                font-size: 19px;
-                font-weight: 700;
-                line-height: 1.2;
-            }
-        }
-    }
-
-    // ============ COPY ============
-    .about-copy {
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-family: 'Oswald', sans-serif;
-            font-size: 12px;
-            letter-spacing: .18em;
-            text-transform: uppercase;
+        i {
             color: #fe4819;
-            margin-bottom: 14px;
-
-            &::before {
-                content: "";
-                width: 24px;
-                height: 2px;
-                background: #fe4819;
-            }
+            font-size: 1.1rem;
         }
 
-        .about-heading {
-            font-family: 'Oswald', sans-serif;
-            font-size: 42px;
-            font-weight: 700;
-            line-height: 1.05;
-            color: #26221f;
-            margin-bottom: 24px;
-
-            span {
-                color: #fe4819;
-            }
-        }
-
-        p {
-            font-size: 14px;
-            line-height: 1.9;
-            color: #6c6c6c;
-            margin-bottom: 18px;
-        }
-    }
-
-    .about-values {
-        list-style: none;
-        padding: 0;
-        margin: 24px 0 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px 26px;
-
-        li {
-            font-size: 13px;
-            color: #3b3738;
+        span {
             font-weight: 500;
-            transition: transform .25s ease, color .25s ease;
-
-            &:hover {
-                transform: translateX(3px);
-                color: #fe4819;
-            }
-
-            .fa {
-                color: #fe4819;
-                margin-right: 8px;
-                transition: transform .25s ease;
-            }
-
-            &:hover .fa {
-                transform: scale(1.15);
-            }
+            color: #333;
+            font-size: 0.95rem;
         }
     }
 
-    // ============ SPEC STRIP ============
-    .about-specs {
-        display: flex;
-        border-top: 1px solid #e6e6e6;
-        border-bottom: 1px solid #e6e6e6;
-        padding: 30px 0;
+    @media (max-width: 500px) {
+        grid-template-columns: 1fr;
+    }
+}
 
-        @media (max-width: 767px) {
-            flex-direction: column;
-            gap: 20px;
-        }
+// ============ Stats ============
+.about-stats {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid #e5e0dc;
+    padding-top: 56px;
 
-        &__item {
-            flex: 1;
-            text-align: center;
-            transition: transform .3s ease;
+    @media (max-width: 700px) {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+}
 
-            &:hover {
-                transform: translateY(-4px);
-            }
+.about-stat {
+    text-align: center;
+    position: relative;
 
-            & + & {
-                border-left: 1px solid #e6e6e6;
+    &:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 10%;
+        height: 80%;
+        width: 1px;
+        background: #e5e0dc;
 
-                @media (max-width: 767px) {
-                    border-left: none;
-                    border-top: 1px solid #e6e6e6;
-                    padding-top: 20px;
-                }
-            }
-        }
-
-        &__label {
-            display: block;
-            font-family: 'Oswald', sans-serif;
-            font-size: 11px;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-            color: #9f9f9f;
-            margin-bottom: 8px;
-        }
-
-        &__value {
-            display: block;
-            font-family: 'Oswald', sans-serif;
-            font-size: 36px;
-            font-weight: 700;
-            color: #26221f;
-            transition: color .3s ease;
-        }
-
-        &__item:hover &__value {
-            color: #fe4819;
+        @media (max-width: 700px) {
+            display: none;
         }
     }
+
+    &__value {
+        display: block;
+        font-size: clamp(2.2rem, 4vw, 3.2rem);
+        font-weight: 800;
+        color: #fe4819;
+        line-height: 1;
+        margin-bottom: 10px;
+    }
+
+    &__label {
+        color: #5c5654;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+}
+
+// ============ Keyframes ============
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
 }
 
 // ============================================================
