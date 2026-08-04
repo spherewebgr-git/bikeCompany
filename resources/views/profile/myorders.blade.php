@@ -8,7 +8,7 @@
         </div>
 
         @if ($orders->first())
-            <div class="row g-4">
+            <div class="row g-4" style="margin-bottom: 300px;">
                 @foreach ($orders as $order)
                     <div class="col-12">
                         <div class="order-card">

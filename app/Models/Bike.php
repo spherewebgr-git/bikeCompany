@@ -25,6 +25,7 @@ class Bike extends Model
         'speed_id',
         'provision_id',
         'serialnum',
+        'visible'
     ];
 
     public function brand()

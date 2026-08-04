@@ -11,6 +11,19 @@
                     <label for="SKU">SKU:</label><br>
                     <input type="text" id="SKU" name="SKU" placeholder="SKU">
                 </div>
+
+                <div class="vertical">
+                    <label for="visible">Visible to customers?</label><br>
+                    <select name="visible" id="visible" class="form-select">
+                        <option value="{{ 1 }}" selected>
+                            YES
+                        </option>
+                        <option value="{{ 0 }}">
+                            NO
+                        </option>
+                    </select>
+                </div>
+
                 <div class="vertical">
                     <label for="colour">Colour:</label><br>
                     <input type="text" id="colour" name="colour" placeholder="Colour">
@@ -25,6 +38,19 @@
                     <label for="SKU">SKU:</label><br>
                     <input class="read" type="text" id="SKU" name="SKU" value="{{ $bike->SKU }}" readonly>
                 </div>
+
+                <div class="vertical">
+                    <label for="visible">Visible to customers?</label><br>
+                    <select name="visible" id="visible" class="form-select">
+                        <option value="{{ 1 }}" @selected($bike?->visible)>
+                            YES
+                        </option>
+                        <option value="{{ 0 }}" @selected(!$bike?->visible)>
+                            NO
+                        </option>
+                    </select>
+                </div>
+
                 <div class="vertical">
                     <label for="colour">Colour:</label><br>
                     <input type="text" id="colour" name="colour" value="{{ $bike->colour }}">

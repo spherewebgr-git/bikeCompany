@@ -4,7 +4,7 @@
     <section class="slider">
         <video class="slider-video" autoplay muted loop playsinline
                poster="{{ Vite::asset('resources/images/hero-image.jpg') }}">
-            <source src="{{ Vite::asset('resources/videos/hero-video.mp4') }}" type="video/mp4">
+            <source src="{{ Vite::asset('resources/videos/home-page-video.mp4') }}" type="video/mp4">
         </video>
 
         <div class="slider-content">
@@ -20,56 +20,112 @@
     </section>
 
     {{-- ============ ABOUT ============ --}}
-    <section class="about-us" id="about">
+    <section class="about-section" id="about">
         <div class="nav-container">
 
-            <div class="about-grid">
+            <div class="about-layout">
 
-                <div class="about-media reveal reveal--left">
+                <div class="about-media" id="aboutMedia">
                     <img src="{{ Vite::asset('resources/images/about-image.jpg') }}" alt="{{ __('Trail Bike workshop') }}">
-                    <div class="about-tag">
-                        <span class="about-tag__line">{{ __('Tuning since') }}</span>
-                        <span class="about-tag__year">10+ {{ __('yrs') }}</span>
+                    <div class="about-media__badge">
+                        <span class="about-media__badge-line">{{ __('Tuning since') }}</span>
+                        <span class="about-media__badge-year">10+ {{ __('yrs') }}</span>
                     </div>
                 </div>
 
-                <div class="about-copy reveal reveal--right">
-                    <span class="eyebrow">{{ __('Trail Bike Workshop') }}</span>
+                <div class="about-copy">
+                <span class="about-eyebrow">
+                    <span class="about-eyebrow__dot"></span>
+                    {{ __('Trail Bike Workshop') }}
+                </span>
+
                     <h2 class="about-heading">
-                        {{ __('Built on trails.') }}<br>
-                        <span>{{ __('Tuned by hand.') }}</span>
+                        {{ __('Built on trails.') }}
+                        <span class="about-heading__accent">{{ __('Tuned by hand.') }}</span>
                     </h2>
 
-                    <p>{{ __('We started as a handful of friends who couldn\'t stay off two wheels. Now we\'re a full workshop and store — inspecting, tuning, and servicing every bike before it leaves our hands, so you can focus on the ride.') }}</p>
-                    <p>{{ __('From city cruisers to full-suspension trail bikes, our catalog keeps growing. Whatever you ride, we\'re here with the right bike and honest advice.') }}</p>
+                    <p class="about-text">{{ __('We started as a handful of friends who couldn\'t stay off two wheels. Now we\'re a full workshop and store — inspecting, tuning, and servicing every bike before it leaves our hands, so you can focus on the ride.') }}</p>
+                    <p class="about-text">{{ __('From city cruisers to full-suspension trail bikes, our catalog keeps growing. Whatever you ride, we\'re here with the right bike and honest advice.') }}</p>
 
                     <ul class="about-values">
-                        <li><i class="fa fa-check-circle"></i> {{ __('Quality checked') }}</li>
-                        <li><i class="fa fa-clock"></i> {{ __('Flexible rentals') }}</li>
-                        <li><i class="fa fa-life-ring"></i> {{ __('Local support') }}</li>
-                        <li><i class="fa fa-refresh"></i> {{ __('Fresh stock') }}</li>
+                        <li class="about-values__item" style="--delay: 0s"><i class="fa fa-check-circle"></i> <span>{{ __('Quality checked') }}</span></li>
+                        <li class="about-values__item" style="--delay: .08s"><i class="fa fa-clock"></i> <span>{{ __('Flexible rentals') }}</span></li>
+                        <li class="about-values__item" style="--delay: .16s"><i class="fa fa-life-ring"></i> <span>{{ __('Local support') }}</span></li>
+                        <li class="about-values__item" style="--delay: .24s"><i class="fa fa-refresh"></i> <span>{{ __('Fresh stock') }}</span></li>
                     </ul>
                 </div>
-
             </div>
 
-            <div class="about-specs">
-                <div class="about-specs__item reveal-up" style="--delay: 0s">
-                    <span class="about-specs__label">{{ __('Bikes available') }}</span>
-                    <span class="about-specs__value">150+</span>
+            <div class="about-stats">
+                <div class="about-stat" data-count="150" data-suffix="+">
+                    <span class="about-stat__value">0</span>
+                    <span class="about-stat__label">{{ __('Bikes available') }}</span>
                 </div>
-                <div class="about-specs__item reveal-up" style="--delay: .12s">
-                    <span class="about-specs__label">{{ __('Happy riders') }}</span>
-                    <span class="about-specs__value">2,000+</span>
+                <div class="about-stat" data-count="2000" data-suffix="+">
+                    <span class="about-stat__value">0</span>
+                    <span class="about-stat__label">{{ __('Happy riders') }}</span>
                 </div>
-                <div class="about-specs__item reveal-up" style="--delay: .24s">
-                    <span class="about-specs__label">{{ __('Years of experience') }}</span>
-                    <span class="about-specs__value">10</span>
+                <div class="about-stat" data-count="10" data-suffix="+">
+                    <span class="about-stat__value">0</span>
+                    <span class="about-stat__label">{{ __('Years of experience') }}</span>
                 </div>
             </div>
 
         </div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // ============ Tilt effect στο about-media ============
+            const media = document.getElementById('aboutMedia');
+            if (media) {
+                media.addEventListener('mousemove', (e) => {
+                    const rect = media.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width - 0.5;
+                    const y = (e.clientY - rect.top) / rect.height - 0.5;
+                    const tiltX = x * 10;
+                    const tiltY = y * -10;
+                    media.style.transform = `perspective(1000px) rotateX(${tiltY}deg) rotateY(${tiltX}deg)`;
+                });
+
+                media.addEventListener('mouseleave', () => {
+                    media.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+                });
+            }
+
+            // ============ Animated stats όταν μπαίνουν στο viewport ============
+            const statItems = document.querySelectorAll('.about-stat');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && !entry.target.dataset.animated) {
+                        entry.target.dataset.animated = 'true';
+
+                        const valueEl = entry.target.querySelector('.about-stat__value');
+                        const target = parseInt(entry.target.dataset.count, 10);
+                        const suffix = entry.target.dataset.suffix || '';
+
+                        const duration = 1500;
+                        const steps = 40;
+                        const increment = target / steps;
+                        let current = 0;
+
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                valueEl.textContent = target.toLocaleString() + suffix;
+                                clearInterval(timer);
+                            } else {
+                                valueEl.textContent = Math.floor(current).toLocaleString() + suffix;
+                            }
+                        }, duration / steps);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            statItems.forEach((item) => observer.observe(item));
+        });
+    </script>
 
 
     {{-- ============ HOW IT WORKS ============ --}}
@@ -203,48 +259,39 @@
     @if(!$featuredBikes->isEmpty())
         {{-- ============ FEATURED BIKES ============ --}}
         <section class="bike-trail">
-            <div class="nav-container">
-                <div class="section-heading text-center">
-                    <h6>{{ __('Fresh from the shop') }}</h6>
-                    <h2 class="title-text">{{ __('Featured bikes') }}</h2>
-                </div>
+            <div class="bike-trail__heading">
+                <h6>{{ __('Fresh from the shop') }}</h6>
+                <h2 class="title-text">{{ __('Featured Bikes') }}</h2>
+            </div>
 
-                <div class="row">
-                    @foreach ($featuredBikes as $bike)
-                        @if($bike->provision->name == 'buy')
-                            <a href="{{ route('bikes.sale.show', $bike) }}">
-                                <div class="col-md-4">
-                                    <div class="bike-card" style="background-image: url('{{ asset($bike->images->first()->image) }}')">
-                                        <div class="bike-info">
-                                            <h3>{{ $bike?->brand?->name ?? 'N/A' }}</h3>
-                                            <p><i class="fa fa-bicycle"></i> {{ $bike->type->name }}</p>
-                                            <p><i class="fa fa-cog"></i> {{ $bike->speed->gears }}</p>
-                                        </div>
-                                    </div>
-                                </div>
+            <div class="bike-trail__row">
+                @foreach ($featuredBikes as $i => $bike)
+                    @php
+                        $detailUrl = $bike->provision?->name === 'buy'
+                            ? route('bikes.sale.show', $bike)
+                            : route('bikes.rental.show', $bike);
+                    @endphp
 
-                            </a>
-                        @else
-                            <a href="{{ route('bikes.rental.show', $bike) }}">
-                                <div class="col-md-4">
-                                    <div class="bike-card" style="background-image: url('{{ asset($bike->images->first()->image) }}')">
-                                        <div class="bike-info">
-                                            <h3>{{ $bike?->brand?->name ?? 'N/A' }}</h3>
-                                            <p><i class="fa fa-bicycle"></i> {{ $bike->type->name }}</p>
-                                            <p><i class="fa fa-cog"></i> {{ $bike->speed->gears }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        @endif
+                    <a href="{{ $detailUrl }}"
+                       class="bike-slice {{ $i % 2 === 0 ? 'bike-slice--a' : 'bike-slice--b' }}">
+                        <div class="bike-slice__img"
+                             style="background-image: url('{{ asset($bike->images->first()?->image ?? '') }}')"></div>
+                        <div class="bike-slice__overlay"></div>
+                        <div class="bike-slice__info">
+                            <span class="bike-slice__num">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                            <h3>{{ $bike?->brand?->name ?? 'N/A' }}</h3>
+                            <p><i class="fa fa-bicycle"></i> {{ $bike->type->name }}</p>
+                            <p><i class="fa fa-cog"></i> {{ $bike->speed->gears }} speeds</p>
+                            <span class="bike-slice__cta">
+                            {{ __('View bike') }} <span class="bike-slice__arrow">→</span>
+                        </span>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
 
-
-                    @endforeach
-                </div>
-
-                <div class="more-info text-center">
-                    <a href="{{ route('bikes.sale') }}" class="btn btn-trans btn-md">{{ __('See all bikes') }}</a>
-                </div>
+            <div class="bike-trail__more">
+                <a href="{{ route('bikes.sale') }}" class="btn btn-trans btn-md">{{ __('See all bikes') }}</a>
             </div>
         </section>
     @endif

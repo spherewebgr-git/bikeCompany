@@ -15,7 +15,7 @@ class FeaturedBikeController extends Controller
 {
     public function edit(Request $request)
     {
-        $query = Bike::with('brand');
+        $query = Bike::where('visible', true);
 
         $featuredIds = FeaturedBike::orderBy('order')->pluck('bike_id');
 
@@ -58,7 +58,7 @@ class FeaturedBikeController extends Controller
 
     public function featuredsearch(Request $request)
     {
-        $allbikes = Bike::query();
+        $allbikes = Bike::where('visible', true);
 
         if ($request->filled('featsearch'))
         {

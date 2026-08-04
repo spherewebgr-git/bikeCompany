@@ -13,7 +13,7 @@ class SaleBikeController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Bike::whereHas('provision', function ($q) {
+        $query = Bike::where('visible', true)->whereHas('provision', function ($q) {
             $q->where('name', 'buy');
         });
 
@@ -92,10 +92,5 @@ class SaleBikeController extends Controller
     public function show(Bike $bike)
     {
         return view('bikes.sale.show', compact('bike'));
-    }
-
-    public function personal_info(Bike $bike)
-    {
-        return view('bikes.sale.personal-info', compact('bike'));
     }
 }
