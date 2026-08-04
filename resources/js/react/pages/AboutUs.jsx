@@ -1,7 +1,11 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageHero from '../components/PageHero.jsx';
+import FeaturedBikes from '../components/FeaturedBikes.jsx';
+import AboutUsSection from '../components/AboutUsSection.jsx';
 import aboutImage from '../../../images/about-image.jpg';
+import PageHeroImage from '../../../images/page-hero.jpg';
+import PageHeroVideo from '../../../videos/about-us-video.mp4';
 
 <img src={aboutImage} alt="Trail Bike workshop" />
 
@@ -12,56 +16,21 @@ export default function AboutUs() {
 
             <main className="page-content">
                 <PageHero
+                    eyebrow="Trail Bike Workshop"
                     title="About Us"
-                    description="Learn how we started and what drive us to keep rides on the road"
-                    backgroundImage={aboutImage}
+                    description="What started as a handful of friends who couldn't stay off two wheels has grown into a full workshop and store. Every bike that leaves our hands is inspected, tuned, and serviced by people who actually ride because we believe good gear starts with people who understand the trail."
+                    backgroundImage={PageHeroImage}
+                    backgroundVideo={PageHeroVideo}
                 />
-                <section className="about-us" id="about">
-                    <div className="nav-container">
-                        <div className="about-grid">
-                            <div className="about-media">
-                                <img src={aboutImage} alt="Trail Bike workshop" />
-                                <div className="about-tag">
-                                    <span className="about-tag__line">Tuning since</span>
-                                    <span className="about-tag__year">10+ yrs</span>
-                                </div>
-                            </div>
 
-                            <div className="about-copy">
-                                <span className="eyebrow">Trail Bike Workshop</span>
-                                <h2 className="about-heading">
-                                    Built on trails.<br />
-                                    <span>Tuned by hand.</span>
-                                </h2>
-                                <p>We started as a handful of friends who couldn't stay off two wheels. Now we're a full workshop and store — inspecting, tuning, and servicing every bike before it leaves our hands, so you can focus on the ride.</p>
-                                <p>From city cruisers to full-suspension trail bikes, our catalog keeps growing. Whatever you ride, we're here with the right bike and honest advice.</p>
+                <AboutUsSection image={aboutImage} />
 
-                                <ul className="about-values">
-                                    <li><i className="fa fa-check-circle"></i> Quality checked</li>
-                                    <li><i className="fa fa-clock"></i> Flexible rentals</li>
-                                    <li><i className="fa fa-life-ring"></i> Local support</li>
-                                    <li><i className="fa fa-refresh"></i> Fresh stock</li>
-                                </ul>
-                            </div>
-                        </div>
+                <FeaturedBikes/>
 
-                        <div className="about-specs">
-                            <div className="about-specs__item">
-                                <span className="about-specs__label">Bikes available</span>
-                                <span className="about-specs__value">150+</span>
-                            </div>
-                            <div className="about-specs__item">
-                                <span className="about-specs__label">Happy riders</span>
-                                <span className="about-specs__value">2,000+</span>
-                            </div>
-                            <div className="about-specs__item">
-                                <span className="about-specs__label">Years of experience</span>
-                                <span className="about-specs__value">10</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+
             </main>
+
+
 
             <Footer />
         </div>

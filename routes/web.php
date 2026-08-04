@@ -181,4 +181,6 @@ Route::get('/about-us-react', function () {
     return view('react');
 })->name('about-us-react');
 
+
+
 require __DIR__.'/auth.php';

@@ -1,0 +1,230 @@
+.about-section {
+    position: relative;
+    padding: 120px 0;
+    background: #faf8f6;
+    overflow: hidden;
+
+    // Διακοσμητικό background shape
+    &::before {
+        content: '';
+        position: absolute;
+        top: -10%;
+        right: -5%;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(254, 72, 25, 0.06) 0%, transparent 70%);
+        z-index: 0;
+    }
+}
+
+.about-layout {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 0.85fr 1fr; // ασύμμετρο, όχι 50/50
+    gap: 80px;
+    align-items: center;
+    margin-bottom: 100px;
+
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+}
+
+// ============ Media (εικόνα με tilt effect) ============
+.about-media {
+    position: relative;
+    transition: transform 0.15s ease-out;
+    transform-style: preserve-3d;
+    will-change: transform;
+
+    img {
+        width: 100%;
+        height: 520px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 30px 60px -20px rgba(20, 18, 18, 0.3);
+    }
+
+    &__badge {
+        position: absolute;
+        bottom: -24px;
+        left: -24px;
+        background: #fe4819;
+        color: #fff;
+        padding: 20px 24px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 12px 30px -8px rgba(254, 72, 25, 0.5);
+        transform: translateZ(40px); // "ξεκολλάει" απ' την εικόνα στο 3D tilt
+
+        &-line {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            opacity: 0.85;
+        }
+
+        &-year {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+    }
+
+    @media (max-width: 900px) {
+        img { height: 360px; }
+        &__badge { left: 16px; bottom: -16px; padding: 14px 18px; }
+    }
+}
+
+// ============ Copy ============
+.about-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #fe4819;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+
+    &__dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #fe4819;
+        animation: pulse 2s ease-in-out infinite;
+    }
+}
+
+.about-heading {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: #141212;
+    margin: 0 0 28px;
+
+    &__accent {
+        display: block;
+        color: #fe4819;
+    }
+}
+
+.about-text {
+    color: #5c5654;
+    line-height: 1.75;
+    margin-bottom: 18px;
+    font-size: 1.05rem;
+}
+
+.about-values {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 32px 0 0;
+    padding: 0;
+
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        background: #fff;
+        border-radius: 10px;
+        border: 1px solid #eee;
+        opacity: 0;
+        transform: translateY(12px);
+        animation: fadeUp 0.5s ease-out forwards;
+        animation-delay: var(--delay, 0s);
+        transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+
+        &:hover {
+            border-color: #fe4819;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px -8px rgba(254, 72, 25, 0.2);
+        }
+
+        i {
+            color: #fe4819;
+            font-size: 1.1rem;
+        }
+
+        span {
+            font-weight: 500;
+            color: #333;
+            font-size: 0.95rem;
+        }
+    }
+
+    @media (max-width: 500px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+// ============ Stats ============
+.about-stats {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid #e5e0dc;
+    padding-top: 56px;
+
+    @media (max-width: 700px) {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+}
+
+.about-stat {
+    text-align: center;
+    position: relative;
+
+    &:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 10%;
+        height: 80%;
+        width: 1px;
+        background: #e5e0dc;
+
+        @media (max-width: 700px) {
+            display: none;
+        }
+    }
+
+    &__value {
+        display: block;
+        font-size: clamp(2.2rem, 4vw, 3.2rem);
+        font-weight: 800;
+        color: #fe4819;
+        line-height: 1;
+        margin-bottom: 10px;
+    }
+
+    &__label {
+        color: #5c5654;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+}
+
+// ============ Keyframes ============
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+}

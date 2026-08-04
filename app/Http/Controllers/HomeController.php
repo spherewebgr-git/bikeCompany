@@ -18,4 +18,15 @@ class HomeController extends Controller
 
         return view('home', compact('featuredBikes'));
     }
+
+    // ΤΟ ΙΔΙΟ ΑΚΡΙΒΩΣ ΑΛΛΑ ΓΙΑ REACT
+    public function apiFeatured()
+    {
+        $featuredBikes = FeaturedBike::with('bike.brand', 'bike.type', 'bike.speed', 'bike.images')
+            ->orderBy('order')
+            ->get()
+            ->pluck('bike');
+
+        return response()->json($featuredBikes);
+    }
 }

@@ -94,8 +94,4 @@ class SaleBikeController extends Controller
         return view('bikes.sale.show', compact('bike'));
     }
 
-    public function personal_info(Bike $bike)
-    {
-        return view('bikes.sale.personal-info', compact('bike'));
-    }
 }

@@ -1,27 +1,158 @@
 .page-hero {
     position: relative;
-    height: 400px;
-    background-size: cover;
-    background-position: center;
+    height: 600px;
     display: flex;
     align-items: center;
+    overflow: hidden;
+
+    &__bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: 0 -500px;
+        transform: scaleX(-1);
+        z-index: 0;
+        animation: heroZoom 18s ease-in-out infinite alternate;
+
+        &--video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; // αντίστοιχο του background-size: cover, αλλά για video
+            object-position: center;
+        }
+    }
 
     &__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            180deg,
+            rgba(20, 18, 18, 0.15) 0%,
+            rgba(20, 18, 18, 0.55) 60%,
+            rgba(20, 18, 18, 0.85) 100%
+        );
+    }
+
+    &__content {
+        position: relative;
+        z-index: 2;
         width: 100%;
-        height: 400px;
-        background: rgba(0, 0, 0, 0.4);
+        padding-bottom: 64px;
+    }
+
+    &__eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: #fe4819;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+        opacity: 0;
+        animation: heroFadeUp 0.8s ease-out 0.15s forwards;
+
+        &::before {
+            content: '';
+            width: 32px;
+            height: 2px;
+            background: #fe4819;
+            // Η γραμμή "μεγαλώνει" από 0 στο πλήρες πλάτος
+            animation: heroLineGrow 0.6s ease-out 0.5s backwards;
+        }
     }
 
     &__title {
-        margin-top: 150px;
         color: #fff;
-        font-size: 2.5rem;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 700;
+        line-height: 1.1;
         text-align: left;
+        margin: 0 0 20px;
+        text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        animation: heroFadeUp 0.8s ease-out 0.3s forwards;
     }
 
     &__description {
-        color: #eee;
-        max-width: 500px;
-        margin-top: 0.5rem;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 1.1rem;
+        max-width: 640px;
+        line-height: 1.7;
+        margin: 0;
+        opacity: 0;
+        animation: heroFadeUp 0.8s ease-out 0.45s forwards;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #fe4819 0%, transparent 60%);
+        z-index: 3;
+        transform: scaleX(0);
+        transform-origin: left;
+        animation: heroLineGrow 1s ease-out 0.6s forwards;
+    }
+
+    @media (max-width: 768px) {
+        height: 360px;
+        align-items: center;
+
+        &__title {
+            font-size: 2rem;
+        }
+
+        &__description {
+            font-size: 1rem;
+        }
+    }
+
+    // Σεβασμός στο accessibility preference — απενεργοποιεί όλα τα animations
+    @media (prefers-reduced-motion: reduce) {
+        &__bg,
+        &__eyebrow,
+        &__title,
+        &__description,
+        &::after {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: scaleX(-1) !important; // κρατάμε μόνο το flip, όχι το animation
+        }
+    }
+}
+
+// ============ Keyframes ============
+
+@keyframes heroZoom {
+    from {
+        transform: scaleX(-1) scale(1);
+    }
+    to {
+        transform: scaleX(-1) scale(1.08);
+    }
+}
+
+@keyframes heroFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes heroLineGrow {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
     }
 }

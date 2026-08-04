@@ -1,0 +1,193 @@
+.bike-trail {
+    padding: 100px 0;
+    background: #141212; // σκούρο, edgy background — spot διαφορετικό απ' το υπόλοιπο site
+    position: relative;
+    overflow: hidden;
+
+    &__heading {
+        text-align: center;
+        margin-bottom: 64px;
+        padding: 0 24px;
+
+        h6 {
+            color: #fe4819;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+
+            &::before,
+            &::after {
+                content: '';
+                display: inline-block;
+                margin: 0 10px 5px;
+                width: 32px;
+                height: 2px;
+                background: #fe4819;
+                vertical-align: middle;
+                animation: heroLineGrow 0.6s ease-out 0.5s backwards;
+            }
+        }
+
+        .title-text {
+            color: #fff;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+        }
+    }
+
+    &__row {
+        display: flex;
+        gap: 4px; // λεπτό κενό ανάμεσα στις "λόξες" κάρτες — δίνει το κοφτό feel
+        height: 560px;
+        padding: 0 4px;
+
+        @media (max-width: 900px) {
+            flex-direction: column;
+            height: auto;
+        }
+    }
+
+    &__more {
+        text-align: center;
+        margin-top: 56px;
+
+        a {
+            border-radius: 3px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        a:hover {
+            box-shadow: 0 0 12px rgba(254, 72, 25, 0.5);
+        }
+    }
+}
+
+.bike-slice {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    transition: flex 0.5s cubic-bezier(0.65, 0, 0.35, 1); // η κάρτα "φαρδαίνει" στο hover
+
+    // Στο hover, αυτή η κάρτα "τρώει" περισσότερο χώρο από τις άλλες
+    &:hover {
+        flex: 1.4;
+    }
+
+    &:hover &__img {
+        transform: scale(1.15);
+    }
+
+    &:hover &__overlay {
+        background: linear-gradient(
+            180deg,
+            rgba(20, 18, 18, 0.1) 0%,
+            rgba(254, 72, 25, 0.75) 100%
+        );
+    }
+
+    &:hover &__cta {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    &:hover &__arrow {
+        transform: translateX(6px);
+    }
+
+    &__img {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+        transform: scale(1.02);
+    }
+
+    &__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            180deg,
+            rgba(20, 18, 18, 0.1) 0%,
+            rgba(20, 18, 18, 0.9) 100%
+        );
+        transition: background 0.4s ease;
+    }
+
+    &__info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 32px 28px;
+        color: #fff;
+
+        @media (max-width: 900px) {
+            padding: 24px;
+        }
+    }
+
+    &__num {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #fe4819;
+        letter-spacing: 0.1em;
+        margin-bottom: 8px;
+    }
+
+    h3 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        margin: 0 0 8px;
+        text-transform: uppercase;
+    }
+
+    p {
+        font-size: 0.9rem;
+        opacity: 0.85;
+        margin: 2px 0;
+
+        i {
+            width: 18px;
+            color: #fe4819;
+        }
+    }
+
+    &__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 16px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s;
+    }
+
+    &__arrow {
+        transition: transform 0.3s ease;
+    }
+
+    @media (max-width: 900px) {
+        height: 240px;
+        clip-path: none !important; // στο mobile βγάζουμε το κοφτό σχήμα, μπερδεύει σε στενή οθόνη
+
+        &:hover {
+            flex: 1; // δεν έχει νόημα το flex-grow σε column layout
+        }
+
+        &__cta {
+            opacity: 1;
+            transform: translateY(0); // πάντα ορατό σε mobile, αφού δεν υπάρχει hover
+        }
+    }
+}
