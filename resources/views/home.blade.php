@@ -4,7 +4,7 @@
     <section class="slider">
         <video class="slider-video" autoplay muted loop playsinline
                poster="{{ Vite::asset('resources/images/hero-image.jpg') }}">
-            <source src="{{ Vite::asset('resources/videos/hero-video.mp4') }}" type="video/mp4">
+            <source src="{{ Vite::asset('resources/videos/home-page-video.mp4') }}" type="video/mp4">
         </video>
 
         <div class="slider-content">

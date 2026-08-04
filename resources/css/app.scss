@@ -16,6 +16,7 @@
 @import "orderfilters";
 @import "contact-us";
 
+
 // ============================================================
 // BASE
 // ============================================================
@@ -297,6 +298,32 @@ a {
 // ============================================================
 // HOME PAGE / CONTENT
 // ============================================================
+
+h2 {
+    &.section-heading {
+        color: #606060;
+        font-size: clamp(32px, 4vw, 56px);
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 1.15;
+        letter-spacing: -0.5px;
+        position: relative;
+        display: inline-block;
+        margin-bottom: 50px;
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 48px;
+            height: 4px;
+            background: #fe4819;
+            border-radius: 2px;
+        }
+    }
+}
+
 .slider {
     position: relative;
     height: 824px;
