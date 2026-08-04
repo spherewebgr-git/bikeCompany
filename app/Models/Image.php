@@ -15,4 +15,9 @@ class Image extends Model
     {
         return $this->belongsTo(Bike::class);
     }
+
+    public function getImageAttribute($value)
+    {
+        return asset($value);
+    }
 }

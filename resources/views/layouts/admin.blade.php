@@ -14,10 +14,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" rel="stylesheet">
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet/dist/leaflet.css"
-    />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
     @viteReactRefresh
     @vite(['resources/css/admin.scss', 'resources/js/admin.js', 'resources/js/react/App.jsx'])

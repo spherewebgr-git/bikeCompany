@@ -173,12 +173,13 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
 });
 
 //REACT TEST
-Route::get('/test/bikes', function () {
-    return view('react');
-});
+Route::get('/dashboard', function () {return view('react'); })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/about-us-react', function () {
-    return view('react');
-})->name('about-us-react');
+Route::get('/test/bikes', function () { return view('react'); });
+
+Route::get('/about-us-react', function () { return view('react'); })->name('about-us-react');
+
+Route::get('/staff/activerentals', function () { return view('react-admin'); })->name('staff.activerentals');
+
 
 require __DIR__.'/auth.php';

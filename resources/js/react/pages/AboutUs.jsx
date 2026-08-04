@@ -1,15 +1,11 @@
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import PageHero from '../components/PageHero.jsx';
 import aboutImage from '../../../images/about-image.jpg';
 
-<img src={aboutImage} alt="Trail Bike workshop" />
 
-export default function AboutUs() {
+export default function AboutUs()
+{
     return (
         <div className="app-wrapper">
-            <Header />
-
             <main className="page-content">
                 <PageHero
                     title="About Us"
@@ -62,8 +58,6 @@ export default function AboutUs() {
                     </div>
                 </section>
             </main>
-
-            <Footer />
         </div>
     );
 }
