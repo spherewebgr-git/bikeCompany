@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
     @viteReactRefresh
-    @vite(['resources/css/app.scss', 'resources/js/app.js', 'resources/js/react/App.jsx'])
+    @vite(['resources/css/admin.scss', 'resources/js/admin.js', 'resources/js/react/App.jsx'])
 </head>
 
 <body>

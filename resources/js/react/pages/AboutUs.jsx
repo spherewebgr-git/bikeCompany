@@ -1,5 +1,3 @@
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import PageHero from '../components/PageHero.jsx';
 import FeaturedBikes from '../components/FeaturedBikes.jsx';
 import AboutUsSection from '../components/AboutUsSection.jsx';
@@ -7,13 +5,11 @@ import aboutImage from '../../../images/about-image.jpg';
 import PageHeroImage from '../../../images/page-hero.jpg';
 import PageHeroVideo from '../../../videos/about-us-video.mp4';
 
-<img src={aboutImage} alt="Trail Bike workshop" />
 
-export default function AboutUs() {
+export default function AboutUs()
+{
     return (
         <div className="app-wrapper">
-            <Header />
-
             <main className="page-content">
                 <PageHero
                     eyebrow="Trail Bike Workshop"
@@ -29,10 +25,6 @@ export default function AboutUs() {
 
 
             </main>
-
-
-
-            <Footer />
         </div>
     );
 }
