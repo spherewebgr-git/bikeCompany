@@ -81,6 +81,13 @@ export default function Sidebar()
                         <span className="menu-title">Past Orders</span>
                     </Link>
                 </li>
+
+                <li className="bold">
+                    <Link className="waves-effect waves-cyan" to="/dashboard/management/statistics">
+                        <i className="fa-solid fa-chart-line"></i>
+                        <span className="menu-title">Statistics</span>
+                    </Link>
+                </li>
             </ul>
         </aside>
     );

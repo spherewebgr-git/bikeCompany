@@ -23,7 +23,17 @@
                 @foreach ($orders as $order)
                     <div class="active-single">
 
-                        <img src="{{ asset($order->bike->images->first()->image) }}">
+                        <div class="photo-check">
+                            <img src="{{ asset($order->bike->images->first()->image) }}">
+
+                            <form action="{{ route('activerentals.update', $order) }}" method="POST" class="returned">
+                                @csrf
+                                <label>
+                                    Returned
+                                    <input type="checkbox" name="returned" value="1" onchange="this.form.submit()" {{ $order->returned ? 'checked' : '' }}>
+                                </label>
+                            </form>
+                        </div>
 
                         <div class="bikeinfo">
                             <p class="ids">
@@ -57,14 +67,6 @@
                                 {{ $order->user->email }}
                             </p>
                         </div>
-
-                        <form action="{{ route('activerentals.update', $order) }}" method="POST" class="returned">
-                            @csrf
-                            <label>
-                                Returned
-                                <input type="checkbox" name="returned" value="1" onchange="this.form.submit()" {{ $order->returned ? 'checked' : '' }}>
-                            </label>
-                        </form>
                     </div>
                 @endforeach
 

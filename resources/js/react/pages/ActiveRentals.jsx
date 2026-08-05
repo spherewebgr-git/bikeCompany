@@ -6,7 +6,8 @@ import "../../../css/active-rentals.scss";
 export default function ActiveRentals()
 {
     const [orders, setOrders] = useState([]);
-    useEffect(() => {
+    useEffect(() =>
+    {
         fetch("/api/active-rentals")
         .then((res) => res.json())
         .then((data) => setOrders(data))
@@ -14,39 +15,70 @@ export default function ActiveRentals()
     }, []);
     
     const [filter, setFilter] = useState("any");
-    useEffect(() => {
+    useEffect(() =>
+    {
         fetch(`/api/active-rentals?return=${filter}`)
             .then((res) => res.json())
             .then((data) => setOrders(data))
             .catch(console.error);
     }, [filter]);
 
+    const markReturned = async (id) =>
+    {
+        await fetch(`/api/active-rentals/${id}`, // await: Execution pauses until the request finishes
+        {
+            method: "PATCH",
+            headers:
+            {
+                "Content-Type": "application/json", // The request body is formatted as JSON.
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+            },
+        });
+
+        setOrders(prev => prev.filter(order => order.id !== id)); // 'prev' is the current array of orders.
+    };
+
     return (
         <div id="ActiveRentals">
             <h2>Active Rentals</h2>
             <div className="container">
-                {/* REDO: react form */}
+
                 <form className="filter">
                     <legend>Return Date:</legend>
+
+                    <label>
+                        <input type="radio" name="return" value="any"
+                        checked={filter === "any"} onChange={(e) => setFilter(e.target.value)}/>
+                        Any
+                    </label>
                     
-                    <input type="radio" name="return" value="any"
-                    checked={filter === "any"} onChange={(e) => setFilter(e.target.value)}/>
-                    <label for="any">Any</label>
-                    
-                    <input type="radio" name="return" value="overdue"
-                    checked={filter === "overdue"} onChange={(e) => setFilter(e.target.value)}/>
-                    <label for="overdue">Overdue</label>
-                    
-                    <input type="radio" name="return" value="pending"
-                    checked={filter === "pending"} onChange={(e) => setFilter(e.target.value)}/>
-                    <label for="pending">Pending</label>
+                    <label>
+                        <input type="radio" name="return" value="overdue"
+                        checked={filter === "overdue"} onChange={(e) => setFilter(e.target.value)}/>
+                        Overdue
+                    </label>
+
+                    <label>
+                        <input type="radio" name="return" value="pending"
+                        checked={filter === "pending"} onChange={(e) => setFilter(e.target.value)}/>
+                        Pending
+                    </label>
                 </form>
 
                 <div className="row">
                     {orders.map((order) => (
                         <div className="active-single" key={order.id}>
 
-                            <img src={order.bike?.images?.[0]?.image} alt="bike"/>
+                            <div className="photo-check">
+                                <img src={order.bike?.images?.[0]?.image} alt="bike"/>
+                                
+                                <form className="returned">
+                                    <label>
+                                        Returned
+                                        <input type="checkbox" onChange={() => markReturned(order.id)}/>
+                                    </label>
+                                </form>
+                            </div>
 
                             <div className="bikeinfo">
                                 <p className="ids">
@@ -82,15 +114,6 @@ export default function ActiveRentals()
                                     { order.user.email }
                                 </p>
                             </div>
-
-                            {/* REDO: react form */}
-                            <form action="{ route('activerentals.update', order) }" method="POST" className="returned">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                                <label>
-                                    Returned
-                                    <input type="checkbox" name="returned" value="1" onChange="this.form.submit()"/>
-                                </label>
-                            </form>
 
                         </div>
                     ))}

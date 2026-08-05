@@ -20,14 +20,23 @@ export default function Header({ user, logout })
 
                     <div className="nav-links">
                         <Link to="/" className="nav-link">Home</Link>
-                        <Link to="/bikes-sale" className="nav-link">Bikes for sale</Link>
+
+                        {/* TODO: Covert these pages to React: */}
+                        <a href="/bikes/sale" className="nav-link">Bikes for sale</a>
+                        <a href="/bikes/rental" className="nav-link">Rental Bikes</a>
+                        <a href="/contact-us" className="nav-link">Contact Us</a>
+
+                        {/* <Link to="/bikes-sale" className="nav-link">Bikes for sale</Link>
                         <Link to="/bikes-rental" className="nav-link">Rental Bikes</Link>
-                        <Link to="/contact-us" className="nav-link">Contact Us</Link>
+                        <Link to="/contact-us" className="nav-link">Contact Us</Link> */}
                     </div>
 
                     <div className="nav-user">
                         {user?.role?.name === "staff" &&
-                        (<Link to="/dashboard/management/bikes" className="btn btn-trans btn-md">Dashboard</Link>)}
+                        (
+                            <a href="/dashboard/management/bikes" className="btn btn-trans btn-md">Dashboard</a>
+                            // TODO: <Link to="/dashboard/management/bikes" className="btn btn-trans btn-md">Dashboard</Link>
+                        )}
 
                         {user ? (
                             <>
@@ -40,15 +49,18 @@ export default function Header({ user, logout })
                                         <div id="profile-menu-dropdown">
                                             <ul className="profile-links">
                                                 <li>
-                                                    <Link to="/profile">Account</Link>
+                                                    <a href="/profile">Account</a>
+                                                    {/* <Link to="/profile">Account</Link> */}
                                                 </li>
 
                                                 <li>
-                                                    <Link to="/profile/orders">My Orders</Link>
+                                                    <a href="/profile/orders">My Orders</a>
+                                                    {/* <Link to="/profile/orders">My Orders</Link> */}
                                                 </li>
 
                                                 <li>
-                                                    <Link to="/profile/history">History</Link>
+                                                    <a href="/profile/history">History</a>
+                                                    {/* <Link to="/profile/history">History</Link> */}
                                                 </li>
                                             </ul>
                                         </div>
@@ -61,13 +73,10 @@ export default function Header({ user, logout })
                             </>
                         ) : (
                             <>
-                                <Link to="/login" className="btn btn-trans btn-md">
-                                    Log in
-                                </Link>
-
-                                <Link to="/register" className="btn btn-fill btn-md">
-                                    Register
-                                </Link>
+                                <a href="/login" className="btn btn-trans btn-md">Log in</a>
+                                <a href="/register" className="btn btn-fill btn-md">Register</a>
+                                {/* <Link to="/login" className="btn btn-trans btn-md">Log in</Link>
+                                <Link to="/register" className="btn btn-fill btn-md">Register</Link> */}
                             </>
                         )}
                     </div>

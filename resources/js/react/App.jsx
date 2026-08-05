@@ -1,9 +1,15 @@
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+// LAYOUTS
 import LayoutAdmin from './components/LayoutAdmin';
 import LayoutPublic from './components/LayoutPublic';
+
+// PUBLIC PAGES
 import AboutUs from './pages/AboutUs';
 import Bikes from './pages/Bikes';
+
+// ADMIN PAGES
 import ActiveRentals from './pages/ActiveRentals';
 
 

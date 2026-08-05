@@ -90,6 +90,12 @@
     .overdue { color: #fe4819; }
     .tobe { color: #2268ff; }
 
+    .photo-check
+    {
+        display: flex;
+        flex-direction: column;
+    }
+
     img
     {
         max-height: 180px;
@@ -102,11 +108,9 @@
     {
         @include orangebtn;
         padding: 4px;
-        position: absolute;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
         width: 180px;
         text-align: center;
+        margin-top: auto;
 
         &:hover { @include orangebtnhover; }
     }

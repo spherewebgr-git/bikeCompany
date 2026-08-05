@@ -10,46 +10,35 @@ use Illuminate\Support\Facades\Mail;
 
 class ActiveRentalsController extends Controller
 {
-    public function activerentals()
+    public function activerentals(Request $request)
     {
         $complete = Status::max('step');
         $orders = Order::with(['bike.images', 'location', 'user', 'status'])
         ->whereHas('status', function ($query) use ($complete)
-        { $query->where('step', $complete)->where('rent_end', '<>', null)->where('returned', false); })
-        ->orderBy('rent_end')->get();
-
-        return response()->json($orders);
-    }
-
-    public function activerentalsfilter(Request $request)
-    {
-        $complete = Status::max('step');
-        $orders = Order::whereHas('status', function ($query) use ($complete)
         { $query->where('step', $complete)->where('rent_end', '<>', null)->where('returned', false); });
 
-        if ($request->input('return') === 'overdue')
+        if ($request->query('return') === 'overdue')
         {
-            $orders = $orders->where('rent_end', '<', \now());
+            $orders = $orders->where('rent_end', '<', now());
         }
 
-        if ($request->input('return') === 'pending')
+        if ($request->query('return') === 'pending')
         {
-            $orders = $orders->where('rent_end', '>=', \now());
+            $orders = $orders->where('rent_end', '>=', now());
         }
 
-        return view('staff.activerentals.track', [
-            'orders' => $orders->orderBy("rent_end")->get()
-        ]);
+        return response()->json($orders->orderBy('rent_end')->get());
     }
 
     public function updatereturned(Order $order)
     {
-        if ($order->returned) {
-            return redirect()->back();
+        if ($order->returned)
+        {
+            return response()->json(['message' => 'Order already returned.'], 400);
         }
 
         $order->returned = true;
-        if ($order->rent_end != null) { $order->rent_end = \now(); }
+        if ($order->rent_end) { $order->rent_end = now(); }
 
         $order->save();
 
@@ -62,10 +51,13 @@ class ActiveRentalsController extends Controller
             'bike.speed',
         ]);
 
-        Mail::to($order->user->email)
-            ->queue(new OrderDeliveredMail($order));
+        Mail::to($order->user->email)->queue(new OrderDeliveredMail($order));
 
-        return redirect()->back();
+        return response()->json
+        ([
+            'message' => 'Rental marked as returned.',
+            'order' => $order,
+        ]);
     }
 
 }
