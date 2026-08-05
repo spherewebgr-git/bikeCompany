@@ -69,7 +69,7 @@
                                     <a href="{{ route('checkout.create-sale', $bike) }}" class="btn btn-fill btn-md">{{ __('Buy now') }}</a>
                                 @else
                                     <a href="{{ route('login') }}?redirect={{ urlencode(route('bikes.sale.show', $bike)) }}"
-                                    class="btn btn-fill btn-md">
+                                       class="btn btn-fill btn-md">
                                         {{ __('Buy now') }}
                                     </a>
                                 @endauth
@@ -92,32 +92,9 @@
                             @endif
 
 
-                                @auth
-                                    @php
-                                        $isWishlisted = auth()->user()
-                                            ->wishlistBikes()
-                                            ->where('bikes.id', $bike->id)
-                                            ->exists();
-                                    @endphp
 
-                                    <div
-                                        data-wishlist-root
-                                        data-bike-id="{{ $bike->id }}"
-                                        data-wishlisted="{{ $isWishlisted ? 'true' : 'false' }}"
-                                    ></div>
 
-                                    @vite('resources/js/wishlist.jsx')
-                                @else
-                                    <a
-                                        href="{{ route('login') }}?redirect={{ urlencode(route('bikes.sale.show', $bike)) }}"
-                                        class="btn btn-trans btn-md"
-                                    >
-                                        <i class="fa-regular fa-heart"></i>
-                                        {{ __('Log in to use Wishlist') }}
-                                    </a>
-                                @endauth
-
-                                <a href="{{ route('bikes.sale') }}" class="btn btn-trans btn-md">{{ __('Back to all bikes') }}</a>
+                            <a href="{{ route('bikes.sale') }}" class="btn btn-trans btn-md">{{ __('Back to all bikes') }}</a>
                         </div>
                     </div>
                 </div>
