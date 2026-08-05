@@ -33,21 +33,13 @@ export default function ActiveRentals()
         });
     }, []);
 
-    const filterBikes = async (filters) =>
+    const loadBikes = async (params = {}) =>
     {
-        const params = new URLSearchParams(filters);
-        const res = await fetch(`/api/admin/manage/products?${params}`);
-        const bikes = await res.json();
+        const query = new URLSearchParams(params);
+        const res = await fetch( `/api/admin/manage/products?${query}` );
+        const data = await res.json();
 
-        setBikes(bikes);
-    };
-
-    const [sku, setSku] = useState("");
-    const search = async (sku) =>
-    {
-        const res = await fetch(`/api/admin/manage/products?SKU=${sku}`);
-        const bikes = await res.json();
-        setBikes(bikes);
+        setBikes(data.bikes);
     };
 
     return (
@@ -60,14 +52,14 @@ export default function ActiveRentals()
                 </a>
 
                 <div className="filter-search">
-                    <form onSubmit={(e) => { e.preventDefault(); search(sku); }}>
+                    <form onSubmit={(e) => { e.preventDefault(); loadBikes({ SKU: sku }); }}>
                         <input value={sku} onChange={(e) => setSku(e.target.value)} placeholder="Search SKUs"/>
                         <button type="submit">
                             <i className="fa-solid fa-magnifying-glass"></i>
                         </button>
                     </form>
 
-                    <BikeFilters filters={filters} onFilter={filterBikes}/>
+                    <BikeFilters filters={filters} onFilter={loadBikes(selectedFilters)}/>
                 </div>
 
                 <BikeTable bikes={bikes}/>

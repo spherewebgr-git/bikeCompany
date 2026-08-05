@@ -20,7 +20,8 @@ class ProductController extends Controller
             'brand',
             'type',
             'speed',
-            'provision'
+            'provision',
+            'images',
         ]);
 
         if ($request->filled('SKU'))
@@ -61,17 +62,23 @@ class ProductController extends Controller
         }
 
         $bikes = $bikes->get();
-        return response()->json($bikes);
+        return response()->json([
+            'bikes' => $bikes,
+            'brands' => Brand::all(),
+            'types' => Type::all(),
+            'provisions' => Provision::all(),
+            'speeds' => Speed::all()
+        ]);
     }
 
 
     public function delete($id)
     {
-        Price::where('bike_id', $id)->delete();
+        $bike = Bike::findOrFail($id);
+        $bike->prices()->delete();
+        $bike->delete();
 
-        Bike::findOrFail($id)->delete();
-
-        return response()->json(['message' => 'Bike deleted.']);
+        return response()->json([ 'message' => 'Bike deleted.' ]);
     }
 
 

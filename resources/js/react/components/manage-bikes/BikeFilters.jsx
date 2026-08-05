@@ -1,19 +1,18 @@
 import { useState } from "react";
 import "../../../../css/bikefilters.scss";
 
-export default function BikeFilters({ filters })
+export default function BikeFilters({ filters, onFilter })
 {
-    const [filters, setFilters] = useState
-    ({
-        provision: initialFilters.provision || "",
-        brand: initialFilters.brand || "",
-        type: initialFilters.type || "",
-        gears: initialFilters.gears || "",
+    const [selectedFilters, setSelectedFilters] = useState({
+        provision: "",
+        brand: "",
+        type: "",
+        gears: "",
     });
 
     const handleChange = (e) =>
     {
-        setFilters({...filters, [e.target.name]: e.target.value,});
+        setSelectedFilters({...filters, [e.target.name]: e.target.value,});
     };
 
     const handleSubmit = (e) =>
@@ -26,7 +25,7 @@ export default function BikeFilters({ filters })
         <div id="BikeFilters">
             <form onSubmit={handleSubmit}>
                 <label htmlFor="provision">Provision</label>
-                <select name="provision" id="provision" className="form-select" value={filters.provision} onChange={handleChange}>
+                <select name="provision" id="provision" className="form-select" value={selectedFilters.provision} onChange={handleChange}>
                     <option value="">Any</option>
 
                     {filters.provisions.map((provision) => (
@@ -37,7 +36,7 @@ export default function BikeFilters({ filters })
                 </select>
 
                 <label htmlFor="brand">Brand</label>
-                <select name="brand" id="brand" className="form-select" value={filters.brand} onChange={handleChange}>
+                <select name="brand" id="brand" className="form-select" value={selectedFilters.brand} onChange={handleChange}>
                     <option value="">Any</option>
 
                     {filters.brands.map((brand) => (
@@ -48,7 +47,7 @@ export default function BikeFilters({ filters })
                 </select>
 
                 <label htmlFor="type">Type:</label>
-                <select name="type" id="type" className="form-select" value={filters.type} onChange={handleChange}>
+                <select name="type" id="type" className="form-select" value={selectedFilters.type} onChange={handleChange}>
                     <option value="">Any</option>
 
                     {filters.types.map((type) => (
@@ -59,7 +58,7 @@ export default function BikeFilters({ filters })
                 </select>
 
                 <label htmlFor="gears">Gears:</label>
-                <select name="gears" id="gears" className="form-select" value={filters.gears} onChange={handleChange}>
+                <select name="gears" id="gears" className="form-select" value={selectedFilters.gears} onChange={handleChange}>
                     <option value="">Any</option>
 
                     {filters.speeds.map((speed) =>
