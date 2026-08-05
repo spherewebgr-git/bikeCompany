@@ -12,7 +12,7 @@ export default function WishlistBikeCard({
             >
                 {bike.image ? (
                     <img
-                        src={`/${bike.image}`}
+                        src={`${bike.image}`}
                         alt={
                             `${bike.brand ?? ''} ${bike.type ?? 'Bike'}`
                         }

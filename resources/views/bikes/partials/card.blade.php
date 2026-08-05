@@ -4,27 +4,69 @@
         <div class="col-md-5 bike-card__image-col">
             <figure class="hover-img bike-card__image">
 
-                <img src="{{ asset($bike->images->first()->image) }}"
-                     alt="{{ $bike?->brand?->name ?? 'N/A' }}"
-                     class="img-responsive bike-card__img">
+                <img
+                    src="{{ asset($bike->images->first()->image) }}"
+                    alt="{{ $bike?->brand?->name ?? 'N/A' }}"
+                    class="img-responsive bike-card__img"
+                >
+
+                @auth
+                    @php
+                        $isWishlisted = auth()->user()
+                            ->wishlistBikes()
+                            ->where('bikes.id', $bike->id)
+                            ->exists();
+                    @endphp
+
+                    <div
+                        class="bike-card__wishlist"
+                        data-wishlist-root
+                        data-bike-id="{{ $bike->id }}"
+                        data-wishlisted="{{ $isWishlisted ? 'true' : 'false' }}"
+                    ></div>
+                @else
+                    @php
+                        $bikeUrl = $bike->provision->name === 'buy'
+                            ? route('bikes.sale.show', $bike)
+                            : route('bikes.rental.show', $bike);
+                    @endphp
+
+                    <a
+                        href="{{ route('login') }}?redirect={{ urlencode($bikeUrl) }}"
+                        class="bike-card__wishlist-login"
+                        title="{{ __('Log in to use Wishlist') }}"
+                        aria-label="{{ __('Log in to use Wishlist') }}"
+                    >
+                        <i class="fa-regular fa-heart"></i>
+                    </a>
+                @endauth
 
                 <div class="img-hover-content bike-card__overlay">
 
                     @if($bike->provision->name === 'buy')
-                        <a href="{{ route('bikes.sale.show', $bike) }}" class="link-popup bike-card__overlay-link">
+                        <a
+                            href="{{ route('bikes.sale.show', $bike) }}"
+                            class="link-popup bike-card__overlay-link"
+                        >
                             <i class="icon-inside fa fa-link bike-card__overlay-icon"></i>
                         </a>
                     @elseif($bike->provision->name === 'rent')
-                        <a href="{{ route('bikes.rental.show', $bike) }}" class="link-popup bike-card__overlay-link">
+                        <a
+                            href="{{ route('bikes.rental.show', $bike) }}"
+                            class="link-popup bike-card__overlay-link"
+                        >
                             <i class="icon-inside fa fa-link bike-card__overlay-icon"></i>
                         </a>
                     @endif
+
                 </div>
 
             </figure>
         </div>
 
         <div class="col-md-7 bike-card__content">
+
+
 
             <header class="article-heading bike-card__header">
 
@@ -87,30 +129,7 @@
                                 </span>
                             @endforeach
 
-                            @auth
-                                @php
-                                    $isWishlisted = auth()->user()
-                                        ->wishlistBikes()
-                                        ->where('bikes.id', $bike->id)
-                                        ->exists();
-                                @endphp
 
-                                <div
-                                    data-wishlist-root
-                                    data-bike-id="{{ $bike->id }}"
-                                    data-wishlisted="{{ $isWishlisted ? 'true' : 'false' }}"
-                                ></div>
-
-                                @vite('resources/js/wishlist.jsx')
-                            @else
-                                <a
-                                    href="{{ route('login') }}?redirect={{ urlencode(route('bikes.sale.show', $bike)) }}"
-                                    class="btn btn-trans btn-md"
-                                >
-                                    <i class="fa-regular fa-heart"></i>
-                                    {{ __('Log in to use Wishlist') }}
-                                </a>
-                            @endauth
 
                         </div>
 
@@ -139,4 +158,6 @@
 
     </div>
 </article>
+
+@vite('resources/js/wishlist.jsx')
 
