@@ -182,7 +182,13 @@ Route::get('/test/bikes', function () { return view('react'); });
 
 Route::get('/about-us-react', function () { return view('react'); })->name('about-us-react');
 
-Route::get('/staff/activerentals', function () { return view('react-admin'); })->name('staff.activerentals');
+
+// ADMIN
+// ADMIN > MANAGEMENT
+Route::get('/admin/manage/products', function () { return view('react-admin'); })->name('admin.products');
+
+// ADMIN > TRACKING
+Route::get('/admin/track/activerentals', function () { return view('react-admin'); })->name('admin.activerentals');
 
 
 require __DIR__.'/auth.php';

@@ -10,6 +10,7 @@ import AboutUs from './pages/AboutUs';
 import Bikes from './pages/Bikes';
 
 // ADMIN PAGES
+import ManageBikes from './pages/ManageBikes';
 import ActiveRentals from './pages/ActiveRentals';
 
 
@@ -27,7 +28,8 @@ function App()
 
             {/* ADMIN PAGES */}
                 <Route element={<LayoutAdmin/>}>
-                    <Route path="/staff/activerentals" element={<ActiveRentals/>}/>
+                    <Route path="/admin/manage/products" element={<ManageBikes/>}/>
+                    <Route path="/admin/track/activerentals" element={<ActiveRentals/>}/>
                 </Route>
 
             </Routes>
