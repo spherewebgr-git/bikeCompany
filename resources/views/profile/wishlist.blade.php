@@ -21,8 +21,6 @@
                 </span>
             </nav>
 
-            <h2>{{ __('My Wishlist') }}</h2>
-
         </div>
     </div>
 

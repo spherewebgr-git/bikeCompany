@@ -93,7 +93,7 @@ class CheckoutController extends Controller
                     'bike_id' => $lockedBike->id,
                     'user_id' => auth()->id(),
                     'status_id' => $statusId,
-                    'reserved_until' => now()->addMinutes(2),
+                    'reserved_until' => now()->addMinutes(15),
                     'completed_at' => null,
                     'card_id' => null,
                 ]);

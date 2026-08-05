@@ -77,11 +77,9 @@ export default function WishlistPage({
             <header className="wishlist-page__header">
 
                 <div>
-                    <h1>My Wishlist</h1>
-
-                    <p>
-                        Bikes you have saved for later.
-                    </p>
+                    <h2 class="section-heading">
+                        My Wishlist
+                    </h2>
                 </div>
 
                 <span className="wishlist-page__count">
@@ -100,7 +98,9 @@ export default function WishlistPage({
             {bikes.length === 0 ? (
                 <div className="wishlist-empty">
 
-                    <i className="fa-regular fa-heart" />
+                    <div className="wishlist-empty__icon">
+                        <i className="fa-regular fa-heart" />
+                    </div>
 
                     <h2>Your wishlist is empty</h2>
 
@@ -115,6 +115,7 @@ export default function WishlistPage({
                             href="/bikes/sale"
                             className="btn btn-fill btn-md"
                         >
+                            <i className="fa-solid fa-bicycle" />
                             Bikes for Sale
                         </a>
 
@@ -122,6 +123,7 @@ export default function WishlistPage({
                             href="/bikes/rental"
                             className="btn btn-trans btn-md"
                         >
+                            <i className="fa-regular fa-clock" />
                             Rental Bikes
                         </a>
 
@@ -129,7 +131,7 @@ export default function WishlistPage({
 
                 </div>
             ) : (
-                <div className="wishlist-grid">
+                <div className="row row--grid wishlist-grid">
 
                     {bikes.map(function (bike) {
                         return (

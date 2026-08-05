@@ -46,13 +46,19 @@ class WishlistController extends Controller
                     'brand' => $bike->brand?->name,
                     'type' => $bike->type?->name,
                     'gears' => $bike->speed?->gears,
-                    'provision' => $bike->provision?->name,
+                    'provision' => ucfirst($bike->provision?->name ?? ''),
 
-                    'price' => $bike->prices
-                        ->first()?->price,
+                    'prices' => $bike->prices
+                        ->map(function ($price) {
+                            return [
+                                'id' => $price->id,
+                                'price' => $price->price,
+                                'description' => $price->description,
+                            ];
+                        })
+                        ->values(),
 
-                    'image' => $bike->images
-                        ->first()?->image,
+                    'image' => $bike->images->first()?->image,
 
                     'show_url' => strtolower(
                         $bike->provision?->name ?? ''

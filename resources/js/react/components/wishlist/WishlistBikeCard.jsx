@@ -4,96 +4,140 @@ export default function WishlistBikeCard({
                                              onRemove,
                                          }) {
     return (
-        <article className="wishlist-bike-card">
+        <article className="mb-60 bike-card wishlist-bike-card">
 
-            <a
-                href={bike.show_url}
-                className="wishlist-bike-card__image"
-            >
-                {bike.image ? (
-                    <img
-                        src={`${bike.image}`}
-                        alt={
-                            `${bike.brand ?? ''} ${bike.type ?? 'Bike'}`
-                        }
-                    />
-                ) : (
-                    <div className="wishlist-bike-card__placeholder">
-                        <i className="fa-solid fa-bicycle" />
-                    </div>
-                )}
-            </a>
+            <div className="row bike-card__row">
 
-            <div className="wishlist-bike-card__content">
+                <div className="col-md-5 bike-card__image-col">
 
-                <div className="wishlist-bike-card__heading">
+                    <figure className="bike-card__image">
 
-                    <div>
-                        <h3>
-                            {bike.brand ?? 'Bike'}
-                        </h3>
+                        {bike.image ? (
+                            <img
+                                src={bike.image}
+                                alt={`${bike.brand ?? ''} ${bike.type ?? 'Bike'}`}
+                                className="img-responsive bike-card__img"
+                            />
+                        ) : (
+                            <div className="wishlist-bike-card__placeholder">
+                                <i className="fa-solid fa-bicycle" />
+                            </div>
+                        )}
 
-                        <p>
-                            {bike.type ?? 'Type not available'}
-                        </p>
-                    </div>
+                        <button
+                            type="button"
+                            className="wishlist-bike-card__remove"
+                            onClick={() => onRemove(bike.id)}
+                            disabled={isRemoving}
+                            title="Remove from Wishlist"
+                            aria-label="Remove from Wishlist"
+                        >
+                            <i
+                                className={
+                                    isRemoving
+                                        ? 'fa-solid fa-spinner fa-spin'
+                                        : 'fa-solid fa-heart'
+                                }
+                                aria-hidden="true"
+                            />
+                        </button>
 
-                    <button
-                        type="button"
-                        className="wishlist-bike-card__remove"
-                        onClick={() => onRemove(bike.id)}
-                        disabled={isRemoving}
-                        aria-label="Remove bike from wishlist"
-                        title="Remove from wishlist"
-                    >
-                        <i className="fa-solid fa-heart" />
-                    </button>
+                    </figure>
 
                 </div>
 
-                <ul className="wishlist-bike-card__details">
+                <div className="col-md-7 bike-card__content">
 
-                    <li>
-                        <strong>SKU:</strong>
-                        <span>{bike.sku ?? '-'}</span>
-                    </li>
+                    <header className="article-heading bike-card__header">
 
-                    <li>
-                        <strong>Colour:</strong>
-                        <span>{bike.colour ?? '-'}</span>
-                    </li>
+                        <h4 className="title-text bike-card__title">
+                            <a
+                                href={bike.show_url}
+                                className="bike-card__title-link"
+                            >
+                                {bike.brand ?? 'N/A'}
+                            </a>
+                        </h4>
 
-                    <li>
-                        <strong>Gears:</strong>
-                        <span>{bike.gears ?? '-'}</span>
-                    </li>
+                        <div className="meta-data bike-card__meta">
 
-                    <li>
-                        <strong>Availability:</strong>
+                            <span className="meta-cat bike-card__type">
+                                <i className="fa fa-bicycle" />
+                                {bike.type ?? 'N/A'}
+                            </span>
 
-                        <span>
-                            {bike.quantity > 0
-                                ? `${bike.quantity} in stock`
-                                : 'Out of stock'}
-                        </span>
-                    </li>
+                            <span className="meta-time bike-card__speed">
+                                <i className="fa fa-cog" />
+                                {bike.gears ?? '-'} speeds
+                            </span>
 
-                </ul>
+                        </div>
 
-                <div className="wishlist-bike-card__footer">
+                    </header>
 
-                    <strong className="wishlist-bike-card__price">
-                        {bike.price
-                            ? `${bike.price} €`
-                            : 'Price not available'}
-                    </strong>
+                    <div className="bike-card__details">
 
-                    <a
-                        href={bike.show_url}
-                        className="btn btn-fill btn-md"
-                    >
-                        View Bike
-                    </a>
+                        <p className="bike-card__colour">
+                            <strong>Colour:</strong>
+                            {bike.colour ?? 'N/A'}
+                        </p>
+
+                        <p className="bike-card__provision">
+                            <strong>Provision:</strong>
+                            {bike.provision ?? 'N/A'}
+                        </p>
+
+                        <div className="bike-card__prices">
+
+                            <div className="bike-card__price-tag">
+
+                                <p className="bike-card__price-label">
+                                    <strong>Price:</strong>
+                                </p>
+
+                                <div className="bike-card__price-values">
+
+                                    {bike.prices?.length > 0 ? (
+                                        bike.prices.map(function (price) {
+                                            return (
+                                                <span
+                                                    className="bike-card__price-item"
+                                                    key={price.id}
+                                                >
+                                                    {price.price} €
+
+                                                    {price.description && (
+                                                        <small className="bike-card__price-desc">
+                                                            {price.description}
+                                                        </small>
+                                                    )}
+                                                </span>
+                                            );
+                                        })
+                                    ) : (
+                                        <span className="bike-card__price-item">
+                                            Price not available
+                                        </span>
+                                    )}
+
+                                </div>
+
+                                <footer className="bike-card__footer">
+
+                                    <a
+                                        href={bike.show_url}
+                                        className="btn btn-md btn-trans bike-card__button"
+                                    >
+                                        Details
+                                    </a>
+
+                                </footer>
+
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
