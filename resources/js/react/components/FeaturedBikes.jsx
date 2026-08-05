@@ -37,7 +37,7 @@ export default function FeaturedBikes() {
                 >
                 <div
                     className="bike-slice__img"
-                    style={{ backgroundImage: `url(/${bike.images?.[0]?.image ?? ''})` }}
+                    style={{ backgroundImage: `url(${bike.images?.[0]?.image ?? ''})` }}
                 ></div>
                     <div className="bike-slice__overlay"></div>
                     <div className="bike-slice__info">

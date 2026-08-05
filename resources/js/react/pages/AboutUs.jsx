@@ -4,6 +4,7 @@ import AboutUsSection from '../components/AboutUsSection.jsx';
 import aboutImage from '../../../images/about-image.jpg';
 import PageHeroImage from '../../../images/page-hero.jpg';
 import PageHeroVideo from '../../../videos/about-us-video.mp4';
+import ContactBoxes from "@/react/components/ContactBoxes.jsx";
 
 
 export default function AboutUs()
@@ -19,9 +20,39 @@ export default function AboutUs()
                     backgroundVideo={PageHeroVideo}
                 />
 
-                <AboutUsSection image={aboutImage} />
+                <AboutUsSection
+                    image={aboutImage}
+                />
 
                 <FeaturedBikes/>
+
+                <ContactBoxes
+                    items={[
+                        {
+                            type: "location",
+                            title: "Location",
+                            value: "Athens, Greece",
+                        },
+                        {
+                            type: "phone",
+                            title: "Phone",
+                            value: "+30 210 1234567",
+                            test: "fsd",
+                        },
+                        {
+                            type: "email",
+                            title: "Email",
+                            value: "info@company.com",
+                            test: "fsd",
+                        },
+                        {
+                            type: "social",
+                            title: "Social",
+                            value: "@bikecompany",
+                            test: "test",
+                        },
+                    ]}
+                />
 
 
             </main>

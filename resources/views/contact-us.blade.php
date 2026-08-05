@@ -1,3 +1,4 @@
+
 <x-app-layout>
 
     <div id="ContactUs">
@@ -147,7 +148,8 @@
 
             </div>
         </div>
-
+        <div id="contact-us-boxes"></div>
+        @vite('resources/js/react/pages/ContactUs.jsx')
     </div>
 
 </x-app-layout>

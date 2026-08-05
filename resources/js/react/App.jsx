@@ -29,7 +29,7 @@ function App()
                 <Route element={<LayoutAdmin/>}>
                     <Route path="/staff/activerentals" element={<ActiveRentals/>}/>
                 </Route>
-            
+
             </Routes>
         </BrowserRouter>
     );

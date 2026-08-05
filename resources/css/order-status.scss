@@ -1,54 +1,95 @@
 .order-status
 {
     display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px 0;
 
     .stepinfo
     {
         text-align: center;
         padding: 15px 25px;
+        position: relative;
 
         .statpoint
         {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             border-radius: 50%;
-            border: 6px solid #bebec0;
+            border: 5px solid #bebec0;
             background-color: #fff;
-            height: 50px;
-            width: 50px;
-            font-weight: bold;
-            line-height: 35px;
-            font-size: 16px;
-            margin: 0 22px;
+            height: 54px;
+            width: 54px;
+
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 17px;
+            color: #6c6c6c;
+
+            margin: 0 auto 15px;
+
+            transition:
+                background .3s ease,
+                border-color .3s ease,
+                color .3s ease,
+                transform .3s ease,
+                box-shadow .3s ease;
 
             &::after
             {
                 content: '';
                 position: absolute;
-                border-bottom: 6px solid #bebec0;
-                width: 95px;
-                padding-top: 15px;
-                margin-left: 20px;
+                top: 50%;
+                left: 112%;
+                width: 100px;
+                height: 5px;
+                background: #bebec0;
+                transform: translateY(-50%);
+                transition: background .3s ease;
             }
 
             &.past
             {
                 border-color: #fe4819;
-                &::after { border-color: #fe4819; }
+                color: #fe4819;
+
+                &::after
+                {
+                    background: #fe4819;
+                }
             }
 
             &.current
             {
                 border-color: #fe4819;
-                background-color: #fe4819;
+                background: #fe4819;
                 color: #fff;
                 font-size: 20px;
+                box-shadow: 0 8px 20px rgba(254,72,25,.3);
+                transform: translateY(-4px);
             }
         }
 
         .statdesc
         {
-            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: .04em;
+            color: #3b3738;
         }
 
-        &:last-child .statpoint::after { display: none; }
+        &:last-child
+        {
+            .statpoint::after
+            {
+                display: none;
+            }
+        }
     }
 }

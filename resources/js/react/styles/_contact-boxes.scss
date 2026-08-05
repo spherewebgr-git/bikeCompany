@@ -1,0 +1,120 @@
+.contact-boxes-title {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 42px;
+    font-weight: bold;
+
+    &::after {
+        content: "";
+        display: block;
+        height: 2px;
+        width: 100px;
+        background: #fe4819;
+        margin: 15px auto 0;
+        border-radius: 3px;
+    }
+}
+
+.contact-boxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 15px;
+    margin: 50px 0 100px 0;
+}
+
+.contact-box {
+    background: #fff;
+    border: 1px solid #ececec;
+    border-radius: 18px;
+    padding: 35px 30px;
+    text-align: center;
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        border-color .3s ease;
+
+    box-shadow: 0 12px 28px rgba(0,0,0,.05);
+
+    &:hover {
+        transform: translateY(-6px);
+        border-color: rgba(254,72,25,.25);
+        box-shadow: 0 20px 45px rgba(0,0,0,.08);
+
+        i {
+            background: #fe4819;
+            color: #fff;
+            transform: rotate(-8deg) scale(1.05);
+        }
+    }
+
+    i {
+        width: 74px;
+        height: 74px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin: 0 auto 24px;
+
+        border-radius: 50%;
+
+        background: rgba(254,72,25,.08);
+        color: #fe4819;
+
+        font-size: 28px;
+
+        transition: all .35s ease;
+    }
+
+    h4 {
+        margin: 0 0 5px;
+        font-weight: 800;
+
+        font-family: 'Oswald', sans-serif;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+
+        color: #3b3738;
+    }
+
+    a,
+    span {
+        display: inline-block;
+
+        color: #6c6c6c;
+        text-decoration: none;
+
+        font-size: 15px;
+        line-height: 1.7;
+
+        transition: color .3s ease;
+    }
+
+    a:hover {
+        color: #fe4819;
+    }
+}
+
+@media (max-width:768px){
+
+    .contact-boxes{
+        gap:20px;
+    }
+
+    .contact-box{
+        padding:30px 22px;
+    }
+
+    .contact-box i{
+        width:60px;
+        height:60px;
+        font-size:24px;
+    }
+
+    .contact-box h4{
+        font-size:19px;
+    }
+}
