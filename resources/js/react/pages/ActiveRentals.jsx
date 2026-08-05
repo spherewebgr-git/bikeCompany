@@ -6,32 +6,40 @@ import "../../../css/active-rentals.scss";
 export default function ActiveRentals()
 {
     const [orders, setOrders] = useState([]);
-
     useEffect(() => {
         fetch("/api/active-rentals")
+        .then((res) => res.json())
+        .then((data) => setOrders(data))
+        .catch((err) => console.error(err));
+    }, []);
+    
+    const [filter, setFilter] = useState("any");
+    useEffect(() => {
+        fetch(`/api/active-rentals?return=${filter}`)
             .then((res) => res.json())
             .then((data) => setOrders(data))
-            .catch((err) => console.error(err));
-    }, []);
+            .catch(console.error);
+    }, [filter]);
 
     return (
         <div id="ActiveRentals">
             <h2>Active Rentals</h2>
             <div className="container">
                 {/* REDO: react form */}
-                <form action="{ route('activerentals.filter') }" method="GET" className="filter">
+                <form className="filter">
                     <legend>Return Date:</legend>
                     
-                    <input type="radio" id="any" name="return" value="any"/>
+                    <input type="radio" name="return" value="any"
+                    checked={filter === "any"} onChange={(e) => setFilter(e.target.value)}/>
                     <label for="any">Any</label>
                     
-                    <input type="radio" id="overdue" name="return" value="overdue"/>
+                    <input type="radio" name="return" value="overdue"
+                    checked={filter === "overdue"} onChange={(e) => setFilter(e.target.value)}/>
                     <label for="overdue">Overdue</label>
                     
-                    <input type="radio" id="pending" name="return" value="pending"/>
+                    <input type="radio" name="return" value="pending"
+                    checked={filter === "pending"} onChange={(e) => setFilter(e.target.value)}/>
                     <label for="pending">Pending</label>
-
-                    <button type="submit">Filter</button>
                 </form>
 
                 <div className="row">
@@ -48,11 +56,13 @@ export default function ActiveRentals()
 
                                 {new Date(order.rent_end) < new Date() ? (
                                     <p className="overdue">
-                                        <b>OVERDUE:</b> {order.rent_end}
+                                        <b>OVERDUE: </b>
+                                        {order.rent_end.replace("Z", "").replace("T", " ").replace(".000000", "")}
                                     </p>
                                 ) : (
                                     <p className="tobe">
-                                        <b>Rent End:</b> {order.rent_end}
+                                        <b>Rent End: </b>
+                                        {order.rent_end.replace("Z", "").replace("T", " ").replace(".000000", "")}
                                     </p>
                                 )}  
 
