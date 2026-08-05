@@ -5,9 +5,69 @@ namespace App\Http\Controllers;
 use App\Models\Bike;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class WishlistController extends Controller
 {
+
+    /**
+     * Εμφανίζει τη Blade σελίδα που φιλοξενεί
+     * το React WishlistPage component.
+     */
+    public function index(): View
+    {
+        return view('profile.wishlist');
+    }
+
+    /**
+     * Επιστρέφει τα wishlist bikes του χρήστη
+     * σε JSON μορφή για τη React.
+     */
+    public function items(Request $request): JsonResponse
+    {
+        $bikes = $request->user()
+            ->wishlistBikes()
+            ->with([
+                'brand',
+                'type',
+                'speed',
+                'provision',
+                'prices',
+                'images',
+            ])
+            ->get()
+            ->map(function (Bike $bike) {
+                return [
+                    'id' => $bike->id,
+                    'sku' => $bike->SKU,
+                    'colour' => $bike->colour,
+                    'quantity' => $bike->quantity,
+
+                    'brand' => $bike->brand?->name,
+                    'type' => $bike->type?->name,
+                    'gears' => $bike->speed?->gears,
+                    'provision' => $bike->provision?->name,
+
+                    'price' => $bike->prices
+                        ->first()?->price,
+
+                    'image' => $bike->images
+                        ->first()?->image,
+
+                    'show_url' => strtolower(
+                        $bike->provision?->name ?? ''
+                    ) === 'rent'
+                        ? route('bikes.rental.show', $bike)
+                        : route('bikes.sale.show', $bike),
+                ];
+            });
+
+        return response()->json([
+            'success' => true,
+            'bikes' => $bikes,
+        ]);
+    }
+
     /**
      * Επιστρέφει αν το συγκεκριμένο ποδήλατο
      * υπάρχει ήδη στη wishlist του χρήστη.

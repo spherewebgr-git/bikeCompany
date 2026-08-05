@@ -8,7 +8,7 @@
         </div>
 
         @if ($orders->first())
-            <div class="row">
+            <div class="row" style="margin-bottom: 300px;">
                 @foreach ($orders as $order)
                     <div class="order-card">
                         <img src="{{ asset($order->bike->images->first()->image) }}" alt="bike"/>

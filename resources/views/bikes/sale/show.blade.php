@@ -69,7 +69,7 @@
                                     <a href="{{ route('checkout.create-sale', $bike) }}" class="btn btn-fill btn-md">{{ __('Buy now') }}</a>
                                 @else
                                     <a href="{{ route('login') }}?redirect={{ urlencode(route('bikes.sale.show', $bike)) }}"
-                                    class="btn btn-fill btn-md">
+                                       class="btn btn-fill btn-md">
                                         {{ __('Buy now') }}
                                     </a>
                                 @endauth
@@ -91,7 +91,10 @@
                                 @endauth
                             @endif
 
-                                <a href="{{ route('bikes.sale') }}" class="btn btn-trans btn-md">{{ __('Back to all bikes') }}</a>
+
+
+
+                            <a href="{{ route('bikes.sale') }}" class="btn btn-trans btn-md">{{ __('Back to all bikes') }}</a>
                         </div>
                     </div>
                 </div>

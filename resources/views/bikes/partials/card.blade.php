@@ -5,8 +5,8 @@
             <figure class="hover-img bike-card__image">
 
                 <img src="{{ asset($bike->images->first()->image) }}"
-                    alt="{{ $bike?->brand?->name ?? 'N/A' }}"
-                    class="img-responsive bike-card__img">
+                     alt="{{ $bike?->brand?->name ?? 'N/A' }}"
+                     class="img-responsive bike-card__img">
 
                 <div class="img-hover-content bike-card__overlay">
 
@@ -86,6 +86,32 @@
                                     @endif
                                 </span>
                             @endforeach
+
+                            @auth
+                                @php
+                                    $isWishlisted = auth()->user()
+                                        ->wishlistBikes()
+                                        ->where('bikes.id', $bike->id)
+                                        ->exists();
+                                @endphp
+
+                                <div
+                                    data-wishlist-root
+                                    data-bike-id="{{ $bike->id }}"
+                                    data-wishlisted="{{ $isWishlisted ? 'true' : 'false' }}"
+                                ></div>
+
+                                @vite('resources/js/wishlist.jsx')
+                            @else
+                                <a
+                                    href="{{ route('login') }}?redirect={{ urlencode(route('bikes.sale.show', $bike)) }}"
+                                    class="btn btn-trans btn-md"
+                                >
+                                    <i class="fa-regular fa-heart"></i>
+                                    {{ __('Log in to use Wishlist') }}
+                                </a>
+                            @endauth
+
                         </div>
 
                         <footer class="bike-card__footer">

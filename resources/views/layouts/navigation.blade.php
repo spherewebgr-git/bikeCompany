@@ -39,6 +39,7 @@
                         <div id="profile-menu-dropdown">
                             <ul class="profile-links">
                                 <li><a href="{{ route('profile.edit') }}">Account</a></li>
+                                <li><a href="{{ route('profile.wishlist.index') }}">My Wishlist</a></li>
                                 <li><a href="{{ route('profile.orders') }}">My Orders</a></li>
                                 <li><a href="{{ route('profile.history') }}">History</a></li>
                             </ul>

@@ -66,6 +66,7 @@ class BikeSeeder extends Seeder
                     'brand_id' => Brand::inRandomOrder()->value('id'),
                     'speed_id' => Speed::inRandomOrder()->value('id'),
                     'provision_id' => $provisiontype->id,
+                    'visible' => true,
 
                     'quantity' => rand(1, 50),
                     'serialnum' => NULL,
@@ -81,6 +82,7 @@ class BikeSeeder extends Seeder
                     'brand_id' => Brand::inRandomOrder()->value('id'),
                     'speed_id' => Speed::inRandomOrder()->value('id'),
                     'provision_id' => $provisiontype->id,
+                    'visible' => true,
 
                     'quantity' => NULL,
                     'serialnum' => generateSerialNum(),

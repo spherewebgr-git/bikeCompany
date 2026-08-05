@@ -93,5 +93,4 @@ class SaleBikeController extends Controller
     {
         return view('bikes.sale.show', compact('bike'));
     }
-
 }
