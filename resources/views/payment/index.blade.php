@@ -1,9 +1,12 @@
 <x-app-layout>
 
     <div class="page-header">
-        <div class="page-header-container">
-            <h2>{{ __('Payment') }}</h2>
+        <div class="container">
+            <h2 class="section-heading">
+                {{ __('Payment') }}
+            </h2>
         </div>
+
     </div>
 
     <div class="page-content">
@@ -224,19 +227,18 @@
 
                     </div>
 
-                    <div id="reservationTimer" class="reservation-timer">
-
-                        <h4>⏳ Reservation Time Remaining</h4>
-
-                        <div id="reservationTime" class="time">
-                            15:00
+                    <div id="reservationTimer" class="reservation-toast">
+                        <div class="reservation-toast__icon">
+                            <i class="fa-solid fa-clock"></i>
                         </div>
 
-                        <p>
-                            This bike is reserved for you.
-                            Complete your order before the timer expires.
-                        </p>
+                        <div class="reservation-toast__content">
+                            <strong>Reservation expires in</strong>
 
+                            <div id="reservationTime" class="time">
+                                15:00
+                            </div>
+                        </div>
                     </div>
 
                     <div class="payment-total-container">
