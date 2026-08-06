@@ -3,7 +3,7 @@
 @endphp
 
 <div id="BikeFilters">
-    <form method="GET" action="{{ $filterAction }}">
+    <form class="filters" method="GET" action="{{ $filterAction }}">
         <label for="provision">Provision:</label>
         <select name="provision" id="provision" class="form-select">
             <option value="" selected> Any </option>

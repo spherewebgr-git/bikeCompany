@@ -11,6 +11,7 @@ import Bikes from './pages/Bikes';
 
 // ADMIN PAGES
 import ManageBikes from './pages/ManageBikes';
+import EditBike from './pages/EditBike';
 import ActiveRentals from './pages/ActiveRentals';
 
 
@@ -29,6 +30,7 @@ function App()
             {/* ADMIN PAGES */}
                 <Route element={<LayoutAdmin/>}>
                     <Route path="/admin/manage/products" element={<ManageBikes/>}/>
+                    <Route path="/admin/manage/products/edit/:id" element={<EditBike />}/>
                     <Route path="/admin/track/activerentals" element={<ActiveRentals/>}/>
                 </Route>
 

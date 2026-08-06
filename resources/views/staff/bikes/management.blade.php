@@ -8,7 +8,7 @@
         </a>
 
         <div class="filter-search">
-            <form method="GET" action="{{ route('bikes.search') }}">
+            <form class="search" method="GET" action="{{ route('bikes.search') }}">
                 <input type="text" id="SKU" name="SKU" placeholder="Search SKUs">
                 <button type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>

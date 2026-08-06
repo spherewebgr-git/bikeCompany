@@ -47,7 +47,7 @@
         display: flex;
     }
 
-    form
+    form.search
     {
         margin: 20px;
         display: flex;
@@ -103,7 +103,7 @@
         {
             display: flex;
 
-            a
+            a, button
             {
                 margin: 0 10px;
                 padding: 10px;
@@ -116,19 +116,21 @@
                     color: #6c6c6c;
                     transition: all 0.3s;
                 }
-            }
 
-            a:hover
-            {
-                @include regularbtnhover;
+                &:hover
+                {
+                    @include regularbtnhover;
 
-                i { color: #fe4819; }
+                    i { color: #fe4819; }
+                }
             }
         }
 
-        form.edit-quantity
+        .edit-quantity { display: none; }
+        .update-quantity { display: block; }
+
+        form.edit-quantity, form.update-quantity
         {
-            display: none;
             position: absolute;
             right: 10%;
             background: white;
@@ -178,7 +180,7 @@
 
 #BikeEdit
 {
-    form
+    form.edit-bike-info
     {
         padding: 60px;
         font-size: 20px;

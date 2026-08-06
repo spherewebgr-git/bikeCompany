@@ -12,18 +12,18 @@ export default function BikeFilters({ filters, onFilter })
 
     const handleChange = (e) =>
     {
-        setSelectedFilters({...filters, [e.target.name]: e.target.value,});
+        setSelectedFilters({...selectedFilters, [e.target.name]: e.target.value,});
     };
 
     const handleSubmit = (e) =>
     {
         e.preventDefault();
-        onFilter(filters);
+        onFilter(selectedFilters);
     };
 
     return (
         <div id="BikeFilters">
-            <form onSubmit={handleSubmit}>
+            <form className="filters" onSubmit={handleSubmit}>
                 <label htmlFor="provision">Provision</label>
                 <select name="provision" id="provision" className="form-select" value={selectedFilters.provision} onChange={handleChange}>
                     <option value="">Any</option>

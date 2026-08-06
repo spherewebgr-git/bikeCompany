@@ -22,42 +22,42 @@ export default function Sidebar()
                 </li>
 
                 <li className="bold">
-                    <Link className="waves-effect waves-cyan" to="/dashboard/management/bikes">
+                    <Link className="waves-effect waves-cyan" to="/admin/manage/products">
                         <i className="fa-solid fa-bicycle"></i>
                         <span className="menu-title">Bike Management</span>
                     </Link>
                 </li>
 
                 <li className="bold">
-                    <Link className="waves-effect waves-cyan" to="/dashboard/management/calendar">
+                    <Link className="waves-effect waves-cyan" to="/admin/manage/calendar">
                         <i className="fa-solid fa-calendar"></i>
                         <span className="menu-title">Calendar Blocked Dates</span>
                     </Link>
                 </li>
 
                 <li className="bold">
-                    <Link className="waves-effect waves-cyan" to="/dashboard/management/categories">
+                    <Link className="waves-effect waves-cyan" to="/admin/manage/categories">
                         <i className="fa-solid fa-table"></i>
                         <span className="menu-title">Categories Management</span>
                     </Link>
                 </li>
 
                 <li className="bold">
-                    <Link className="waves-effect waves-cyan" to="/dashboard/management/featured-bikes">
+                    <Link className="waves-effect waves-cyan" to="/admin/manage/featured-bikes">
                         <i className="fa-solid fa-home"></i>
                         <span className="menu-title">Homepage Management</span>
                     </Link>
                 </li>
 
                 <li className="bold">
-                    <Link className="waves-effect waves-cyan" to="/dashboard/management/orders">
+                    <Link className="waves-effect waves-cyan" to="/admin/manage/orders">
                         <i className="fa-solid fa-store"></i>
                         <span className="menu-title">Order Management</span>
                     </Link>
                 </li>
 
                 <li className="bold">
-                    <Link className="waves-effect waves-cyan" to="/dashboard/management/users">
+                    <Link className="waves-effect waves-cyan" to="/admin/manage/users">
                         <i className="fa-solid fa-users-gear"></i>
                         <span className="menu-title">User Management</span>
                     </Link>
@@ -69,21 +69,21 @@ export default function Sidebar()
                 </li>
 
                 <li className="bold">
-                    <Link className="waves-effect waves-cyan" to="/staff/activerentals">
+                    <Link className="waves-effect waves-cyan" to="/admin/track/activerentals">
                         <i className="fa-regular fa-alarm-clock"></i>
                         <span className="menu-title">Active Rentals</span>
                     </Link>
                 </li>
 
                 <li className="bold">
-                    <Link className="waves-effect waves-cyan" to="/dashboard/management/orderhistory">
+                    <Link className="waves-effect waves-cyan" to="/admin/track/orderhistory">
                         <i className="fa-solid fa-clock-rotate-left"></i>
                         <span className="menu-title">Past Orders</span>
                     </Link>
                 </li>
 
                 <li className="bold">
-                    <Link className="waves-effect waves-cyan" to="/dashboard/management/statistics">
+                    <Link className="waves-effect waves-cyan" to="/admin/track/statistics">
                         <i className="fa-solid fa-chart-line"></i>
                         <span className="menu-title">Statistics</span>
                     </Link>

@@ -53,7 +53,6 @@
                 <td>
                     <div class="bikeactions">
                         <a href="{{ route('bike.edit',[$bike->id]) }}" class="edit">Edit</a>
-                        <a href="{{ route('bike.delete',[$bike->id]) }}" class="delete">Delete</a>
                     </div>
                 </td>
             </tr>

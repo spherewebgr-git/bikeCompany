@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import BikeFilters from "../components/manage-bikes/BikeFilters";
 import BikeTable from "../components/manage-bikes/BikeTable";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import "../../../css/bike-management.scss";
 
 export default function ActiveRentals()
 {
+    const navigate = useNavigate();
 
     const [bikes, setBikes] = useState([]);
 
@@ -33,6 +33,7 @@ export default function ActiveRentals()
         });
     }, []);
 
+    const [sku, setSku] = useState("");
     const loadBikes = async (params = {}) =>
     {
         const query = new URLSearchParams(params);
@@ -47,22 +48,22 @@ export default function ActiveRentals()
             <div className="container" id="BikeManagement">
                 <h2 className="section-heading">Bike Database</h2>
 
-                <a href="">
-                    <button className="Create">+ Insert New Bike</button>
-                </a>
+                <button className="Create" onClick={() => navigate(`/admin/manage/products/edit/${bike.id}`)}>
+                    + Insert New Bike
+                </button>
 
                 <div className="filter-search">
-                    <form onSubmit={(e) => { e.preventDefault(); loadBikes({ SKU: sku }); }}>
+                    <form className="search" onSubmit={(e) => { e.preventDefault(); loadBikes({ SKU: sku }); }}>
                         <input value={sku} onChange={(e) => setSku(e.target.value)} placeholder="Search SKUs"/>
                         <button type="submit">
                             <i className="fa-solid fa-magnifying-glass"></i>
                         </button>
                     </form>
 
-                    <BikeFilters filters={filters} onFilter={loadBikes(selectedFilters)}/>
+                    <BikeFilters filters={filters} onFilter={loadBikes}/>
                 </div>
 
-                <BikeTable bikes={bikes}/>
+                <BikeTable bikes={bikes} loadBikes={loadBikes}/>
             </div>
         </>
     );

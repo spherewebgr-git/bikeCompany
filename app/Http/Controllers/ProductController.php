@@ -72,34 +72,24 @@ class ProductController extends Controller
     }
 
 
-    public function delete($id)
-    {
-        $bike = Bike::findOrFail($id);
-        $bike->prices()->delete();
-        $bike->delete();
-
-        return response()->json([ 'message' => 'Bike deleted.' ]);
-    }
-
-
     public function edit($id)
     {
-        $provisions = Provision::all()->sortBy("name");
-        $brands = Brand::all()->sortBy("name");
-        $types = Type::all()->sortBy("name");
-        $speeds = Speed::all()->sortBy("gears");
+        $bike = Bike::with([
+            'brand',
+            'type',
+            'speed',
+            'provision',
+            'images',
+            'prices',
+        ])->findOrFail($id);
 
-        $bike = Bike::query()->where('id', $id)->first();
-        $prices = Price::query()->where('bike_id', $id)->get();
-
-        return view('staff.bikes.bike-edit', compact(
-            'bike',
-            'provisions',
-            'brands',
-            'types',
-            'speeds',
-            'prices'
-        ));
+        return response()->json([
+            'bike' => $bike,
+            'brands' => Brand::orderBy('name')->get(),
+            'types' => Type::orderBy('name')->get(),
+            'speeds' => Speed::orderBy('gears')->get(),
+            'provisions' => Provision::orderBy('name')->get(),
+        ]);
     }
 
 
@@ -180,16 +170,19 @@ class ProductController extends Controller
 
     public function quantity($id, Request $request)
     {
-        $bike = Bike::query()->where('id', $id)->first();
+        $bike = Bike::findOrFail($id);
 
-        $bike->update(['quantity' => $request->quantity]);
+        $request->validate([ 'quantity' => 'required|integer|min:0' ]);
 
-        if ($request->quantity < 1)
-        {
-            $bike->update(['visible' => false]);
-        }
+        $bike->update([
+            'quantity' => $request->quantity,
+            'visible' => $request->quantity > 0,
+        ]);
 
-        return redirect('dashboard/management/bikes');
+        return response()->json([
+            'message' => 'Product quantity updated.',
+            'bike' => $bike,
+        ]);
     }
 
 

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div id="BikeEdit">
-    <form method="POST" action="{{ is_null($bike) ? route('bike.create') : route('bike.update', [$bike->id])}} "enctype="multipart/form-data">
+    <form method="POST" action="{{ is_null($bike) ? route('bike.create') : route('bike.update', [$bike->id])}}" enctype="multipart/form-data" class="edit-bike-info">
 
         <input type="hidden" name="_token" placeholder="{{ csrf_token() }}" />
 
