@@ -14,6 +14,7 @@ use App\Models\Role;
 use App\Models\Status;
 use App\Models\User;
 use App\Models\Image;
+use App\Services\BikeService;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -245,56 +246,8 @@ class StaffmanagementController extends Controller
             ]
         );
 
-        $bike = Bike::where([
-            'SKU' => $request->SKU,
-            'colour' => $request->colour,
-            'brand_id' => $request->brand_id,
-            'type_id' => $request->type_id,
-            'speed_id' => $request->speed_id,
-            'provision_id' => $request->provision_id,
-        ])->first();
-
-
-        if ($bike)
-        {
-            $bike->increment('quantity');
-
-            if ($bike->visible == false)
-            {
-                $bike->update(['visible' => true]);
-            }
-        }
-        else
-        {
-            $bike = Bike::create([
-                'SKU' => $request->SKU,
-                'colour' => $request->colour,
-                'brand_id' => $request->brand_id,
-                'type_id' => $request->type_id,
-                'speed_id' => $request->speed_id,
-                'provision_id' => $request->provision_id,
-                'quantity' => $request->quant,
-                'visible' => true,
-            ]);
-
-            if ($request->hasFile('images'))
-            {
-                foreach ($request->file('images') as $file)
-                {
-                    $path = $file->store('bikes', 'public');
-                    Image::create([ 'bike_id' => $bike->id, 'image' => 'storage/' . $path, ]);
-                }
-            }
-
-            foreach ($request->price ?? [] as $price)
-            // Use $request->price if it exists and is not null. Otherwise, use an empty array []
-            {
-                Price::create([
-                    'bike_id' => $bike->id,
-                    'price' => $price,
-                ]);
-            }
-        }
+        $bikeService = new BikeService();
+        $bikeService->AddBikeIfDoesntExist($request->input(), $request->file('images'));
 
         return redirect('dashboard/management/bikes');
     }
