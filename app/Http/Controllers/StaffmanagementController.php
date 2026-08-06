@@ -655,7 +655,7 @@ class StaffmanagementController extends Controller
         // Ξαναφορτώνουμε τη σχέση status
         $order->load('status');
 
-        $isReady = strtolower($order->status->name) == $complete-1; // "Ready"
+        $isReady = $order->status->step == $complete-1; // "Ready"
         $wasAlreadyReady = $previousStatus == $complete-1; // "Ready"
 
         if ($isReady && !$wasAlreadyReady) {
@@ -666,7 +666,7 @@ class StaffmanagementController extends Controller
 
         $order->load('status');
 
-        $isComplete = strtolower($order->status->step) == $complete;
+        $isComplete = $order->status->step == $complete;
         $wasAlreadyComplete = $previousStatus == $complete;
 
         $isBuy = strtolower($order->bike->provision->name ?? '') === 'buy';
