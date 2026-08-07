@@ -68,6 +68,8 @@ Route::get('/admin/manage/products', [ProductController::class, 'management']);
 Route::patch('/admin/manage/products/{id}/quantity', [ProductController::class, 'quantity']);
 Route::get('/admin/manage/products/edit/{id}', [ProductController::class, 'edit']);
 Route::patch('/admin/manage/products/update/{id}', [ProductController::class, 'update']);
+Route::get('/admin/manage/products/create', [ProductController::class, 'create']);
+Route::post('/admin/manage/products/add', [ProductController::class, 'add']);
 
 // CALENDAR 
 

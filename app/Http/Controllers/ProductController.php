@@ -95,7 +95,17 @@ class ProductController extends Controller
 
     public function update($id, Request $request)
     {
-        $bike = Bike::query()->where('id', $id)->first();
+        $bike = Bike::findOrFail($id);
+
+        $request->validate([
+            'colour' => ['required', 'string', 'max:255'],
+            'brand_id' => ['required', 'exists:brands,id'],
+            'type_id' => ['required', 'exists:types,id'],
+            'speed_id' => ['required', 'exists:speeds,id'],
+            'provision_id' => ['required', 'exists:provisions,id'],
+            'visible' => ['required', 'boolean'],
+            'images.*' => ['image', 'max:2048'],
+        ]);
 
         $bike->update([
             'colour' => $request->colour,
@@ -115,6 +125,7 @@ class ProductController extends Controller
             Price::create([
                 'bike_id' => $bike->id,
                 'price' => $request->pricebuy,
+                'description' => "€"
             ]);
         }
 
@@ -123,6 +134,7 @@ class ProductController extends Controller
             Price::create([
                 'bike_id' => $bike->id,
                 'price' => $request->pricehour,
+                'description' => " €/hour"
             ]);
         }
 
@@ -131,6 +143,7 @@ class ProductController extends Controller
             Price::create([
                 'bike_id' => $bike->id,
                 'price' => $request->priceday,
+                'description' => " €/day"
             ]);
         }
 
@@ -139,6 +152,7 @@ class ProductController extends Controller
             Price::create([
                 'bike_id' => $bike->id,
                 'price' => $request->priceweek,
+                'description' => " €/week"
             ]);
         }
 
@@ -164,7 +178,7 @@ class ProductController extends Controller
             }
         }
 
-        return redirect('dashboard/management/bikes');
+        return response()->json([ 'message' => 'Bike updated successfully' ]);
     }
 
 
@@ -179,14 +193,21 @@ class ProductController extends Controller
             'visible' => $request->quantity > 0,
         ]);
 
+        return response()->json([ 'bike' => $bike ]);
+    }
+
+    public function create()
+    {
         return response()->json([
-            'message' => 'Product quantity updated.',
-            'bike' => $bike,
+            'brands' => Brand::orderBy('name')->get(),
+            'types' => Type::orderBy('name')->get(),
+            'speeds' => Speed::orderBy('gears')->get(),
+            'provisions' => Provision::orderBy('name')->get(),
         ]);
     }
 
 
-    public function create(Request $request)
+    public function add(Request $request)
     {
         $request->validate(
             [
@@ -242,16 +263,43 @@ class ProductController extends Controller
                 }
             }
 
-            foreach ($request->price ?? [] as $price)
-            // Use $request->price if it exists and is not null. Otherwise, use an empty array []
+            if ($request->pricebuy)
             {
                 Price::create([
                     'bike_id' => $bike->id,
-                    'price' => $price,
+                    'price' => $request->pricebuy,
+                    'description' => "€"
+                ]);
+            }
+
+            if ($request->pricehour)
+            {
+                Price::create([
+                    'bike_id' => $bike->id,
+                    'price' => $request->pricehour,
+                    'description' => " €/hour"
+                ]);
+            }
+
+            if ($request->priceday)
+            {
+                Price::create([
+                    'bike_id' => $bike->id,
+                    'price' => $request->priceday,
+                    'description' => " €/day"
+                ]);
+            }
+
+            if ($request->priceweek)
+            {
+                Price::create([
+                    'bike_id' => $bike->id,
+                    'price' => $request->priceweek,
+                    'description' => " €/week"
                 ]);
             }
         }
 
-        return redirect('dashboard/management/bikes');
+        return response()->json([ "bike" => $bike ]);
     }
 }

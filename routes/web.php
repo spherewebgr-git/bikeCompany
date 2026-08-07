@@ -189,6 +189,7 @@ Route::get('/about-us-react', function () { return view('react'); })->name('abou
 // ADMIN > MANAGEMENT
 Route::get('/admin/manage/products', function () { return view('react-admin'); })->name('admin.products');
 Route::get('/admin/manage/products/edit/{id}', function () { return view('react-admin'); })->name('admin.products.edit');
+Route::get('/admin/manage/products/create', function () { return view('react-admin'); })->name('admin.products.create');
 
 // ADMIN > TRACKING
 Route::get('/admin/track/activerentals', function () { return view('react-admin'); })->name('admin.activerentals');

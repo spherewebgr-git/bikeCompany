@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function BikeTable({ bikes, loadBikes })
 {
@@ -73,7 +74,7 @@ export default function BikeTable({ bikes, loadBikes })
 
                         <td>
                             {bike.images?.length > 0 && (
-                                <img className="bikephoto" src={ bike.images?.[0]?.image } alt=""/>
+                                <img className="bikephoto" src={ bike.images?.[0]?.image } alt="bike"/>
                             )}
                         </td>
 
