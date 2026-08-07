@@ -70,10 +70,12 @@
         </div>
     </div>
 
-    <div :class="{ 'block': open, 'hidden': !open }" class="mobile-menu hidden">
+    <div :class="{ 'is-open': open }" class="mobile-menu">
         <div class="mobile-links">
+            <a href="{{ route('home') }}" class="btn btn-trans btn-md no-float">Home</a>
             <a href="{{ route('bikes.rental') }}" class="btn btn-trans btn-md no-float">Rental Bikes</a>
             <a href="{{ route('bikes.sale') }}" class="btn btn-trans btn-md no-float">Buy Bikes</a>
+            <a href="{{ route('contact-us') }}" class="btn btn-trans btn-md no-float">Contact Us</a>
         </div>
 
         <div class="mobile-user-links">
@@ -81,7 +83,7 @@
                 <div class="mobile-user-name">{{ Auth::user()->name }}</div>
                 <div class="mobile-user-email">{{ Auth::user()->email }}</div>
 
-                <a href="{{ route('dashboard') }}" class="btn btn-trans btn-md no-float">Dashboard</a>
+                <a href="{{ route('dashboard.management.bikes') }}" class="btn btn-trans btn-md no-float">Dashboard</a>
                 <a href="{{ route('profile.edit') }}" class="btn btn-trans btn-md no-float">Profile</a>
 
                 <form method="POST" action="{{ route('logout') }}">

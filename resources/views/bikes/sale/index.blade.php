@@ -24,6 +24,52 @@
 
                 <div class="bike-filters" x-data="{ open: {{ request()->hasAny(['brand','type','speed','color','min_price','max_price','sort']) ? 'true' : 'false' }} }">
 
+                    <form action="{{ route('bikes.rental') }}"
+                          method="GET"
+                          class="bike-search-form"
+                          x-data="{
+          query: '{{ request('search') }}',
+          suggestions: [],
+          open: false,
+          async fetchSuggestions() {
+              if (this.query.length < 2) {
+                  this.suggestions = [];
+                  this.open = false;
+                  return;
+              }
+              const res = await fetch(`{{ route('bikes.rental.suggestions') }}?q=${encodeURIComponent(this.query)}`);
+              this.suggestions = await res.json();
+              this.open = this.suggestions.length > 0;
+          },
+          select(value) {
+              this.query = value;
+              this.open = false;
+              $refs.searchInput.focus();
+          }
+      }"
+                          @click.outside="open = false">
+
+                        <div class="bike-search-form__field">
+                            <input type="text"
+                                   name="search"
+                                   x-ref="searchInput"
+                                   x-model="query"
+                                   @input.debounce.300ms="fetchSuggestions()"
+                                   @focus="if (suggestions.length) open = true"
+                                   autocomplete="off"
+                                   placeholder="Search brand, type, speed, colour...">
+
+                            <ul class="bike-search-suggestions" x-show="open" x-transition>
+                                <template x-for="s in suggestions" :key="s">
+                                    <li @click="select(s)" x-text="s"></li>
+                                </template>
+                            </ul>
+                        </div>
+
+                        <button type="submit">Search</button>
+
+                    </form>
+
                     <button type="button"
                             class="filter-toggle"
                             @click="open = !open">
@@ -112,24 +158,32 @@
 
                 </div>
 
-                <div class="view-toggle">
-                    <button type="button" :class="{ 'is-active': !gridView }" @click="setView('list')">
-                        <i class="fa fa-bars"></i> List
-                    </button>
-                    <button type="button" :class="{ 'is-active': gridView }" @click="setView('grid')">
-                        <i class="fa fa-th-large"></i> Grid
-                    </button>
-                </div>
 
-                <div class="row" :class="{ 'row--grid': gridView }">
-                    @foreach($bikes as $bike)
-                        @include('bikes.partials.card')
-                    @endforeach
-                </div>
 
-                <div class="pagination-wrapper">
-                    {{ $bikes->links() }}
-                </div>
+                @if($bikes->count() == 0)
+                    <div class="no-bikes-message">
+                        <h4>There are no bikes matching your search.</h4>
+                    </div>
+                @else
+                    <div class="view-toggle">
+                        <button type="button" :class="{ 'is-active': !gridView }" @click="setView('list')">
+                            <i class="fa fa-bars"></i> List
+                        </button>
+                        <button type="button" :class="{ 'is-active': gridView }" @click="setView('grid')">
+                            <i class="fa fa-th-large"></i> Grid
+                        </button>
+                    </div>
+
+                    <div class="row" :class="{ 'row--grid': gridView }">
+                        @foreach($bikes as $bike)
+                            @include('bikes.partials.card')
+                        @endforeach
+                    </div>
+
+                    <div class="pagination-wrapper">
+                        {{ $bikes->links() }}
+                    </div>
+                @endif
 
             </div>
 

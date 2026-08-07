@@ -111,6 +111,102 @@
         }
     }
 
+    .bike-search-form {
+        display: flex;
+        gap: 12px;
+        padding: 0 0 20px;
+
+        &__field {
+            position: relative;
+            flex: 1;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            height: 44px;
+            padding: 0 18px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            color: #3b3738;
+            font-size: 14px;
+            transition: border-color .3s ease, box-shadow .3s ease;
+
+            &::placeholder {
+                color: #999;
+            }
+
+            &:hover {
+                border-color: #fe4819;
+            }
+
+            &:focus {
+                outline: none;
+                border-color: #fe4819;
+                box-shadow: 0 0 0 3px rgba(254, 72, 25, .15);
+            }
+        }
+
+        button {
+            white-space: nowrap;
+            height: 44px;
+            padding: 0 30px;
+            border-radius: 8px;
+            font-weight: 700;
+            background: #fe4819;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(254, 72, 25, .25);
+            transition: transform .3s ease, box-shadow .3s ease;
+
+            &:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 12px 28px rgba(254, 72, 25, .35);
+            }
+        }
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+
+            input[type="text"],
+            button {
+                width: 100%;
+            }
+        }
+    }
+
+    .bike-search-suggestions {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        right: 0;
+        z-index: 50;
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, .08);
+        list-style: none;
+        margin: 0;
+        padding: 6px;
+        max-height: 260px;
+        overflow-y: auto;
+
+        li {
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #3b3738;
+            cursor: pointer;
+            transition: background .2s ease, color .2s ease;
+
+            &:hover {
+                background: rgba(254, 72, 25, .08);
+                color: #fe4819;
+            }
+        }
+    }
+
     .bike-filters__content {
         overflow: hidden;
         background: #fff;
@@ -118,6 +214,10 @@
         border-radius: 12px;
         padding: 25px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
+
+        @media (max-width: 576px) {
+            padding: 18px;
+        }
     }
 
     &__form {
@@ -144,6 +244,10 @@
 
     #price-slider {
         margin-top: 20px;
+    }
+
+    @media (max-width: 576px) {
+        width: 100%;
     }
 }
 
@@ -217,11 +321,19 @@
             transform: translateY(-1px);
         }
     }
+
+    @media (max-width: 576px) {
+        width: 100%;
+
+        select {
+            width: 100%;
+        }
+    }
 }
 
 
 // ============================================================
-// VIEW GRID
+// VIEW GRID / TOGGLE
 // ============================================================
 .view-toggle {
     display: flex;
@@ -255,6 +367,11 @@
             color: #fe4819;
         }
     }
+
+    // grid-only σε mobile — δεν υπάρχει επιλογή list
+    @media (max-width: 768px) {
+        display: none;
+    }
 }
 
 .row.row--grid {
@@ -287,6 +404,7 @@
     @media (max-width: 576px) {
         grid-template-columns: 1fr;
         gap: 20px;
+        padding: 0 16px;   // breathing room από τις άκρες της οθόνης
     }
 
     > * {
@@ -296,9 +414,60 @@
         min-width: 0 !important;      // αποτρέπει overflow από flex/grid children
         flex: none !important;
         padding: 0 !important;
-        margin: 0 !important;         // παίρνει θέση από το gap, όχι από margin-bottom (πιάνει και mb-60)
+        margin: 0 !important;         // παίρνει θέση από το gap, όχι από margin-bottom
     }
 }
+
+// αν ο χρήστης είχε ήδη επιλέξει list πριν έρθει σε mobile (π.χ. saved state),
+// φέρνουμε πίσω σε grid layout ανεξάρτητα από την κλάση
+@media (max-width: 768px) {
+    .row--list {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+
+        &::before,
+        &::after {
+            display: none !important;
+            content: none !important;
+        }
+
+        > * {
+            box-sizing: border-box !important;
+            width: 100% !important;
+            max-width: none !important;
+            min-width: 0 !important;
+            flex: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+    }
+}
+
+
+// ============================================================
+// NO BIKES SEARCH MESSAGE
+// ============================================================
+.no-bikes-message {
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    border-radius: 10px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    flex: 0 0 calc(50% - 15px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+
+    @media (max-width: 768px) {
+        flex: 0 0 100%;
+    }
+}
+
 
 // ============================================================
 // BIKE CARD GRID
@@ -338,7 +507,7 @@
 
         &__image {
             width: 100%;
-            height: 100%;
+            max-height: 100%;
             border-radius: 0;
             border: none;
         }
@@ -349,11 +518,19 @@
             flex-direction: column;
             justify-content: space-between;
             padding: 24px;
+
+            @media (max-width: 576px) {
+                padding: 18px;
+            }
         }
 
         &__title {
             a, & {
                 font-size: 22px;
+
+                @media (max-width: 576px) {
+                    font-size: 19px;
+                }
             }
         }
 
@@ -380,15 +557,13 @@
         }
 
         &__price-values {
-            gap: 5px!important;
+            gap: 5px !important;
         }
 
         &__price-item {
             font-size: 15px;
             padding: 5px 10px;
         }
-
-
 
         &__footer {
             margin-left: 0;
@@ -418,7 +593,7 @@
 
 
 // ============================================================
-// BIKE CARD
+// BIKE CARD (single/list view — desktop default)
 // ============================================================
 
 .bike-card {
@@ -516,6 +691,10 @@
 
     &__prices {
         margin-top: 90px;
+
+        @media (max-width: 768px) {
+            margin-top: 40px;
+        }
     }
 
     &__row {
@@ -523,6 +702,11 @@
         align-items: center;
         flex: 1;
         width: 100%;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: stretch;
+        }
     }
 
     &__title {
@@ -536,6 +720,10 @@
             line-height: 1.2;
             letter-spacing: -.3px;
             transition: color .3s ease;
+
+            @media (max-width: 576px) {
+                font-size: 26px;
+            }
         }
 
         a {
@@ -592,6 +780,10 @@
                 margin-right: 8px;
                 font-weight: 600;
             }
+
+            @media (max-width: 576px) {
+                font-size: 15px !important;
+            }
         }
     }
 
@@ -599,6 +791,7 @@
         display: flex;
         align-items: baseline;
         gap: 15px;
+        flex-wrap: wrap;
     }
 
     &__price-label {
@@ -652,14 +845,29 @@
         margin-bottom: 25px;
         gap: 25px;
         color: #888;
+        flex-wrap: wrap;
     }
 
     &__footer {
         margin-left: auto;
         display: flex;
         justify-content: flex-end;
+
+        @media (max-width: 768px) {
+            margin-left: 0;
+            justify-content: stretch;
+
+            .bike-card__button {
+                width: 100%;
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        padding: 22px;
     }
 }
+
 
 // ============================================================
 // BIKE SINGLE
@@ -668,18 +876,28 @@
 .bike-single {
     padding: 60px 0;
 
+    @media (max-width: 576px) {
+        padding: 36px 0;
+    }
+
     .bike-single-grid {
         display: flex;
         gap: 40px;
         align-items: flex-start;
 
-        @media (max-width: 768px) {
-            flex-direction: column;
+        @media (max-width: 991px) {
+            display: block;
+            gap: 30px;
+
+            .bikeGalleryWrapper {
+                margin-bottom: 50px;
+            }
         }
 
         .bike-single-right-section {
             display: flex;
             flex-direction: column;
+            width: 100%;
         }
     }
 
@@ -704,7 +922,7 @@
     .bikeGallery {
         flex: 1;
         height: 100%;
-        min-width: 0;
+        min-width: 0;                          // κρίσιμο σε flex row, αλλιώς δεν συμπιέζεται σωστά
         border-radius: 16px;
         overflow: hidden;
         background: #fff;
@@ -742,15 +960,12 @@
         }
     }
 
-
-    // THUMBNAILS
+    // THUMBNAILS — κανονικό flex-child, ΟΧΙ absolute
     .bikeGalleryThumbs {
         width: 90px;
         height: 100%;
         flex-shrink: 0;
-        position: absolute;
-        left: -100px;
-        top: 106px;
+        order: -1;
 
         .swiper-wrapper {
             height: 100%;
@@ -758,7 +973,8 @@
 
         .swiper-slide {
             width: 90px;
-            height: 90px !important;
+            // ΧΩΡΙΣ fixed height εδώ — το Swiper (vertical mode) το υπολογίζει μόνο του·
+            // ένα !important εδώ θα έμπαινε σε conflict με το inline style που γράφει το JS
             opacity: .5;
             cursor: pointer;
             border-radius: 8px;
@@ -778,28 +994,62 @@
             object-fit: cover;
             display: block;
         }
+
+        @media (max-width: 1200px) {
+            width: 70px;
+
+            .swiper-slide {
+                width: 70px;
+                // ακόμα vertical σε αυτό το εύρος — ούτε εδώ fixed height
+            }
+        }
     }
 
+    // TABLET/SMALL DESKTOP — gallery+thumbs ακόμα δίπλα-δίπλα, μικρότερο ύψος
+    @media (max-width: 1200px) {
+        .bikeGalleryWrapper {
+            height: 400px;
+        }
+    }
 
-    // MOBILE
+    // MOBILE — thumbs γίνονται horizontal λωρίδα κάτω από το gallery
+    // (πρέπει να ταιριάζει ΑΚΡΙΒΩΣ με το breakpoint 769 στο swiper JS)
     @media (max-width: 768px) {
 
         .bikeGalleryWrapper {
             height: auto;
-            flex-direction: column-reverse;
+            flex-direction: column;
         }
 
         .bikeGallery {
             height: 350px;
             width: 100%;
+            order: 0;
         }
 
         .bikeGalleryThumbs {
+            order: 1;
             width: 100%;
             height: 90px;
 
             .swiper-slide {
-                height: 90px !important;
+                width: 90px;
+                height: 90px !important;   // OK εδώ — horizontal mode, δεν το ανατρέπει το Swiper
+            }
+        }
+    }
+
+    @media (max-width: 400px) {
+        .bikeGallery {
+            height: 280px;
+        }
+
+        .bikeGalleryThumbs {
+            height: 70px;
+
+            .swiper-slide {
+                width: 70px;
+                height: 70px !important;
             }
         }
     }
@@ -853,6 +1103,11 @@
         flex-direction: column;
         gap: 25px;
 
+        @media (max-width: 576px) {
+            padding: 22px;
+            gap: 18px;
+        }
+
         // ---- RENTAL: πολλαπλές τιμές (ώρα/ημέρα/εβδομάδα) ----
         .price-block {
             display: flex;
@@ -875,6 +1130,11 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
+            @media(max-width: 517px) {
+                .price-item {
+                    padding: 10px;
+                }
+            }
         }
 
         .price-item {
@@ -920,6 +1180,7 @@
             gap: 14px;
             padding-bottom: 20px;
             border-bottom: 1px solid #f0f0f0;
+            flex-wrap: wrap;
 
             &__label {
                 font-size: 13px;
@@ -935,6 +1196,10 @@
                 font-weight: 800;
                 color: #fe4819;
                 line-height: 1;
+
+                @media (max-width: 576px) {
+                    font-size: 30px;
+                }
             }
         }
 

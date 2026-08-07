@@ -607,7 +607,7 @@ $border-left-color_1: #29b6f6;
     Typography
 -----------------------------------*/
 /*----------------------------------------
-  Grid 
+  Grid
 ------------------------------------------*/
 /*
   Gradient color mixin
@@ -5970,9 +5970,9 @@ nav.display-none.search-sm {
 @-moz-document url-prefix()
 {
     @media screen and (min-width: 993px)
-    { 
+    {
         ul#slide-out.sidenav
-        { 
+        {
             height: calc(100% - 64px) !important;
         }
     }
@@ -7832,9 +7832,9 @@ tr.group {
 			}
 		}
 		.btn-sidenav-toggle {
-			position: relative;
-			top: 6px;
-			left: 6px;
+            position: fixed;
+            top: 10px;
+            right: 0;
 		}
 	}
 }
@@ -8217,9 +8217,9 @@ tr.group {
 			width: 250px;
 		}
 		.btn-sidenav-toggle {
-			position: relative;
+			position: fixed;
 			top: 10px;
-			left: 10px;
+			right: 0;
 		}
 	}
 	.sidenav-dark.sidenav-main {

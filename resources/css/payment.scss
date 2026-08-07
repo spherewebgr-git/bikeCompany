@@ -444,9 +444,16 @@
     {
         .reservation-toast
         {
-            top:15px;
-            right:15px;
-            left:15px;
+
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            padding: 14px 18px;
+
+            top: 850px;
+            bottom: 10px;
+            right: 15px;
         }
     }
 

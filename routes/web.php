@@ -41,6 +41,8 @@ Route::get('/bikes/sale/{bike}', [SaleBikeController::class, 'show'])->name('bik
 Route::get('/bikes/rental', [RentalBikeController::class, 'index'])->name('bikes.rental');
 Route::get('/bikes/rental/{bike}', [RentalBikeController::class, 'show'])->name('bikes.rental.show');
 
+Route::get('/rental-bikes/suggestions', [RentalBikeController::class, 'searchSuggestions'])->name('bikes.rental.suggestions');
+
 // CONTACT US PAGE
 Route::get('/contact-us', [ContactUsController::class, 'index'])->name('contact-us');
 Route::post('/contact-us', [ContactUsController::class, 'send'])->name('contact-us.send');

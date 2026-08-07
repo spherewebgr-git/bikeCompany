@@ -243,7 +243,7 @@ a {
     display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .nav-links,
     .nav-user {
         display: none;
@@ -255,6 +255,7 @@ a {
 
     // slide-down panel
     .mobile-menu {
+        display: block;
         max-height: 0;
         overflow: hidden;
         background: #fff;
@@ -265,6 +266,7 @@ a {
 
         &.is-open {
             max-height: 500px;
+            overflow-y: auto;        // ⬅ αν το content ξεπερνάει τα 500px, να γίνεται scroll αντί να κόβεται
             opacity: 1;
             transform: translateY(0);
             padding: 20px;
@@ -276,27 +278,77 @@ a {
     .mobile-user-links {
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 10px;
 
-        a {
+        a,
+        .btn {
+            width: 100%;
             padding: 12px 4px;
-            border-bottom: 1px solid #f2f2f2;
-
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
-            font-size: 14px;
-            font-weight: 600;
-            color: #3b3738;
-
-            &:hover,
-            &.active {
-                color: #fe4819;
-            }
         }
     }
 
     .mobile-links + .mobile-user-links {
         margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #f2f2f2;   // ⬅ διαχωριστική γραμμή εδώ αντί για border-bottom σε κάθε link
+    }
+
+    .mobile-user-name {
+        font-weight: 700;
+        color: #3b3738;
+        font-size: 14px;
+    }
+
+    .mobile-user-email {
+        color: #9a9a9a;
+        font-size: 13px;
+        margin-bottom: 4px;
+    }
+}
+
+// ============================================================
+// BUTTONS (global — τα χρησιμοποιούν nav-user ΚΑΙ mobile-menu)
+// ============================================================
+.btn {
+    height: 42px;
+    padding: 0 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+
+    transition: background .3s ease, border-color .3s ease, color .3s ease, transform .25s ease, box-shadow .3s ease;
+}
+
+.btn-trans {
+    background: #fff;
+    border: 1px solid #eee;
+    color: #3b3738;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .04);
+
+    &:hover {
+        background: rgba(254, 72, 25, .06);
+        border-color: rgba(254, 72, 25, .25);
+        color: #fe4819;
+        transform: translateY(-2px);
+    }
+}
+
+.btn-fill {
+    background: #fe4819;
+    border: 1px solid #fe4819;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(254, 72, 25, .25);
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 28px rgba(254, 72, 25, .35);
     }
 }
 
@@ -526,6 +578,12 @@ h2 {
 }
 
 @media (max-width: 768px) {
+    .slider {
+        height: auto;
+        min-height: 560px;
+        padding: 60px 0;
+    }
+
     .hero-content {
         margin: 0 20px;
         padding: 38px 30px;
@@ -545,6 +603,12 @@ h2 {
         }
     }
 }
+
+
+
+// ============================================================
+// FEATURED BIKES
+// ============================================================
 
 .bike-trail {
     padding: 100px 0;
@@ -582,6 +646,11 @@ h2 {
             font-size: clamp(2rem, 4vw, 3rem);
             font-weight: 800;
         }
+
+        @media (max-width: 900px) {
+            margin-bottom: 36px;
+        }
+
     }
 
     &__row {
@@ -592,7 +661,85 @@ h2 {
 
         @media (max-width: 900px) {
             flex-direction: column;
-            height: auto;
+            padding: 60px 0;
+        }
+    }
+
+    &__more {
+        text-align: center;
+        margin-top: 56px;
+
+        a {
+            border-radius: 3px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        a:hover {
+            box-shadow: 0 0 12px rgba(254, 72, 25, 0.5);
+        }
+    }
+}
+
+// ============================================================
+// FEATURED BIKES
+// ============================================================
+
+.bike-trail {
+    padding: 100px 0;
+    background: #141212;
+    position: relative;
+    overflow: hidden;
+
+    @media (max-width: 900px) {
+        padding: 60px 0;
+    }
+
+    &__heading {
+        text-align: center;
+        margin-bottom: 64px;
+        padding: 0 24px;
+
+        @media (max-width: 900px) {
+            margin-bottom: 36px;
+        }
+
+        h6 {
+            color: #fe4819;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+
+            &::before,
+            &::after {
+                content: '';
+                display: inline-block;
+                margin: 0 10px 5px;
+                width: 32px;
+                height: 2px;
+                background: #fe4819;
+                vertical-align: middle;
+                animation: heroLineGrow 0.6s ease-out 0.5s backwards;
+            }
+        }
+
+        .title-text {
+            color: #fff;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+        }
+    }
+
+    &__row {
+        display: flex;
+        gap: 4px;
+        height: 560px;
+        padding: 0 4px;
+
+        @media (max-width: 900px) {
+            flex-direction: column;   // ⬅ εδώ ανήκει, όχι στο .bike-slice
+            height: auto;             // οι κάρτες παίρνουν δικό τους fixed height, ο container ακολουθεί
+            gap: 12px;
         }
     }
 
@@ -618,9 +765,8 @@ h2 {
     display: block;
     text-decoration: none;
     cursor: pointer;
-    transition: flex 0.5s cubic-bezier(0.65, 0, 0.35, 1); // η κάρτα "φαρδαίνει" στο hover
+    transition: flex 0.5s cubic-bezier(0.65, 0, 0.35, 1);
 
-    // Στο hover, αυτή η κάρτα "τρώει" περισσότερο χώρο από τις άλλες
     &:hover {
         flex: 1.4;
     }
@@ -690,7 +836,7 @@ h2 {
     }
 
     h3 {
-        font-size: 1.6rem;
+        font-size: clamp(1.15rem, 4.5vw, 1.6rem);
         font-weight: 800;
         margin: 0 0 8px;
         text-transform: uppercase;
@@ -726,19 +872,34 @@ h2 {
     }
 
     @media (max-width: 900px) {
-        height: 240px;
-        clip-path: none !important; // στο mobile βγάζουμε το κοφτό σχήμα, μπερδεύει σε στενή οθόνη
+        flex: none;                  // ⬅ κρίσιμο — σβήνει flex-basis:0 απ' το desktop, ώστε το height:500px να ισχύσει
+        height: 500px;
+        clip-path: none !important;
 
         &:hover {
-            flex: 1; // δεν έχει νόημα το flex-grow σε column layout
+            flex: none;               // δεν υπάρχει hover-grow σε column layout
         }
 
         &__cta {
             opacity: 1;
-            transform: translateY(0); // πάντα ορατό σε mobile, αφού δεν υπάρχει hover
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 400px) {
+        height: 200px;
+
+        &__info {
+            padding: 18px 20px;
+        }
+
+        p {
+            font-size: 0.82rem;
         }
     }
 }
+
+
 
 .about-section {
     position: relative;
@@ -1214,9 +1375,6 @@ h2 {
         opacity: 1;
         margin-bottom: 16px;
     }
-    .rb-divider {
-        flex-basis: 34px;
-    }
     .rb-divider__chain {
         top: 50%;
         left: -12%;
@@ -1225,7 +1383,7 @@ h2 {
         background-image: radial-gradient(circle at 6px 50%, #3a3f45 0 4px, transparent 4.5px);
         background-size: 16px 100%;
         background-repeat: repeat-x;
-        transform: translateY(-50%) rotate(4deg);
+        transform: translateY(-10%);
         animation: rb-chain-scroll-x 6s linear infinite;
     }
 }
@@ -1238,7 +1396,7 @@ h2 {
     overflow: hidden;
     background: #14171a;
     color: #fff;
-    height: 800px;
+    height: auto;
     margin-bottom: 0;           // αφαιρούμε το πρόβλημα-δημιουργό margin
     padding-bottom: 130px;
 
@@ -1497,11 +1655,15 @@ h2 {
 
     .how-it-works {
 
+        height: auto;
+        overflow: visible;
         padding:70px 0;
 
+        .trail-track {
+            display: none;   // προαιρετικό, η animated γραμμή δεν βγάζει νόημα σε 1-στήλη
+        }
 
         .trail-step {
-
             padding:35px 25px;
         }
     }

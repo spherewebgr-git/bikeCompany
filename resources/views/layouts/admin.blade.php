@@ -50,7 +50,7 @@
                         </a>
                         </li>
                         <li>
-                            <a class="waves-effect waves-block waves-light sidenav-trigger" href="#" data-target="slide-out-right">
+                            <a class="waves-effect waves-block waves-light sidenav-trigger" href="#" data-target="slide-out">
                                 <i class="material-icons">format_indent_increase</i>
                             </a>
                         </li>
@@ -195,6 +195,45 @@
     @stack('scripts')
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidenav = document.getElementById('slide-out');
+            const triggers = document.querySelectorAll('.sidenav-trigger');
+
+            if (!sidenav || !triggers.length) return;
+
+            function openMenu() {
+                sidenav.classList.add('mobile-open');
+            }
+
+            function closeMenu() {
+                sidenav.classList.remove('mobile-open');
+            }
+
+            triggers.forEach(trigger => {
+                trigger.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (sidenav.classList.contains('mobile-open')) {
+                        closeMenu();
+                    } else {
+                        openMenu();
+                    }
+                });
+            });
+
+            // κλείσιμο πατώντας έξω από το μενού
+            document.addEventListener('click', function (e) {
+                if (
+                    sidenav.classList.contains('mobile-open') &&
+                    !sidenav.contains(e.target) &&
+                    !e.target.closest('.sidenav-trigger')
+                ) {
+                    closeMenu();
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>

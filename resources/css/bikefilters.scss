@@ -40,6 +40,9 @@
         margin: 20px;
         font-size: 20px;
         display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        row-gap: 15px;
 
         label
         {
@@ -60,7 +63,7 @@
             border-radius: 3px;
         }
 
-        .Filter 
+        .Filter
         {
             @include orangebtn;
             font-size: 20px;
@@ -80,7 +83,7 @@
     {
         display: flex;
 
-        input 
+        input
         {
             font-size: 18px;
             border: 1px solid black;
@@ -89,7 +92,7 @@
             border-radius: 3px;
             min-width: 350px;
 
-            &:focus-visible 
+            &:focus-visible
             {
                 box-shadow: 0 0 3px #fe4819;
                 border-color: #fe4819;

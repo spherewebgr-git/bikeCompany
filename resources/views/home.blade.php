@@ -171,26 +171,25 @@
                         </g>
                     </svg>
                 </div>
-
-                <div class="trail-steps">
-                    <div class="trail-step">
-                        <span class="trail-step__num">01</span>
-                        <div class="trail-step__icon"><i class="fa-solid fa-bicycle"></i></div>
-                        <h5>{{ __('Pick your bike') }}</h5>
-                        <p>{{ __('Browse the catalog and find the ride that fits your trail.') }}</p>
-                    </div>
-                    <div class="trail-step">
-                        <span class="trail-step__num">02</span>
-                        <div class="trail-step__icon"><i class="fa-solid fa-calendar-check"></i></div>
-                        <h5>{{ __('Choose your dates') }}</h5>
-                        <p>{{ __('Rent by the hour, day, or week — whatever the adventure needs.') }}</p>
-                    </div>
-                    <div class="trail-step">
-                        <span class="trail-step__num">03</span>
-                        <div class="trail-step__icon"><i class="fa-solid fa-flag-checkered"></i></div>
-                        <h5>{{ __('Grab it & ride') }}</h5>
-                        <p>{{ __('Pick up at your chosen location and hit the road.') }}</p>
-                    </div>
+            </div>
+            <div class="trail-steps">
+                <div class="trail-step">
+                    <span class="trail-step__num">01</span>
+                    <div class="trail-step__icon"><i class="fa-solid fa-bicycle"></i></div>
+                    <h5>{{ __('Pick your bike') }}</h5>
+                    <p>{{ __('Browse the catalog and find the ride that fits your trail.') }}</p>
+                </div>
+                <div class="trail-step">
+                    <span class="trail-step__num">02</span>
+                    <div class="trail-step__icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    <h5>{{ __('Choose your dates') }}</h5>
+                    <p>{{ __('Rent by the hour, day, or week — whatever the adventure needs.') }}</p>
+                </div>
+                <div class="trail-step">
+                    <span class="trail-step__num">03</span>
+                    <div class="trail-step__icon"><i class="fa-solid fa-flag-checkered"></i></div>
+                    <h5>{{ __('Grab it & ride') }}</h5>
+                    <p>{{ __('Pick up at your chosen location and hit the road.') }}</p>
                 </div>
             </div>
         </div>

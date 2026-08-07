@@ -46,6 +46,20 @@
         background-color: white;
         border-radius: 6px;
         flex: 0 0 calc(25% - 15px); // col-3
+
+        @media (max-width: 1199px) {
+            flex: 0 0 calc(33.333% - 14px);   // 3 στήλες
+        }
+
+        @media (max-width: 900px) {
+            flex: 0 0 calc(50% - 10px);       // 2 στήλες
+            padding: 10px 24px;
+        }
+
+        @media (max-width: 576px) {
+            flex: 0 0 100%;                    // 1 στήλη
+            padding: 10px 20px;
+        }
     }
 
     .cat-value
@@ -108,6 +122,11 @@
         a { color: #fff; }
 
         &:hover { @include orangebtnhover; }
+
+        @media (max-width: 576px) {
+            display: block;
+            text-align: center;
+        }
     }
 
     form
@@ -128,12 +147,14 @@
             margin-left: 10px;
             height: 35px;
             width: 35px;
+            flex-shrink: 0;   // δεν μαζεύει το κουμπί όταν το input συρρικνώνεται
             @include orangebtn;
 
             &:hover { @include orangebtnhover; }
         }
     }
 
+    // ---- DELETE CONFIRM MODAL: fixed position + gap:180px σπάει τελείως σε mobile ----
     .delconfirm
     {
         display: none;
@@ -179,8 +200,29 @@
                 left: 10%;
                 padding: 10px;
                 width: 100px;
-                
+
                 &:hover { @include regularbtnhover; }
+            }
+        }
+
+        @media (max-width: 576px) {
+            left: 50%;
+            transform: translateX(-50%);   // ⬅ FIX — το -25% έβγαζε το modal εκτός κέντρου/οθόνης σε στενά viewport
+            width: 90%;
+            max-width: 340px;
+            padding: 18px;
+
+            h3 { font-size: 22px; }
+            p  { font-size: 16px; max-width: none; }
+
+            .buttons
+            {
+                gap: 20px;               // ⬅ FIX — 180px gap σε 90%-width modal είναι αδύνατο να χωρέσει
+
+                a, .cancel {
+                    width: 50%;
+                    left: 0;
+                }
             }
         }
     }
@@ -195,6 +237,11 @@
             width: 100%;
             padding: 20px;
             font-size: 18px;
+
+            @media (max-width: 576px) {
+                padding: 14px;
+                font-size: 16px;
+            }
         }
 
         .buttons
@@ -216,6 +263,16 @@
                 @include orangebtn;
 
                 &:hover {@include orangebtnhover; }
+            }
+
+            @media (max-width: 576px) {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                button {
+                    width: 100%;
+                }
             }
         }
     }
@@ -231,6 +288,11 @@
             padding: 20px;
             font-size: 18px;
             margin: 5px 0;
+
+            @media (max-width: 576px) {
+                padding: 14px;
+                font-size: 16px;
+            }
         }
 
         .buttons
@@ -252,6 +314,16 @@
                 @include orangebtn;
 
                 &:hover {@include orangebtnhover; }
+            }
+
+            @media (max-width: 576px) {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                button {
+                    width: 100%;
+                }
             }
         }
     }

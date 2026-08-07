@@ -122,7 +122,7 @@ $(document).ready(function () {
     })
 
 
-    // Select Every Row 
+    // Select Every Row
 
     selectAll.on('click', function () {
         $(this).toggleClass('clicked');

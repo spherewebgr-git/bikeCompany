@@ -324,11 +324,37 @@ document.addEventListener('DOMContentLoaded', function () {
     function initCalendar() {
         if (calendar) return;
 
+        const isMobile = window.matchMedia('(max-width: 576px)').matches;
+
         calendar = new Calendar(calendarEl, {
             plugins: [dayGridPlugin, interactionPlugin],
             initialView: 'dayGridMonth',
             validRange: {
                 start: new Date().toISOString().slice(0, 10)
+            },
+
+            headerToolbar: {
+                left: 'prev,next',
+                center: 'title',
+                right: '',
+            },
+
+            height: 'auto',
+            dayMaxEvents: true,
+            fixedWeekCount: false,        // ΝΕΟ — δεν προσθέτει άχρηστη 6η γραμμή όταν ο μήνας χωράει σε 5
+
+            titleFormat: isMobile
+                ? { year: 'numeric', month: 'short' }
+                : { year: 'numeric', month: 'long' },
+
+            // ΝΕΟ — "Δ" αντί για "Δευ" σε mobile, ώστε οι στήλες να μην έχουν λόγο να φαρδαίνουν
+            dayHeaderFormat: isMobile
+                ? { weekday: 'narrow' }
+                : { weekday: 'short' },
+
+            // ΝΕΟ — αριθμός ημέρας μόνο, χωρίς περιττό padding text
+            dayCellContent: function (arg) {
+                return { html: String(arg.dayNumberText).replace(/\D/g, '') };
             },
 
             events: function (fetchInfo, successCallback, failureCallback) {
@@ -630,28 +656,38 @@ document.addEventListener('DOMContentLoaded', function () {
 // SWIPER - BIKE GALLERY
 // ============================================================
 
+// ============================================================
+// SWIPER - BIKE GALLERY
+// ============================================================
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const gallery = document.querySelector('.bikeGallery');
     const thumbsEl = document.querySelector('.bikeGalleryThumbs');
+    const wrapper = document.querySelector('.bikeGalleryWrapper');
 
-    if (!gallery || !thumbsEl) return;
+    if (!gallery || !thumbsEl || !wrapper) return;
+
+    const mq = window.matchMedia('(max-width: 768px)');
+    let isMobile = mq.matches;
 
     const galleryThumbs = new Swiper(thumbsEl, {
-        direction: 'vertical',
+        direction: isMobile ? 'horizontal' : 'vertical',
         loop: false,
-        spaceBetween: 10,
-        slidesPerView: 5,
+        spaceBetween: isMobile ? 8 : 10,
+        slidesPerView: isMobile ? 4 : 5,
         watchSlidesProgress: true,
         observer: true,
         observeParents: true,
+        resizeObserver: true, // αφήνουμε το ίδιο το Swiper να χειριστεί το συνεχόμενο resize
     });
 
-    new Swiper(gallery, {
+    const mainGallery = new Swiper(gallery, {
         loop: true,
         slidesPerView: 1,
         observer: true,
         observeParents: true,
+        resizeObserver: true,
         pagination: {
             el: gallery.querySelector('.swiper-pagination'),
             clickable: true,
@@ -663,6 +699,22 @@ document.addEventListener('DOMContentLoaded', () => {
         thumbs: {
             swiper: galleryThumbs,
         },
+    });
+
+    // ΜΟΝΟ όταν αλλάζει πραγματικά η direction (mobile <-> desktop) —
+    // ΟΧΙ destroy/rebuild, μόνο changeDirection(), ασφαλές να καλείται όσες φορές θες
+    let timer;
+    mq.addEventListener('change', (e) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            isMobile = e.matches;
+
+            galleryThumbs.changeDirection(isMobile ? 'horizontal' : 'vertical');   // (1) τρέχει ΠΡΩΤΟ
+            galleryThumbs.params.spaceBetween = isMobile ? 8 : 10;                  // (2) mutation ΜΕΤΑ
+            galleryThumbs.params.slidesPerView = isMobile ? 4 : 5;                  // (3) mutation ΜΕΤΑ
+            galleryThumbs.update();
+            mainGallery.update();
+        }, 150);
     });
 
 });
