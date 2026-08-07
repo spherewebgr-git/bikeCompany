@@ -17,26 +17,26 @@
                 /
 
                 <span class="active">
-                    {{ __('My Wishlist') }}
+                    {{ __('Compare Bikes') }}
                 </span>
             </nav>
 
         </div>
     </div>
 
-    <section class="profile-wishlist-page">
+    <section class="profile-compare-page">
 
         <div class="container">
 
             <div
-                id="wishlist-page-root"
-                data-items-url="{{ route('profile.wishlist.items') }}"
+                id="compare-page-root"
+                data-items-url="{{ route('profile.compare.items') }}"
             ></div>
 
         </div>
 
     </section>
 
-    @vite('resources/js/wishlist.jsx')
+    @vite('resources/js/compare.jsx')
 
 </x-app-layout>

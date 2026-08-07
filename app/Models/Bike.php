@@ -70,6 +70,14 @@ class Bike extends Model
 
     }
 
+    public function comparedByUsers()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'compare'
+        )->withTimestamps();
+    }
+
     public function isAvailable(Carbon $start, Carbon $end): bool
     {
         $hasBlockingOrder = $this->orders()

@@ -41,6 +41,37 @@
                     </a>
                 @endauth
 
+                @auth
+                    @php
+                        $isCompared = auth()->user()
+                            ->compareBikes()
+                            ->where('bikes.id', $bike->id)
+                            ->exists();
+                    @endphp
+
+                    <div
+                        class="bike-card__compare"
+                        data-compare-root
+                        data-bike-id="{{ $bike->id }}"
+                        data-compared="{{ $isCompared ? 'true' : 'false' }}"
+                    ></div>
+                @else
+                    @php
+                        $bikeUrl = $bike->provision->name === 'buy'
+                            ? route('bikes.sale.show', $bike)
+                            : route('bikes.rental.show', $bike);
+                    @endphp
+
+                    <a
+                        href="{{ route('login') }}?redirect={{ urlencode($bikeUrl) }}"
+                        class="bike-card__compare-login"
+                        title="{{ __('Log in to use Compare') }}"
+                        aria-label="{{ __('Log in to use Compare') }}"
+                    >
+                        <i class="fa-solid fa-code-compare"></i>
+                    </a>
+                @endauth
+
                 <div class="img-hover-content bike-card__overlay">
 
                     @if($bike->provision->name === 'buy')
@@ -160,4 +191,5 @@
 </article>
 
 @vite('resources/js/wishlist.jsx')
+@vite('resources/js/compare.jsx')
 

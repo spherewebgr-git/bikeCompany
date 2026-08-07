@@ -104,7 +104,7 @@ export default function WishlistBikeCard({
                                                     className="bike-card__price-item"
                                                     key={price.id}
                                                 >
-                                                    {price.price} €
+                                                    {price.price}
 
                                                     {price.description && (
                                                         <small className="bike-card__price-desc">

@@ -52,4 +52,13 @@ class User extends Authenticatable
             'wishlists'
         )->withTimestamps();
     }
+
+    public function compareBikes()
+    {
+        return $this->belongsToMany(
+            Bike::class,
+            'compare'
+        )->withTimestamps();
+
+    }
 }

@@ -1,0 +1,447 @@
+.bike-card__image {
+    position: relative;
+}
+
+.bike-card__compare,
+.bike-card__compare-login {
+    position: absolute;
+    top: 60px;
+    right: 16px;
+    z-index: 30;
+}
+
+.compare-button,
+.bike-card__compare-login {
+    width: 35px;
+    height: 35px;
+    padding: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #d8dadd;
+    border-radius: 50%;
+
+    background-color: #ffffff;
+    color: #4b5563;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    cursor: pointer;
+    text-decoration: none;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+    i {
+        font-size: 17px;
+        line-height: 1;
+    }
+
+    &:hover {
+        background-color: #fe4819;
+        border-color: #fe4819;
+        color: #ffffff;
+
+        transform: translateY(-2px);
+
+        box-shadow: 0 7px 16px rgba(254, 72, 25, 0.25);
+    }
+}
+
+.compare-button {
+    &.active {
+        background-color: #fe4819;
+        border-color: #fe4819;
+        color: #ffffff;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.65;
+    }
+}
+
+
+/* ============================================================
+   COMPARE PAGE
+   ============================================================ */
+
+.compare-page {
+    padding: 60px 0;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        margin-bottom: 45px;
+        padding-bottom: 20px;
+
+        border-bottom: 1px solid #ececec;
+    }
+
+    &__count {
+        width: 50px;
+        height: 50px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        border-radius: 50%;
+
+        background: #fe4819;
+        color: #fff;
+
+        font-size: 18px;
+        font-weight: 700;
+    }
+}
+
+
+/* ============================================================
+   COMPARE TABLE
+   ============================================================ */
+
+.compare-table {
+    width: 100%;
+
+    background: #fff;
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+
+    &__bikes {
+        display: grid;
+
+        // label + 3 bikes
+        grid-template-columns:
+            180px
+            repeat(3, minmax(0, 1fr));
+
+        border-bottom: 1px solid #ececec;
+    }
+
+    &__label-column {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 30px 18px;
+
+        background: #f7f7f7;
+
+        font-family: 'Oswald', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        text-transform: uppercase;
+
+        color: #3b3738;
+    }
+
+    &__specs {
+        width: 100%;
+    }
+
+    &__actions {
+        display: grid;
+
+        // label + 3 bikes
+        grid-template-columns:
+            180px
+            repeat(3, minmax(0, 1fr));
+
+        border-top: 1px solid #ececec;
+
+        > div {
+            min-width: 0;
+
+            padding: 22px 18px;
+
+            text-align: center;
+        }
+
+        > div:not(:first-child) {
+            border-left: 1px solid #ececec;
+        }
+
+        .btn {
+            width: 100%;
+            max-width: 200px;
+        }
+    }
+}
+
+
+/* ============================================================
+   COMPARE BIKE COLUMN
+   ============================================================ */
+
+.compare-bike {
+    min-width: 0;
+
+    padding: 25px 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+
+    border-left: 1px solid #ececec;
+
+    &__image {
+        width: 100%;
+        max-width: 230px;
+        height: 190px;
+
+        margin-bottom: 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+
+        border-radius: 12px;
+        background: #f7f7f7;
+
+        img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+
+            transition: transform .3s ease;
+        }
+
+        &:hover img {
+            transform: scale(1.04);
+        }
+
+        > i {
+            font-size: 48px;
+            color: #aaa;
+        }
+    }
+
+    h3 {
+        margin: 0 0 7px;
+
+        font-family: 'Oswald', sans-serif;
+        font-size: 21px;
+        font-weight: 700;
+
+        color: #201c19;
+    }
+
+    p {
+        margin: 0 0 18px;
+
+        font-size: 13px;
+        color: #777;
+    }
+
+    &__remove {
+        margin-top: auto;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+
+        padding: 8px 15px;
+
+        border: 1px solid rgba(254, 72, 25, .25);
+        border-radius: 30px;
+
+        background: rgba(254, 72, 25, .07);
+        color: #fe4819;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition:
+            background .25s ease,
+            color .25s ease,
+            border-color .25s ease,
+            transform .25s ease;
+
+        &:hover:not(:disabled) {
+            background: #fe4819;
+            border-color: #fe4819;
+            color: #fff;
+
+            transform: translateY(-2px);
+        }
+
+        &:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+    }
+
+    &__empty {
+        width: 100%;
+        min-height: 270px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 20px;
+
+        color: #999;
+        font-size: 14px;
+
+        border: 1px dashed #ddd;
+        border-radius: 12px;
+    }
+}
+
+
+/* ============================================================
+   COMPARE ROWS
+   ============================================================ */
+
+.compare-row {
+    display: grid;
+
+    // label + 3 bikes
+    grid-template-columns:
+        180px
+        repeat(3, minmax(0, 1fr));
+
+    min-height: 58px;
+
+    border-bottom: 1px solid #ececec;
+
+    &:last-child {
+        border-bottom: 0;
+    }
+
+    &:nth-child(even) {
+        .compare-row__label,
+        .compare-row__value {
+            background: #fafafa;
+        }
+    }
+
+    &__label {
+        padding: 17px 18px;
+
+        display: flex;
+        align-items: center;
+
+        background: #f7f7f7;
+
+        font-size: 12px;
+        font-weight: 800;
+
+        text-transform: uppercase;
+        letter-spacing: .04em;
+
+        color: #3b3738;
+    }
+
+    &__value {
+        min-width: 0;
+
+        padding: 17px 18px;
+
+        display: flex;
+        align-items: center;
+
+        border-left: 1px solid #ececec;
+
+        font-size: 14px;
+        color: #666;
+
+        overflow-wrap: anywhere;
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1199px) {
+
+    .compare-table {
+
+        &__bikes,
+        &__actions {
+            grid-template-columns:
+                150px
+                repeat(3, minmax(220px, 1fr));
+        }
+    }
+
+    .compare-row {
+        grid-template-columns:
+            150px
+            repeat(3, minmax(220px, 1fr));
+    }
+
+    .compare-bike {
+        padding: 22px 16px;
+
+        &__image {
+            height: 170px;
+        }
+    }
+}
+
+
+@media (max-width: 991px) {
+
+    .compare-table {
+        overflow-x: auto;
+
+        &__bikes,
+        &__actions {
+            min-width: 900px;
+        }
+    }
+
+    .compare-row {
+        min-width: 900px;
+    }
+}
+
+
+@media (max-width: 576px) {
+
+    .compare-page {
+        padding: 35px 0;
+
+        &__header {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 18px;
+        }
+    }
+
+    .compare-table {
+
+        &__bikes,
+        &__actions {
+            min-width: 820px;
+        }
+    }
+
+    .compare-row {
+        min-width: 820px;
+    }
+}

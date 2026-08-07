@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlockedDateController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CompareController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\FeaturedBikeController;
 use App\Http\Controllers\PaymentController;
@@ -97,6 +98,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/wishlist/{bike}', [WishlistController::class, 'store'])->name('wishlist.store');
 
     Route::delete('/profile/wishlist/{bike}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
+
+    //COMPARE
+    Route::get('/profile/compare', [CompareController::class, 'index'])->name('profile.compare.index');
+
+    Route::get('/profile/compare/items', [CompareController::class, 'items'])->name('profile.compare.items');
+
+    Route::get('/profile/compare/status', [CompareController::class, 'status'])->name('profile.compare.status');
+
+    Route::post('/profile/compare/{bike}', [CompareController::class, 'store'])->name('profile.compare.store');
+
+    Route::delete('profile/compare/{bike}', [CompareController::class, 'destroy'])->name('profile.compare.destroy');
 });
 
 
