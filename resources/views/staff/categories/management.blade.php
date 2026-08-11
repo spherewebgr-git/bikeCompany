@@ -91,7 +91,7 @@
                 </div>
 
     {{-- LOCATIONS --}}
-                <div class="locations table col-sm-6 col-md-3">{{--  TODO: Add logntidude and latidude for imidiate map checkpoint addition --}}
+                <div class="locations table col-sm-6 col-md-3">
                     <h5>Locations</h5>
 
                     <form method="GET" action="{{ route('category.search') }}">

@@ -7,12 +7,16 @@ import LayoutPublic from './components/LayoutPublic';
 
 // PUBLIC PAGES
 import AboutUs from './pages/AboutUs';
+
 import Bikes from './pages/Bikes';
 
 // ADMIN PAGES
 import ManageBikes from './pages/ManageBikes';
 import EditBike from './pages/EditBike';
 import CreateBike from './pages/CreateBike';
+
+import ManageCategories from './pages/ManageCategories';
+
 import ActiveRentals from './pages/ActiveRentals';
 
 
@@ -33,6 +37,7 @@ function App()
                     <Route path="/admin/manage/products" element={<ManageBikes/>}/>
                     <Route path="/admin/manage/products/edit/:id" element={<EditBike />}/>
                     <Route path="/admin/manage/products/create" element={<CreateBike />}/>
+                    <Route path="/admin/manage/categories" element={<ManageCategories />}/>
                     <Route path="/admin/track/activerentals" element={<ActiveRentals/>}/>
                 </Route>
 

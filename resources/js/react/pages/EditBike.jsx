@@ -102,6 +102,8 @@ export default function EditBike()
     return (
         <div id="BikeEdit">
             <form className="edit-bike-info" onSubmit={handleSubmit}>
+                <h2 className="section-heading">Edit Product Details</h2>
+
                 <div className="horizontal">
                     <div className="vertical">
                         <label htmlFor="S.K.U.">SKU:</label><br />

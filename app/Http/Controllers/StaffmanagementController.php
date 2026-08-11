@@ -455,7 +455,7 @@ class StaffmanagementController extends Controller
         }
         elseif ($request->filled('provisions'))
         {
-            $provisions = Provision::where('name', "%{$request->provisions}%");
+            $provisions = Provision::where('name', 'LIKE', "%{$request->provisions}%");
         }
         elseif ($request->filled('locations'))
         {

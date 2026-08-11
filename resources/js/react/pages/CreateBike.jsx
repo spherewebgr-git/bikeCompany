@@ -95,6 +95,8 @@ export default function CreateBike()
     return (
         <div id="BikeEdit">
             <form className="edit-bike-info" onSubmit={handleSubmit}>
+                <h2 className="section-heading">Add a Product to the Database</h2>
+                
                 <div className="horizontal">
                     <div className="vertical">
                         <label htmlFor="S.K.U.">SKU:</label><br />
