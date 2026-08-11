@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function CategoryItem ({valueID, value, type, category, st = null, lg = null, lt = null, editable = false, deletable = false})
+export default function CategoryItem ({valueID, value, type, category, st = null, lg = null, lt = null, editable = false, deletable = false, onChanged})
 {
     const [editing, setEditing] = useState(false);
     const [editValue, setEditValue] = useState(value);
@@ -25,7 +25,7 @@ export default function CategoryItem ({valueID, value, type, category, st = null
             values = JSON.stringify({ value: editValue, long: editLong, lat: editLat, })
         }
 
-        const response = await fetch(`/api/manage/categories/${category}/${valueID}`,
+        const response = await fetch(`/api/admin/manage/categories/${category}/${valueID}`,
         {
             method: "PATCH",
             headers:
@@ -43,12 +43,13 @@ export default function CategoryItem ({valueID, value, type, category, st = null
         }
 
         setEditing(false);
+        onChanged();
     };
 
     const [deleting, setDeleting] = useState(false);
     const handleDelete = async () =>
     {
-        const response = await fetch(`/api/manage/categories/${category}/${valueID}`,
+        const response = await fetch(`/api/admin/manage/categories/${category}/${valueID}`,
         {
             method: "DELETE",
             headers: { "Accept": "application/json", },
@@ -61,6 +62,7 @@ export default function CategoryItem ({valueID, value, type, category, st = null
         }
 
         setDeleting(false);
+        onChanged();
     };
 
     return (

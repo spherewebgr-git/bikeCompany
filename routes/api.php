@@ -75,7 +75,7 @@ Route::post('/admin/manage/products/add', [ProductController::class, 'add']);
 
 
 // CATEGORIES 
-Route::patch('/admin/manage/categories/{category}/{id}', [ProductController::class, 'edit']);
+Route::get('/admin/manage/categories', [ProductController::class, 'index']);
 Route::get('/admin/manage/categories/search', [ProductController::class, 'search']);
 Route::patch('/admin/manage/categories/{category}/{id}', [ProductController::class, 'edit']);
 Route::delete('/admin/manage/categories/{category}/{id}', [ProductController::class, 'delete']);
