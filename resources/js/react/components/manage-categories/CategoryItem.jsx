@@ -13,16 +13,32 @@ export default function CategoryItem ({valueID, value, type, category, st = null
     {
         e.preventDefault();
 
-        let values = JSON.stringify({ value: editValue, })
+        let values;
 
-        if (category == "status")
+        if (category === "gears")
         {
-            values = JSON.stringify({ value: editValue, step: editStep, })
+            values = { gears: editValue, };
         }
-
-        if (category == "location")
+        else if (category === "status")
         {
-            values = JSON.stringify({ value: editValue, long: editLong, lat: editLat, })
+            values =
+            {
+                name: editValue,
+                step: editStep,
+            };
+        }
+        else if (category === "location")
+        {
+            values =
+            {
+                name: editValue,
+                longitude: editLong,
+                latitude: editLat,
+            };
+        }
+        else
+        {
+            values = { name: editValue, };
         }
 
         const response = await fetch(`/api/admin/manage/categories/${category}/${valueID}`,
@@ -33,7 +49,7 @@ export default function CategoryItem ({valueID, value, type, category, st = null
                 "Content-Type": "application/json",
                 "Accept": "application/json",
             },
-            body: values,
+            body: JSON.stringify(values),
         });
 
         if (!response.ok)
@@ -68,7 +84,7 @@ export default function CategoryItem ({valueID, value, type, category, st = null
     return (
         <>
             <div className="cat-value">
-                <p>{value}</p>
+                <p>{ category == "status" && (st+". ")}{value}</p>
 
                 { editable === true && (
                     <button className="edit" onClick={() => setEditing(true)}>

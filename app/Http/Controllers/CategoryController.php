@@ -99,36 +99,36 @@ class CategoryController extends Controller
         switch ($category)
         {
             case "provision":
-                $request->validate(['provname' => 'required']);
-                Provision::firstOrCreate(['name' => $request->provname]);
+                $request->validate(['name' => 'required|string']);
+                Provision::firstOrCreate(['name' => $request->name]);
                 break;
 
             case "brand":
-                $request->validate(['brandname' => 'required']);
-                Brand::firstOrCreate(['name' => $request->brandname]);
+                $request->validate(['name' => 'required|string']);
+                Brand::firstOrCreate(['name' => $request->name]);
                 break;
 
             case "type":
-                $request->validate(['typename' => 'required']);
-                Type::firstOrCreate(['name' => $request->typename]);
+                $request->validate(['name' => 'required|string']);
+                Type::firstOrCreate(['name' => $request->name]);
                 break;
 
             case "gears":
-                $request->validate(['gearamount' => 'required']);
-                Speed::firstOrCreate(['gears' => $request->gearamount]);
+                $request->validate(['gears' => 'required|integer']);
+                Speed::firstOrCreate(['gears' => $request->gears]);
                 break;
 
             case "status":
-                $request->validate(['statname' => 'required', 'statstep' => 'required']);
-                Status::firstOrCreate(['name' => $request->statname, 'step' => $request->statstep]);
+                $request->validate(['name' => 'required|string', 'step' => 'required|integer']);
+                Status::firstOrCreate(['name' => $request->name, 'step' => $request->step]);
                 break;
 
             case "location":
-                $request->validate(['locname' => 'required']);
-                $request->validate(['latitude' => 'required']);
-                $request->validate(['longitude' => 'required']);
+                $request->validate(['name' => 'required|string']);
+                $request->validate(['latitude' => 'required|numeric']);
+                $request->validate(['longitude' => 'required|numeric']);
                 Location::firstOrCreate([
-                    'name' => $request->locname,
+                    'name' => $request->name,
                     'latitude' => $request->latitude,
                     'longitude' => $request->longitude
                 ]);
@@ -143,8 +143,8 @@ class CategoryController extends Controller
             'types' => Type::orderBy('name')->get(),
             'speeds' => Speed::orderBy('gears')->get(),
             'provisions' => Provision::orderBy('name')->get(),
-            'statuses' => Status::orderBy("step")->get(),
-            'locations' => Location::orderBy("name")->get(),
+            'statuses' => Status::orderBy('step')->get(),
+            'locations' => Location::orderBy('name')->get(),
         ]);
     }
 
@@ -155,6 +155,11 @@ class CategoryController extends Controller
             case 'brand':
                 $request->validate([ 'name' => 'required|string', ]);
                 Brand::where('id', $id)->update([ 'name' => $request->name, ]);
+                break;
+
+            case 'type':
+                $request->validate([ 'name' => 'required|string', ]);
+                Type::where('id', $id)->update([ 'name' => $request->name, ]);
                 break;
 
             case 'gears':

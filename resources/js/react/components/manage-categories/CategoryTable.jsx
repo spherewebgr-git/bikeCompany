@@ -8,16 +8,17 @@ export default function CategoryTable({title, placeholder, data, type, cat, edit
     useEffect(() => { setItems(data); }, [data]);
     const handleSearchResults = (results) => { setItems(results); };
 
+    const [creating, setCreating] = useState(false);
+
     return (
         <div className={`${cat} table col-sm-6 col-md-3`}>
             <h5>{title}</h5>
 
-            <CategorySearch category={cat} placeholder={placeholder} onResults={handleSearchResults}/>
+            <CategorySearch category={cat} placeholder={"Search "+placeholder} onResults={handleSearchResults}/>
 
             {items.map((item) =>
             {
-                let value = item.name;
-                if (cat === "gears") { value = item.gears; }
+                const value = cat === "gears" ? item.gears : item.name;
 
                 return (
                     <CategoryItem
@@ -36,7 +37,40 @@ export default function CategoryTable({title, placeholder, data, type, cat, edit
                 );
             })}
 
-            <button className="new-category">
+            {creating && (
+                <form onSubmit={handleCreate}>
+                    {category === "status" && (
+                        <>
+                        <input type="number" placeholder={placeholder+" Step"} value={Step}
+                        onChange={(e) => setStep(e.target.value)}/>
+                        <br />
+                        </>
+                    )}
+
+                    <input type="text" placeholder={placeholder} value={Input} onChange={(e) => setInput(e.target.value)}/>
+
+                    {category === "location" && (
+                        <>
+                        <input type="number" step="0.0000001" placeholder="Longitude" value={Longitude}
+                        onChange={(e) => setLongitude(e.target.value)}/>
+                        <br />
+                        <input type="number" step="0.0000001" placeholder="Latitude" value={Latitude}
+                        onChange={(e) => setLatitude(e.target.value)}/>
+                        <br />
+                        </>
+                    )}
+
+                    <button className="confirm" type="submit">
+                        Confirm
+                    </button>
+
+                    <button className="cancel" type="button" onClick={() => setCreating(false)}>
+                        Cancel
+                    </button>
+                </form>
+            )}
+
+            <button className="new-category" onClick={() => setCreating(true)}>
                 + Add New
             </button>
         </div>

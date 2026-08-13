@@ -4,7 +4,8 @@ export default function CategorySearch({category, placeholder, onResults})
 {
     const [search, setSearch] = useState("");
 
-    const handleSearch = async (et) => {
+    const handleSearch = async (e) =>
+    {
         e.preventDefault();
 
         const params = new URLSearchParams({

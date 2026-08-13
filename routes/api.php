@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ActiveRentalsController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 
 
@@ -75,10 +76,10 @@ Route::post('/admin/manage/products/add', [ProductController::class, 'add']);
 
 
 // CATEGORIES 
-Route::get('/admin/manage/categories', [ProductController::class, 'index']);
-Route::get('/admin/manage/categories/search', [ProductController::class, 'search']);
-Route::patch('/admin/manage/categories/{category}/{id}', [ProductController::class, 'edit']);
-Route::delete('/admin/manage/categories/{category}/{id}', [ProductController::class, 'delete']);
+Route::get('/admin/manage/categories', [CategoryController::class, 'index']);
+Route::get('/admin/manage/categories/search', [CategoryController::class, 'search']);
+Route::patch('/admin/manage/categories/{category}/{id}', [CategoryController::class, 'edit']);
+Route::delete('/admin/manage/categories/{category}/{id}', [CategoryController::class, 'delete']);
 
 // HOMEPAGE 
 
