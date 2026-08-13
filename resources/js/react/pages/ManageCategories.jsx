@@ -31,7 +31,7 @@ export default function ManageCategories()
     useEffect(() => { loadCategories(); }, []);
 
     return (
-        <div id="StaffCategories">
+        <div id="ManageCategories">
             <div className="container">
                 <h1>Edit Categories</h1>
                 <div className="row">

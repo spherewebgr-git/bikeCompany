@@ -84,16 +84,16 @@ export default function CategoryItem ({valueID, value, type, category, st = null
     return (
         <>
             <div className="cat-value">
-                <p>{ category == "status" && (st+". ")}{value}</p>
+                <p>{ category === "status" && (st+". ")}{value}</p>
 
                 { editable === true && (
-                    <button className="edit" onClick={() => setEditing(true)}>
+                    <button className="edit" type="button" onClick={() => setEditing(true)}>
                         <i className="fa-regular fa-pen-to-square"></i>
                     </button>
                 )}
 
                 { deletable === true && (
-                    <button className="delete" onClick={() => setDeleting(true)}>
+                    <button className="delete" type="button" onClick={() => setDeleting(true)}>
                         <i className="fa-regular fa-trash-can"></i>
                     </button>
                 )}
@@ -104,12 +104,12 @@ export default function CategoryItem ({valueID, value, type, category, st = null
                     <input type={type} id={category} name={category} value={editValue}
                     onChange={(e) => setEditValue(e.target.value)} />
 
-                    {category == "status" && (
+                    {category === "status" && (
                         <input type="number" id="step" name="step" value={editStep}
                         onChange={(e) => setEditStep(e.target.value)}/>
                     )}
 
-                    {category == "location" && (
+                    {category === "location" && (
                         <>
                             <input type="number" step="0.0000001" id="long" name="long" value={editLong}
                             onChange={(e) => setEditLong(e.target.value)}/>
@@ -137,7 +137,7 @@ export default function CategoryItem ({valueID, value, type, category, st = null
                     <div className="buttons">
                         <button className="delete" type="button" onClick={handleDelete}>
                             Delete
-                        </button>                        
+                        </button>
                         <button className="cancel" type="button" onClick={() => setDeleting(false)}>
                             Cancel
                         </button>

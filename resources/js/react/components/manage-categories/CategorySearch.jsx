@@ -25,7 +25,7 @@ export default function CategorySearch({category, placeholder, onResults})
     };
 
     return (
-        <form onSubmit={handleSearch}>
+        <form className="searchform" onSubmit={handleSearch}>
             <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder={placeholder}/>
             <button type="submit">
                 <i className="fa-solid fa-magnifying-glass"></i>

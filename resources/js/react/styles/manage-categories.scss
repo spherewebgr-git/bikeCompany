@@ -31,7 +31,7 @@
     border-color: #fe4819;
 }
 
-#StaffCategories
+#ManageCategories
 {
     .row
     {
@@ -119,8 +119,6 @@
         margin: 20px 0;
         font-weight: 600;
 
-        a { color: #fff; }
-
         &:hover { @include orangebtnhover; }
 
         @media (max-width: 576px) {
@@ -129,7 +127,7 @@
         }
     }
 
-    form
+    .searchform
     {
         display: flex;
         margin-bottom: 10px;
@@ -157,14 +155,15 @@
     // ---- DELETE CONFIRM MODAL: fixed position + gap:180px σπάει τελείως σε mobile ----
     .delconfirm
     {
-        display: none;
         position: fixed;
         background: white;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 15px rgba(0,0,0,.3);
+        top: 40%;
         left: 50%;
         transform: translateX(-25%);
+        display: block;
 
         h3
         {
@@ -180,27 +179,25 @@
         .buttons
         {
             text-align: center;
-            position: relative;
-            margin-top: 20px;
             display: flex;
-            gap: 180px;
 
-            a
+            button
+            {
+                width: 100px;
+                height: 45px;
+
+            }
+
+            .delete
             {
                 @include orangebtn;
-                padding: 10px;
-                width: 100px;
-
                 &:hover { @include orangebtnhover; }
             }
 
             .cancel
             {
+                margin-left: auto;
                 @include regularbtn;
-                left: 10%;
-                padding: 10px;
-                width: 100px;
-
                 &:hover { @include regularbtnhover; }
             }
         }
@@ -219,7 +216,8 @@
             {
                 gap: 20px;               // ⬅ FIX — 180px gap σε 90%-width modal είναι αδύνατο να χωρέσει
 
-                a, .cancel {
+                a, .cancel
+                {
                     width: 50%;
                     left: 0;
                 }
@@ -227,18 +225,21 @@
         }
     }
 
-    #newcat-gears, #newcat-provision, #newcat-status, #newcat-type, #newcat-location, #newcat-brand
+    .createform
     {
-        display: none;
         padding-top: 10px;
+        display: block;
 
         input
         {
             width: 100%;
             padding: 20px;
             font-size: 18px;
+            height: 45px;
+            margin-bottom: 15px;
 
-            @media (max-width: 576px) {
+            @media (max-width: 576px)
+            {
                 padding: 14px;
                 font-size: 16px;
             }
@@ -246,48 +247,51 @@
 
         .buttons
         {
-            padding-top: 15px;
             text-align: center;
+            display: flex;
 
             button
             {
-                @include regularbtn;
-                position: relative;
-                width: 40%;
-
-                &:hover { @include regularbtnhover; }
+                width: 100px;
+                height: 45px;
             }
 
             .confirm
             {
                 @include orangebtn;
-
-                &:hover {@include orangebtnhover; }
+                &:hover { @include orangebtnhover; }
             }
 
-            @media (max-width: 576px) {
+            .cancel
+            {
+                margin-left: auto;
+                @include regularbtn;
+                &:hover { @include regularbtnhover; }
+            }
+
+            @media (max-width: 576px)
+            {
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
 
-                button {
-                    width: 100%;
-                }
+                button { width: 100%; }
             }
         }
     }
 
     .editform
     {
-        display: none;
         padding-top: 10px;
+        display: block;
 
         input
         {
             width: 100%;
             padding: 20px;
             font-size: 18px;
-            margin: 5px 0;
+            margin-bottom: 15px;
+            height: 44px;
 
             @media (max-width: 576px) {
                 padding: 14px;
@@ -297,23 +301,26 @@
 
         .buttons
         {
-            padding-top: 15px;
             text-align: center;
+            display: flex;
 
             button
             {
-                @include regularbtn;
-                position: relative;
-                width: 40%;
-
-                &:hover { @include regularbtnhover; }
+                width: 100px;
+                height: 45px;
             }
 
             .confirm
             {
                 @include orangebtn;
+                &:hover { @include orangebtnhover; }
+            }
 
-                &:hover {@include orangebtnhover; }
+            .cancel
+            {
+                margin-left: auto;
+                @include regularbtn;
+                &:hover { @include regularbtnhover; }
             }
 
             @media (max-width: 576px) {

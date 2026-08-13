@@ -65,7 +65,7 @@ class CategoryController extends Controller
         return response()->json($results);
     }
 
-    public function delete($id, string $category)
+    public function delete(string $category, $id)
     {
         switch ($category)
         {

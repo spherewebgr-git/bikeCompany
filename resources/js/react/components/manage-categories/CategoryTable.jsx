@@ -9,6 +9,67 @@ export default function CategoryTable({title, placeholder, data, type, cat, edit
     const handleSearchResults = (results) => { setItems(results); };
 
     const [creating, setCreating] = useState(false);
+    const [Input, setInput] = useState("");
+    const [Step, setStep] = useState("");
+    const [Lat, setLat] = useState("");
+    const [Long, setLong] = useState("");
+
+    const handleCreate = async (e) =>
+    {
+        e.preventDefault();
+
+        let values;
+        if (cat === "gears")
+        {
+            values = { gears: Input, };
+        }
+        else if (cat === "status")
+        {
+            values = 
+            {
+                name: Input,
+                step: Step,
+            };
+        }
+        else if (cat === "location")
+        {
+            values =
+            {
+                name: Input,
+                latitude: Lat,
+                longitude: Long,
+            };
+        }
+        else
+        {
+            values = { name: Input, };
+        }
+
+        const response = await fetch(`/api/admin/manage/categories/${cat}`,
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            body: JSON.stringify(values),
+        });
+
+        if (!response.ok)
+        {
+            const error = await response.json();
+            console.error("Could not create category:", error);
+            return;
+        }
+
+        setCreating(false);
+        setInput("");
+        setStep("");
+        setLat("");
+        setLong("");
+        onChanged();
+    };
 
     return (
         <div className={`${cat} table col-sm-6 col-md-3`}>
@@ -38,8 +99,8 @@ export default function CategoryTable({title, placeholder, data, type, cat, edit
             })}
 
             {creating && (
-                <form onSubmit={handleCreate}>
-                    {category === "status" && (
+                <form className="createform" onSubmit={handleCreate}>
+                    {cat === "status" && (
                         <>
                         <input type="number" placeholder={placeholder+" Step"} value={Step}
                         onChange={(e) => setStep(e.target.value)}/>
@@ -47,31 +108,34 @@ export default function CategoryTable({title, placeholder, data, type, cat, edit
                         </>
                     )}
 
-                    <input type="text" placeholder={placeholder} value={Input} onChange={(e) => setInput(e.target.value)}/>
+                    <input type={type} placeholder={placeholder} value={Input} onChange={(e) => setInput(e.target.value)}/>
+                    <br />
 
-                    {category === "location" && (
+                    {cat === "location" && (
                         <>
-                        <input type="number" step="0.0000001" placeholder="Longitude" value={Longitude}
-                        onChange={(e) => setLongitude(e.target.value)}/>
+                        <input type="number" step="0.0000001" placeholder="Longitude" value={Long}
+                        onChange={(e) => setLong(e.target.value)}/>
                         <br />
-                        <input type="number" step="0.0000001" placeholder="Latitude" value={Latitude}
-                        onChange={(e) => setLatitude(e.target.value)}/>
+                        <input type="number" step="0.0000001" placeholder="Latitude" value={Lat}
+                        onChange={(e) => setLat(e.target.value)}/>
                         <br />
                         </>
                     )}
 
-                    <button className="confirm" type="submit">
-                        Confirm
-                    </button>
+                    <div className="buttons">
+                        <button className="confirm" type="submit">
+                            Confirm
+                        </button>
 
-                    <button className="cancel" type="button" onClick={() => setCreating(false)}>
-                        Cancel
-                    </button>
+                        <button className="cancel" type="button" onClick={() => setCreating(false)}>
+                            Cancel
+                        </button>
+                    </div>
                 </form>
             )}
 
             <button className="new-category" onClick={() => setCreating(true)}>
-                + Add New
+                + Add 
             </button>
         </div>
     )

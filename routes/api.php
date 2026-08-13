@@ -80,6 +80,7 @@ Route::get('/admin/manage/categories', [CategoryController::class, 'index']);
 Route::get('/admin/manage/categories/search', [CategoryController::class, 'search']);
 Route::patch('/admin/manage/categories/{category}/{id}', [CategoryController::class, 'edit']);
 Route::delete('/admin/manage/categories/{category}/{id}', [CategoryController::class, 'delete']);
+Route::post('/admin/manage/categories/{category}', [CategoryController::class, 'create']);
 
 // HOMEPAGE 
 
