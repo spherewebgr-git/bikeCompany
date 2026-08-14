@@ -101,7 +101,7 @@ export default function BikeTable({ bikes, loadBikes })
                         {bikeToEdit == bike.id && (
                             <form className="update-quantity" onSubmit={updateQuantity} ref={formRef}>
                                 <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)}/>
-                                <br/>
+                                <br />
                                 <button type="submit" className="update">Update</button>
                                 <button type="button" className="cancel" onClick={closeEditor}>
                                     Cancel

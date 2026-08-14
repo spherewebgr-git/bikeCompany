@@ -33,6 +33,13 @@
 
 #OrderManagement, #CompletedOrders
 {
+    .c-blue { color: #244ecb; }
+    .c-red { color: #d40040; }
+    .c-black { color: #000; }
+    .c-green { color: #4bcc00; }
+    .c-orange { color: #ea842a; }
+    .c-grey { color: #6b6f82; }
+
     .search 
     {
         padding-right: 15px;
@@ -79,6 +86,22 @@
 
     .order-actions
     {
+        button
+        {
+            font-size: 16px;
+            color: #6c6c6c;
+            transition: all 0.3s;
+            border: none;
+            background-color: transparent;
+
+            i
+            {
+                color: #6c6c6c;
+                transition: all 0.3s;
+                padding: 3px 20px 0 0;
+            }
+        }
+
         a
         {
 
@@ -98,7 +121,7 @@
             }
         }
 
-        a:hover
+        a:hover, button:hover
         {
             color: #fe4819;
 
@@ -106,9 +129,11 @@
         }
     }
 
-    form.edit-status
+    form.edit-status { display: none; }
+    form.order-status { display: block; }
+
+    form.edit-status, form.order-status
     {
-        display: none;
         position: absolute;
         right: 5%;
         background: white;
@@ -120,6 +145,12 @@
         select
         {
             font-size: 18px;
+        }
+
+        .buttons
+        {
+            display: flex;
+            gap: 20px;
         }
 
         button

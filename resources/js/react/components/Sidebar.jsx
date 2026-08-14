@@ -50,7 +50,7 @@ export default function Sidebar()
                 </li>
 
                 <li className="bold">
-                    <Link className="waves-effect waves-cyan" to="/admin/manage/orders">
+                    <Link className="waves-effect waves-cyan" to="/admin/manage/pending-orders">
                         <i className="fa-solid fa-store"></i>
                         <span className="menu-title">Order Management</span>
                     </Link>
@@ -76,7 +76,7 @@ export default function Sidebar()
                 </li>
 
                 <li className="bold">
-                    <Link className="waves-effect waves-cyan" to="/admin/track/orderhistory">
+                    <Link className="waves-effect waves-cyan" to="/admin/track/past-orders">
                         <i className="fa-solid fa-clock-rotate-left"></i>
                         <span className="menu-title">Past Orders</span>
                     </Link>

@@ -5,11 +5,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ActiveRentalsController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderManagementController;
 use App\Http\Controllers\ProductController;
 
 
 /******* AUTHENTICATION *******/
-Route::get('/user', function (Request $request) {
+// PROBLEM: Doesn't work ☹️
+Route::get('/user', function (Request $request)
+{
     return $request->user();
 })->middleware('auth:sanctum');
 
@@ -86,7 +89,9 @@ Route::post('/admin/manage/categories/{category}', [CategoryController::class, '
 
 
 // PENDING ORDERS 
-
+Route::get('/admin/manage/pending-orders', [OrderManagementController::class, 'orders']);
+Route::get('/admin/manage/pending-orders/search', [OrderManagementController::class, 'search']);
+Route::patch('/admin/manage/pending-orders/update/{id}', [OrderManagementController::class, 'update']);
 
 // USERS 
 
@@ -98,6 +103,8 @@ Route::get('/active-rentals', [ActiveRentalsController::class, 'activerentals'])
 Route::patch('/active-rentals/{order}', [ActiveRentalsController::class, 'updatereturned']);
 
 // PAST ORDERS
+// Route::get('/admin/manage/past-orders', [OrderManagementController::class, 'history']);
+// Route::get('/admin/manage/past-orders/search', [OrderManagementController::class, 'search']);
 
-
-// STATISTICS 
+// STATISTICS
+// Route::get('/admin/manage/statistics', [StatisticsController::class, 'statistics']);

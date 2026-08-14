@@ -17,6 +17,8 @@ import CreateBike from './pages/CreateBike';
 
 import ManageCategories from './pages/ManageCategories';
 
+import ManageOrders from './pages/ManageOrders';
+
 import ActiveRentals from './pages/ActiveRentals';
 
 
@@ -33,12 +35,13 @@ function App()
                 </Route>
 
             {/* ADMIN PAGES */}
-                <Route element={<LayoutAdmin/>}>
-                    <Route path="/admin/manage/products" element={<ManageBikes/>}/>
+                <Route element={<LayoutAdmin />}>
+                    <Route path="/admin/manage/products" element={<ManageBikes  />}/>
                     <Route path="/admin/manage/products/edit/:id" element={<EditBike />}/>
                     <Route path="/admin/manage/products/create" element={<CreateBike />}/>
                     <Route path="/admin/manage/categories" element={<ManageCategories />}/>
-                    <Route path="/admin/track/activerentals" element={<ActiveRentals/>}/>
+                    <Route path="/admin/manage/pending-orders" element={<ManageOrders />}/>
+                    <Route path="/admin/track/activerentals" element={<ActiveRentals />}/>
                 </Route>
 
             </Routes>

@@ -202,10 +202,24 @@ Route::get('/about-us-react', function () { return view('react'); })->name('abou
 Route::get('/admin/manage/products', function () { return view('react-admin'); })->name('admin.products');
 Route::get('/admin/manage/products/edit/{id}', function () { return view('react-admin'); })->name('admin.products.edit');
 Route::get('/admin/manage/products/create', function () { return view('react-admin'); })->name('admin.products.create');
+
+Route::get('/admin/manage/calendar', function () { return view('react-admin'); })->name('admin.calendar');
+
 Route::get('/admin/manage/categories', function () { return view('react-admin'); })->name('admin.categories');
+
+Route::get('/admin/manage/homepage', function () { return view('react-admin'); })->name('admin.homepage');
+
+Route::get('/admin/manage/pending-orders', function () { return view('react-admin'); })->name('admin.pendingorders');
+
+Route::get('/admin/manage/users', function () { return view('react-admin'); })->name('admin.users');
+
 
 // ADMIN > TRACKING
 Route::get('/admin/track/activerentals', function () { return view('react-admin'); })->name('admin.activerentals');
+
+Route::get('/admin/track/past-orders', function () { return view('react-admin'); })->name('admin.pastorders');
+
+Route::get('/admin/track/statistics', function () { return view('react-admin'); })->name('admin.statistics');
 
 
 require __DIR__.'/auth.php';
