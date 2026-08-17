@@ -1,9 +1,11 @@
 import { useState } from "react";
 import OrderSearch from "./OrderSearch";
 
-export default function OrderTable({data, onResults})
+export default function OrderTable({pending, data, onResults})
 {
-    const payment = [{id: 0, name: "Unpayed"}, {id: 1, name: "Payed"}];
+    const payment = pending ? 
+        [{id: 0, name: "Unpayed"}, {id: 1, name: "Payed"}] :
+        [{id: 0, name: "At Reception"}, {id: 1, name: "Online"}];
     
     const [orderToEdit, setOrderToEdit] = useState(null);
     const [stat, setStat] = useState("");
@@ -46,40 +48,42 @@ export default function OrderTable({data, onResults})
                     <th>Amount</th>
                     <th>Type</th>
                     <th>Location</th>
-                    <th>Status</th>
+                    {pending && (<th>Status</th>)}
                     <th>Payment</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td className="search orderid">
-                        <OrderSearch type="text" name="order" placeholder="ID" onResults={onResults}/>
+                        <OrderSearch type="text" name="order" placeholder="ID" pending={pending} onResults={onResults}/>
                     </td>
 
                     <td className="search">
-                        <OrderSearch type="text" name="user" placeholder="Search Customer" onResults={onResults}/>
+                        <OrderSearch type="text" name="user" placeholder="Search Customer" pending={pending} onResults={onResults}/>
                     </td>
 
                     <td className="search productcode">
-                        <OrderSearch type="text" name="product" placeholder="Search Product" onResults={onResults}/>
+                        <OrderSearch type="text" name="product" placeholder="Search Product" pending={pending} onResults={onResults}/>
                     </td>
 
                     <td className="search"></td>
 
                     <td className="search">
-                        <OrderSearch name="provision" list={ data.provisions } onResults={onResults}/>
+                        <OrderSearch name="provision" list={ data.provisions } pending={pending} onResults={onResults}/>
                     </td>
 
                     <td className="search">
-                        <OrderSearch name="location" list={ data.locations } onResults={onResults}/>
+                        <OrderSearch name="location" list={ data.locations } pending={pending} onResults={onResults}/>
                     </td>
 
+                    {pending && (
                     <td className="search">
-                        <OrderSearch name="status" list={ data.statuses } onResults={onResults}/>
+                        <OrderSearch name="status" list={ data.statuses } pending={pending} onResults={onResults}/>
                     </td>
+                    )}
 
                     <td className="search">
-                        <OrderSearch name="payment" list={ payment } onResults={onResults}/>
+                        <OrderSearch name="payment" list={ payment } pending={pending} onResults={onResults}/>
                     </td>
                 </tr>
 
@@ -116,8 +120,8 @@ export default function OrderTable({data, onResults})
                             )}
                         </td>
 
-                        <td className="Status">
-                            {order.bike.Status ?? 1}
+                        <td class="quantity">
+                            {order.bike.quantity ?? 1}
                         </td>
 
                         <td>
@@ -138,6 +142,7 @@ export default function OrderTable({data, onResults})
                             )}
                         </td>
 
+                        {pending && (
                         <td>
                             <div className="order-actions">
                                 <button type="button" onClick={() => openEditor(order)} className="stat">
@@ -169,6 +174,7 @@ export default function OrderTable({data, onResults})
                             </form>
                             )}
                         </td>
+                        )}
 
                         <td className="payment">
                             {order.payed_off ? (
@@ -179,7 +185,7 @@ export default function OrderTable({data, onResults})
                             ) : (
                                 <>
                                 <i className="fa-solid fa-hand-holding-dollar c-black"></i>
-                                <i className="fa-solid fa-clock c-orange"></i>
+                                <i className={`fa-solid ${pending ? "fa-clock c-orange" : "fa-circle-check c-green"}`}></i>
                                 </>
                             )}
                         </td>

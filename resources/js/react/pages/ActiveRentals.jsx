@@ -8,7 +8,7 @@ export default function ActiveRentals()
     const [orders, setOrders] = useState([]);
     useEffect(() =>
     {
-        fetch("/api/active-rentals")
+        fetch("/api/admin/track/active-rentals")
         .then((res) => res.json())
         .then((data) => setOrders(data))
         .catch((err) => console.error(err));
@@ -17,7 +17,7 @@ export default function ActiveRentals()
     const [filter, setFilter] = useState("any");
     useEffect(() =>
     {
-        fetch(`/api/active-rentals?return=${filter}`)
+        fetch(`/api/admin/track/active-rentals?return=${filter}`)
             .then((res) => res.json())
             .then((data) => setOrders(data))
             .catch(console.error);
@@ -25,7 +25,7 @@ export default function ActiveRentals()
 
     const markReturned = async (id) =>
     {
-        await fetch(`/api/active-rentals/${id}`, // await: Execution pauses until the request finishes
+        await fetch(`/api/admin/track/active-rentals/${id}`, // await: Execution pauses until the request finishes
         {
             method: "PATCH",
             headers:

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function OrderSearch({type=null, name, placeholder=null, list=null, onResults})
+export default function OrderSearch({type=null, name, placeholder=null, list=null, pending, onResults})
 {
     const [search, setSearch] = useState("");
 
@@ -10,7 +10,9 @@ export default function OrderSearch({type=null, name, placeholder=null, list=nul
 
         const params = new URLSearchParams();
         if (search) { params.append(name, search); }
-        const response = await fetch(`/api/admin/manage/pending-orders/search?${params}`);
+
+        const link = pending ? "manage/pending-orders" : "track/past-orders";
+        const response = await fetch(`/api/admin/${link}/search?${params}`);
         if (!response.ok)
         {
             console.error("Search failed");

@@ -21,6 +21,8 @@ import ManageOrders from './pages/ManageOrders';
 
 import ActiveRentals from './pages/ActiveRentals';
 
+import TrackOrders from './pages/TrackOrders';
+
 
 function App()
 {
@@ -42,6 +44,7 @@ function App()
                     <Route path="/admin/manage/categories" element={<ManageCategories />}/>
                     <Route path="/admin/manage/pending-orders" element={<ManageOrders />}/>
                     <Route path="/admin/track/activerentals" element={<ActiveRentals />}/>
+                    <Route path="/admin/track/past-orders" element={<TrackOrders />}/>
                 </Route>
 
             </Routes>

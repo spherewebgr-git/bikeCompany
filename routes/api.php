@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ActiveRentalsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderManagementController;
+use App\Http\Controllers\OrderTrackingController;
 use App\Http\Controllers\ProductController;
 
 
@@ -99,12 +100,12 @@ Route::patch('/admin/manage/pending-orders/update/{id}', [OrderManagementControl
 
 //* ADMIN - TRACKING *//
 // ACTIVE RENTALS
-Route::get('/active-rentals', [ActiveRentalsController::class, 'activerentals']);
-Route::patch('/active-rentals/{order}', [ActiveRentalsController::class, 'updatereturned']);
+Route::get('/admin/track/active-rentals', [ActiveRentalsController::class, 'activerentals']);
+Route::patch('/admin/track/active-rentals/{order}', [ActiveRentalsController::class, 'updatereturned']);
 
 // PAST ORDERS
-// Route::get('/admin/manage/past-orders', [OrderManagementController::class, 'history']);
-// Route::get('/admin/manage/past-orders/search', [OrderManagementController::class, 'search']);
+Route::get('/admin/track/past-orders', [OrderTrackingController::class, 'history']);
+Route::get('/admin/track/past-orders/search', [OrderTrackingController::class, 'search']);
 
 // STATISTICS
 // Route::get('/admin/manage/statistics', [StatisticsController::class, 'statistics']);
