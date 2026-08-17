@@ -23,6 +23,8 @@ import ActiveRentals from './pages/ActiveRentals';
 
 import TrackOrders from './pages/TrackOrders';
 
+import TrackStatistics from './pages/TrackStatistics';
+
 
 function App()
 {
@@ -45,6 +47,7 @@ function App()
                     <Route path="/admin/manage/pending-orders" element={<ManageOrders />}/>
                     <Route path="/admin/track/activerentals" element={<ActiveRentals />}/>
                     <Route path="/admin/track/past-orders" element={<TrackOrders />}/>
+                    <Route path="/admin/track/statistics" element={<TrackStatistics />}/>
                 </Route>
 
             </Routes>

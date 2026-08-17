@@ -8,7 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderManagementController;
 use App\Http\Controllers\OrderTrackingController;
 use App\Http\Controllers\ProductController;
-
+use App\Http\Controllers\StatisticsController;
 
 /******* AUTHENTICATION *******/
 // PROBLEM: Doesn't work ☹️
@@ -108,4 +108,4 @@ Route::get('/admin/track/past-orders', [OrderTrackingController::class, 'history
 Route::get('/admin/track/past-orders/search', [OrderTrackingController::class, 'search']);
 
 // STATISTICS
-// Route::get('/admin/manage/statistics', [StatisticsController::class, 'statistics']);
+Route::get('/admin/track/statistics', [StatisticsController::class, 'statistics']);
