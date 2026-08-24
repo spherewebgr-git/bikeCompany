@@ -81,20 +81,50 @@
 
         <div class="mobile-user-links">
             @auth
-                <div class="mobile-user-name">{{ Auth::user()->name }}</div>
-                <div class="mobile-user-email">{{ Auth::user()->email }}</div>
+                <div class="user-info-mobile">
+                    <div class="mobile-user-name"><i class="fa-solid fa-user"></i> {{ Auth::user()->first_name }}</div>
+                    <div class="mobile-user-name">{{ Auth::user()->last_name }}</div>
+                </div>
 
-                <a href="{{ route('dashboard.management.bikes') }}" class="btn btn-trans btn-md no-float">Dashboard</a>
-                <a href="{{ route('profile.edit') }}" class="btn btn-trans btn-md no-float">Profile</a>
+                <div class="mobile-user-email"><i class="fa-solid fa-envelope"></i> {{ Auth::user()->email }}</div>
+
+                @if(Auth::user()->role->name === 'staff')
+                    <a href="{{ route('dashboard.management.bikes') }}" class="btn btn-trans btn-md no-float">
+                        Dashboard
+                    </a>
+                @endif
+
+                <a href="{{ route('profile.edit') }}" class="btn btn-trans btn-md no-float">
+                    Account
+                </a>
+
+                <a href="{{ route('profile.wishlist.index') }}" class="btn btn-trans btn-md no-float">
+                    My Wishlist
+                </a>
+
+                <a href="{{ route('profile.orders') }}" class="btn btn-trans btn-md no-float">
+                    My Orders
+                </a>
+
+                <a href="{{ route('profile.history') }}" class="btn btn-trans btn-md no-float">
+                    History
+                </a>
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="btn btn-fill btn-md no-float">Log Out</button>
+                    <button type="submit" class="btn btn-fill btn-md no-float">
+                        Log Out
+                    </button>
                 </form>
             @else
-                <a href="{{ route('login') }}" class="btn btn-trans btn-md no-float">Log in</a>
+                <a href="{{ route('login') }}" class="btn btn-trans btn-md no-float">
+                    Log in
+                </a>
+
                 @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="btn btn-fill btn-md no-float">Register</a>
+                    <a href="{{ route('register') }}" class="btn btn-fill btn-md no-float">
+                        Register
+                    </a>
                 @endif
             @endauth
         </div>

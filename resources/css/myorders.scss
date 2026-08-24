@@ -174,3 +174,209 @@
         }
     }
 }
+
+
+/* ===========================
+        RESPONSIVE
+=========================== */
+
+@media (max-width: 1200px) {
+
+    #MyOrders {
+
+        .containers {
+            width: 95%;
+        }
+
+        .order-card {
+
+            .inner-card {
+                gap: 30px;
+            }
+
+            img {
+                width: 220px;
+                height: 220px;
+            }
+        }
+    }
+}
+
+@media (max-width: 992px) {
+
+    #MyOrders {
+        margin-left: 15px;
+
+        .containers {
+            width: 95%;
+        }
+
+        .order-card {
+            padding: 25px;
+
+            .inner-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 25px;
+            }
+
+            img {
+                width: 100%;
+                height: 280px;
+                object-fit: contain;
+            }
+
+            .info {
+                width: 100%;
+
+                .group {
+                    gap: 12px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+
+    #MyOrders {
+
+        padding-bottom: 60px;
+
+        .containers {
+            width: 100%;
+            padding: 20px 15px;
+        }
+
+        .order-card {
+            padding: 20px;
+            border-radius: 12px;
+
+            img {
+                height: 220px;
+            }
+
+            .info {
+
+                h4 {
+                    font-size: 13px;
+                    margin-bottom: 18px;
+                }
+
+                .group {
+                    flex-direction: column;
+                    gap: 8px;
+                    margin-bottom: 10px;
+                }
+
+                .date,
+                .quantity,
+                .price {
+                    font-size: 16px;
+                }
+
+                .address,
+                .provision {
+                    font-size: 13px;
+                }
+
+                hr {
+                    margin: 18px 0;
+                }
+            }
+        }
+
+        .no-orders {
+            margin: 40px 15px;
+            padding: 40px 20px;
+
+            p {
+                font-size: 16px;
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+
+    #MyOrders {
+
+        .order-card {
+            padding: 16px;
+
+            img {
+                height: 180px;
+                border-radius: 10px;
+            }
+
+            .info {
+
+                h4 {
+                    width: 100%;
+                    justify-content: center;
+                    font-size: 12px;
+                }
+
+                .date,
+                .quantity,
+                .price {
+                    font-size: 15px;
+                }
+
+                .address,
+                .provision {
+                    font-size: 12px;
+                    line-height: 1.5;
+                }
+            }
+        }
+
+        .no-orders {
+            padding: 30px 15px;
+
+            p {
+                font-size: 15px;
+            }
+        }
+    }
+}
+
+@media (max-width: 400px) {
+
+    #MyOrders {
+
+        .containers {
+            padding: 15px 10px;
+        }
+
+        .order-card {
+            padding: 14px;
+
+            img {
+                height: 150px;
+            }
+
+            .info {
+
+                h4 {
+                    font-size: 11px;
+                }
+
+                .date,
+                .quantity,
+                .price {
+                    font-size: 14px;
+                }
+
+                .address,
+                .provision {
+                    font-size: 11px;
+                }
+
+                .group {
+                    gap: 6px;
+                }
+            }
+        }
+    }
+}

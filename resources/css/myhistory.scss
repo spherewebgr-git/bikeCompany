@@ -54,6 +54,7 @@
     {
         width: 100%;
         padding: 20px;
+        margin: 0 50px 0 10px;
         display: flex;
         border-radius: 10px;
         background-color: #fff;
@@ -171,6 +172,205 @@
         &:hover
         {
             @include orangebtnhover;
+        }
+    }
+}
+
+
+/* ==============================
+            RESPONSIVE
+================================= */
+
+@media (max-width: 1200px) {
+
+    #MyHistory {
+
+        .order-card {
+            width: 97%;
+            flex: 0 0 100%;
+        }
+    }
+}
+
+@media (max-width: 992px) {
+
+    #MyHistory {
+
+        .containers {
+            margin: 0 15px;
+        }
+
+        .order-card {
+            flex-direction: column;
+            padding: 18px;
+
+            img {
+                width: 100%;
+                max-width: 100%;
+                max-height: 280px;
+                object-fit: contain;
+                margin-bottom: 20px;
+            }
+
+            .info {
+                padding: 0;
+            }
+
+            a {
+                position: static;
+                width: 100%;
+                margin-top: 20px;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+
+    #MyHistory {
+
+        .containers {
+            margin: 0 10px;
+        }
+
+        .rows {
+            gap: 20px;
+        }
+
+        .order-card {
+            padding: 15px;
+            border-radius: 8px;
+
+            img {
+                max-height: 230px;
+            }
+
+            .info {
+
+                h4 {
+                    font-size: 14px;
+                }
+
+                .group {
+                    flex-wrap: wrap;
+                    gap: 8px;
+                }
+
+                .date,
+                .quantity,
+                .price {
+                    font-size: 14px;
+                }
+
+                .address,
+                .provision {
+                    font-size: 13px;
+                    line-height: 1.5;
+                }
+            }
+        }
+
+        .no-orders {
+            padding: 40px 20px;
+
+            p {
+                font-size: 18px;
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+
+    #MyHistory {
+
+        .containers {
+            margin: 0;
+        }
+
+        .rows {
+            gap: 15px;
+        }
+
+        .order-card {
+            padding: 14px;
+            border-radius: 8px;
+
+            img {
+                max-height: 180px;
+            }
+
+            .info {
+
+                h4 {
+                    font-size: 13px;
+                }
+
+                .date,
+                .quantity,
+                .price {
+                    font-size: 13px;
+                }
+
+                .address,
+                .provision {
+                    font-size: 12px;
+                }
+            }
+
+            a {
+                font-size: 13px;
+                padding: 12px;
+                width: 100%;
+            }
+        }
+
+        .no-orders {
+            padding: 30px 15px;
+
+            p {
+                font-size: 16px;
+            }
+        }
+    }
+}
+
+@media (max-width: 400px) {
+
+    #MyHistory {
+
+        .order-card {
+
+            padding: 12px;
+
+            img {
+                max-height: 150px;
+            }
+
+            .info {
+
+                h4 {
+                    font-size: 12px;
+                }
+
+                .group {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 4px;
+                }
+
+                .date,
+                .quantity,
+                .price,
+                .address,
+                .provision {
+                    font-size: 12px;
+                }
+            }
+
+            a {
+                font-size: 12px;
+            }
         }
     }
 }

@@ -266,7 +266,7 @@ a {
         transition: max-height .35s ease, opacity .3s ease, transform .3s ease, padding .35s ease;
 
         &.is-open {
-            max-height: 500px;
+            max-height: 670px;
             overflow-y: auto;        // ⬅ αν το content ξεπερνάει τα 500px, να γίνεται scroll αντί να κόβεται
             opacity: 1;
             transform: translateY(0);
@@ -280,6 +280,11 @@ a {
         display: flex;
         flex-direction: column;
         gap: 10px;
+
+        .user-info-mobile {
+            display: flex;
+            gap: 5px;
+        }
 
         a,
         .btn {

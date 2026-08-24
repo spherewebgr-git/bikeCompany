@@ -93,3 +93,138 @@
         }
     }
 }
+
+/* ===========================
+        RESPONSIVE
+=========================== */
+
+@media (max-width: 992px) {
+
+    .order-status {
+        justify-content: space-between;
+        gap: 10px;
+
+        .stepinfo {
+            padding: 10px;
+            flex: 1;
+
+            .statpoint {
+                width: 48px;
+                height: 48px;
+                font-size: 15px;
+
+                &::after {
+                    width: calc(100% - 40px);
+                    left: calc(100% - 5px);
+                }
+
+                &.current {
+                    font-size: 18px;
+                    box-shadow: 0 10px 25px rgba(254,72,25,.35);
+                }
+            }
+
+            .statdesc {
+                margin-top: 10px;
+                font-size: 13px;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+
+    .order-status {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 18px;
+        padding: 10px 0;
+
+        .stepinfo {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            background: #fafafa;
+            border: 1px solid #eee;
+            transition: .3s ease;
+
+            &:hover {
+                background: #fff;
+                box-shadow: 0 10px 25px rgba(0,0,0,.05);
+            }
+
+            .statpoint {
+                margin: 0;
+                flex-shrink: 0;
+                width: 50px;
+                height: 50px;
+
+                &::after {
+                    top: calc(100% + 5px);
+                    left: 50%;
+                    width: 4px;
+                    height: 63px;
+                    transform: translateX(-50%);
+                    border-radius: 20px;
+                }
+
+                &.current {
+                    transform: scale(1.08);
+                    box-shadow: 0 12px 28px rgba(254,72,25,.35);
+                }
+
+                &.past {
+                    background: rgba(254,72,25,.08);
+                }
+            }
+
+            .statdesc {
+                flex: 1;
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 1.5;
+            }
+
+            &:last-child {
+
+                .statpoint::after {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+
+    .order-status {
+
+        .stepinfo {
+            padding: 14px;
+            gap: 14px;
+            border-radius: 12px;
+
+            .statpoint {
+                width: 42px;
+                height: 42px;
+                font-size: 13px;
+                border-width: 4px;
+
+                &.current {
+                    font-size: 15px;
+                }
+
+                &::after {
+                    height: 30px;
+                }
+            }
+
+            .statdesc {
+                font-size: 12px;
+            }
+        }
+    }
+}
