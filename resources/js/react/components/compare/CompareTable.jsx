@@ -20,7 +20,7 @@ export default function CompareTable({
                     ? ` ${price.description}`
                     : '';
 
-                return `${price.price} €${description}`;
+                return `${price.price} ${description}`;
             })
             .join(' / ');
     }

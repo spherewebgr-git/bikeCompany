@@ -1,7 +1,6 @@
 export default function CompareRow({
                                        label,
-                                       leftValue,
-                                       rightValue,
+                                       values,
                                    }) {
     return (
         <div className="compare-row">
@@ -10,13 +9,16 @@ export default function CompareRow({
                 {label}
             </div>
 
-            <div className="compare-row__value">
-                {leftValue ?? '-'}
-            </div>
-
-            <div className="compare-row__value">
-                {rightValue ?? '-'}
-            </div>
+            {values.map(function (value, index) {
+                return (
+                    <div
+                        key={index}
+                        className="compare-row__value"
+                    >
+                        {value ?? '-'}
+                    </div>
+                );
+            })}
 
         </div>
     );
