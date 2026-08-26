@@ -80,7 +80,7 @@ export default function ComparePage({
                     </h2>
 
                     <p>
-                        Compare up to two bikes side by side.
+                        Compare up to three bikes side by side.
                     </p>
                 </div>
 

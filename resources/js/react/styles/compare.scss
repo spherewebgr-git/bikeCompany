@@ -1,3 +1,7 @@
+/* ============================================================
+   COMPARE BUTTON
+   ============================================================ */
+
 .bike-card__image {
     position: relative;
 }
@@ -23,20 +27,20 @@
     border: 1px solid #d8dadd;
     border-radius: 50%;
 
-    background-color: #ffffff;
+    background-color: #fff;
     color: #4b5563;
 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .10);
 
     cursor: pointer;
     text-decoration: none;
 
     transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+        background-color .2s ease,
+        border-color .2s ease,
+        color .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
 
     i {
         font-size: 17px;
@@ -46,24 +50,25 @@
     &:hover {
         background-color: #fe4819;
         border-color: #fe4819;
-        color: #ffffff;
+        color: #fff;
 
         transform: translateY(-2px);
 
-        box-shadow: 0 7px 16px rgba(254, 72, 25, 0.25);
+        box-shadow: 0 7px 16px rgba(254, 72, 25, .25);
     }
 }
 
 .compare-button {
+
     &.active {
         background-color: #fe4819;
         border-color: #fe4819;
-        color: #ffffff;
+        color: #fff;
     }
 
     &:disabled {
         cursor: not-allowed;
-        opacity: 0.65;
+        opacity: .65;
     }
 }
 
@@ -73,34 +78,141 @@
    ============================================================ */
 
 .compare-page {
-    padding: 60px 0;
+    padding: 60px 0 80px;
+
+
+    /* --------------------------------------------------------
+       HEADER
+       -------------------------------------------------------- */
 
     &__header {
         display: flex;
         justify-content: space-between;
         align-items: center;
 
-        margin-bottom: 45px;
-        padding-bottom: 20px;
+        margin-bottom: 35px;
+        padding-bottom: 25px;
 
         border-bottom: 1px solid #ececec;
     }
 
+    &__header > div {
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin: 0;
+
+            color: #777;
+            font-size: 14px;
+        }
+    }
+
     &__count {
-        width: 50px;
-        height: 50px;
+        flex-shrink: 0;
+
+        width: 52px;
+        height: 52px;
 
         display: flex;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
 
         border-radius: 50%;
 
         background: #fe4819;
         color: #fff;
 
-        font-size: 18px;
+        font-size: 15px;
         font-weight: 700;
+
+        box-shadow: 0 6px 18px rgba(254, 72, 25, .22);
+    }
+}
+
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+.compare-empty {
+    min-height: 390px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 55px 30px;
+
+    text-align: center;
+
+    border: 1px solid #ececec;
+    border-radius: 14px;
+
+    background: #fff;
+
+    box-shadow: 0 10px 35px rgba(0, 0, 0, .05);
+
+
+    &__icon {
+        width: 74px;
+        height: 74px;
+
+        margin-bottom: 22px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: rgba(254, 72, 25, .08);
+        color: #fe4819;
+
+        i {
+            font-size: 30px;
+        }
+    }
+
+    h2 {
+        margin: 0 0 12px;
+
+        font-family: 'Oswald', sans-serif;
+        font-size: 30px;
+        font-weight: 700;
+
+        color: #3b3738;
+    }
+
+    p {
+        max-width: 520px;
+
+        margin: 0 0 28px;
+
+        color: #777;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+
+        flex-wrap: wrap;
+
+        .btn {
+            min-width: 145px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
     }
 }
 
@@ -113,22 +225,29 @@
     width: 100%;
 
     background: #fff;
-    border-radius: 12px;
+
+    border: 1px solid #ececec;
+    border-radius: 14px;
 
     overflow: hidden;
 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, .07);
+
+
+    /* --------------------------------------------------------
+       BIKE HEADER
+       -------------------------------------------------------- */
 
     &__bikes {
         display: grid;
 
-        // label + 3 bikes
         grid-template-columns:
             180px
             repeat(3, minmax(0, 1fr));
 
-        border-bottom: 1px solid #ececec;
+        border-bottom: 1px solid #e8e8e8;
     }
+
 
     &__label-column {
         display: flex;
@@ -140,21 +259,28 @@
         background: #f7f7f7;
 
         font-family: 'Oswald', sans-serif;
-        font-size: 18px;
+        font-size: 15px;
         font-weight: 700;
+
         text-transform: uppercase;
+        letter-spacing: .04em;
 
         color: #3b3738;
     }
+
 
     &__specs {
         width: 100%;
     }
 
+
+    /* --------------------------------------------------------
+       ACTIONS
+       -------------------------------------------------------- */
+
     &__actions {
         display: grid;
 
-        // label + 3 bikes
         grid-template-columns:
             180px
             repeat(3, minmax(0, 1fr));
@@ -164,7 +290,7 @@
         > div {
             min-width: 0;
 
-            padding: 22px 18px;
+            padding: 24px 18px;
 
             text-align: center;
         }
@@ -182,13 +308,13 @@
 
 
 /* ============================================================
-   COMPARE BIKE COLUMN
+   COMPARE BIKE
    ============================================================ */
 
 .compare-bike {
     min-width: 0;
 
-    padding: 25px 20px;
+    padding: 28px 20px 25px;
 
     display: flex;
     flex-direction: column;
@@ -198,10 +324,11 @@
 
     border-left: 1px solid #ececec;
 
+
     &__image {
         width: 100%;
         max-width: 230px;
-        height: 190px;
+        height: 185px;
 
         margin-bottom: 18px;
 
@@ -212,7 +339,6 @@
         overflow: hidden;
 
         border-radius: 12px;
-        background: #f7f7f7;
 
         img {
             width: 100%;
@@ -233,6 +359,7 @@
         }
     }
 
+
     h3 {
         margin: 0 0 7px;
 
@@ -243,12 +370,14 @@
         color: #201c19;
     }
 
+
     p {
         margin: 0 0 18px;
 
         font-size: 13px;
         color: #777;
     }
+
 
     &__remove {
         margin-top: auto;
@@ -258,12 +387,12 @@
         justify-content: center;
         gap: 7px;
 
-        padding: 8px 15px;
+        padding: 8px 16px;
 
         border: 1px solid rgba(254, 72, 25, .25);
         border-radius: 30px;
 
-        background: rgba(254, 72, 25, .07);
+        background: rgba(254, 72, 25, .06);
         color: #fe4819;
 
         font-size: 12px;
@@ -290,23 +419,6 @@
             cursor: not-allowed;
         }
     }
-
-    &__empty {
-        width: 100%;
-        min-height: 270px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        padding: 20px;
-
-        color: #999;
-        font-size: 14px;
-
-        border: 1px dashed #ddd;
-        border-radius: 12px;
-    }
 }
 
 
@@ -317,7 +429,6 @@
 .compare-row {
     display: grid;
 
-    // label + 3 bikes
     grid-template-columns:
         180px
         repeat(3, minmax(0, 1fr));
@@ -326,16 +437,20 @@
 
     border-bottom: 1px solid #ececec;
 
+
     &:last-child {
         border-bottom: 0;
     }
 
+
     &:nth-child(even) {
+
         .compare-row__label,
         .compare-row__value {
             background: #fafafa;
         }
     }
+
 
     &__label {
         padding: 17px 18px;
@@ -353,6 +468,7 @@
 
         color: #3b3738;
     }
+
 
     &__value {
         min-width: 0;
@@ -424,14 +540,57 @@
 @media (max-width: 576px) {
 
     .compare-page {
-        padding: 35px 0;
+        padding: 35px 0 50px;
 
         &__header {
             align-items: flex-start;
             flex-direction: column;
             gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        &__count {
+            width: 46px;
+            height: 46px;
+
+            font-size: 14px;
         }
     }
+
+
+    .compare-empty {
+        min-height: 340px;
+
+        padding: 40px 20px;
+
+        &__icon {
+            width: 64px;
+            height: 64px;
+
+            i {
+                font-size: 26px;
+            }
+        }
+
+        h2 {
+            font-size: 25px;
+        }
+
+        p {
+            font-size: 13px;
+        }
+
+        &__actions {
+            flex-direction: column;
+            width: 100%;
+
+            .btn {
+                width: 100%;
+            }
+        }
+    }
+
 
     .compare-table {
 
