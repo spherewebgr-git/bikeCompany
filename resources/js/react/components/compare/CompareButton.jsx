@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
     addToCompare,
@@ -15,12 +15,15 @@ export default function CompareButton({
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const [message, setMessage] = useState('');
+
     async function handleClick() {
         if (isLoading) {
             return;
         }
 
         setIsLoading(true);
+        setMessage('');
 
         try {
             const data = isCompared
@@ -28,8 +31,19 @@ export default function CompareButton({
                 : await addToCompare(bikeId);
 
             setIsCompared(data.compared);
+
+            if (data.compared) {
+                setMessage(
+                    'Bike added to compare list.'
+                );
+            } else {
+                setMessage(
+                    'Bike removed from compare list.'
+                );
+            }
+
         } catch (error) {
-            console.error(
+            setMessage(
                 error.message || 'Compare request failed.'
             );
         } finally {
@@ -37,31 +51,68 @@ export default function CompareButton({
         }
     }
 
+    useEffect(() => {
+        if (!message) {
+            return;
+        }
+
+        const timer = setTimeout(() => {
+            setMessage('');
+        }, 3000);
+
+        return () => {
+            clearTimeout(timer);
+        };
+    }, [message]);
+
     const buttonLabel = isCompared
         ? 'Remove from Compare'
         : 'Add to Compare';
 
     return (
-        <button
-            type="button"
-            onClick={handleClick}
-            disabled={isLoading}
-            className={
-                isCompared
-                    ? 'compare-button active'
-                    : 'compare-button'
-            }
-            title={buttonLabel}
-            aria-label={buttonLabel}
-        >
-            <i
+        <div className="compare-button-wrapper">
+
+            <button
+                type="button"
+                onClick={handleClick}
+                disabled={isLoading}
                 className={
-                    isLoading
-                        ? 'fa-solid fa-spinner fa-spin'
-                        : 'fa-solid fa-code-compare'
+                    isCompared
+                        ? 'compare-button active'
+                        : 'compare-button'
                 }
-                aria-hidden="true"
-            />
-        </button>
+                title={buttonLabel}
+                aria-label={buttonLabel}
+            >
+                <i
+                    className={
+                        isLoading
+                            ? 'fa-solid fa-spinner fa-spin'
+                            : 'fa-solid fa-code-compare'
+                    }
+                    aria-hidden="true"
+                />
+            </button>
+
+            {message && (
+                <div className="compare-message">
+
+                    <span>
+                        {message}
+                    </span>
+
+                    {isCompared && (
+                        <a
+                            href="/profile/compare"
+                            className="compare-message__link"
+                        >
+                            View comparison
+                        </a>
+                    )}
+
+                </div>
+            )}
+
+        </div>
     );
 }
