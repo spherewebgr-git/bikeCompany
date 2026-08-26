@@ -9,13 +9,11 @@ use App\Http\Controllers\OrderManagementController;
 use App\Http\Controllers\OrderTrackingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\CustomerOrdersController;
 
 /******* AUTHENTICATION *******/
-// PROBLEM: Doesn't work ☹️
-Route::get('/user', function (Request $request)
-{
-    return $request->user();
-})->middleware('auth:sanctum');
+
+
 
 
 /******* PUBLIC PAGES *******/
@@ -60,10 +58,12 @@ Route::get('/featured-bikes', [HomeController::class, 'apiFeatured']);
 
 
 // MY ORDERS
-
+Route::get('/profile/myorders', [CustomerOrdersController::class, 'orders']);
+Route::get('/profile/myorders/search', [CustomerOrdersController::class, 'searchorders']);
 
 // HISTORY
-
+Route::get('/profile/myhistory', [CustomerOrdersController::class, 'history']);
+Route::get('/profile/myhistory/search', [CustomerOrdersController::class, 'searchhistory']);
 
 
 /******* ADMIN PAGES *******/

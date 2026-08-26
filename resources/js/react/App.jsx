@@ -10,6 +10,10 @@ import AboutUs from './pages/AboutUs';
 
 import Bikes from './pages/Bikes';
 
+import MyOrders from './pages/MyOrders';
+
+import MyHistory from './pages/MyHistory';
+
 // ADMIN PAGES
 import ManageBikes from './pages/ManageBikes';
 import EditBike from './pages/EditBike';
@@ -36,6 +40,9 @@ function App()
                 <Route element={<LayoutPublic />}>
                     <Route path="/about-us-react" element={<AboutUs />} />
                     <Route path="/test/bikes" element={<Bikes />} />
+
+                    <Route path="/profile/myorders" element={<MyOrders />} />
+                    <Route path="/profile/myhistory" element={<MyHistory />} />
                 </Route>
 
             {/* ADMIN PAGES */}

@@ -13,7 +13,9 @@ use App\Http\Controllers\SaleBikeController;
 use App\Http\Controllers\StaffmanagementController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\CustomerOrdersController;
 use App\Http\Controllers\WishlistController;
+use Illuminate\Http\Request;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -28,6 +30,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 //
 //Route::get('/sale-bikes', [SaleBikeController::class, 'index'])
 //    ->name('bikes.sale');
+
 
 // DASHBOARD
 
@@ -196,30 +199,55 @@ Route::get('/test/bikes', function () { return view('react'); });
 
 Route::get('/about-us-react', function () { return view('react'); })->name('about-us-react');
 
+// CUSTOMER
+// CUSTOMER > HOME
+
+
+// CUSTOMER > SALE
+
+
+// CUSTOMER > RENT
+
+
+// CUSTOMER > CONTACT
+
+
+// CUSTOMER > PROFILE
+Route::middleware('auth')->group(function ()
+{
+    Route::get('/profile/myorders', function () { return view('react'); })->name('profile.myorders');
+    Route::get('/profile/myhistory', function () { return view('react'); })->name('profile.myhistory');
+
+
+    Route::get('/api/profile/myorders', [CustomerOrdersController::class, 'orders']);
+    Route::get('/api/profile/myorders/search', [CustomerOrdersController::class, 'searchorders']);
+});
 
 // ADMIN
-// ADMIN > MANAGEMENT
-Route::get('/admin/manage/products', function () { return view('react-admin'); })->name('admin.products');
-Route::get('/admin/manage/products/edit/{id}', function () { return view('react-admin'); })->name('admin.products.edit');
-Route::get('/admin/manage/products/create', function () { return view('react-admin'); })->name('admin.products.create');
+Route::middleware(['auth', 'role:staff'])->group(function ()
+{
+    // ADMIN > MANAGEMENT
+    Route::get('/admin/manage/products', function () { return view('react-admin'); })->name('admin.products');
+    Route::get('/admin/manage/products/edit/{id}', function () { return view('react-admin'); })->name('admin.products.edit');
+    Route::get('/admin/manage/products/create', function () { return view('react-admin'); })->name('admin.products.create');
 
-Route::get('/admin/manage/calendar', function () { return view('react-admin'); })->name('admin.calendar');
+    Route::get('/admin/manage/calendar', function () { return view('react-admin'); })->name('admin.calendar');
 
-Route::get('/admin/manage/categories', function () { return view('react-admin'); })->name('admin.categories');
+    Route::get('/admin/manage/categories', function () { return view('react-admin'); })->name('admin.categories');
 
-Route::get('/admin/manage/homepage', function () { return view('react-admin'); })->name('admin.homepage');
+    Route::get('/admin/manage/homepage', function () { return view('react-admin'); })->name('admin.homepage');
 
-Route::get('/admin/manage/pending-orders', function () { return view('react-admin'); })->name('admin.pendingorders');
+    Route::get('/admin/manage/pending-orders', function () { return view('react-admin'); })->name('admin.pendingorders');
 
-Route::get('/admin/manage/users', function () { return view('react-admin'); })->name('admin.users');
+    Route::get('/admin/manage/users', function () { return view('react-admin'); })->name('admin.users');
 
 
-// ADMIN > TRACKING
-Route::get('/admin/track/activerentals', function () { return view('react-admin'); })->name('admin.activerentals');
+    // ADMIN > TRACKING
+    Route::get('/admin/track/activerentals', function () { return view('react-admin'); })->name('admin.activerentals');
 
-Route::get('/admin/track/past-orders', function () { return view('react-admin'); })->name('admin.pastorders');
+    Route::get('/admin/track/past-orders', function () { return view('react-admin'); })->name('admin.pastorders');
 
-Route::get('/admin/track/statistics', function () { return view('react-admin'); })->name('admin.statistics');
-
+    Route::get('/admin/track/statistics', function () { return view('react-admin'); })->name('admin.statistics');
+});
 
 require __DIR__.'/auth.php';
