@@ -19,6 +19,10 @@
         </div>
     </section>
 
+    {{-- ============ DISCOUNT BANNER ============ --}}
+    <div id="promo-banner"></div>
+    @vite('resources/js/react/pages/PromoBannerSection.jsx')
+
     {{-- ============ ABOUT ============ --}}
     <section class="about-section" id="about">
         <div class="nav-container">
