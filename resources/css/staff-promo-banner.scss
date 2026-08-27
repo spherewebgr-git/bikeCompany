@@ -1,0 +1,189 @@
+// ============================================================
+// PROMO BANNER EDIT
+// ============================================================
+
+#PromoBannerEdit {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px;
+
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.06);
+
+
+    // --------------------------------------------------------
+    // SUCCESS MESSAGE
+    // --------------------------------------------------------
+
+    .alert-success {
+        margin-bottom: 25px;
+        padding: 12px 16px;
+
+        color: #256029;
+        background: #e8f5e9;
+        border: 1px solid #c8e6c9;
+        border-radius: 5px;
+
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+
+    // --------------------------------------------------------
+    // FORM
+    // --------------------------------------------------------
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    // --------------------------------------------------------
+    // LABELS
+    // --------------------------------------------------------
+
+    label {
+        margin-bottom: 7px;
+
+        color: #333;
+
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+
+    // --------------------------------------------------------
+    // TEXT INPUTS
+    // --------------------------------------------------------
+
+    input[type="text"],
+    textarea {
+        width: 100%;
+        padding: 11px 13px;
+
+        color: #333;
+        background: #fff;
+
+        border: 1px solid #ddd;
+        border-radius: 5px;
+
+        font-size: 14px;
+
+        outline: none;
+
+        transition:
+            border-color 0.25s ease,
+            box-shadow 0.25s ease;
+
+        &:focus {
+            border-color: #fe4819;
+            box-shadow: 0 0 0 3px rgba(254, 72, 25, 0.08);
+        }
+    }
+
+
+    // --------------------------------------------------------
+    // TEXTAREA
+    // --------------------------------------------------------
+
+    textarea {
+        min-height: 120px;
+        resize: vertical;
+        line-height: 1.5;
+    }
+
+
+    // --------------------------------------------------------
+    // COLOR PICKER
+    // --------------------------------------------------------
+
+    input[type="color"] {
+        width: 70px;
+        height: 42px;
+
+        padding: 3px;
+
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+
+        cursor: pointer;
+
+        transition: border-color 0.25s ease;
+
+        &:hover {
+            border-color: #fe4819;
+        }
+    }
+
+
+    // --------------------------------------------------------
+    // IMAGE PREVIEW
+    // --------------------------------------------------------
+
+    img {
+        display: block;
+
+        width: 250px;
+        height: 140px;
+
+        margin-bottom: 12px;
+
+        object-fit: cover;
+
+        border: 1px solid #eee;
+        border-radius: 7px;
+
+        background: #f7f7f7;
+    }
+
+
+    // --------------------------------------------------------
+    // FILE INPUT
+    // --------------------------------------------------------
+
+    input[type="file"] {
+        width: 100%;
+        padding: 9px;
+
+        color: #666;
+        background: #fafafa;
+
+        border: 1px dashed #ccc;
+        border-radius: 5px;
+
+        font-size: 13px;
+
+        cursor: pointer;
+
+        transition:
+            border-color 0.25s ease,
+            background-color 0.25s ease;
+
+        &:hover {
+            background: #fff;
+            border-color: #fe4819;
+        }
+    }
+
+
+    // --------------------------------------------------------
+    // SUBMIT BUTTON
+    // --------------------------------------------------------
+
+    .Submit {
+        width: fit-content;
+
+        margin-top: 25px;
+        padding: 11px 28px;
+
+        font-size: 13px;
+        font-weight: 700;
+
+        cursor: pointer;
+    }
+}

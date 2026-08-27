@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PromoBannerController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -74,6 +75,9 @@ Route::middleware('auth')->group(function () {
 
 //RENTAL AVAILABILITY
 Route::get('/bikes/{bike}/availability', [RentalBikeController::class, 'availability'])->name('bikes.availability');
+
+//PROMO BANNER HOMEPAGE
+Route::get('/api/promo-banner', [PromoBannerController::class, 'apiShow']);
 
 
 // USER PAGES
@@ -191,6 +195,14 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
     Route::put('/dashboard/management/featured-bikes/update', [FeaturedBikeController::class, 'update'])->name('featured-bikes.update');
 
     Route::get('/dashboard/management/featured-bikes/search', [FeaturedBikeController::class, 'featuredsearch'])->name('featured-bikes.search');
+    // --------- PROMO BANNER --------- \\
+    Route::get('promo-banner', [PromoBannerController::class, 'index'])->name('dashboard.promo-banner.index');
+    Route::get('promo-banner/create', [PromoBannerController::class, 'create'])->name('dashboard.promo-banner.create');
+    Route::get('promo-banner/{banner}/edit', [PromoBannerController::class, 'edit'])->name('dashboard.promo-banner.edit');
+    Route::post('promo-banner', [PromoBannerController::class, 'store'])->name('dashboard.promo-banner.store');
+    Route::put('promo-banner/{banner}', [PromoBannerController::class, 'update'])->name('dashboard.promo-banner.update');
+    Route::delete('promo-banner/{banner}', [PromoBannerController::class, 'destroy'])->name('dashboard.promo-banner.destroy');
+
 
     // --------- BLOCKED DATES --------- \\
     Route::get('/dashboard/management/blocked-dates', [BlockedDateController::class, 'index'])->name('blocked-dates.index');

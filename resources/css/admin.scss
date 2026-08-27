@@ -9,6 +9,7 @@
 @use 'staff-blockdates' as *;
 @use 'bikefilters' as *;
 @use 'statistics' as *;
+@use 'staff-promo-banner' as *;
 
 .sidenav.mobile-open {
     transform: translateX(0) !important;

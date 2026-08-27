@@ -121,6 +121,13 @@
             </li>
 
             <li class="bold">
+                <a class="waves-effect waves-cyan" href="{{ route('dashboard.promo-banner.index') }}">
+                    <i class="fa-solid fa-bullhorn"></i>
+                    <span class="menu-title">Promo Banner</span>
+                </a>
+            </li>
+
+            <li class="bold">
                 <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.orders') }}">
                     <i class="fa-solid fa-store" style="color: #fff;"></i>
                     <span class="menu-title">Order Management</span>

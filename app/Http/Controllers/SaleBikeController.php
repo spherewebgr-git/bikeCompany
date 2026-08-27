@@ -77,6 +77,10 @@ class SaleBikeController extends Controller
             });
         }
 
+        if ($request->filled('discount') && $request->discount == '1') {
+            $query->where('discount_percentage', '>', 0);
+        }
+
         $bikes = $query->paginate(12)->withQueryString();
 
         $brands = Brand::orderBy('name')->get();
