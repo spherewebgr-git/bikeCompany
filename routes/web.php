@@ -280,9 +280,9 @@ Route::middleware(['auth', 'role:staff'])->group(function ()
 {
     //* ADMIN - MANAGEMENT *//
     // PRODUCTS
-    Route::get('/admin/manage/products', function () { return view('react-admin'); })->name('admin.products');
-    Route::get('/admin/manage/products/edit/{id}', function () { return view('react-admin'); })->name('admin.products.edit');
-    Route::get('/admin/manage/products/create', function () { return view('react-admin'); })->name('admin.products.create');
+    Route::get('/admin/manage/products', function () { return view('react'); })->name('admin.products');
+    Route::get('/admin/manage/products/edit/{id}', function () { return view('react'); })->name('admin.products.edit');
+    Route::get('/admin/manage/products/create', function () { return view('react'); })->name('admin.products.create');
 
     Route::get('/api/admin/manage/products', [ProductController::class, 'management']);
     Route::patch('/api/admin/manage/products/{id}/quantity', [ProductController::class, 'quantity']);
@@ -291,11 +291,11 @@ Route::middleware(['auth', 'role:staff'])->group(function ()
     Route::get('/api/admin/manage/products/create', [ProductController::class, 'create']);
     Route::post('/api/admin/manage/products/add', [ProductController::class, 'add']);
 
-    // CALENDAR
-    Route::get('/admin/manage/calendar', function () { return view('react-admin'); })->name('admin.calendar');
+    // CALENDAR 
+    Route::get('/admin/manage/calendar', function () { return view('react'); })->name('admin.calendar');
 
     // CATEGORIES
-    Route::get('/admin/manage/categories', function () { return view('react-admin'); })->name('admin.categories');
+    Route::get('/admin/manage/categories', function () { return view('react'); })->name('admin.categories');
 
     Route::get('/api/admin/manage/categories', [CategoryController::class, 'index']);
     Route::get('/api/admin/manage/categories/search', [CategoryController::class, 'search']);
@@ -303,37 +303,37 @@ Route::middleware(['auth', 'role:staff'])->group(function ()
     Route::delete('/api/admin/manage/categories/{category}/{id}', [CategoryController::class, 'delete']);
     Route::post('/api/admin/manage/categories/{category}', [CategoryController::class, 'create']);
 
-    // HOMEPAGE
-    Route::get('/admin/manage/homepage', function () { return view('react-admin'); })->name('admin.homepage');
-
+    // HOMEPAGE 
+    Route::get('/admin/manage/homepage', function () { return view('react'); })->name('admin.homepage');
+    
     Route::get('/featured-bikes', [HomeController::class, 'apiFeatured']);
 
     // PENDING ORDERS
-    Route::get('/admin/manage/pending-orders', function () { return view('react-admin'); })->name('admin.pendingorders');
+    Route::get('/admin/manage/pending-orders', function () { return view('react'); })->name('admin.pendingorders');
 
     Route::get('/api/admin/manage/pending-orders', [OrderManagementController::class, 'orders']);
     Route::get('/api/admin/manage/pending-orders/search', [OrderManagementController::class, 'search']);
     Route::patch('/api/admin/manage/pending-orders/update/{id}', [OrderManagementController::class, 'update']);
 
-    // USERS
-    Route::get('/admin/manage/users', function () { return view('react-admin'); })->name('admin.users');
+    // USERS 
+    Route::get('/admin/manage/users', function () { return view('react'); })->name('admin.users');
 
 
     //* ADMIN - TRACKING *//
     // ACTIVE RENTALS
-    Route::get('/admin/track/activerentals', function () { return view('react-admin'); })->name('admin.activerentals');
+    Route::get('/admin/track/activerentals', function () { return view('react'); })->name('admin.activerentals');
 
     Route::get('/api/admin/track/active-rentals', [ActiveRentalsController::class, 'activerentals']);
     Route::patch('/api/admin/track/active-rentals/{order}', [ActiveRentalsController::class, 'updatereturned']);
 
     // PAST ORDERS
-    Route::get('/admin/track/past-orders', function () { return view('react-admin'); })->name('admin.pastorders');
+    Route::get('/admin/track/past-orders', function () { return view('react'); })->name('admin.pastorders');
 
     Route::get('/api/admin/track/past-orders', [OrderTrackingController::class, 'history']);
     Route::get('/api/admin/track/past-orders/search', [OrderTrackingController::class, 'search']);
 
     // STATISTICS
-    Route::get('/admin/track/statistics', function () { return view('react-admin'); })->name('admin.statistics');
+    Route::get('/admin/track/statistics', function () { return view('react'); })->name('admin.statistics');
 
     Route::get('/api/admin/track/statistics', [StatisticsController::class, 'statistics']);
 });
