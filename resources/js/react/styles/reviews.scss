@@ -305,3 +305,40 @@
         }
     }
 }
+
+.bike-card__reviews {
+    margin: 18px 0 15px;
+    min-height: 22px;
+
+    display: flex;
+    align-items: center;
+}
+
+.review-summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .star-rating {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+
+        &__star {
+            font-size: 16px;
+        }
+    }
+
+    &__average {
+        padding-left: 5px;
+
+        font-size: 12px;
+        font-weight: 700;
+        color: #555;
+    }
+
+    &__count {
+        font-size: 12px;
+        color: #777;
+    }
+}

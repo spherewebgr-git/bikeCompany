@@ -79,7 +79,16 @@
                 </div>
 
             </div>
+
+            <div
+                data-reviews-root
+                data-bike-id="{{ $bike->id }}"
+                data-authenticated="{{ auth()->check() ? 'true' : 'false' }}"
+            ></div>
+
         </div>
     </section>
+
+    @vite('resources/js/reviews.jsx')
 
 </x-app-layout>
