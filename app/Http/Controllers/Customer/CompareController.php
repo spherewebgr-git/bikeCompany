@@ -1,32 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Customer;
+use App\Http\Controllers\Controller;
 
 use App\Models\Bike;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class WishlistController extends Controller
+class CompareController extends Controller
 {
-
-    /**
-     * Εμφανίζει τη Blade σελίδα που φιλοξενεί
-     * το React WishlistPage component.
-     */
     public function index(): View
     {
-        return view('profile.wishlist');
+        return view('profile.compare');
     }
 
-    /**
-     * Επιστρέφει τα wishlist bikes του χρήστη
-     * σε JSON μορφή για τη React.
-     */
     public function items(Request $request): JsonResponse
     {
         $bikes = $request->user()
-            ->wishlistBikes()
+            ->compareBikes()
             ->with([
                 'brand',
                 'type',
@@ -66,59 +58,84 @@ class WishlistController extends Controller
                         ? route('bikes.rental.show', $bike)
                         : route('bikes.sale.show', $bike),
                 ];
-            });
+            })
+            ->values();
 
         return response()->json([
             'success' => true,
             'bikes' => $bikes,
+            'count' => $bikes->count(),
+            'maximum' => 3,
         ]);
     }
 
-    /**
-     * Επιστρέφει αν το συγκεκριμένο ποδήλατο
-     * υπάρχει ήδη στη wishlist του χρήστη.
-     */
-    public function status(Request $request, Bike $bike): JsonResponse
-    {
-        $isWishlisted = $request->user()
-            ->wishlistBikes()
+    public function store(
+        Request $request,
+        Bike $bike
+    ): JsonResponse {
+        $user = $request->user();
+
+        $alreadyCompared = $user
+            ->compareBikes()
             ->where('bikes.id', $bike->id)
             ->exists();
 
-        return response()->json([
-            'wishlisted' => $isWishlisted,
-        ]);
-    }
+        if ($alreadyCompared) {
+            return response()->json([
+                'success' => true,
+                'compared' => true,
+                'count' => $user->compareBikes()->count(),
+                'maximum' => 3,
+                'message' => 'Bike is already selected for comparison.',
+            ]);
+        }
 
-    /**
-     * Προσθέτει το ποδήλατο στη wishlist.
-     */
-    public function store(Request $request, Bike $bike): JsonResponse
-    {
-        $request->user()
-            ->wishlistBikes()
-            ->syncWithoutDetaching([$bike->id]);
+        $currentCount = $user
+            ->compareBikes()
+            ->count();
+
+        if ($currentCount >= 3) {
+            return response()->json([
+                'success' => false,
+                'compared' => false,
+                'count' => $currentCount,
+                'maximum' => 3,
+                'message' => 'You can compare up to 3 bikes.',
+            ], 422);
+        }
+
+        $user
+            ->compareBikes()
+            ->attach($bike->id);
 
         return response()->json([
             'success' => true,
-            'wishlisted' => true,
-            'message' => 'Bike added to your wishlist.',
+            'compared' => true,
+            'count' => $currentCount + 1,
+            'maximum' => 3,
+            'message' => 'Bike added to comparison.',
         ]);
     }
 
     /**
-     * Αφαιρεί το ποδήλατο από τη wishlist.
+     * Αφαιρεί ένα bike από τη σύγκριση.
      */
-    public function destroy(Request $request, Bike $bike): JsonResponse
-    {
-        $request->user()
-            ->wishlistBikes()
+    public function destroy(
+        Request $request,
+        Bike $bike
+    ): JsonResponse {
+        $user = $request->user();
+
+        $user
+            ->compareBikes()
             ->detach($bike->id);
 
         return response()->json([
             'success' => true,
-            'wishlisted' => false,
-            'message' => 'Bike removed from your wishlist.',
+            'compared' => false,
+            'count' => $user->compareBikes()->count(),
+            'maximum' => 3,
+            'message' => 'Bike removed from comparison.',
         ]);
     }
 }

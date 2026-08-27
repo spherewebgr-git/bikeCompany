@@ -1,40 +1,39 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+
+// BLADE CONTROLLERS
 use App\Http\Controllers\BlockedDateController;
 use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\CompareController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\FeaturedBikeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RentalBikeController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SaleBikeController;
 use App\Http\Controllers\StaffmanagementController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CardController;
-use App\Http\Controllers\CustomerOrdersController;
-use App\Http\Controllers\WishlistController;
-use Illuminate\Http\Request;
 
+// REACT CONTROLLERS
+use App\Http\Controllers\Admin\ActiveRentalsController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\OrderManagementController;
+use App\Http\Controllers\Admin\OrderTrackingController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\StatisticsController;
+use App\Http\Controllers\Customer\CompareController;
+use App\Http\Controllers\Customer\OrdersController;
+use App\Http\Controllers\Customer\WishlistController;
+
+
+// HOMEPAGE
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-
-////Navigation menu routes
-//Route::get('/rental-bikes', [RentalBikeController::class, 'index'])
-//    ->name('bikes.rental');
-//
-//
-//Route::get('/sale-bikes', [SaleBikeController::class, 'index'])
-//    ->name('bikes.sale');
-
-
 // DASHBOARD
-
-Route::get('/dashboard', function () {
+Route::get('/dashboard', function ()
+{
     return redirect()->route('home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -193,61 +192,139 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
 
 });
 
+
+
+
+
+
+
 //REACT TEST
-
 Route::get('/test/bikes', function () { return view('react'); });
-
 Route::get('/about-us-react', function () { return view('react'); })->name('about-us-react');
 
-// CUSTOMER
-// CUSTOMER > HOME
-
-
-// CUSTOMER > SALE
-
-
-// CUSTOMER > RENT
-
-
-// CUSTOMER > CONTACT
-
-
-// CUSTOMER > PROFILE
-Route::middleware('auth')->group(function ()
+/*------------- REACT PAGES -------------*/
+Route::get('/current-user', function (Request $request)
 {
-    Route::get('/profile/myorders', function () { return view('react'); })->name('profile.myorders');
-    Route::get('/profile/myhistory', function () { return view('react'); })->name('profile.myhistory');
-
-
-    Route::get('/api/profile/myorders', [CustomerOrdersController::class, 'orders']);
-    Route::get('/api/profile/myorders/search', [CustomerOrdersController::class, 'searchorders']);
+    return response()->json(['user' => $request->user()?->load('role'),]);
 });
 
-// ADMIN
+/******* PUBLIC PAGES *******/
+//* HOME *//
+// ABOUT US
+Route::get('/featured-bikes', [HomeController::class, 'apiFeatured']);
+
+//* BIKES FOR SALE *//
+// BROWSE
+
+
+// DETAILS
+
+
+// CHECKOUT
+
+
+// PAYMENT
+
+
+//* RENTAL BIKES *//
+// BROWSE
+
+
+// DETAILS
+
+
+// CHECKOUT
+
+
+// PAYMENT
+
+
+//* CONTACT US *//
+
+
+//* PROFILE *//
+Route::middleware('auth')->group(function ()
+{
+    // ACCOUNT
+
+
+    // WISHLIST
+
+
+    // MY ORDERS
+    Route::get('/profile/myorders', function () { return view('react'); })->name('profile.myorders');
+    
+    Route::get('/api/profile/myorders', [OrdersController::class, 'orders']);
+    Route::get('/api/profile/myorders/search', [OrdersController::class, 'searchorders']);
+
+    // MY HISTORY
+    Route::get('/profile/myhistory', function () { return view('react'); })->name('profile.myhistory');
+
+    Route::get('/api/profile/myhistory', [OrdersController::class, 'history']);
+    Route::get('/api/profile/myhistory/search', [OrdersController::class, 'searchhistory']);
+});
+
+/******* ADMIN PAGES *******/
 Route::middleware(['auth', 'role:staff'])->group(function ()
 {
-    // ADMIN > MANAGEMENT
+    //* ADMIN - MANAGEMENT *//
+    // PRODUCTS
     Route::get('/admin/manage/products', function () { return view('react-admin'); })->name('admin.products');
     Route::get('/admin/manage/products/edit/{id}', function () { return view('react-admin'); })->name('admin.products.edit');
     Route::get('/admin/manage/products/create', function () { return view('react-admin'); })->name('admin.products.create');
 
+    Route::get('/api/admin/manage/products', [ProductController::class, 'management']);
+    Route::patch('/api/admin/manage/products/{id}/quantity', [ProductController::class, 'quantity']);
+    Route::get('/api/admin/manage/products/edit/{id}', [ProductController::class, 'edit']);
+    Route::patch('/api/admin/manage/products/update/{id}', [ProductController::class, 'update']);
+    Route::get('/api/admin/manage/products/create', [ProductController::class, 'create']);
+    Route::post('/api/admin/manage/products/add', [ProductController::class, 'add']);
+
+    // CALENDAR 
     Route::get('/admin/manage/calendar', function () { return view('react-admin'); })->name('admin.calendar');
 
+    // CATEGORIES
     Route::get('/admin/manage/categories', function () { return view('react-admin'); })->name('admin.categories');
 
-    Route::get('/admin/manage/homepage', function () { return view('react-admin'); })->name('admin.homepage');
+    Route::get('/api/admin/manage/categories', [CategoryController::class, 'index']);
+    Route::get('/api/admin/manage/categories/search', [CategoryController::class, 'search']);
+    Route::patch('/api/admin/manage/categories/{category}/{id}', [CategoryController::class, 'edit']);
+    Route::delete('/api/admin/manage/categories/{category}/{id}', [CategoryController::class, 'delete']);
+    Route::post('/api/admin/manage/categories/{category}', [CategoryController::class, 'create']);
 
+    // HOMEPAGE 
+    Route::get('/admin/manage/homepage', function () { return view('react-admin'); })->name('admin.homepage');
+    
+    Route::get('/featured-bikes', [HomeController::class, 'apiFeatured']);
+
+    // PENDING ORDERS
     Route::get('/admin/manage/pending-orders', function () { return view('react-admin'); })->name('admin.pendingorders');
 
+    Route::get('/api/admin/manage/pending-orders', [OrderManagementController::class, 'orders']);
+    Route::get('/api/admin/manage/pending-orders/search', [OrderManagementController::class, 'search']);
+    Route::patch('/api/admin/manage/pending-orders/update/{id}', [OrderManagementController::class, 'update']);
+
+    // USERS 
     Route::get('/admin/manage/users', function () { return view('react-admin'); })->name('admin.users');
 
 
-    // ADMIN > TRACKING
+    //* ADMIN - TRACKING *//
+    // ACTIVE RENTALS
     Route::get('/admin/track/activerentals', function () { return view('react-admin'); })->name('admin.activerentals');
 
+    Route::get('/api/admin/track/active-rentals', [ActiveRentalsController::class, 'activerentals']);
+    Route::patch('/api/admin/track/active-rentals/{order}', [ActiveRentalsController::class, 'updatereturned']);
+
+    // PAST ORDERS
     Route::get('/admin/track/past-orders', function () { return view('react-admin'); })->name('admin.pastorders');
 
+    Route::get('/api/admin/track/past-orders', [OrderTrackingController::class, 'history']);
+    Route::get('/api/admin/track/past-orders/search', [OrderTrackingController::class, 'search']);
+
+    // STATISTICS
     Route::get('/admin/track/statistics', function () { return view('react-admin'); })->name('admin.statistics');
+
+    Route::get('/api/admin/track/statistics', [StatisticsController::class, 'statistics']);
 });
 
 require __DIR__.'/auth.php';

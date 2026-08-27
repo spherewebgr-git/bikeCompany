@@ -6,11 +6,8 @@ export default function Sidebar()
         <aside className="sidenav-main nav-expanded nav-lock nav-collapsible sidenav-dark sidenav-active-rounded">
             <div className="brand-sidebar">
                 <h1 className="logo-wrapper">
-                    <Link className="brand-logo darken-1" to="/">
-                        <img
-                            src="/images/bikeco-light-logo.png"
-                            alt="logo"
-                        />
+                    <Link className="brand-logo darken-1" to="/about-us-react"> {/* TODO: to="/"> */}
+                        <img src="/images/bikeco-light-logo.png" alt="logo"/>
                     </Link>
                 </h1>
             </div>

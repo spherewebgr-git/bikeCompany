@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -33,12 +34,25 @@ import TrackStatistics from './pages/TrackStatistics';
 
 function App()
 {
+    const [user, setUser] = useState(null);
+    const [loadingUser, setLoadingUser] = useState(true);
+
+    useEffect(() => {
+        fetch('/current-user', {credentials: 'include',})
+            .then(response => response.json())
+            .then(data => {setUser(data.user);})
+            .catch(error => {console.error('Could not load user:', error);})
+            .finally(() => {setLoadingUser(false);});
+    }, []);
+
+    if (loadingUser) { return null; }
+
     return (
         <BrowserRouter>
             <Routes>
 
             {/* PUBLIC PAGES */}
-                <Route element={<LayoutPublic />}>
+                <Route element={<LayoutPublic user={user}/>}>
                     <Route path="/about-us-react" element={<AboutUs />} />
                     <Route path="/test/bikes" element={<Bikes />} />
 
@@ -47,7 +61,7 @@ function App()
                 </Route>
 
             {/* ADMIN PAGES */}
-                <Route element={<LayoutAdmin />}>
+                <Route element={<LayoutAdmin/>}>
                     <Route path="/admin/manage/products" element={<ManageBikes  />}/>
                     <Route path="/admin/manage/products/edit/:id" element={<EditBike />}/>
                     <Route path="/admin/manage/products/create" element={<CreateBike />}/>

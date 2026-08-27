@@ -34,8 +34,7 @@ export default function Header({ user, logout })
                     <div className="nav-user">
                         {user?.role?.name === "staff" &&
                         (
-                            <a href="/dashboard/management/bikes" className="btn btn-trans btn-md">Dashboard</a>
-                            // TODO: <Link to="/dashboard/management/bikes" className="btn btn-trans btn-md">Dashboard</Link>
+                            <Link to="/admin/manage/products" className="btn btn-trans btn-md">Dashboard</Link>
                         )}
 
                         {user ? (
@@ -54,13 +53,11 @@ export default function Header({ user, logout })
                                                 </li>
 
                                                 <li>
-                                                    <a href="/profile/orders">My Orders</a>
-                                                    {/* <Link to="/profile/orders">My Orders</Link> */}
+                                                    <Link to="/profile/myorders">My Orders</Link>
                                                 </li>
 
                                                 <li>
-                                                    <a href="/profile/history">History</a>
-                                                    {/* <Link to="/profile/history">History</Link> */}
+                                                    <Link to="/profile/myhistory">History</Link>
                                                 </li>
                                             </ul>
                                         </div>
