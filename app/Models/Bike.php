@@ -98,4 +98,9 @@ class Bike extends Model
 
         return !$hasBlockedDate;
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

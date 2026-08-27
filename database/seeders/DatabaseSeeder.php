@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
         $counter = 0;
         $staff_role = Role::query()->where('name', "staff")->first();
         $customer_role = Role::query()->where('name', "customer")->first();
-        
+
         foreach ($users as $user)
         {
             if ($counter < 3)
@@ -79,6 +79,7 @@ class DatabaseSeeder extends Seeder
             LocationSeeder::class,
             OrderSeeder::class,
             ImageSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }

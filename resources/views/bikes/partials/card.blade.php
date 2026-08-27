@@ -193,3 +193,4 @@
 @vite('resources/js/wishlist.jsx')
 @vite('resources/js/compare.jsx')
 
+

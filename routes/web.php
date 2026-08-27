@@ -11,6 +11,7 @@ use App\Http\Controllers\FeaturedBikeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RentalBikeController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SaleBikeController;
 use App\Http\Controllers\StaffmanagementController;
 use App\Http\Controllers\HomeController;
@@ -49,6 +50,9 @@ Route::get('/rental-bikes/suggestions', [RentalBikeController::class, 'searchSug
 // CONTACT US PAGE
 Route::get('/contact-us', [ContactUsController::class, 'index'])->name('contact-us');
 Route::post('/contact-us', [ContactUsController::class, 'send'])->name('contact-us.send');
+
+//REVIEWS
+Route::get('/bikes/{bike}/reviews', [ReviewController::class, 'index'])->name('bikes.index');
 
 
 
@@ -111,6 +115,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/compare/{bike}', [CompareController::class, 'store'])->name('profile.compare.store');
 
     Route::delete('profile/compare/{bike}', [CompareController::class, 'destroy'])->name('profile.compare.destroy');
+
+    //REVIEWS
+    Route::post('/bikes/{bike}/reviews', [ReviewController::class, 'store'])->name('bikes.reviews.store');
+
+    Route::patch('/reviews/{review}', [ReviewController::class, 'update'])->name('bikes.reviews.update');
+
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('bikes.reviews.destroy');
 });
 
 
@@ -253,7 +264,7 @@ Route::middleware('auth')->group(function ()
 
     // MY ORDERS
     Route::get('/profile/myorders', function () { return view('react'); })->name('profile.myorders');
-    
+
     Route::get('/api/profile/myorders', [OrdersController::class, 'orders']);
     Route::get('/api/profile/myorders/search', [OrdersController::class, 'searchorders']);
 
@@ -280,7 +291,7 @@ Route::middleware(['auth', 'role:staff'])->group(function ()
     Route::get('/api/admin/manage/products/create', [ProductController::class, 'create']);
     Route::post('/api/admin/manage/products/add', [ProductController::class, 'add']);
 
-    // CALENDAR 
+    // CALENDAR
     Route::get('/admin/manage/calendar', function () { return view('react-admin'); })->name('admin.calendar');
 
     // CATEGORIES
@@ -292,9 +303,9 @@ Route::middleware(['auth', 'role:staff'])->group(function ()
     Route::delete('/api/admin/manage/categories/{category}/{id}', [CategoryController::class, 'delete']);
     Route::post('/api/admin/manage/categories/{category}', [CategoryController::class, 'create']);
 
-    // HOMEPAGE 
+    // HOMEPAGE
     Route::get('/admin/manage/homepage', function () { return view('react-admin'); })->name('admin.homepage');
-    
+
     Route::get('/featured-bikes', [HomeController::class, 'apiFeatured']);
 
     // PENDING ORDERS
@@ -304,7 +315,7 @@ Route::middleware(['auth', 'role:staff'])->group(function ()
     Route::get('/api/admin/manage/pending-orders/search', [OrderManagementController::class, 'search']);
     Route::patch('/api/admin/manage/pending-orders/update/{id}', [OrderManagementController::class, 'update']);
 
-    // USERS 
+    // USERS
     Route::get('/admin/manage/users', function () { return view('react-admin'); })->name('admin.users');
 
 
