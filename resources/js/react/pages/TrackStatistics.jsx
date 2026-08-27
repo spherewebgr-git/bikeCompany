@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../../../css/statistics.scss";
+import "../../../css/staff-homepage.scss"; // TODO: fix this dependency
 
 
 export default function TrackStatistics()

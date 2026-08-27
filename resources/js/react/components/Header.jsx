@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import logoDark from '../../../images/bikeco-dark-logo.png';
+import "../../../css/profile-menu.scss";
 
 
 export default function Header({ user, logout })

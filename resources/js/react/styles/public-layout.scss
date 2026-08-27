@@ -1,0 +1,2297 @@
+.public-layout {
+    // ============================================================
+    // BASE
+    // ============================================================
+
+    .app-body {
+        font-family: 'Open Sans', sans-serif;
+        color: #6c6c6c;
+        background: #fcfcfc;
+    }
+
+    .app-wrapper {
+        min-height: 100vh;
+    }
+
+    a {
+
+        &:focus,
+        &:active {
+            outline: none;
+        }
+    }
+
+    // ============================================================
+    // NAVIGATION
+    // ============================================================
+
+    .menu-header {
+        position: sticky;
+        top: 0;
+        z-index: 99;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px) saturate(160%);
+        -webkit-backdrop-filter: blur(10px) saturate(160%);
+        transition: box-shadow .3s ease, height .3s ease;
+
+        &.is-scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .06);
+        }
+    }
+
+    .main-nav {
+        background: transparent;
+        border-bottom: 1px solid rgba(0, 0, 0, .06);
+    }
+
+    .nav-container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .nav-wrapper {
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: height .3s ease;
+
+        .menu-header.is-scrolled & {
+            height: 70px;
+        }
+    }
+
+    .nav-logo {
+        img {
+            width: 90px;
+            height: auto;
+            transition: width .3s ease;
+
+            .menu-header.is-scrolled & {
+                width: 70px;
+            }
+        }
+    }
+
+    // ============================================================
+    // NAV LINKS — υπογράμμιση που "ξετυλίγεται" στο hover
+    // ============================================================
+    .nav-links {
+        display: flex;
+        gap: 40px;
+        margin-left: auto;
+        margin-right: 40px;
+
+        a {
+            position: relative;
+            display: inline-block;
+            padding: 6px 0;
+
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            font-size: 14px;
+            font-weight: 600;
+            color: #3b3738;
+            text-decoration: none;
+
+            transition: color .3s ease;
+
+            // underline
+            &::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 2px;
+                background: #fe4819;
+                transform: scaleX(0);
+                transform-origin: right;
+                transition: transform .35s cubic-bezier(.22, 1, .36, 1);
+            }
+
+            &:hover {
+                color: #fe4819;
+
+                &::after {
+                    transform: scaleX(1);
+                    transform-origin: left;
+                }
+            }
+
+            &.active {
+                color: #fe4819;
+
+                &::after {
+                    transform: scaleX(1);
+                    transform-origin: left;
+                }
+            }
+        }
+    }
+
+    // ============================================================
+    // USER MENU
+    // ============================================================
+    .nav-user {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        form {
+            margin-bottom: 0;
+        }
+
+        .btn {
+            height: 42px;
+            padding: 0 22px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+
+            font-family: 'Oswald', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .03em;
+
+            transition: background .3s ease, border-color .3s ease, color .3s ease, transform .25s ease, box-shadow .3s ease;
+        }
+
+        .btn-trans {
+            background: #fff;
+            border: 1px solid #eee;
+            color: #3b3738;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, .04);
+
+            &:hover {
+                background: rgba(254, 72, 25, .06);
+                border-color: rgba(254, 72, 25, .25);
+                color: #fe4819;
+                transform: translateY(-2px);
+            }
+        }
+
+        .btn-fill {
+            background: #fe4819;
+            border: 1px solid #fe4819;
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(254, 72, 25, .25);
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 28px rgba(254, 72, 25, .35);
+            }
+        }
+
+        .profile-menu {
+            position: relative;
+        }
+    }
+
+    // ============================================================
+    // MOBILE TOGGLE — hamburger που γίνεται X
+    // ============================================================
+    .nav-toggle {
+        display: none;
+
+        button {
+            position: relative;
+            width: 32px;
+            height: 32px;
+            background: none;
+            border: 0;
+            cursor: pointer;
+        }
+
+        .hamburger-icon {
+            width: 28px;
+            height: 28px;
+            transition: transform .3s ease;
+        }
+
+        &.is-open .hamburger-icon {
+            transform: rotate(90deg);
+        }
+    }
+
+    .mobile-menu {
+        display: none;
+    }
+
+    @media (max-width: 1024px) {
+
+        .nav-links,
+        .nav-user {
+            display: none;
+        }
+
+        .nav-toggle {
+            display: block;
+        }
+
+        // slide-down panel
+        .mobile-menu {
+            display: block;
+            max-height: 0;
+            overflow: hidden;
+            background: #fff;
+            padding: 0 20px;
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: max-height .35s ease, opacity .3s ease, transform .3s ease, padding .35s ease;
+
+            &.is-open {
+                max-height: 670px;
+                overflow-y: auto; // ⬅ αν το content ξεπερνάει τα 500px, να γίνεται scroll αντί να κόβεται
+                opacity: 1;
+                transform: translateY(0);
+                padding: 20px;
+                border-top: 1px solid #eee;
+            }
+        }
+
+        .mobile-links,
+        .mobile-user-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            .user-info-mobile {
+                display: flex;
+                gap: 5px;
+            }
+
+            a,
+            .btn {
+                width: 100%;
+                padding: 12px 4px;
+            }
+        }
+
+        .mobile-links+.mobile-user-links {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #f2f2f2; // ⬅ διαχωριστική γραμμή εδώ αντί για border-bottom σε κάθε link
+        }
+
+        .mobile-user-name {
+            font-weight: 700;
+            color: #3b3738;
+            font-size: 14px;
+        }
+
+        .mobile-user-email {
+            color: #9a9a9a;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+    }
+
+    // ============================================================
+    // BUTTONS (global — τα χρησιμοποιούν nav-user ΚΑΙ mobile-menu)
+    // ============================================================
+    .btn {
+        height: 42px;
+        padding: 0 22px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 30px;
+
+        font-family: 'Oswald', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .03em;
+
+        transition: background .3s ease, border-color .3s ease, color .3s ease, transform .25s ease, box-shadow .3s ease;
+    }
+
+    .btn-trans {
+        background: #fff;
+        border: 1px solid #eee;
+        color: #3b3738;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, .04);
+
+        &:hover {
+            background: rgba(254, 72, 25, .06);
+            border-color: rgba(254, 72, 25, .25);
+            color: #fe4819;
+            transform: translateY(-2px);
+        }
+    }
+
+    .btn-fill {
+        background: #fe4819;
+        border: 1px solid #fe4819;
+        color: #fff;
+        box-shadow: 0 8px 20px rgba(254, 72, 25, .25);
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(254, 72, 25, .35);
+        }
+    }
+
+    // ============================================================
+    // HOME PAGE / CONTENT
+    // ============================================================
+
+    h2 {
+        &.section-heading {
+            color: #606060;
+            font-size: clamp(32px, 4vw, 56px);
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 50px;
+
+            &::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: -8px;
+                width: 48px;
+                height: 4px;
+                background: #fe4819;
+                border-radius: 2px;
+            }
+        }
+    }
+
+    .slider {
+        position: relative;
+        height: 824px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        box-shadow: 0 0 55px -10px black;
+
+        .slider-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        // Ήπιο darkening ΜΟΝΟ κάτω, ώστε το video να μένει καθαρό στο πάνω 2/3
+        // αλλά να «κάθεται» καλύτερα το card χαμηλά χωρίς να χάνεται στο φόντο
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, .25) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .slider-content {
+            z-index: 2;
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            background: transparent; // το βαρύ φόντο περνάει τώρα μόνο μέσα στο κάρτα, όχι σε όλο το πλάτος
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+
+            max-width: 600px;
+            margin-left: 8%;
+            padding: 56px 52px;
+            border-radius: 24px;
+
+            background: linear-gradient(160deg, rgba(253, 243, 231, .55), rgba(253, 243, 231, .28));
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, .4);
+            box-shadow:
+                0 30px 60px rgba(0, 0, 0, .22),
+                inset 0 1px 0 rgba(255, 255, 255, .5);
+
+            opacity: 0;
+            transform: translateY(20px);
+            animation: hero-reveal .8s ease .2s forwards;
+
+            // decorative accent bar πάνω από τον τίτλο
+            &::before {
+                content: "";
+                display: block;
+                width: auto;
+                height: 4px;
+                border-radius: 2px;
+                background: #fe4819;
+                margin-bottom: 22px;
+
+                opacity: 0;
+                transform: scaleX(0);
+                transform-origin: left;
+                animation: bar-grow .6s ease .5s forwards;
+            }
+
+            .title-text {
+                font-family: 'Oswald', sans-serif;
+                font-size: clamp(38px, 5vw, 64px);
+                font-weight: 800;
+                line-height: 1.02;
+                letter-spacing: -.01em;
+                text-transform: uppercase;
+                color: #26221f;
+                margin: 0 0 18px;
+
+                opacity: 0;
+                transform: translateY(14px);
+                animation: word-reveal .6s ease .35s forwards;
+            }
+
+            h5 {
+                font-size: 17px;
+                line-height: 1.6;
+                font-weight: 400;
+                color: #4a4642;
+                max-width: 420px;
+                margin: 20px auto;
+                text-align: center;
+
+                opacity: 0;
+                transform: translateY(14px);
+                animation: word-reveal .6s ease .5s forwards;
+            }
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: space-around;
+
+            opacity: 0;
+            transform: translateY(14px);
+            animation: word-reveal .6s ease .65s forwards;
+
+            a {
+                position: relative;
+                font-family: 'Oswald', sans-serif;
+                font-weight: 700;
+                letter-spacing: .03em;
+                text-transform: uppercase;
+                font-size: 14px;
+                padding: 16px 32px;
+                border-radius: 8px;
+                transition: transform .3s ease, box-shadow .3s ease, background .3s ease, color .3s ease;
+                overflow: hidden;
+            }
+
+            .btn-fill {
+                background: #fe4819;
+                color: #fff;
+                border: 1px solid #fe4819;
+                box-shadow: 0 10px 24px rgba(254, 72, 25, .35);
+
+                &:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 16px 32px rgba(254, 72, 25, .45);
+                }
+
+                &:active {
+                    transform: translateY(-1px);
+                }
+            }
+
+            .btn-trans {
+                background: rgba(255, 255, 255, .15);
+                color: #26221f;
+                border: 1.5px solid rgba(38, 34, 31, .35);
+
+                &:hover {
+                    background: #26221f;
+                    color: #fff;
+                    border-color: #26221f;
+                    transform: translateY(-3px);
+                }
+
+                &:active {
+                    transform: translateY(-1px);
+                }
+            }
+        }
+    }
+
+    @keyframes hero-reveal {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes word-reveal {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes bar-grow {
+        to {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .hero-content,
+        .hero-content::before,
+        .title-text,
+        h5,
+        .hero-actions {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .slider {
+            height: auto;
+            min-height: 560px;
+            padding: 60px 0;
+        }
+
+        .hero-content {
+            margin: 0 20px;
+            padding: 38px 30px;
+            max-width: none;
+
+            &::after {
+                width: 60px;
+                height: 60px;
+            }
+
+            .title-text {
+                font-size: 32px;
+            }
+
+            h5 {
+                font-size: 15px;
+            }
+        }
+    }
+
+
+
+    // ============================================================
+    // FEATURED BIKES
+    // ============================================================
+
+    .bike-trail {
+        padding: 100px 0;
+        background: #141212; // σκούρο, edgy background — spot διαφορετικό απ' το υπόλοιπο site
+        position: relative;
+        overflow: hidden;
+
+        &__heading {
+            text-align: center;
+            margin-bottom: 64px;
+            padding: 0 24px;
+
+            h6 {
+                color: #fe4819;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                font-size: 0.85rem;
+                margin-bottom: 8px;
+
+                &::before,
+                &::after {
+                    content: '';
+                    display: inline-block;
+                    margin: 0 10px 5px;
+                    width: 32px;
+                    height: 2px;
+                    background: #fe4819;
+                    vertical-align: middle;
+                    animation: heroLineGrow 0.6s ease-out 0.5s backwards;
+                }
+            }
+
+            .title-text {
+                color: #fff;
+                font-size: clamp(2rem, 4vw, 3rem);
+                font-weight: 800;
+            }
+
+            @media (max-width: 900px) {
+                margin-bottom: 36px;
+            }
+
+        }
+
+        &__row {
+            display: flex;
+            gap: 4px; // λεπτό κενό ανάμεσα στις "λόξες" κάρτες — δίνει το κοφτό feel
+            height: 560px;
+            padding: 0 4px;
+
+            @media (max-width: 900px) {
+                flex-direction: column;
+                padding: 60px 0;
+            }
+        }
+
+        &__more {
+            text-align: center;
+            margin-top: 56px;
+
+            a {
+                border-radius: 3px;
+                transition: box-shadow 0.3s ease;
+            }
+
+            a:hover {
+                box-shadow: 0 0 12px rgba(254, 72, 25, 0.5);
+            }
+        }
+    }
+
+    // ============================================================
+    // FEATURED BIKES
+    // ============================================================
+
+    .bike-trail {
+        padding: 100px 0;
+        background: #141212;
+        position: relative;
+        overflow: hidden;
+
+        @media (max-width: 900px) {
+            padding: 60px 0;
+        }
+
+        &__heading {
+            text-align: center;
+            margin-bottom: 64px;
+            padding: 0 24px;
+
+            @media (max-width: 900px) {
+                margin-bottom: 36px;
+            }
+
+            h6 {
+                color: #fe4819;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                font-size: 0.85rem;
+                margin-bottom: 8px;
+
+                &::before,
+                &::after {
+                    content: '';
+                    display: inline-block;
+                    margin: 0 10px 5px;
+                    width: 32px;
+                    height: 2px;
+                    background: #fe4819;
+                    vertical-align: middle;
+                    animation: heroLineGrow 0.6s ease-out 0.5s backwards;
+                }
+            }
+
+            .title-text {
+                color: #fff;
+                font-size: clamp(2rem, 4vw, 3rem);
+                font-weight: 800;
+            }
+        }
+
+        &__row {
+            display: flex;
+            gap: 4px;
+            height: 560px;
+            padding: 0 4px;
+
+            @media (max-width: 900px) {
+                flex-direction: column; // ⬅ εδώ ανήκει, όχι στο .bike-slice
+                height: auto; // οι κάρτες παίρνουν δικό τους fixed height, ο container ακολουθεί
+                gap: 12px;
+            }
+        }
+
+        &__more {
+            text-align: center;
+            margin-top: 56px;
+
+            a {
+                border-radius: 3px;
+                transition: box-shadow 0.3s ease;
+            }
+
+            a:hover {
+                box-shadow: 0 0 12px rgba(254, 72, 25, 0.5);
+            }
+        }
+    }
+
+    .bike-slice {
+        position: relative;
+        flex: 1;
+        overflow: hidden;
+        display: block;
+        text-decoration: none;
+        cursor: pointer;
+        transition: flex 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+
+        &:hover {
+            flex: 1.4;
+        }
+
+        &:hover &__img {
+            transform: scale(1.15);
+        }
+
+        &:hover &__overlay {
+            background: linear-gradient(180deg,
+                    rgba(20, 18, 18, 0.1) 0%,
+                    rgba(254, 72, 25, 0.75) 100%);
+        }
+
+        &:hover &__cta {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        &:hover &__arrow {
+            transform: translateX(6px);
+        }
+
+        &__img {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+            transform: scale(1.02);
+        }
+
+        &__overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg,
+                    rgba(20, 18, 18, 0.1) 0%,
+                    rgba(20, 18, 18, 0.9) 100%);
+            transition: background 0.4s ease;
+        }
+
+        &__info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 32px 28px;
+            color: #fff;
+
+            @media (max-width: 900px) {
+                padding: 24px;
+            }
+        }
+
+        &__num {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fe4819;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        h3 {
+            font-size: clamp(1.15rem, 4.5vw, 1.6rem);
+            font-weight: 800;
+            margin: 0 0 8px;
+            text-transform: uppercase;
+        }
+
+        p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin: 2px 0;
+
+            i {
+                width: 18px;
+                color: #fe4819;
+            }
+        }
+
+        &__cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 16px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s;
+        }
+
+        &__arrow {
+            transition: transform 0.3s ease;
+        }
+
+        @media (max-width: 900px) {
+            flex: none; // ⬅ κρίσιμο — σβήνει flex-basis:0 απ' το desktop, ώστε το height:500px να ισχύσει
+            height: 500px;
+            clip-path: none !important;
+
+            &:hover {
+                flex: none; // δεν υπάρχει hover-grow σε column layout
+            }
+
+            &__cta {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 400px) {
+            height: 200px;
+
+            &__info {
+                padding: 18px 20px;
+            }
+
+            p {
+                font-size: 0.82rem;
+            }
+        }
+    }
+
+
+
+    .about-section {
+        position: relative;
+        padding: 120px 0;
+        background: #faf8f6;
+        overflow: hidden;
+
+        // Διακοσμητικό background shape
+        &::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -5%;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(254, 72, 25, 0.06) 0%, transparent 70%);
+            z-index: 0;
+        }
+    }
+
+    .about-layout {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 0.85fr 1fr; // ασύμμετρο, όχι 50/50
+        gap: 80px;
+        align-items: center;
+        margin-bottom: 100px;
+
+        @media (max-width: 900px) {
+            grid-template-columns: 1fr;
+            gap: 48px;
+        }
+    }
+
+    // ============ Media (εικόνα με tilt effect) ============
+    .about-media {
+        position: relative;
+        transition: transform 0.15s ease-out;
+        transform-style: preserve-3d;
+        will-change: transform;
+
+        img {
+            width: 100%;
+            height: 520px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 30px 60px -20px rgba(20, 18, 18, 0.3);
+        }
+
+        &__badge {
+            position: absolute;
+            bottom: -24px;
+            left: -24px;
+            background: #fe4819;
+            color: #fff;
+            padding: 20px 24px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 12px 30px -8px rgba(254, 72, 25, 0.5);
+            transform: translateZ(40px); // "ξεκολλάει" απ' την εικόνα στο 3D tilt
+
+            &-line {
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                opacity: 0.85;
+            }
+
+            &-year {
+                font-size: 1.6rem;
+                font-weight: 700;
+            }
+        }
+
+        @media (max-width: 900px) {
+            img {
+                height: 360px;
+            }
+
+            &__badge {
+                left: 16px;
+                bottom: -16px;
+                padding: 14px 18px;
+            }
+        }
+    }
+
+    // ============ Copy ============
+    .about-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #fe4819;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+
+        &__dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #fe4819;
+            animation: pulse 2s ease-in-out infinite;
+        }
+    }
+
+    .about-heading {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 700;
+        line-height: 1.15;
+        color: #141212;
+        margin: 0 0 28px;
+
+        &__accent {
+            display: block;
+            color: #fe4819;
+        }
+    }
+
+    .about-text {
+        color: #5c5654;
+        line-height: 1.75;
+        margin-bottom: 18px;
+        font-size: 1.05rem;
+    }
+
+    .about-values {
+        list-style: none;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin: 32px 0 0;
+        padding: 0;
+
+        &__item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: #fff;
+            border-radius: 10px;
+            border: 1px solid #eee;
+            opacity: 0;
+            transform: translateY(12px);
+            animation: fadeUp 0.5s ease-out forwards;
+            animation-delay: var(--delay, 0s);
+            transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+
+            &:hover {
+                border-color: #fe4819;
+                transform: translateY(-3px);
+                box-shadow: 0 12px 24px -8px rgba(254, 72, 25, 0.2);
+            }
+
+            i {
+                color: #fe4819;
+                font-size: 1.1rem;
+            }
+
+            span {
+                font-weight: 500;
+                color: #333;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 500px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    // ============ Stats ============
+    .about-stats {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-top: 1px solid #e5e0dc;
+        padding-top: 56px;
+
+        @media (max-width: 700px) {
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+    }
+
+    .about-stat {
+        text-align: center;
+        position: relative;
+
+        &:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 10%;
+            height: 80%;
+            width: 1px;
+            background: #e5e0dc;
+
+            @media (max-width: 700px) {
+                display: none;
+            }
+        }
+
+        &__value {
+            display: block;
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            color: #fe4819;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        &__label {
+            color: #5c5654;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+    }
+
+    // ============ Keyframes ============
+    @keyframes fadeUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: 0.5;
+            transform: scale(1.3);
+        }
+    }
+
+    // ============================================================
+    // SPLIT SCREEN SECTION
+    // ============================================================
+    .rb-split {
+        --rb-dark: #14171a;
+        --rb-dark-2: #1b1e22;
+        --rb-rent: #d7ff3d;
+        --rb-buy: #fc471a;
+        --rb-text-dim: rgba(255, 255, 255, 0.55);
+
+        position: relative;
+        display: flex;
+        width: 100%;
+        height: 78vh;
+        min-height: 460px;
+        max-height: 760px;
+        overflow: hidden;
+        background: var(--rb-dark);
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        margin-top: 0; // το κενό το δίνει ήδη το ::after του how-it-works
+
+    }
+
+    .rb-panel {
+        position: relative;
+        flex: 1 1 50%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+        padding: 48px;
+        overflow: hidden;
+        text-decoration: none;
+        color: #fff;
+        transition: flex-basis 0.65s cubic-bezier(0.22, 1, 0.36, 1), flex-grow 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+        cursor: pointer;
+    }
+
+    .rb-panel__bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background-image: var(--rb-photo, none);
+        background-size: cover;
+        background-position: center;
+        transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Dark gradient sits on top of the photo so title/CTA text stays legible */
+    .rb-panel--rent .rb-panel__bg::after,
+    .rb-panel--buy .rb-panel__bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        transition: opacity 0.65s ease;
+    }
+
+    .rb-panel--rent .rb-panel__bg::after {
+        background: radial-gradient(120% 140% at 15% 100%, rgba(35, 40, 31, 0.55) 0%, rgba(20, 23, 26, 0.88) 100%);
+    }
+
+    .rb-panel--buy .rb-panel__bg::after {
+        background: radial-gradient(120% 140% at 85% 100%, rgba(38, 33, 26, 0.55) 0%, rgba(27, 30, 34, 0.88) 100%);
+    }
+
+    /* Subtle zoom on hover, like a real hero photo, not just a flat swatch */
+    @media (hover: hover) and (pointer: fine) {
+        .rb-panel:hover .rb-panel__bg {
+            transform: scale(1.06);
+        }
+
+        .rb-panel:hover .rb-panel__bg::after {
+            opacity: 0;
+            /* overlay fades away completely, revealing the photo */
+        }
+
+
+    }
+
+    /* Hi-vis diagonal stripes for the rent side — bike-lane paint motif */
+
+
+    /* Spoke/radial motif for the buy side — wheel & frame motif */
+
+    .rb-panel__icon {
+        position: absolute;
+        top: 44px;
+        right: 44px;
+        width: 56px;
+        height: 56px;
+        z-index: 1;
+        opacity: 0.9;
+        transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .rb-panel--rent .rb-panel__icon {
+        color: #bfe13e;
+    }
+
+    .rb-panel--buy .rb-panel__icon {
+        color: #fc471a;
+    }
+
+    .rb-panel__content {
+        position: relative;
+        z-index: 1;
+        max-width: 420px;
+    }
+
+    .rb-panel__eyebrow {
+        display: block;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .rb-panel--rent .rb-panel__eyebrow {
+        color: var(--rb-rent);
+    }
+
+    .rb-panel--buy .rb-panel__eyebrow {
+        color: var(--rb-buy);
+    }
+
+    .rb-panel__title {
+        display: block;
+        font-family: 'Archivo Black', 'Arial Black', sans-serif;
+        font-size: clamp(32px, 4vw, 52px);
+        line-height: 0.98;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+        letter-spacing: -0.01em;
+    }
+
+    .rb-panel__desc {
+        display: block;
+        font-size: 15px;
+        line-height: 1.5;
+        color: var(--rb-text-dim);
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.5s ease;
+        margin-bottom: 0;
+    }
+
+    .rb-panel__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        padding-bottom: 2px;
+        border-bottom: 1.5px solid currentColor;
+        opacity: 0.85;
+    }
+
+    .rb-panel--rent .rb-panel__cta {
+        color: var(--rb-rent);
+    }
+
+    .rb-panel--buy .rb-panel__cta {
+        color: var(--rb-buy);
+    }
+
+    .rb-panel__arrow {
+        display: inline-block;
+        transition: transform 0.35s ease;
+    }
+
+    /* Center divider styled as a bicycle chain, cut on a diagonal */
+    .rb-divider {
+        position: relative;
+        background: transparent;
+        overflow: visible;
+        /* let the rotated bar extend past its own box; .rb-split clips it at the section edges */
+        pointer-events: none;
+        /* don't block hover on the panels underneath */
+        z-index: 2;
+    }
+
+    .rb-divider__chain {
+        width: 2px;
+        height: 144%;
+        /* taller than the section so the rotated bar still reaches top & bottom */
+        background-image: radial-gradient(circle at 50% 6px, #3a3f45 0 4px, transparent 4.5px);
+        background-size: 10% 16px;
+        background-color: #000;
+        transform-origin: center;
+        animation: rb-chain-scroll 6s linear infinite;
+        opacity: 0.9;
+    }
+
+    @keyframes rb-chain-scroll {
+        from {
+            background-position-y: 0;
+        }
+
+        to {
+            background-position-y: 160px;
+        }
+    }
+
+    @keyframes rb-chain-scroll-x {
+        from {
+            background-position-x: 0;
+        }
+
+        to {
+            background-position-x: 160px;
+        }
+    }
+
+    /* --- Hover behavior (pointer devices only) --- */
+    @media (hover: hover) and (pointer: fine) {
+        .rb-panel:hover {
+            flex-basis: 62%;
+        }
+
+        .rb-split:has(.rb-panel:hover) .rb-panel:not(:hover) {
+            flex-basis: 38%;
+        }
+
+        .rb-panel:hover .rb-panel__stripes,
+        .rb-panel:hover .rb-panel__spokes {
+            opacity: 0.14;
+        }
+
+        .rb-panel:hover .rb-panel__title {
+            color: white;
+        }
+
+        .rb-panel:hover .rb-panel__icon {
+            transform: scale(1.15) translateY(-4px);
+        }
+
+        .rb-panel:hover .rb-panel__desc {
+            max-height: 120px;
+            opacity: 1;
+            margin-bottom: 18px;
+        }
+
+        .rb-panel:hover .rb-panel__arrow {
+            transform: translateX(4px);
+        }
+
+
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .rb-panel,
+        .rb-panel__icon,
+        .rb-panel__desc,
+        .rb-panel__arrow,
+        .rb-panel__stripes,
+        .rb-panel__bg,
+        .rb-panel__bg::after {
+            transition: none;
+        }
+
+        .rb-divider__chain {
+            animation: none;
+        }
+    }
+
+    /* --- Mobile: stack vertically, no hover reliance, content always visible --- */
+    @media (max-width: 767px) {
+        .rb-split {
+            flex-direction: column;
+            height: auto;
+            max-height: none;
+        }
+
+        .rb-panel {
+            flex-basis: auto;
+            padding: 36px 28px;
+            min-height: 280px;
+        }
+
+        .rb-panel__icon {
+            width: 44px;
+            height: 44px;
+            top: 28px;
+            right: 28px;
+        }
+
+        .rb-panel__title {
+            font-size: 34px;
+        }
+
+        .rb-panel__desc {
+            max-height: none;
+            opacity: 1;
+            margin-bottom: 16px;
+        }
+
+        .rb-divider__chain {
+            top: 50%;
+            left: -12%;
+            width: 124%;
+            /* wider than the row so the rotated bar still reaches both edges */
+            height: 6px;
+            background-image: radial-gradient(circle at 6px 50%, #3a3f45 0 4px, transparent 4.5px);
+            background-size: 16px 100%;
+            background-repeat: repeat-x;
+            transform: translateY(-10%);
+            animation: rb-chain-scroll-x 6s linear infinite;
+        }
+    }
+
+    // ============================================================
+    // HOW IT WORKS
+    // ============================================================
+    .how-it-works {
+        position: relative;
+        padding: 100px 0;
+        overflow: hidden;
+        background: #14171a;
+        color: #fff;
+        height: auto;
+        margin-bottom: 0; // αφαιρούμε το πρόβλημα-δημιουργό margin
+        padding-bottom: 130px;
+
+        // fade ΜΕΣΑ στα όρια, ώστε το overflow:hidden να μην το κόψει
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 110px;
+            background: linear-gradient(180deg, transparent 0%, #14171a 60%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        // background cuts
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(120deg,
+                    rgba(254, 72, 25, .12),
+                    transparent 45%);
+            pointer-events: none;
+        }
+
+
+        .section-heading {
+
+            h6 {
+                color: #fe4819;
+                letter-spacing: 4px;
+                font-size: 12px;
+                text-transform: uppercase;
+            }
+
+            .title-text {
+                color: #fff;
+                font-size: clamp(40px, 5vw, 70px);
+                text-transform: uppercase;
+                font-weight: 900;
+            }
+        }
+
+
+        .leaf {
+            position: absolute;
+            color: #fe4819;
+            opacity: .08;
+            font-size: 60px;
+
+            &--1 {
+                top: 10%;
+                left: 5%;
+            }
+
+            &--2 {
+                bottom: 15%;
+                right: 5%;
+            }
+
+            &--3 {
+                top: 50%;
+                right: 20%;
+            }
+        }
+
+
+
+        .trail-track {
+            position: relative;
+            margin-top: 70px;
+            height: 40px; // ίδιο ύψος με το viewBox της γραμμής, δίνει σταθερό πλαίσιο
+        }
+
+        .trail-line {
+            display: block;
+            width: 100%;
+            height: 40px; // χωρίς αυτό, το svg παίρνει default height και "φεύγει" η γραμμή
+            opacity: .3;
+
+            path {
+                stroke: #fe4819;
+            }
+        }
+
+        .trail-rider {
+            position: absolute;
+            top: -4px; // ευθυγραμμίζει το κέντρο των τροχών με το y=20 της γραμμής
+            left: 0;
+            filter: drop-shadow(0 0 10px #fe4819);
+            will-change: transform;
+        }
+
+
+
+        .trail-steps {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 35px;
+
+
+            @media(max-width:991px) {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+
+        .trail-step {
+
+            position: relative;
+
+            background: #1b1f23;
+
+            border: 2px solid #292e34;
+
+            padding: 45px 30px;
+
+            text-align: left;
+
+            overflow: hidden;
+
+            transition: .35s ease;
+
+
+            // number
+            &__num {
+
+                position: absolute;
+                top: 15px;
+                right: 20px;
+
+                font-size: 60px;
+                font-weight: 900;
+
+                color: rgba(255, 255, 255, .05);
+            }
+
+
+
+            // orange line
+            &::before {
+
+                content: "";
+
+                position: absolute;
+
+                top: 0;
+                left: 0;
+
+                width: 100%;
+                height: 5px;
+
+                background: #fe4819;
+
+                transform: scaleX(0);
+                transform-origin: left;
+
+                transition: .35s;
+            }
+
+
+
+            &:hover {
+
+                transform: translateY(-12px);
+
+                border-color: #fe4819;
+
+                box-shadow:
+                    0 20px 40px rgba(0, 0, 0, .5);
+
+
+                &::before {
+                    transform: scaleX(1);
+                }
+
+
+                .trail-step__icon {
+
+                    background: #fe4819;
+
+                    i {
+                        color: #fff;
+                    }
+                }
+            }
+
+
+
+            &__icon {
+
+                width: 75px;
+                height: 75px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                background: #252a30;
+
+                border-radius: 8px;
+
+                margin-bottom: 25px;
+
+                transition: .3s;
+
+
+                i {
+
+                    color: #fe4819;
+                    font-size: 30px;
+
+                    transition: .3s;
+                }
+            }
+
+
+
+            h5 {
+
+                color: #fff;
+
+                text-transform: uppercase;
+
+                font-size: 22px;
+
+                font-weight: 900;
+
+                margin-bottom: 15px;
+            }
+
+
+
+            p {
+
+                color: #9da3aa;
+
+                line-height: 1.7;
+
+                font-size: 14px;
+            }
+        }
+    }
+
+
+
+
+    @media(max-width:767px) {
+
+        .how-it-works {
+
+            height: auto;
+            overflow: visible;
+            padding: 70px 0;
+
+            .trail-track {
+                display: none; // προαιρετικό, η animated γραμμή δεν βγάζει νόημα σε 1-στήλη
+            }
+
+            .trail-step {
+                padding: 35px 25px;
+            }
+        }
+
+    }
+
+    // ============================================================
+    // SECTION DIVIDER
+    // ============================================================
+    .section-divider {
+        position: relative;
+        height: 70px;
+        background: #14171a; // ίδιο tone με το how-it-works, ώστε να μη "κόβει" σε λευκό
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 3px;
+            background: #fe4819;
+            border-radius: 2px;
+        }
+    }
+
+    // ============================================================
+    // CONTACT US CTA
+    // ============================================================
+    .cta-block {
+        --dark: #000;
+        --accent: #e05b2e;
+
+        position: relative;
+        overflow: hidden;
+        color: #fff;
+
+        background-image:
+            linear-gradient(rgba(0, 0, 0, .65),
+                rgba(0, 0, 0, .65)),
+            var(--cta-photo);
+
+        background-size: cover;
+        background-position: center;
+
+
+        &__ticker {
+            position: relative;
+            z-index: 2;
+
+            background: rgb(252 71 26 / 0.21);
+            overflow: hidden;
+            white-space: nowrap;
+
+            &-track {
+                display: flex;
+                width: max-content;
+                animation: ticker 30s linear infinite;
+
+                span {
+                    padding: 12px 0;
+                    color: #fff;
+                    font-size: 14px;
+                    font-weight: bold;
+                    letter-spacing: 2px;
+                }
+            }
+
+
+            &--bottom {
+                border-top: 1px solid rgba(255, 255, 255, .1);
+            }
+        }
+
+
+        &__main {
+            position: relative;
+            z-index: 2;
+
+            min-height: 350px;
+            padding: 60px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            color: #fff;
+            text-decoration: none;
+
+            transition: .3s ease;
+
+            &:hover {
+                .cta-block__title {
+                    color: #dc3f18;
+                }
+
+                .cta-block__eyebrow {
+                    color: white;
+                }
+            }
+        }
+
+
+        &__eyebrow {
+            display: block;
+
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+
+            opacity: .7;
+            margin-bottom: 15px;
+        }
+
+
+        &__title {
+            margin: 0;
+
+            font-size: clamp(40px, 6vw, 80px);
+            line-height: .95;
+            text-transform: uppercase;
+        }
+
+
+        .cta-block {
+            &__button {
+                display: flex;
+                position: relative;
+                min-width: fit-content;
+                width: 300px;
+                min-height: 100px;
+                border-radius: 10px;
+
+                // glass effect
+                background: rgba(255, 255, 255, 0.08);
+                backdrop-filter: blur(14px) saturate(160%);
+                -webkit-backdrop-filter: blur(14px) saturate(160%);
+                border: 1px solid rgba(255, 255, 255, 0.25);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+
+                color: #fe4819;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+                overflow: hidden;
+                cursor: pointer;
+                transition: transform .4s cubic-bezier(.22, 1, .36, 1),
+                    background .4s ease,
+                    color .4s ease,
+                    border-color .4s ease,
+                    box-shadow .4s ease;
+
+                // shine sweep πάνω στο glass, ενισχύει το "satisfying" feel
+                &::after {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    background: linear-gradient(115deg,
+                            rgba(255, 255, 255, 0) 30%,
+                            rgba(255, 255, 255, .35) 50%,
+                            rgba(255, 255, 255, 0) 70%);
+                    transform: translateX(-120%);
+                    transition: transform .6s ease;
+                    pointer-events: none;
+                    z-index: 1;
+                }
+
+                &:hover {
+                    transform: scale(1.05);
+                    background: rgba(254, 72, 25, 0.55);
+                    color: #fff;
+                    border-color: rgba(255, 255, 255, 0.5);
+                    box-shadow: 0 12px 32px rgba(254, 72, 25, 0.35);
+
+                    &::after {
+                        transform: translateX(120%);
+                    }
+
+                    .cta-block__button-arrow {
+                        .arrow-out {
+                            transform: translate(14px, -14px);
+                            opacity: 0;
+                        }
+
+                        .arrow-in {
+                            transform: translate(0, 0);
+                            opacity: 1;
+                        }
+                    }
+                }
+
+                &:active {
+                    transform: scale(0.97);
+                }
+            }
+
+            &__button-label {
+                position: relative;
+                z-index: 2;
+                font-family: 'Oswald', sans-serif;
+                font-size: 16px;
+                font-weight: 700;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+            }
+
+            &__button-arrow {
+                position: relative;
+                z-index: 2;
+                width: 38px;
+                height: 38px;
+
+                svg {
+                    position: absolute;
+                    inset: 0;
+                    width: 100%;
+                    height: 100%;
+                    top: -1px;
+                    transition: transform .4s cubic-bezier(.22, 1, .36, 1), opacity .35s ease;
+                }
+
+                // το βέλος που "φεύγει" προς πάνω-δεξιά στο hover
+                .arrow-out {
+                    transform: translate(0, 0);
+                    opacity: 1;
+                }
+
+                // το βέλος που "μπαίνει" από κάτω-αριστερά στο hover
+                .arrow-in {
+                    transform: translate(-14px, 14px);
+                    opacity: 0;
+                }
+            }
+        }
+
+
+    }
+
+
+
+    @keyframes ticker {
+        from {
+            transform: translateX(0);
+        }
+
+        to {
+            transform: translateX(-50%);
+        }
+    }
+
+
+
+    @media(max-width:768px) {
+
+        .cta-block {
+
+            &__main {
+                padding: 40px 25px;
+                flex-direction: column;
+                gap: 35px;
+            }
+
+
+            &__button {
+                width: 130px;
+                height: 130px;
+            }
+        }
+    }
+
+
+
+    // ============================================================
+    // PAGE HEADER / CONTENT
+    // ============================================================
+    .page-header-profile {
+        padding-top: 40px;
+        padding-bottom: 9px;
+        margin: -20px 0 20px;
+        border-bottom: 1px solid #eee;
+
+        .page-header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+
+            h2 {
+                font-size: 4.5em;
+                font-weight: 300;
+                font-family: 'Oswald', sans-serif;
+                text-transform: uppercase;
+                color: #6c6c6c;
+            }
+
+            h3 {
+                font-family: 'Oswald', sans-serif;
+                text-transform: uppercase;
+                color: #3b3738;
+            }
+        }
+    }
+
+    .page-header-container {
+        max-width: 1200px;
+        margin: 0 auto;
+
+        h2 {
+            font-size: 4.5em;
+            font-weight: 300;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            color: #3b3738;
+        }
+
+        h3 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            color: #3b3738;
+        }
+    }
+
+    // ============================================================
+    // DASHBOARD
+    // ============================================================
+    .dashboard-header {
+        h2 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            font-size: 32px;
+            color: #3b3738;
+            margin: 0;
+        }
+    }
+
+    .dashboard-page {
+        padding: 60px 0;
+    }
+
+    .dashboard-container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .dashboard-card {
+        background: #fff;
+        border: 1px solid #eee;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, .08);
+    }
+
+    .dashboard-content {
+        padding: 40px;
+        color: #6c6c6c;
+        font-size: 15px;
+    }
+
+    // ============================================================
+    // PAGINATION
+    // ============================================================
+    .pagination-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+
+        .small {
+            display: none;
+        }
+
+
+
+        nav {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+
+            // Here I hide the 2 unnecessary buttons before the pagination
+            >div:first-child {
+                display: none;
+            }
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            width: auto;
+
+
+            .page-item {
+                .page-link {
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    font-size: 13px;
+                    font-weight: 700;
+                    color: #3b3738;
+                    background: #fff;
+                    border: 1px solid #d2d2d2;
+                    transition: all .3s ease;
+
+                    &:hover {
+                        color: #fff;
+                        background: #fe4819;
+                        border-color: #fe4819;
+                    }
+                }
+
+                &.active .page-link {
+                    background: #fe4819;
+                    border-color: #fe4819;
+                    color: #fff;
+                }
+
+                &.disabled .page-link {
+                    color: #d2d2d2;
+                    cursor: not-allowed;
+
+                    &:hover {
+                        background: #fff;
+                        border-color: #d2d2d2;
+                        color: #d2d2d2;
+                    }
+                }
+
+                // ============ PREV / NEXT ARROWS ============
+                &:first-child,
+                &:last-child {
+                    .page-link {
+                        font-size: 0;
+
+                        &::before {
+                            font-family: "FontAwesome";
+                            font-size: 14px;
+                        }
+                    }
+                }
+
+                &:first-child .page-link::before {
+                    content: "\f104"; // fa-angle-left
+                }
+
+                &:last-child .page-link::before {
+                    content: "\f105"; // fa-angle-right
+                }
+            }
+        }
+    }
+
+    // ============================================================
+    // AUTH
+    // ============================================================
+    .auth-wrapper {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .auth-logo {
+        margin-bottom: 25px;
+
+        img {
+            width: 120px;
+            height: auto;
+            display: block;
+        }
+    }
+
+    // ============================================================
+    // BUTTONS
+    // ============================================================
+    .btn-danger {
+        background: #dc3545;
+        border-color: #dc3545;
+
+        &:hover {
+            background: #e4606d;
+            border-color: #e4606d;
+        }
+    }
+
+    // ============================================================
+    // FOOTER
+    // ============================================================
+    .footer-bottom {
+        padding: 70px 0 30px;
+
+        .footer-col {
+            margin-bottom: 30px;
+
+            h2 {
+                font-size: 28px;
+                text-transform: uppercase;
+                margin-top: 0;
+                margin-bottom: 15px;
+            }
+
+            h5 {
+                text-transform: uppercase;
+                font-size: 15px;
+                font-weight: 700;
+                margin-bottom: 20px;
+                color: #fff;
+            }
+
+            p {
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 13px;
+            }
+        }
+
+        .footer-links,
+        .footer-contact {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                margin-bottom: 12px;
+            }
+
+            a {
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 13px;
+
+                &:hover {
+                    color: #fe4819;
+                }
+            }
+        }
+
+        .footer-contact li {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+
+            .fa {
+                color: #fe4819;
+                margin-right: 8px;
+                width: 16px;
+            }
+        }
+
+        .subscribe {
+            margin-top: 20px;
+
+            form {
+                display: flex;
+            }
+
+            input[type="email"] {
+                flex: 1;
+            }
+        }
+
+        .footer-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 30px 0 20px;
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+            margin: 0;
+        }
+    }
+}
