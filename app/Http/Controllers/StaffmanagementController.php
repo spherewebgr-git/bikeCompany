@@ -153,6 +153,7 @@ class StaffmanagementController extends Controller
             'speed_id' => $request->speed_id,
             'provision_id' => $request->provision_id,
             'visible' => $request->visible,
+            'discount_percentage' => $request->discount,
         ]);
 
         // Delete old prices

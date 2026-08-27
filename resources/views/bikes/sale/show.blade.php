@@ -30,6 +30,9 @@
                         </div>
 
                         <div class="swiper bikeGallery">
+                            @if($bike->discount_percentage > 0)
+                                <span class="discount-ribbon">-{{ (int) $bike->discount_percentage }}%</span>
+                            @endif
                             <div class="swiper-wrapper">
                                 @foreach($bike->images as $image)
                                     <div class="swiper-slide">
@@ -54,7 +57,17 @@
                         <div class="price-simple">
                             <span class="price-simple__label">{{ __('Price') }}:</span>
                             <span class="price-simple__value">
-                                {{ $bike->prices->first()->price ?? '-' }} €
+                                @if($bike->discount_percentage !== 0)
+                                    <div class="price-change">
+                                        <span class="crossed-price">{{ $bike->prices->first()->price ?? '-' }} €</span>
+                                        <span class="discounted-price">{{ $bike->getDiscountedPriceAttribute() }} €</span>
+                                    </div>
+
+
+                                @else
+                                    {{ $bike->prices->first()->price ?? '-' }} €
+                                @endif
+
                             </span>
                         </div>
 

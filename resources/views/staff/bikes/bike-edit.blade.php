@@ -145,7 +145,7 @@
                     <div class="vertical" id="serial">
                         <label for="serialnum">Serial Number:</label><br>
                         <input class="read" type="text" id="serialnum" name="serialnum" value="{{ $bike->serialnum }}" readonly>
-                    </div>                    
+                    </div>
                 @endif
 
             @endif
@@ -161,9 +161,20 @@
                 <label for="pricehour">Per day:</label><br>
                 <input type="text" id="price" name="priceday" value="{{ $prices[1]->price }}"><br>
                 <label for="pricehour">Per week:</label><br>
-                <input type="text" id="price" name="priceweek" value="{{ $prices[2]->price }}"><br>  
+                <input type="text" id="price" name="priceweek" value="{{ $prices[2]->price }}"><br>
             @else
                 <input type="text" id="price" name="pricebuy" value="{{ $prices[0]->price }}"><br>
+            @endif
+        @endif
+
+
+        @if (is_null($bike))
+            <label for="price">Discount Precentage (%):</label><br>
+            <input type="text" id="discount" name="discount" placeholder="0.00"><br>
+        @else
+            @if ($bike->provision->name === 'buy')
+                <label for="price">Discount Precentage (%):</label><br>
+                <input type="number" id="discount" name="discount" min="0" max="100" step="0.1" value="{{ $bike->discount_percentage }}"><br>
             @endif
         @endif
 
