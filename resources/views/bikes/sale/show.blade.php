@@ -112,7 +112,15 @@
                     </div>
                 </div>
 
+
+
             </div>
+
+            <div
+                data-reviews-root
+                data-bike-id="{{ $bike->id }}"
+                data-authenticated="{{ auth()->check() ? 'true' : 'false' }}"
+            ></div>
 
         </div>
     </section>
@@ -144,4 +152,8 @@
         </div>
     @endguest
 
+    @vite('resources/js/reviews.jsx')
+
+
 </x-app-layout>
+
