@@ -468,10 +468,55 @@
     }
 }
 
+// ============================================================
+// BIKE CARD GENERAL
+// ============================================================
+
+.discount-ribbon {
+    position: absolute;
+    top: 15px;
+    left: -117px;
+    z-index: 5;
+
+    width: 300px;
+    padding: 8px 0;
+
+    background: #22c55e;
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-align: center;
+    text-transform: uppercase;
+
+    transform: rotate(-45deg);
+    transform-origin: center;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .18);
+    pointer-events: none;
+}
+
+.price-change {
+    display: flex;
+    flex-direction: column;
+    .crossed-price {
+        text-decoration: line-through solid #e53935;
+        color: #999;
+        margin-right: 8px;
+        font-size: 0.9rem!important;
+    }
+
+    .discounted-price {
+        color: #28a80b;
+        font-weight: 700;
+    }
+}
 
 // ============================================================
 // BIKE CARD GRID
 // ============================================================
+
 .row--grid {
 
     .bike-card {
@@ -742,13 +787,13 @@
     }
 
     &__image {
+        overflow: hidden;
         width: 100%;
-        height: auto;
+        aspect-ratio: 5 / 3;
         display: flex;
         justify-content: center;
         align-items: center;
         margin: 0 auto;
-        overflow: hidden;
         border-radius: 14px;
         background: #f7f7f7;
         transition: background .4s ease;
@@ -1196,6 +1241,7 @@
                 font-weight: 800;
                 color: #fe4819;
                 line-height: 1;
+
 
                 @media (max-width: 576px) {
                     font-size: 30px;

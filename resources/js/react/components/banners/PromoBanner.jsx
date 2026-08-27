@@ -1,8 +1,20 @@
 import summerSale from '../../../../images/summer-sale.jpg';
 
-function PromoBanner() {
+function PromoBanner({
+    title = 'Bike Discounts',
+    description = 'Upgradge your ride with unbeatable prices',
+    image = summerSale,
+    bannerColor = '#1b5780',
+    contentColor = '#5bb2e1',
+    buttonText = 'Check It Out',
+                     }) {
     return (
-        <div className="promo-banner">
+        <div className="promo-banner"
+             style={{
+                 '--banner-color': bannerColor,
+                 '--content-color': contentColor,
+             }}
+        >
 
             <div className="container-fluid">
 
@@ -11,19 +23,19 @@ function PromoBanner() {
                     <div class="promo-banner-content col-lg-12">
 
                         <div className="banner-left-section col-lg-4">
-                            <h2>Bike Discounts</h2>
+                            <h2>{title}</h2>
 
                             <p>
-                                Upgrade your ride with unbeatable prices!
+                                {description}
                             </p>
                             <button className="btn btn-trans btn-md">
-                                Check It Out
+                                {buttonText}
                                 <i className="fa fa-arrow-right"></i>
                             </button>
                         </div>
 
                         <div className="banner-right-section col-lg-8">
-                            <img src={summerSale} alt="sale-image"/>
+                            <img src={image} alt="sale-image"/>
                         </div>
 
                     </div>

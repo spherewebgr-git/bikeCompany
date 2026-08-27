@@ -19,6 +19,7 @@ class Bike extends Model
     protected $fillable = [
         'SKU',
         'quantity',
+        'discount_percentage',
         'colour',
         'brand_id',
         'type_id',
@@ -102,5 +103,14 @@ class Bike extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    // π.χ. στο Bike model, ως accessor
+    public function getDiscountedPriceAttribute(): float
+    {
+        $basePrice = $this->prices->first()?->price ?? 0;
+        $discounted = $basePrice * (1 - $this->discount_percentage / 100);
+
+        return floor($discounted) + 0.99;
     }
 }

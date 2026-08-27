@@ -1,8 +1,12 @@
 <article class="mb-60 bike-card">
+    @if($bike->discount_percentage > 0)
+        <span class="discount-ribbon">-{{ (int) $bike->discount_percentage }}%</span>
+    @endif
     <div class="row bike-card__row">
 
         <div class="col-md-5 bike-card__image-col">
             <figure class="hover-img bike-card__image">
+
 
                 <img
                     src="{{ asset($bike->images->first()->image) }}"
@@ -153,7 +157,19 @@
                         <div class="bike-card__price-values">
                             @foreach($bike->prices as $price)
                                 <span class="bike-card__price-item">
-                                    {{ $price->price }}
+
+
+                                    @if($bike->provision->name === 'buy' && $bike->discount_percentage != 0)
+                                        <div class="price-change">
+                                            <span class="crossed-price">{{ $bike->prices->first()->price ?? '-' }} €</span>
+                                            <span class="discounted-price">{{ $bike->getDiscountedPriceAttribute() }} €</span>
+                                        </div>
+                                    @else
+                                        {{ $price->price }}
+
+                                    @endif
+
+
                                     @if($price->description)
                                         <small class="bike-card__price-desc">{{ $price->description }}</small>
                                     @endif

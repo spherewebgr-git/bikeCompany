@@ -2,14 +2,14 @@
     background:
         radial-gradient(
             circle at 15% 50%,
-            rgba(91, 178, 225, 0.12),
+            color-mix(in srgb, var(--banner-color) 80%, white 20%),
             transparent 35%
         ),
         linear-gradient(
             135deg,
-            #0e3650 0%,
-            #14668f 50%,
-            #0d364f 100%
+            var(--banner-color) 0%,
+            color-mix(in srgb, var(--banner-color) 80%, white 20%) 50%,
+            var(--banner-color) 100%
         );
 
     .container-fluid {
@@ -28,8 +28,8 @@
         background:
             linear-gradient(
                 135deg,
-                #5bb2e1 0%,
-                #4aa6d8 100%
+                var(--content-color) 0%,
+                color-mix(in srgb, var(--content-color) 85%, white 15%) 100%
             );
 
         box-shadow:
