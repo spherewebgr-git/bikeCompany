@@ -121,8 +121,8 @@
 
                         <div class="checkout-summary__bike">
                             <img src="{{ asset($bike->images->first()->image) }}"
-                                alt="{{ $bike->brand->name }}"
-                                class="checkout-summary__bike-img">
+                                 alt="{{ $bike->brand->name }}"
+                                 class="checkout-summary__bike-img">
                             <span class="checkout-summary__bike-badge">{{ $bike->brand->name }}</span>
                         </div>
 
@@ -159,18 +159,10 @@
 
                 </div>
 
-                <div
-                    data-reviews-root
-                    data-bike-id="{{ $bike->id }}"
-                    data-authenticated="{{ auth()->check() ? 'true' : 'false' }}"
-                ></div>
-
             </div>
 
         </div>
     </div>
-
-    @vite('resources/js/reviews.jsx')
 
 </x-app-layout>
 

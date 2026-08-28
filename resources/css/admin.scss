@@ -10,6 +10,7 @@
 @use 'bikefilters' as *;
 @use 'statistics' as *;
 @use 'staff-promo-banner' as *;
+@use 'manage-reviews' as *;
 
 .sidenav.mobile-open {
     transform: translateX(0) !important;
