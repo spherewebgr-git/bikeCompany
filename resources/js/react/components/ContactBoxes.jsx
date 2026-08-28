@@ -53,7 +53,7 @@ export default function ContactBoxes({ items = [] }) {
     };
 
     return (
-        <div class="container">
+        <div className="container">
             <h2 className="contact-boxes-title">You can find us here</h2>
             <div className="contact-boxes">
 

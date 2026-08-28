@@ -3,7 +3,7 @@ import "../../../../css/order-status.scss";
 export default function OrderStatus({statuses, order})
 {
     return (
-        <div class="order-status">
+        <div className="order-status">
         {statuses.map(status => ( status.step > 0 &&
             order.status.step > status.step ?
                 <div className="stepinfo">

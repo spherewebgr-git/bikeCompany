@@ -76,7 +76,7 @@ export default function WishlistPage({ itemsUrl })
             <header className="wishlist-page__header">
 
                 <div>
-                    <h2 class="section-heading">
+                    <h2 className="section-heading">
                         My Wishlist
                     </h2>
                 </div>
