@@ -47,6 +47,13 @@ export default function Sidebar()
                 </li>
 
                 <li className="bold">
+                    <link className="waves-effect waves-cyan" to="/admin/manage/featured-bikes">
+                        <i className="fa-solid fa-bullhorn"></i>
+                        <span className="menu-title">Promo Banner</span>
+                    </link>
+                </li>
+
+                <li className="bold">
                     <Link className="waves-effect waves-cyan" to="/admin/manage/pending-orders">
                         <i className="fa-solid fa-store"></i>
                         <span className="menu-title">Order Management</span>

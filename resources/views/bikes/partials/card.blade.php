@@ -119,9 +119,15 @@
                     </h4>
                 @endif
 
+                    <div
+                        data-review-summary-root
+                        data-bike-id="{{ $bike->id }}"
+                    ></div>
 
 
-                <div class="meta-data bike-card__meta">
+
+
+                    <div class="meta-data bike-card__meta">
 
                     <span class="meta-cat bike-card__type">
                         <i class="fa fa-bicycle"></i>
@@ -147,14 +153,20 @@
                     <strong>Provision:</strong> {{ ucfirst($bike->provision->name) }}
                 </p>
 
+
+
                 <div class="bike-card__prices">
                     <div class="bike-card__price-tag">
+
 
                         <p class="bike-card__price-label">
                             <strong>{{ __('Price') }}:</strong>
                         </p>
 
+
                         <div class="bike-card__price-values">
+
+
                             @foreach($bike->prices as $price)
                                 <span class="bike-card__price-item">
 
@@ -178,7 +190,12 @@
 
 
 
+
+
                         </div>
+
+
+
 
                         <footer class="bike-card__footer">
                             @if($bike->provision->name === 'buy')
@@ -203,10 +220,12 @@
 
         </div>
 
+
     </div>
 </article>
 
 @vite('resources/js/wishlist.jsx')
 @vite('resources/js/compare.jsx')
+@vite('resources/js/reviews.jsx')
 
 
