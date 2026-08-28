@@ -48,6 +48,16 @@ export default function Header({ user, logout })
                                                 </li>
 
                                                 <li>
+                                                    <a href="{{ route('profile.wishlist.index') }}">My Wishlist</a>
+                                                    {/* <Link to="/profile/whishlist">Wishlist</Link> */}
+                                                </li>
+
+                                                <li>
+                                                    <a href="{{ route('profile.compare.index') }}">Compare</a>
+                                                    {/* <Link to="/profile/compare">Compare</Link> */}
+                                                </li>
+
+                                                <li>
                                                     <Link to="/profile/myorders">My Orders</Link>
                                                 </li>
 

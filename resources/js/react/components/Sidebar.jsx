@@ -47,10 +47,10 @@ export default function Sidebar()
                 </li>
 
                 <li className="bold">
-                    <link className="waves-effect waves-cyan" to="/admin/manage/featured-bikes">
+                    <Link className="waves-effect waves-cyan" to="/admin/manage/featured-bikes">
                         <i className="fa-solid fa-bullhorn"></i>
                         <span className="menu-title">Promo Banner</span>
-                    </link>
+                    </Link>
                 </li>
 
                 <li className="bold">
