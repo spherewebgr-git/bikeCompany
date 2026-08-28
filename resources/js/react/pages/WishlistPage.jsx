@@ -8,9 +8,8 @@ import {
     removeFromWishlist,
 } from '../services/wishlistService';
 
-export default function WishlistPage({
-                                         itemsUrl,
-                                     }) {
+export default function WishlistPage({ itemsUrl })
+{
     const [bikes, setBikes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');

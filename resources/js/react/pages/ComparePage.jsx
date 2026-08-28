@@ -7,9 +7,8 @@ import {
 import WishlistBikeCard from "@/react/components/wishlist/WishlistBikeCard.jsx";
 import CompareTable from "@/react/components/compare/CompareTable.jsx";
 
-export default function ComparePage({
-                                        itemsUrl,
-                                    }) {
+export default function ComparePage({ itemsUrl })
+{
     const [bikes, setBikes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');

@@ -20,7 +20,7 @@ export default function Header({ user, logout })
                     </div>
 
                     <div className="nav-links">
-                        <Link to="/" className="nav-link">Home</Link>
+                        <Link to="/about-us-react" className="nav-link">Home</Link>
                         <Link to="/bikes-sale" className="nav-link">Bikes for sale</Link>
                         <Link to="/bikes-rental" className="nav-link">Rental Bikes</Link>
                         <Link to="/contact-us" className="nav-link">Contact Us</Link>
@@ -48,13 +48,11 @@ export default function Header({ user, logout })
                                                 </li>
 
                                                 <li>
-                                                    <a href="{{ route('profile.wishlist.index') }}">My Wishlist</a>
-                                                    {/* <Link to="/profile/whishlist">Wishlist</Link> */}
+                                                    <Link to="/profile/wishlist">Wishlist</Link>
                                                 </li>
 
                                                 <li>
-                                                    <a href="{{ route('profile.compare.index') }}">Compare</a>
-                                                    {/* <Link to="/profile/compare">Compare</Link> */}
+                                                    <Link to="/profile/compare">Compare</Link>
                                                 </li>
 
                                                 <li>

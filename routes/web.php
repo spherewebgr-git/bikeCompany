@@ -98,27 +98,27 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/profile/orders/search', [ProfileController::class, 'searchorders'])->name('profile.orders.search');
 
-    // WISHLIST
-    Route::get('/profile/wishlist', [WishlistController::class, 'index'])->name('profile.wishlist.index');
+    // // WISHLIST
+    // Route::get('/profile/wishlist', [WishlistController::class, 'index'])->name('profile.wishlist.index');
 
-    Route::get('/profile/wishlist/items', [WishlistController::class, 'items'])->name('profile.wishlist.items');
+    // Route::get('/profile/wishlist/items', [WishlistController::class, 'items'])->name('profile.wishlist.items');
 
-    Route::get('/profile/wishlist/{bike}/status', [WishlistController::class, 'status'])->name('wishlist.status');
+    // Route::get('/profile/wishlist/{bike}/status', [WishlistController::class, 'status'])->name('wishlist.status');
 
-    Route::post('/profile/wishlist/{bike}', [WishlistController::class, 'store'])->name('wishlist.store');
+    // Route::post('/profile/wishlist/{bike}', [WishlistController::class, 'store'])->name('wishlist.store');
 
-    Route::delete('/profile/wishlist/{bike}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
+    // Route::delete('/profile/wishlist/{bike}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
 
-    //COMPARE
-    Route::get('/profile/compare', [CompareController::class, 'index'])->name('profile.compare.index');
+    // //COMPARE
+    // Route::get('/profile/compare', [CompareController::class, 'index'])->name('profile.compare.index');
 
-    Route::get('/profile/compare/items', [CompareController::class, 'items'])->name('profile.compare.items');
+    // Route::get('/profile/compare/items', [CompareController::class, 'items'])->name('profile.compare.items');
 
-    Route::get('/profile/compare/status', [CompareController::class, 'status'])->name('profile.compare.status');
+    // Route::get('/profile/compare/status', [CompareController::class, 'status'])->name('profile.compare.status');
 
-    Route::post('/profile/compare/{bike}', [CompareController::class, 'store'])->name('profile.compare.store');
+    // Route::post('/profile/compare/{bike}', [CompareController::class, 'store'])->name('profile.compare.store');
 
-    Route::delete('profile/compare/{bike}', [CompareController::class, 'destroy'])->name('profile.compare.destroy');
+    // Route::delete('profile/compare/{bike}', [CompareController::class, 'destroy'])->name('profile.compare.destroy');
 
     //REVIEWS
     Route::post('/bikes/{bike}/reviews', [ReviewController::class, 'store'])->name('bikes.reviews.store');
@@ -281,6 +281,18 @@ Route::middleware('auth')->group(function ()
 
 
     // WISHLIST
+    Route::get('/profile/wishlist', [WishlistController::class, 'index'])->name('profile.wishlist.index');
+    Route::get('/profile/wishlist/items', [WishlistController::class, 'items'])->name('profile.wishlist.items');
+    Route::get('/profile/wishlist/{bike}/status', [WishlistController::class, 'status'])->name('wishlist.status');
+    Route::post('/profile/wishlist/{bike}', [WishlistController::class, 'store'])->name('wishlist.store');
+    Route::delete('/profile/wishlist/{bike}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
+
+    //COMPARE
+    Route::get('/profile/compare', [CompareController::class, 'index'])->name('profile.compare.index');
+    Route::get('/profile/compare/items', [CompareController::class, 'items'])->name('profile.compare.items');
+    Route::get('/profile/compare/status', [CompareController::class, 'status'])->name('profile.compare.status');
+    Route::post('/profile/compare/{bike}', [CompareController::class, 'store'])->name('profile.compare.store');
+    Route::delete('profile/compare/{bike}', [CompareController::class, 'destroy'])->name('profile.compare.destroy');
 
 
     // MY ORDERS

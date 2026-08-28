@@ -11,6 +11,10 @@ import AboutUs from './pages/AboutUs';
 
 import Bikes from './pages/Bikes';
 
+import WishlistPage from './pages/WishlistPage';
+
+import ComparePage from './pages/ComparePage';
+
 import MyOrders from './pages/MyOrders';
 
 import MyHistory from './pages/MyHistory';
@@ -56,6 +60,8 @@ function App()
                     <Route path="/about-us-react" element={<AboutUs />} />
                     <Route path="/test/bikes" element={<Bikes />} />
 
+                    <Route path="/profile/wishlist" element={<WishlistPage />} />
+                    <Route path="/profile/compare" element={<ComparePage />} />
                     <Route path="/profile/myorders" element={<MyOrders />} />
                     <Route path="/profile/myhistory" element={<MyHistory />} />
                 </Route>
