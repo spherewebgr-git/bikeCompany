@@ -141,6 +141,13 @@
                 </a>
             </li>
 
+            <li class="bold">
+                <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.reviews') }}">
+                    <i class="fa-solid fa-star-half-stroke" style="color: #fff;"></i>
+                    <span class="menu-title">Manage Reviews</span>
+                </a>
+            </li>
+
 {{-- TRACKING PAGES --}}
             <li class="navigation-header">
                 <a class="navigation-header-text">Tracking</a>

@@ -3,7 +3,16 @@ import { createRoot } from 'react-dom/client';
 
 import BikeReviews from './react/components/reviews/BikeReviews';
 import ReviewSummary from './react/components/reviews/ReviewSummary';
+import ManageReviews from './react/pages/ManageReviews';
 
+
+const reviewsRoot = document.getElementById('reviews-react-root');
+
+if (reviewsRoot) {
+    createRoot(reviewsRoot).render(
+        <ManageReviews />
+    );
+}
 
 // Full reviews section
 document

@@ -213,6 +213,15 @@ Route::middleware(['auth', 'role:staff'])->group(function () {
     // --------- STATS --------- \\
     Route::get('/dashboard/management/statistics', [StaffmanagementController::class, 'statistics'])->name('dashboard.management.statistics');
 
+    // --------------- REVIEWS --------------- \\
+    Route::get('/dashboard/management/reviews', function () {
+        return view('staff.reviews.management');
+    })->name('dashboard.management.reviews');
+
+    Route::get('/dashboard/management/reviews/items', [StaffmanagementController::class, 'reviews'])->name('dashboard.management.reviews.items');
+
+    Route::delete('/dashboard/management/reviews/{review}', [StaffmanagementController::class, 'deleteReview'])->name('dashboard.management.reviews.delete');
+
 });
 
 
@@ -303,7 +312,7 @@ Route::middleware(['auth', 'role:staff'])->group(function ()
     Route::get('/api/admin/manage/products/create', [ProductController::class, 'create']);
     Route::post('/api/admin/manage/products/add', [ProductController::class, 'add']);
 
-    // CALENDAR 
+    // CALENDAR
     Route::get('/admin/manage/calendar', function () { return view('react'); })->name('admin.calendar');
 
     // CATEGORIES
@@ -315,9 +324,9 @@ Route::middleware(['auth', 'role:staff'])->group(function ()
     Route::delete('/api/admin/manage/categories/{category}/{id}', [CategoryController::class, 'delete']);
     Route::post('/api/admin/manage/categories/{category}', [CategoryController::class, 'create']);
 
-    // HOMEPAGE 
+    // HOMEPAGE
     Route::get('/admin/manage/homepage', function () { return view('react'); })->name('admin.homepage');
-    
+
     Route::get('/featured-bikes', [HomeController::class, 'apiFeatured']);
 
     // PENDING ORDERS
@@ -327,7 +336,7 @@ Route::middleware(['auth', 'role:staff'])->group(function ()
     Route::get('/api/admin/manage/pending-orders/search', [OrderManagementController::class, 'search']);
     Route::patch('/api/admin/manage/pending-orders/update/{id}', [OrderManagementController::class, 'update']);
 
-    // USERS 
+    // USERS
     Route::get('/admin/manage/users', function () { return view('react'); })->name('admin.users');
 
 

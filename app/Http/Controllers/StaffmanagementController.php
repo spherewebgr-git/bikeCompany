@@ -14,6 +14,7 @@ use App\Models\Role;
 use App\Models\Status;
 use App\Models\User;
 use App\Models\Image;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,7 @@ use App\Mail\OrderReadyMail;
 use App\Mail\OrderDeliveredMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\JsonResponse;
 
 class StaffmanagementController extends Controller
 {
@@ -931,6 +933,64 @@ class StaffmanagementController extends Controller
             'rents' => $rents,
             'purchases' => $purchases,
             'locsales' => array_values($locsales),
+        ]);
+    }
+
+    // --------------- REVIEWS --------------- \\
+
+    public function reviews(): JsonResponse
+    {
+        $reviews = Review::with([
+            'user',
+            'bike.brand',
+            'bike.type',
+        ])
+            ->latest()
+            ->get()
+            ->map(function (Review $review) {
+
+                return [
+                    'id' => $review->id,
+
+                    'rating' => $review->rating,
+                    'comment' => $review->comment,
+
+                    'created_at' =>
+                        $review->created_at->format('d/m/Y'),
+
+                    'customer' => [
+                        'id' => $review->user?->id,
+                        'first_name' => $review->user?->first_name,
+                        'last_name' => $review->user?->last_name,
+                        'email' => $review->user?->email,
+                    ],
+
+                    'bike' => [
+                        'id' => $review->bike?->id,
+                        'brand' => $review->bike?->brand?->name,
+                        'type' => $review->bike?->type?->name,
+                        'sku' => $review->bike?->SKU,
+                    ],
+                ];
+            })
+            ->values();
+
+        return response()->json([
+            'success' => true,
+            'reviews' => $reviews,
+            'count' => $reviews->count(),
+        ]);
+    }
+
+    public function deleteReview(
+        Review $review
+    ): JsonResponse {
+
+        $review->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Review deleted successfully.',
         ]);
     }
 }
