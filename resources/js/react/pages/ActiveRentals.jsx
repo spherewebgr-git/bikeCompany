@@ -41,7 +41,7 @@ export default function ActiveRentals()
     return (
         <div id="ActiveRentals">
             <h2>Active Rentals</h2>
-            <div className="container">
+            <div>
 
                 <form className="filter">
                     <legend>Return Date:</legend>

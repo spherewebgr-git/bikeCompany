@@ -32,8 +32,8 @@ export default function ManageCategories()
 
     return (
         <div id="ManageCategories">
-            <div className="container">
-                <h1>Edit Categories</h1>
+            <div>
+                <h2>Edit Categories</h2>
                 <div className="row">
                     <CategoryTable title="Bike Speeds" placeholder="Gear Amount" data={data.speeds} type="number" cat="gears" edit={true} onChanged={loadCategories}/>
 

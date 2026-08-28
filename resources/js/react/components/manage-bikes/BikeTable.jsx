@@ -52,8 +52,8 @@ export default function BikeTable({ bikes, loadBikes })
 
 
     return (
-        <div id="data-table-simple_wrapper" className="dataTables_wrapper">
-            <table id="data-table-simple" className="display dataTable dtr-inline" role="grid">
+        <div>
+            <table>
                 <thead>
                     <tr>
                         <th>SKU</th>

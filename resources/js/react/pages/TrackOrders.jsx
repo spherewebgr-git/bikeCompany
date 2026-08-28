@@ -29,8 +29,8 @@ export default function TrackOrders ()
     useEffect(() => { loadOrders(); }, []);
 
     return (
-        <div className="container" id="CompletedOrders">
-            <h2 className="section-heading">Order History</h2>
+        <div id="CompletedOrders">
+            <h2>Order History</h2>
             <div className="orders">
                 <OrderTable pending={false} data={data} onResults={setData}/>
             </div>

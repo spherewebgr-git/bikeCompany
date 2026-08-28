@@ -37,15 +37,18 @@
     {
         display: flex;
         flex-wrap: wrap;
-        gap: 20px;
     }
+
+    h2 { margin-bottom: 40px; }
 
     .table
     {
         padding: 10px 40px;
+        margin: 10px;
         background-color: white;
         border-radius: 6px;
-        flex: 0 0 calc(25% - 15px); // col-3
+        flex: 0 0 calc(25% - 25px); // col-3
+        box-shadow: 0 0 8px #acacac;
 
         @media (max-width: 1199px) {
             flex: 0 0 calc(33.333% - 14px);   // 3 στήλες

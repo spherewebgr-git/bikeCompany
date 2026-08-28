@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import logoDark from '../../../images/bikeco-dark-logo.png';
-import "../../../css/profile-menu.scss";
+import "../styles/profile-dropdown.scss";
 
 
 export default function Header({ user, logout })
@@ -21,15 +21,9 @@ export default function Header({ user, logout })
 
                     <div className="nav-links">
                         <Link to="/" className="nav-link">Home</Link>
-
-                        {/* TODO: Covert these pages to React: */}
-                        <a href="/bikes/sale" className="nav-link">Bikes for sale</a>
-                        <a href="/bikes/rental" className="nav-link">Rental Bikes</a>
-                        <a href="/contact-us" className="nav-link">Contact Us</a>
-
-                        {/* <Link to="/bikes-sale" className="nav-link">Bikes for sale</Link>
+                        <Link to="/bikes-sale" className="nav-link">Bikes for sale</Link>
                         <Link to="/bikes-rental" className="nav-link">Rental Bikes</Link>
-                        <Link to="/contact-us" className="nav-link">Contact Us</Link> */}
+                        <Link to="/contact-us" className="nav-link">Contact Us</Link>
                     </div>
 
                     <div className="nav-user">

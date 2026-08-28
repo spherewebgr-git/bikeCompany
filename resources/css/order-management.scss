@@ -44,6 +44,10 @@
     {
         padding-right: 15px;
         &:last-child { padding-right: 0; }
+
+        &.productcode input { max-width: 150px; }
+
+        &.provision { min-width: 125px; }
         
         form
         {

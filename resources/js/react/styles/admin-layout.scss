@@ -1,60 +1,29 @@
-.admin-layout {
-    .sidenav.mobile-open {
+.admin-layout
+{
+
+    .admin-container
+    {
+        margin-left: 250px;
+
+        .section
+        {
+            .container { margin: 0; }
+            
+            padding: 50px;
+
+            h2 { margin-top: 0px; }
+
+            #OrderManagement, #CompletedOrders
+            {
+                td, th { padding: 10px; }
+                h2 { padding-bottom: 30px; }
+            }
+        }
+    }
+
+
+    .sidenav.mobile-open
+    {
         transform: translateX(0) !important;
-    }
-
-    /*-------------------------------------------------
-    Dashboard common file for Analytics & eCommmerce
---------------------------------------------------*/
-    #revenue-chart {
-        span {
-            i.material-icons {
-                position: relative;
-                top: 5px;
-            }
-        }
-
-        .yearly-revenue-chart {
-            position: relative;
-
-            canvas {
-                width: 100% !important;
-                height: 350px !important;
-            }
-
-            canvas.firstShadow {
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
-
-            @media (max-width: 768px) {
-                canvas {
-                    height: 240px !important; // μικρότερο ύψος, το 350px είναι πολύ σε στενή οθόνη
-                }
-            }
-        }
-    }
-
-    #weekly-earning {
-        h3.header {
-            margin: 2.4rem 0 2.3rem 0;
-
-            @media (max-width: 768px) {
-                margin: 1.6rem 0 1.4rem 0;
-            }
-        }
-
-        canvas {
-            width: 100% !important;
-            height: 110px !important; // ⬅ FIX — έλειπε το px, ήταν άκυρο
-            margin: 10px 0; // ⬅ FIX — αφαιρέθηκε το -18px που τραβούσε το canvas έξω από τα άκρα
-        }
-
-        .center-align {
-            p {
-                margin-bottom: 1rem;
-            }
-        }
     }
 }

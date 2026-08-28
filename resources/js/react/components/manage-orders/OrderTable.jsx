@@ -38,15 +38,15 @@ export default function OrderTable({pending, data, onResults})
     };
 
     return (
-        <div className="dataTables_wrapper">
-            <table id="data-table-simple" className="display dataTable dtr-inline" role="grid">
+        <div>
+            <table>
             <thead>
                 <tr>
                     <th>Order #</th>
                     <th>Customer</th>
                     <th>Product</th>
                     <th>Amount</th>
-                    <th>Type</th>
+                    <th>Provision</th>
                     <th>Location</th>
                     {pending && (<th>Status</th>)}
                     <th>Payment</th>
@@ -66,9 +66,10 @@ export default function OrderTable({pending, data, onResults})
                         <OrderSearch type="text" name="product" placeholder="Search Product" pending={pending} onResults={onResults}/>
                     </td>
 
-                    <td className="search"></td>
-
                     <td className="search">
+                    </td>
+
+                    <td className="search provision">
                         <OrderSearch name="provision" list={ data.provisions } pending={pending} onResults={onResults}/>
                     </td>
 
@@ -120,7 +121,7 @@ export default function OrderTable({pending, data, onResults})
                             )}
                         </td>
 
-                        <td class="quantity">
+                        <td className="quantity">
                             {order.bike.quantity ?? 1}
                         </td>
 

@@ -45,8 +45,8 @@ export default function ActiveRentals()
 
     return (
         <>
-            <div className="container" id="BikeManagement">
-                <h2 className="section-heading">Bike Database</h2>
+            <div id="BikeManagement">
+                <h2>Bike Database</h2>
 
                 <button className="Create" onClick={() => navigate(`/admin/manage/products/create`)}>
                     + Insert New Bike

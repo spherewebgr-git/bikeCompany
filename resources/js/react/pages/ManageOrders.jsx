@@ -30,7 +30,7 @@ export default function ManageOrders ()
     useEffect(() => { loadOrders(); }, []);
 
     return (
-        <div className="container" id="OrderManagement">
+        <div id="OrderManagement">
             <h2>Pending Orders</h2>
             <div className="orders">
                 <OrderTable pending={true} data={data} onResults={setData}/>

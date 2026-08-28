@@ -49,7 +49,7 @@ export default function TrackStatistics()
 
     return (
         <div id="BusinessStatistics">
-            <div className="container">
+            <div>
                 <h2>Sales Information</h2>
                 <div className="row">
                     <div className="statistic-card gradient-45deg-light-blue-cyan white-text">
@@ -107,7 +107,7 @@ export default function TrackStatistics()
                             <div className="info">
                                 <h5 className="mb-0 white-text">{ statistics.newprofit }</h5>
                                 <p className="no-margin">Today</p>
-                                <p>{ statistics.totalprofit } €</p>
+                                <p>{ statistics.totalprofit.toFixed(2) } €</p>
                             </div>
                         </div>
 
@@ -119,7 +119,7 @@ export default function TrackStatistics()
                                         <h6>{location.sales} Total Sales</h6>
                                         <br />
                                         <p>Total Profit:</p>
-                                        <h5>{location.profit} €</h5>
+                                        <h5>{location.profit.toFixed(2)} €</h5>
                                     </div>
                                 ))}
                             </div>

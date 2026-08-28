@@ -1,0 +1,93 @@
+.profile-menu
+{
+    position: relative;
+    line-height: 56px;
+
+    &:hover
+    {
+        #profile-menu-dropdown
+        {
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            height: auto;
+
+            .profile-links, .profile-links a, .profile-links li { height: auto; }
+            .profile-links li { padding: 0 16px; }
+        }
+    }
+
+    #profile-menu-dropdown
+    {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 10px 24px 34px 10px rgba(0, 0, 0, 0.12);
+        position: absolute;
+        top: 100%;
+        margin-top: 0;
+        right: 0;
+        z-index: 999;
+        width: 160px;
+        padding-bottom: 0;
+        opacity: 0;
+        visibility: hidden;
+        height: 0;
+        overflow: hidden;
+        transform: translateY(-8px);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s, height 0.3s;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 10px;
+        }
+
+        .profile-links
+        {
+            padding: 0;
+            margin: 0;
+            height: 0;
+
+            a
+            {
+                display: block;
+                font-family: 'Oswald', sans-serif;
+                text-transform: uppercase;
+                font-size: 13px;
+                letter-spacing: .03em;
+                font-weight: 600;
+                color: #3b3738;
+                padding: 0;
+                margin: 0;
+                height: 0;
+                transition: color .2s ease;
+                &:hover {
+                    color: #ffffff;
+                    background-color: transparent;
+                }
+            }
+
+            li
+            {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                height: 0px;
+                transition: background-color .2s ease;
+                float: unset;
+
+                &.active, &:hover {
+                    background-color: #fe4819;
+                    a { color: #fff; }
+
+                    &:first-child { border-radius: 8px 8px 0 0; }
+                    &:last-child:hover { border-radius: 0 0 8px 8px; }
+                }
+            }
+        }
+    }
+}

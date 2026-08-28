@@ -5,6 +5,11 @@ import aboutImage from '../../../images/about-image.jpg';
 import PageHeroImage from '../../../images/page-hero.jpg';
 import PageHeroVideo from '../../../videos/about-us-video.mp4';
 import ContactBoxes from "@/react/components/ContactBoxes.jsx";
+import "../styles/_about-us.scss";
+import "../styles/_featured-bikes.scss";
+import "../styles/_contact-boxes.scss";
+import "../styles/_page-hero.scss";
+import "../styles/_promo-banner.scss";
 
 
 export default function AboutUs()
