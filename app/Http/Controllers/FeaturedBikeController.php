@@ -9,6 +9,7 @@ use App\Models\Provision;
 use App\Models\Speed;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use App\Models\PromoBanner;
 
 // app/Http/Controllers/Admin/FeaturedBikeController.php
 class FeaturedBikeController extends Controller
@@ -19,7 +20,9 @@ class FeaturedBikeController extends Controller
 
         $featuredIds = FeaturedBike::orderBy('order')->pluck('bike_id');
 
-        $availableBikes = $query->get()->whereNotIn('id', $featuredIds)->values();
+        $availableBikes = $query->get()
+            ->whereNotIn('id', $featuredIds)
+            ->values();
 
         $featuredBikes = Bike::with('brand')
             ->whereIn('id', $featuredIds)
@@ -27,9 +30,13 @@ class FeaturedBikeController extends Controller
             ->sortBy(fn ($bike) => $featuredIds->search($bike->id))
             ->values();
 
+        // Promo Banner
+        $banner = PromoBanner::first();
+
         return view('staff.homepage.edit', [
             'availableBikes' => $availableBikes,
             'featuredBikes'  => $featuredBikes,
+            'banner'         => $banner,
         ]);
     }
 
@@ -60,25 +67,20 @@ class FeaturedBikeController extends Controller
     {
         $allbikes = Bike::where('visible', true);
 
-        if ($request->filled('featsearch'))
-        {
+        if ($request->filled('featsearch')) {
             $search = $request->featsearch;
 
-            $allbikes->where(function ($q) use ($search)
-            {
-                $q->whereHas('brand', function ($q) use ($search)
-                {
+            $allbikes->where(function ($q) use ($search) {
+                $q->whereHas('brand', function ($q) use ($search) {
                     $q->where('name', 'LIKE', "%{$search}%");
                 })
-                ->orWhereHas('type', function ($q) use ($search)
-                {
-                    $q->where('name', 'LIKE', "%{$search}%");
-                })
-                ->orWhereHas('speed', function ($q) use ($search)
-                {
-                    $q->where('gears', 'LIKE', "%{$search}%");
-                })
-                ->orWhere('colour', 'LIKE', "%{$search}%");
+                    ->orWhereHas('type', function ($q) use ($search) {
+                        $q->where('name', 'LIKE', "%{$search}%");
+                    })
+                    ->orWhereHas('speed', function ($q) use ($search) {
+                        $q->where('gears', 'LIKE', "%{$search}%");
+                    })
+                    ->orWhere('colour', 'LIKE', "%{$search}%");
             });
         }
 
@@ -92,11 +94,13 @@ class FeaturedBikeController extends Controller
             ->sortBy(fn ($bike) => $featuredIds->search($bike->id))
             ->values();
 
+        // Promo Banner
+        $banner = PromoBanner::first();
 
-            return view('staff.homepage.edit', [
-                'availableBikes' => $availableBikes,
-                'featuredBikes'  => $featuredBikes,
-            ]);
-
+        return view('staff.homepage.edit', [
+            'availableBikes' => $availableBikes,
+            'featuredBikes'  => $featuredBikes,
+            'banner'         => $banner,
+        ]);
     }
 }
