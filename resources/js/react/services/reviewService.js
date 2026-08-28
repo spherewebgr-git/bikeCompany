@@ -80,16 +80,13 @@ export async function updateReview(
         `/reviews/${reviewId}`,
         {
             method: 'PATCH',
-
             credentials: 'same-origin',
-
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
                 'X-CSRF-TOKEN': getCsrfToken(),
             },
-
             body: JSON.stringify({
                 rating,
                 comment,
@@ -97,7 +94,16 @@ export async function updateReview(
         }
     );
 
-    return parseJsonResponse(response);
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            data.message ||
+            'Review could not be updated.'
+        );
+    }
+
+    return data;
 }
 
 

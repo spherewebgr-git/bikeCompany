@@ -23,6 +23,12 @@ export default function BikeReviews({
 
     const [errorMessage, setErrorMessage] = useState('');
 
+    // Edit state
+    const [editingReviewId, setEditingReviewId] = useState(null);
+    const [editRating, setEditRating] = useState(0);
+    const [editComment, setEditComment] = useState('');
+    const [isUpdating, setIsUpdating] = useState(false);
+
     useEffect(() => {
         loadReviews();
     }, [bikeId]);
@@ -76,6 +82,76 @@ export default function BikeReviews({
         }
     }
 
+    function handleStartEdit(review) {
+        setEditingReviewId(review.id);
+        setEditRating(review.rating);
+        setEditComment(review.comment ?? '');
+        setErrorMessage('');
+    }
+
+    function handleCancelEdit() {
+        setEditingReviewId(null);
+        setEditRating(0);
+        setEditComment('');
+    }
+
+    async function handleUpdateReview(reviewId) {
+        if (!editRating) {
+            setErrorMessage(
+                'Please select a rating.'
+            );
+
+            return;
+        }
+
+        try {
+            setIsUpdating(true);
+            setErrorMessage('');
+
+            await updateReview(
+                reviewId,
+                editRating,
+                editComment
+            );
+
+            handleCancelEdit();
+
+            await loadReviews();
+
+        } catch (error) {
+            setErrorMessage(
+                error.message ||
+                'Review could not be updated.'
+            );
+        } finally {
+            setIsUpdating(false);
+        }
+    }
+
+    async function handleDeleteReview(reviewId) {
+        const confirmed = window.confirm(
+            'Are you sure you want to delete this review?'
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            setErrorMessage('');
+
+            await deleteReview(reviewId);
+
+            await loadReviews();
+
+        } catch (error) {
+            setErrorMessage(
+                error.message ||
+                'Review could not be deleted.'
+            );
+        }
+    }
+
     if (isLoading) {
         return (
             <div className="bike-reviews__loading">
@@ -126,6 +202,7 @@ export default function BikeReviews({
                 />
             ) : (
                 <div className="bike-reviews__login-message">
+
                     <p>
                         You need to be logged in to write a review.
                     </p>
@@ -136,6 +213,7 @@ export default function BikeReviews({
                     >
                         Log in
                     </a>
+
                 </div>
             )}
 
@@ -143,82 +221,156 @@ export default function BikeReviews({
 
                 {reviews.length === 0 ? (
                     <div className="bike-reviews__empty">
+
                         <p>
                             No reviews yet. Be the first to review this bike.
                         </p>
+
                     </div>
                 ) : (
                     reviews.map(function (review) {
+
+                        const isEditing =
+                            editingReviewId === review.id;
+
                         return (
                             <article
                                 key={review.id}
                                 className="review-item"
                             >
-                                <div className="review-item__header">
 
-                                    <div>
-                                        <strong>
-                                            {review.user?.first_name}{' '}
-                                            {review.user?.last_name}
-                                        </strong>
+                                {isEditing ? (
 
-                                        <span>
-                                            {review.created_at}
-                                        </span>
-                                    </div>
+                                    <div className="review-item__edit">
 
-                                    <StarRating
-                                        value={review.rating}
-                                        readOnly
-                                    />
+                                        <h4>
+                                            Edit your review
+                                        </h4>
 
-                                </div>
+                                        <div className="review-item__edit-rating">
 
-                                {review.comment && (
-                                    <p className="review-item__comment">
-                                        {review.comment}
-                                    </p>
-                                )}
+                                            <label>
+                                                Your rating
+                                            </label>
 
-                                {review.is_owner && (
-                                    <div className="review-item__actions">
+                                            <StarRating
+                                                value={editRating}
+                                                onChange={setEditRating}
+                                            />
 
-                                        <button
-                                            type="button"
-                                            className="btn btn-trans btn-sm"
-                                            onClick={() => {
-                                                console.log(
-                                                    'edit',
-                                                    review.id
-                                                );
-                                            }}
-                                        >
-                                            Edit
-                                        </button>
+                                        </div>
 
-                                        <button
-                                            type="button"
-                                            className="btn btn-trans btn-sm"
-                                            onClick={async () => {
-                                                try {
-                                                    await deleteReview(
-                                                        review.id
-                                                    );
+                                        <div className="review-item__edit-comment">
 
-                                                    await loadReviews();
+                                            <label htmlFor={`edit-comment-${review.id}`}>
+                                                Comment
+                                            </label>
 
-                                                } catch (error) {
-                                                    setErrorMessage(
-                                                        error.message ||
-                                                        'Review could not be deleted.'
-                                                    );
+                                            <textarea
+                                                id={`edit-comment-${review.id}`}
+                                                value={editComment}
+                                                onChange={event =>
+                                                    setEditComment(
+                                                        event.target.value
+                                                    )
                                                 }
-                                            }}
-                                        >
-                                            Delete
-                                        </button>
+                                                rows="4"
+                                                placeholder="Tell us about your experience..."
+                                            />
+
+                                        </div>
+
+                                        <div className="review-item__edit-actions">
+
+                                            <button
+                                                type="button"
+                                                className="btn btn-fill btn-sm"
+                                                disabled={isUpdating}
+                                                onClick={() =>
+                                                    handleUpdateReview(
+                                                        review.id
+                                                    )
+                                                }
+                                            >
+                                                {isUpdating
+                                                    ? 'Saving...'
+                                                    : 'Save'
+                                                }
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                className="btn btn-trans btn-sm"
+                                                disabled={isUpdating}
+                                                onClick={handleCancelEdit}
+                                            >
+                                                Cancel
+                                            </button>
+
+                                        </div>
 
                                     </div>
+
+                                ) : (
+
+                                    <>
+                                        <div className="review-item__header">
+
+                                            <div>
+                                                <strong>
+                                                    {review.user?.first_name}{' '}
+                                                    {review.user?.last_name}
+                                                </strong>
+
+                                                <span>
+                                                    {review.created_at}
+                                                </span>
+                                            </div>
+
+                                            <StarRating
+                                                value={review.rating}
+                                                readOnly
+                                            />
+
+                                        </div>
+
+                                        {review.comment && (
+                                            <p className="review-item__comment">
+                                                {review.comment}
+                                            </p>
+                                        )}
+
+                                        {review.is_owner && (
+                                            <div className="review-item__actions">
+
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-trans btn-sm"
+                                                    onClick={() =>
+                                                        handleStartEdit(
+                                                            review
+                                                        )
+                                                    }
+                                                >
+                                                    Edit
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-trans btn-sm"
+                                                    onClick={() =>
+                                                        handleDeleteReview(
+                                                            review.id
+                                                        )
+                                                    }
+                                                >
+                                                    Delete
+                                                </button>
+
+                                            </div>
+                                        )}
+                                    </>
+
                                 )}
 
                             </article>
