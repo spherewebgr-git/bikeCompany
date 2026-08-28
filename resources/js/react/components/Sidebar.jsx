@@ -60,6 +60,13 @@ export default function Sidebar()
                     </Link>
                 </li>
 
+                <li class="bold">
+                    <Link class="waves-effect waves-cyan" to="/admin/manage/reviews">
+                        <i class="fa-solid fa-star-half-stroke"></i>
+                        <span class="menu-title">Reviews Management</span>
+                    </Link>
+                </li>
+
                 <li className="bold">
                     <Link className="waves-effect waves-cyan" to="/admin/manage/users">
                         <i className="fa-solid fa-users-gear"></i>

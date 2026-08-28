@@ -348,6 +348,12 @@ Route::middleware(['auth', 'role:staff'])->group(function ()
     Route::get('/api/admin/manage/pending-orders/search', [OrderManagementController::class, 'search']);
     Route::patch('/api/admin/manage/pending-orders/update/{id}', [OrderManagementController::class, 'update']);
 
+    // REVIEWS
+    Route::get('/admin/manage/reviews', function () { return view('react'); })->name('admin.reviews');
+
+    // Route::get('/api/admin/manage/reviews/items', [StaffmanagementController::class, 'reviews']);
+    // Route::delete('/api/admin/manage/reviews/{review}', [StaffmanagementController::class, 'deleteReview']);
+
     // USERS
     Route::get('/admin/manage/users', function () { return view('react'); })->name('admin.users');
 

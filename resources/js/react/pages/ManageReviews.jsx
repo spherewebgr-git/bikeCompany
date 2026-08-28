@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getCsrfToken } from '../helpers/csrf';
 
-
 export default function ManageReviews() {
     const [reviews, setReviews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);

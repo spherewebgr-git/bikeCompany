@@ -83,16 +83,16 @@
             </li>
 
             <li class="bold">
-                <a class="waves-effect waves-cyan" href="{{ route('staff.users.index') }}">
-                    <i class="fa-solid fa-users-gear" style="color: #fff;"></i>
-                    <span class="menu-title">User Management</span>
+                <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.reviews') }}">
+                    <i class="fa-solid fa-star-half-stroke" style="color: #fff;"></i>
+                    <span class="menu-title">Reviews Management</span>
                 </a>
             </li>
 
             <li class="bold">
-                <a class="waves-effect waves-cyan" href="{{ route('dashboard.management.reviews') }}">
-                    <i class="fa-solid fa-star-half-stroke" style="color: #fff;"></i>
-                    <span class="menu-title">Manage Reviews</span>
+                <a class="waves-effect waves-cyan" href="{{ route('staff.users.index') }}">
+                    <i class="fa-solid fa-users-gear" style="color: #fff;"></i>
+                    <span class="menu-title">User Management</span>
                 </a>
             </li>
 
