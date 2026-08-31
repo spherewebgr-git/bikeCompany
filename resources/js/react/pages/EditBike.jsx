@@ -19,7 +19,6 @@ export default function EditBike()
     const [brands, setBrands] = useState([]);
     const [types, setTypes] = useState([]);
     const [speeds, setSpeeds] = useState([]);
-    const [provisions, setProvisions] = useState([]);
 
     const [hourPrice, setHourPrice] = useState("");
     const [dayPrice, setDayPrice] = useState("");
@@ -35,7 +34,6 @@ export default function EditBike()
                 setBrands(data.brands);
                 setTypes(data.types);
                 setSpeeds(data.speeds);
-                setProvisions(data.provisions);
 
                 const prices = data.bike.prices;
                 setHourPrice(prices.find(price => price.description === " €/hour")?.price ?? "");
@@ -68,7 +66,6 @@ export default function EditBike()
         formData.append("brand_id", bike.brand_id);
         formData.append("type_id", bike.type_id);
         formData.append("speed_id", bike.speed_id);
-        formData.append("provision_id", bike.provision_id);
         formData.append("visible", bike.visible ? 1 : 0);
 
         deleteImages.forEach((id) => { formData.append("delete_images[]", id); });

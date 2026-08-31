@@ -103,7 +103,6 @@ class ProductController extends Controller
             'brand_id' => ['required', 'exists:brands,id'],
             'type_id' => ['required', 'exists:types,id'],
             'speed_id' => ['required', 'exists:speeds,id'],
-            'provision_id' => ['required', 'exists:provisions,id'],
             'visible' => ['required', 'boolean'],
             'images.*' => ['image', 'max:2048'],
         ]);
@@ -113,7 +112,6 @@ class ProductController extends Controller
             'brand_id' => $request->brand_id,
             'type_id' => $request->type_id,
             'speed_id' => $request->speed_id,
-            'provision_id' => $request->provision_id,
             'visible' => $request->visible,
         ]);
 
